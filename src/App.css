@@ -7,3 +7,6 @@
   border-radius: 0 !important;
 }
 
+.menuItem a {
+  font-size: 22px;
+}
