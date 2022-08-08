@@ -3,7 +3,7 @@ import { Fragment, useState } from "react"
 import colors from "../theme/colors"
 import { fontSizes, pageWidth } from "../theme/style"
 import { IoIosArrowDown, IoIosArrowUp } from "react-icons/io"
-import ListMenu from "../components/ListMenu/ListMenu"
+import ListMenu from "../components/Talepler/ListMenu/ListMenu"
 const Home = () => {
     const [select, setSelect] = useState("")
 

@@ -1,24 +1,33 @@
 import { Box, Text } from "@chakra-ui/react"
+import { pageWidth } from "../theme/style"
 const DemandSummary = () => {
 
     return (
-        <Box>
-            <Label label={"Talep No "} borderTop="1px solid #707070"></Label>
-            <Label label={"Talep No "}></Label>
-            <Label label={"Talep No "}></Label>
-            <Label label={"Talep No "}></Label>
-            <Label label={"Talep No "}></Label>
-            <Label label={"Talep No "}></Label>
-            <Label label={"Talep No "}></Label>
-            <Label label={"Talep No "}></Label>
-            
+        <Box display={"flex"} mt="40px">
+            <Box w="40%" mr="100px">
+                <Label label={"Talep No: "} borderTop="1px solid #707070">123456</Label>
+                <Label label={"Talep Tarihi: "}></Label>
+                <Label label={"Müşteri: "}></Label>
+                <Label label={"Yetkili: "}></Label>
+                <Label label={"TalepAlan Kişi: "}></Label>
+                <Label label={"Talep Türü "}></Label>
+                <Label label={"Alternetif Sayısı: "}></Label>
+                <Label label={"İstenilen Ülke: "}></Label>
+                <Label label={"Varış Ülkesi: "}></Label>
+            </Box>
+            <Box w="40%">
+                <Label label={"Talep Alma Tarihi "} borderTop="1px solid #707070"></Label>
+                <Label label={"Ürün Sayısı: "}></Label>
+                <Label label={"Kalan Süre: "}></Label>
+            </Box>
+
         </Box>
     )
 }
 const Label = ({ label, children, ...props }) => {
     return (
-        <Box borderBottom={"1px solid #707070"} py="12px" {...props}>
-            <Text>{label}</Text><Text>{children}</Text>
+        <Box display={"flex"} borderBottom={"1px solid #707070"} py="12px" fontSize={"17px"} w="100%" {...props}>
+            <Text mr="5px">{label}</Text><Text>{children}</Text>
         </Box>
     )
 }
