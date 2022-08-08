@@ -8,20 +8,19 @@ const ListTable = ({ head, row, select = false }) => {
                 <Thead>
                     <Tr>
                         {head?.map(x =>
-                            <Th>{x}</Th>
+                            <Th key={x}>{x}</Th>
                         )}
                     </Tr>
                 </Thead>
                 <Tbody>
                     {row?.map((x, index) =>
-                        <Tr>
-                            <RadioGroup >
-                                {select ? <Td>
+                        <Tr key={index}>
+                            {select ? <Td>
+                                <RadioGroup >
                                     <Radio value={`${index}`}></Radio>
-
-                                </Td> :
-                                    <Td>{index + 1}</Td>}
-                            </RadioGroup>
+                                </RadioGroup>
+                            </Td> :
+                                <Td>{index + 1}</Td>}
 
                             <Td>{x[1]}</Td>
                             <Td>{x[2]}</Td>
@@ -36,7 +35,7 @@ const ListTable = ({ head, row, select = false }) => {
                     )}
                 </Tbody>
             </Table>
-        </TableContainer>
+        </TableContainer >
     )
 }
 export default ListTable
