@@ -1,7 +1,9 @@
-import { Box } from "@chakra-ui/react"
-import ListTable from "../../ProductListTable/ListTable"
+import { TableContainer, Thead, Table, Tbody, Td, Tr, Th, Radio, RadioGroup, Box } from "@chakra-ui/react"
+import BreadCrumb from "../components/BreadCrumb/BreadCrumb"
+import ListTable from "../components/Talepler/ProductListTable/ListTable"
 
-const PriceSurveys = () => {
+const Logistics = () => {
+
     const Head = [
         "#",
         "ID",
@@ -52,9 +54,25 @@ const PriceSurveys = () => {
 
     ]
     return (
-        <Box mt="20px">
-            <ListTable head={Head} row={Row} select={true} />
+        <Box>
+            <BreadCrumb
+                funct1={{
+                    title: "Yeni Ekle",
+                    function: () => console.log("a")
+                }}
+                funct2={{
+                    title: "Düzenle",
+                    function: () => console.log("a")
+                }}
+                funct3={{
+                    title: "Sil",
+                    function: () => console.log("a")
+                }}
+            >Yurtdışı Taşıma</BreadCrumb>
+            <Box mt="20px" px={"38px"}>
+                <ListTable head={Head} row={Row} link={true} />
+            </Box>
         </Box>
     )
 }
-export default PriceSurveys
+export default Logistics

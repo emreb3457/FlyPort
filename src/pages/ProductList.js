@@ -39,7 +39,7 @@ const ProductList = () => {
 
 
     return (
-        <Box display={"flex"} flexDir="column" mt="20px">
+        <Box display={"flex"} flexDir="column" mt="20px" px={"38px"}>
             <Box display={"flex"} justifyContent="flex-end" mb="20px">
                 <StyledButton>Yeni Ekle</StyledButton>
                 <StyledButton>Düzenle</StyledButton>

@@ -32,7 +32,7 @@ const ProductDetail = () => {
     ]
     const [activeTab, setActiveTab] = useState(Tabs[0]);
     return (
-        <Box display={"flex"} mt="20px">
+        <Box display={"flex"} mt="20px" px={"38px"} >
             <ImageComp />
             <Box display={"flex"} flexDirection="column" pl={{ sm: "71px" }}>
                 <Box borderBottom={"1px solid black"}>

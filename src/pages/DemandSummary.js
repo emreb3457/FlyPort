@@ -3,7 +3,7 @@ import { pageWidth } from "../theme/style"
 const DemandSummary = () => {
 
     return (
-        <Box display={"flex"} mt="40px">
+        <Box display={"flex"} mt="40px" px={"38px"}>
             <Box w="40%" mr="100px">
                 <Label label={"Talep No: "} borderTop="1px solid #707070">123456</Label>
                 <Label label={"Talep Tarihi: "}></Label>

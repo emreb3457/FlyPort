@@ -8,7 +8,7 @@ const Home = () => {
     const [select, setSelect] = useState("")
 
     return (
-        <Box>dsadasdasd</Box>
+        <Box></Box>
     )
 }
 export default Home

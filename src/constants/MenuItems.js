@@ -51,11 +51,11 @@ export const menuItems = [
                                             },
                                             {
                                                 title: "Lojistik",
-                                                route: "3",
+                                                route: "lojistik",
                                             },
                                             {
                                                 title: "Gümrükleme",
-                                                route: "3",
+                                                route: "gümrükleme",
                                             },
                                         ]
                                     },

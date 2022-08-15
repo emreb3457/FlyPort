@@ -38,19 +38,19 @@ const MatchingProduct = () => {
     )
 }
 
-const TextInput = ({ label, children, ...props }) => {
+export const TextInput = ({ label, children, ...props }) => {
     return (
         <Box py="10px" fontSize={"18px"} w="100%" {...props}>
-            <Text mr="5px" color={"#232F3D"}>{children}</Text>
+            <Text mr="5px" color={"#232F3D"}>{children ? children : " "}</Text>
             <Input h="54px" borderColor={"#D6D6D6"} />
         </Box>
     )
 }
 
-const SelectInput = ({ label, children, ...props }) => {
+export const SelectInput = ({ label, children, ...props }) => {
     return (
         <Box py="10px" fontSize={"18px"} w="100%" {...props}>
-            <Text mr="5px" color={"#232F3D"}>{children}</Text>
+            <Text mr="5px" color={"#232F3D"}>{children ? children : " "}</Text>
             <Select h="54px" borderColor={"#D6D6D6"}>
                 <option>a</option>
                 <option>b</option>
