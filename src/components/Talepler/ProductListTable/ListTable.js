@@ -33,6 +33,7 @@ const ListTable = ({ head, row, select = false, link = false }) => {
                             <LinkTd link={link} data={x}>{x[7]}</LinkTd>
                             <LinkTd link={link} data={x}>{x[8]}</LinkTd>
                             <LinkTd link={link} data={x}>{x[9]}</LinkTd>
+                            <LinkTd link={link} data={x}>{x[10]}</LinkTd>
                         </Tr>
                     )}
                 </Tbody>

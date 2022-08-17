@@ -23,8 +23,9 @@ const App = () => {
 
             <Route path="/:id/:id/urunlistesi/:id/gorevler/fiyatarastirmalari" element={<PriceSurveys />} exact />
             <Route path="/:id/:id/urunlistesi/:id/gorevler/fiyatarastirmalari/:id" element={<PriceSurveysDetail />} exact />
-
+    
             <Route path="/:id/:id/urunlistesi/:id/gorevler/lojistik" element={<Logistics />} exact />
+            <Route path="/:id/:id/urunlistesi/:id/gorevler/lojistik/yenimaliyet" element={<Logistics />} exact />
           </Routes>
         </ListMenu>
       </BrowserRouter>
