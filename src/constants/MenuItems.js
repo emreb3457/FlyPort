@@ -55,17 +55,17 @@ export const menuItems = [
                                             },
                                             {
                                                 title: "Gümrükleme",
-                                                route: "gümrükleme",
+                                                route: "gumrukleme",
                                             },
                                         ]
                                     },
                                     {
                                         title: "Maliyetler",
-                                        route: "3",
+                                        route: "maliyetler",
                                     },
                                     {
                                         title: "Teklif",
-                                        route: "3",
+                                        route: "teklifler",
                                     },
                                 ]
                             },

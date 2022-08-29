@@ -1,9 +1,10 @@
 import { TableContainer, Thead, Table, Tbody, Td, Tr, Th, Radio, RadioGroup, Box } from "@chakra-ui/react"
+import { useNavigate } from "react-router-dom";
 import BreadCrumb from "../components/BreadCrumb/BreadCrumb"
 import ListTable from "../components/Talepler/ProductListTable/ListTable"
 
 const Logistics = () => {
-
+    const navigate = useNavigate();
     const Head = [
         "#",
         "Taşıma Tipi",
@@ -38,7 +39,7 @@ const Logistics = () => {
             <BreadCrumb
                 funct1={{
                     title: "Yeni Ekle",
-                    function: () => console.log("a")
+                    function: () => navigate("yenimaliyet")
                 }}
                 funct2={{
                     title: "Düzenle",

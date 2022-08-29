@@ -8,7 +8,7 @@ const ProductPrice = () => {
         <Box mt="20px">
             <Heading size="md" mb="57px">Firma Adı</Heading>
             <Box display={"flex"}>
-                <Box w="30%">
+                <Box width={{ lg: "35%", "2xl": "30%" }}>
                     <SelectInput>İstenilen Ürünün Aynısı mı? </SelectInput>
                     <TextInput>Üreticinin Bulunduğu Şehir</TextInput>
                     <SelectInput>Teslim Şekli</SelectInput>
@@ -19,7 +19,7 @@ const ProductPrice = () => {
                     </Box>
                     <TextInput >İstenilen Miktar İçin Hazırlık Süresi</TextInput>
                 </Box>
-                <Box w="30%" ml="90px">
+                <Box width={{ lg: "35%", "2xl": "30%" }} ml="90px">
                     <TextInput >1 Birim Fiyatı</TextInput>
                     <TextInput >Doviz Cinsi</TextInput>
                     <TextInput >Teklifin Alındığı Tarih</TextInput>

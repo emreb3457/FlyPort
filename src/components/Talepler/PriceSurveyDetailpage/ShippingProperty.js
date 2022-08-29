@@ -12,7 +12,7 @@ const ShippingPropert = () => {
 
             <Heading size="md" mb="27px" fontSize={"26px"} color={colors.lightdarkblue}>Kargo Bilgileri</Heading>
             <Box display={"flex"}>
-                <Box w="30%">
+                <Box width={{ lg: "35%", "2xl": "30%" }}>
                     <SelectInput>Ürün Ne İle Taşınıyor? </SelectInput>
                     <Box display={"flex"}>
                         <TextInput pr="10px">Uzunluğu</TextInput>

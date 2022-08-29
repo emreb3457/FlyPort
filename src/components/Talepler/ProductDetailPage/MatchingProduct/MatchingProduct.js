@@ -7,21 +7,21 @@ const MatchingProduct = () => {
     return (
         <Box mt="20px">
             <Box display={"flex"}>
-                <Box w="30%">
+                <Box width={{ lg: "35%", "2xl": "30%" }}>
                     <TextInput>Ürünün Tam Adı</TextInput>
                     <TextInput>Kısa Adı</TextInput>
                     <SelectInput>Genel Kategori</SelectInput>
                     <SelectInput>Alt Kategori</SelectInput>
                     <SelectInput>Fly Kategori</SelectInput>
                 </Box>
-                <Box w="30%" ml="17px">
+                <Box width={{ lg: "35%", "2xl": "30%" }} ml="17px">
                     <SelectInput>Teknik Özellik 1</SelectInput>
                     <SelectInput>Teknik Özellik 2</SelectInput>
                     <SelectInput>Teknik Özellik 3</SelectInput>
                     <SelectInput>Teknik Özellik 4</SelectInput>
                     <SelectInput>Yeni Ekle</SelectInput>
                 </Box>
-                <Box w="30%" ml="3px">
+                <Box width={{ lg: "35%", "2xl": "30%" }} ml="3px">
                     <TextInput> </TextInput>
                     <TextInput> </TextInput>
                     <TextInput> </TextInput>
@@ -38,20 +38,20 @@ const MatchingProduct = () => {
     )
 }
 
-export const TextInput = ({ label, children, ...props }) => {
+export const TextInput = ({ label, children, bg, disabled = false, ...props }) => {
     return (
         <Box py="10px" fontSize={"18px"} w="100%" {...props}>
             <Text mr="5px" color={"#232F3D"}>{children ? children : " "}</Text>
-            <Input h="54px" borderColor={"#D6D6D6"} />
+            <Input h="54px" borderColor={"#D6D6D6"} disabled={disabled} bg={disabled ? "#D6D6D6" : bg} />
         </Box>
     )
 }
 
-export const SelectInput = ({ label, children, ...props }) => {
+export const SelectInput = ({ label, children, bg, ...props }) => {
     return (
         <Box py="10px" fontSize={"18px"} w="100%" {...props}>
             <Text mr="5px" color={"#232F3D"}>{children ? children : " "}</Text>
-            <Select h="54px" borderColor={"#D6D6D6"}>
+            <Select h="54px" borderColor={"#D6D6D6"} bg={bg}>
                 <option>a</option>
                 <option>b</option>
             </Select>

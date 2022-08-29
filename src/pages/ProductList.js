@@ -9,7 +9,7 @@ const ProductList = () => {
         "Kategori",
         "İşlevi",
         "Özellik",
-        "Özellik",
+        "Özellik1",
         "Talep Tarihi",
         "Kalan Süre"
     ]

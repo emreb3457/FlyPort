@@ -4,7 +4,7 @@ import { useNavigate } from "react-router-dom"
 const ListTable = ({ head, row, select = false, link = false }) => {
 
     return (
-        <TableContainer w="100%">
+        <TableContainer width={{ lg: "1050px", "2xl": "100%" }} >
             <Table variant="simple" size={"md"}>
                 <Thead>
                     <Tr>

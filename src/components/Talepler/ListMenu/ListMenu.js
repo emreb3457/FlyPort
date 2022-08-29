@@ -18,8 +18,10 @@ const ListMenu = ({ children }) => {
                 <ListMenuItem
                     items={menuItems}
                     display="inline-block"
-                    maxWidth={{ base: "120px", sm: "200px", md: "250px", lg: "300px", "2xl": "320px" }}
+                    maxWidth={{ base: "200px", sm: "200px", md: "250px", lg: "250px", "2xl": "320px" }}
+                    pr="20px"
                     w="100%"
+                    minW="200px"
                     h="120vh"
                     tab={tab}
                     tab2={tab2}
