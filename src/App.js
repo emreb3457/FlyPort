@@ -1,6 +1,7 @@
 import './App.css';
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { Fragment } from 'react';
+import ProtectedRoute from "./utils/ProtectedRoute"
 import Home from './pages/Home';
 import DemandSummary from './pages/DemandSummary';
 import ProductList from './pages/ProductList';
@@ -27,31 +28,31 @@ const App = () => {
         <ListMenu>
           <Routes>
             <Route path="/" element={<Home />} exact />
-            <Route path="/talepler" element={<DemandSummary />} exact />
+            <Route path="/talepler" element={<ProtectedRoute><DemandSummary /></ProtectedRoute>} exact />
+            <Route path="/:id/:id/urunlistesi" element={<ProtectedRoute><ProductList /></ProtectedRoute>} exact />
+            <Route path="/:id/:id/urunlistesi/:id" element={<ProtectedRoute><ProductDetail /></ProtectedRoute>} exact />
 
-            <Route path="/:id/:id/urunlistesi" element={<ProductList />} exact />
-            <Route path="/:id/:id/urunlistesi/:id" element={<ProductDetail />} exact />
+            <Route path="/:id/:id/urunlistesi/:id/gorevler/fiyatarastirmalari" element={<ProtectedRoute><PriceSurveys /></ProtectedRoute>} exact />
+            <Route path="/:id/:id/urunlistesi/:id/gorevler/fiyatarastirmalari/:id" element={<ProtectedRoute><PriceSurveysDetail /></ProtectedRoute>} exact />
 
-            <Route path="/:id/:id/urunlistesi/:id/gorevler/fiyatarastirmalari" element={<PriceSurveys />} exact />
-            <Route path="/:id/:id/urunlistesi/:id/gorevler/fiyatarastirmalari/:id" element={<PriceSurveysDetail />} exact />
+            <Route path="/:id/:id/urunlistesi/:id/gorevler/lojistik" element={<ProtectedRoute><Logistics /></ProtectedRoute>} exact />
+            <Route path="/:id/:id/urunlistesi/:id/gorevler/lojistik/yenimaliyet" element={<ProtectedRoute><LogisticsAdd /></ProtectedRoute>} exact />
 
-            <Route path="/:id/:id/urunlistesi/:id/gorevler/lojistik" element={<Logistics />} exact />
-            <Route path="/:id/:id/urunlistesi/:id/gorevler/lojistik/yenimaliyet" element={<LogisticsAdd />} exact />
+            <Route path="/:id/:id/urunlistesi/:id/gorevler/gumrukleme" element={<ProtectedRoute><CustomsList /></ProtectedRoute>} exact />
+            <Route path="/:id/:id/urunlistesi/:id/gorevler/gumrukleme/yenimaliyet" element={<ProtectedRoute><CostomsAdd /></ProtectedRoute>} exact />
+            <Route path="/:id/:id/urunlistesi/:id/gorevler/gumrukleme/:id" element={<ProtectedRoute><CostomsDetail /></ProtectedRoute>} exact />
 
-            <Route path="/:id/:id/urunlistesi/:id/gorevler/gumrukleme" element={<CustomsList />} exact />
-            <Route path="/:id/:id/urunlistesi/:id/gorevler/gumrukleme/yenimaliyet" element={<CostomsAdd />} exact />
-            <Route path="/:id/:id/urunlistesi/:id/gorevler/gumrukleme/:id" element={<CostomsDetail />} exact />
+            <Route path="/:id/:id/urunlistesi/:id/maliyetler" element={<ProtectedRoute><CostList /></ProtectedRoute>} exact />
+            <Route path="/:id/:id/urunlistesi/:id/maliyetler/yenimaliyet" element={<ProtectedRoute><CostAdd /></ProtectedRoute>} exact />
+            <Route path="/:id/:id/urunlistesi/:id/maliyetler/:id" element={<ProtectedRoute><CostDetail /></ProtectedRoute>} exact />
 
-            <Route path="/:id/:id/urunlistesi/:id/maliyetler" element={<CostList />} exact />
-            <Route path="/:id/:id/urunlistesi/:id/maliyetler/yenimaliyet" element={<CostAdd />} exact />
-            <Route path="/:id/:id/urunlistesi/:id/maliyetler/:id" element={<CostDetail />} exact />
+            <Route path="/:id/:id/urunlistesi/:id/teklifler" element={<ProtectedRoute><Offers /></ProtectedRoute>} exact />
+            <Route path="/:id/:id/urunlistesi/:id/teklifler/yenimaliyet" element={<ProtectedRoute><CostAdd /></ProtectedRoute>} exact />
+            <Route path="/:id/:id/urunlistesi/:id/teklifler/:id" element={<ProtectedRoute><OffersDetail /></ProtectedRoute>} exact />
 
-            <Route path="/:id/:id/urunlistesi/:id/teklifler" element={<Offers />} exact />
-            <Route path="/:id/:id/urunlistesi/:id/teklifler/yenimaliyet" element={<CostAdd />} exact />
-            <Route path="/:id/:id/urunlistesi/:id/teklifler/:id" element={<OffersDetail />} exact />
-
-            <Route path="/siparisler" element={<Offers2 />} exact />
-            <Route path="/siparisler/:id" element={<OffersCard />} exact />
+            <Route path="/siparisler" element={<ProtectedRoute><Offers2 /></ProtectedRoute>} exact />
+            <Route path="/siparisler/:id" element={<ProtectedRoute><OffersCard /></ProtectedRoute>} exact />
+            <Route path='*' element={<div>NOT FOUND</div>} />
           </Routes>
         </ListMenu>
       </BrowserRouter>

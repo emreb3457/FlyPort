@@ -17,7 +17,7 @@ const ListMenu = ({ children }) => {
             <Box display={"flex"}>
                 <ListMenuItem
                     items={menuItems}
-                    display="inline-block"
+                    display={window.location.pathname == "/" ? "none" : "inline-block"}
                     maxWidth={{ base: "200px", sm: "200px", md: "250px", lg: "250px", "2xl": "320px" }}
                     pr="20px"
                     w="100%"
