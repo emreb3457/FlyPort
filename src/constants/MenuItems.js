@@ -12,7 +12,7 @@ export const menuItems = [
                         route: "alternatif",
                         submenu: [
                             {
-                                title: "3.Ürün",
+                                title: "Altarnetif Özeti",
                                 route: "urun",
                                 submenu: [
                                     {
@@ -31,46 +31,47 @@ export const menuItems = [
                                     },
                                 ]
                             },
-                        ]
-                    },
-                    {
-                        title: "Ürün Listesi",
-                        route: "urunlistesi",
-                        submenu: [
                             {
-                                title: "3. Ürün",
-                                route: "3",
+                                title: "Ürün Listesi",
+                                route: "urunlistesi",
                                 submenu: [
                                     {
-                                        title: "Görevler",
-                                        route: "gorevler",
+                                        title: "3. Ürün",
+                                        route: "3",
                                         submenu: [
                                             {
-                                                title: "F. Araştırma",
-                                                route: "fiyatarastirmalari",
+                                                title: "Görevler",
+                                                route: "gorevler",
+                                                submenu: [
+                                                    {
+                                                        title: "F. Araştırma",
+                                                        route: "fiyatarastirmalari",
+                                                    },
+                                                    {
+                                                        title: "Lojistik",
+                                                        route: "lojistik",
+                                                    },
+                                                    {
+                                                        title: "Gümrükleme",
+                                                        route: "gumrukleme",
+                                                    },
+                                                ]
                                             },
                                             {
-                                                title: "Lojistik",
-                                                route: "lojistik",
+                                                title: "Maliyetler",
+                                                route: "maliyetler",
                                             },
                                             {
-                                                title: "Gümrükleme",
-                                                route: "gumrukleme",
+                                                title: "Teklif",
+                                                route: "teklifler",
                                             },
                                         ]
-                                    },
-                                    {
-                                        title: "Maliyetler",
-                                        route: "maliyetler",
-                                    },
-                                    {
-                                        title: "Teklif",
-                                        route: "teklifler",
                                     },
                                 ]
                             },
                         ]
                     },
+
 
                 ]
             }

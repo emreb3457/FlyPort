@@ -23,8 +23,7 @@ const ListMenuItem =
         ...props
     }) => {
         const path = window.location.pathname.split("/");
-        const [loop, setLoop] = useState(true);
-       
+
         useEffect(() => {
 
             //Sayfayı yenilediğimizde seçili alanların kaybolmaması için
@@ -40,7 +39,7 @@ const ListMenuItem =
             setTab3(
                 Tab2?.submenu?.filter(x => x.route == path[3])[0]
             )
-
+            
             let Tab3 = Tab2?.submenu?.filter(x => x.route == path[3])[0]
             setTab4(
                 Tab3?.submenu?.filter(x => x.route == path[4])[0]

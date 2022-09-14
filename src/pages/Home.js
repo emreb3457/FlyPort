@@ -8,7 +8,7 @@ import { toast } from 'react-toastify';
 import { useNavigate } from "react-router-dom";
 const Home = () => {
 
-    const { handleSubmit, handleChange, handleBlur, values, errors, touched } =
+    const { handleSubmit, handleChange, handleBlur, values, errors } =
         useFormik({
             initialValues: {
                 email: "",
@@ -30,7 +30,7 @@ const Home = () => {
             dispatch({ type: "CLEAR_ERROR" })
         }
         if (success) {
-            redirect("talepler")
+            redirect("/talepler")
             dispatch({ type: "CLEAR_SUCCESS" })
         }
     }, [success, error])

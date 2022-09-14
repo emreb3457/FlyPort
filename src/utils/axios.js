@@ -12,6 +12,7 @@ instance.interceptors.request.use(async options => {
     if (accessToken) {
         options.headers.authorization = 'Bearer ' + accessToken;
     }
+    options.headers.accept = 'text/plain';
     return options;
 });
 export default instance;
