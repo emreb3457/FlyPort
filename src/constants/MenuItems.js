@@ -85,5 +85,31 @@ export const menuItems = [
         title: "Siparişler",
         route: "siparisler",
     },
+    {
+        title: "Tanımlamalar",
+        route: "tanimlamalar",
+        submenu: [
+            {
+                title: "Ülkeler",
+                route: "ulkeler",
+            },
+            {
+                title: "Sehirler",
+                route: "Sehirler",
+            },
+            {
+                title: "İlçeler",
+                route: "ilçeler",
+            },
+            {
+                title: "Ülkeler",
+                route: "ülkeler",
+            },
+            {
+                title: "Ülkeler",
+                route: "ülkeler",
+            },
+        ]
+    },
 
 ];

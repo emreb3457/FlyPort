@@ -1,4 +1,4 @@
-import { Box, Text, Button } from "@chakra-ui/react"
+import { Box,  Button } from "@chakra-ui/react"
 import ListTable from "../components/Talepler/ProductListTable/ListTable"
 const ProductList = () => {
 

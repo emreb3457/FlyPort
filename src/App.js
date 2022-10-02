@@ -21,6 +21,8 @@ import Offers from './pages/Offers';
 import OffersDetail from './pages/OffersDetail';
 import Offers2 from './pages/Offers2';
 import OffersCard from './pages/OffersCard';
+import DemandList from './pages/DemandList';
+import CountryList from './pages/tanimlamalar/Country';
 const App = () => {
   return (
     <Fragment>
@@ -28,7 +30,7 @@ const App = () => {
         <ListMenu>
           <Routes>
             <Route path="/" element={<Home />} exact />
-            <Route path="/talepler" element={<ProtectedRoute><DemandSummary /></ProtectedRoute>} exact />
+            <Route path="/talepler" element={<ProtectedRoute><DemandList/></ProtectedRoute>} exact />
             <Route path="/:id/:id/:id/urunlistesi" element={<ProtectedRoute><ProductList /></ProtectedRoute>} exact />
             <Route path="/:id/:id/:id/urunlistesi/:id" element={<ProtectedRoute><ProductDetail /></ProtectedRoute>} exact />
 
@@ -52,6 +54,9 @@ const App = () => {
 
             <Route path="/siparisler" element={<ProtectedRoute><Offers2 /></ProtectedRoute>} exact />
             <Route path="/siparisler/:id" element={<ProtectedRoute><OffersCard /></ProtectedRoute>} exact />
+
+            <Route path="/tanimlamalar/ulkeler" element={<ProtectedRoute><CountryList /></ProtectedRoute>} exact />
+
             <Route path='*' element={<div>NOT FOUND</div>} />
           </Routes>
         </ListMenu>

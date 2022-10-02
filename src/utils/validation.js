@@ -7,7 +7,7 @@ const validations = yup.object().shape({
         .required("Zorunlu alan."),
     password: yup
         .string()
-        .min(6, "Parolanız en az 6 karakter olmalıdır.")
+        .min(0, "Parolanız en az 6 karakter olmalıdır.")
         .required("Zorunlu alan."),
 });
 
