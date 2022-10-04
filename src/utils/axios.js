@@ -1,6 +1,6 @@
 import axios from "axios";
 
-export const baseURL = "https://api.maitive.co";
+export const baseURL = "https://api.maitive.co/api/v1";
 
 const instance = axios.create({
   baseURL: baseURL,

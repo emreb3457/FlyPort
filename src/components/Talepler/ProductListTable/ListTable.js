@@ -1,6 +1,5 @@
 import {
   Box,
-  Button,
   TableContainer,
   Thead,
   Table,
@@ -12,6 +11,7 @@ import {
   RadioGroup,
 } from "@chakra-ui/react";
 import { useNavigate } from "react-router-dom";
+import Pagination from "../../Pagination";
 
 const ListTable = ({
   head,
@@ -46,8 +46,8 @@ const ListTable = ({
                 ) : (
                   <Td>{index + 1}</Td>
                 )}
-                {dataHead.map((m) => (
-                  <LinkTd link={link} data={x.id}>
+                {dataHead?.map((m) => (
+                  <LinkTd key={m} link={link} data={x.id}>
                     {x[m]}
                   </LinkTd>
                 ))}
@@ -56,38 +56,11 @@ const ListTable = ({
           </Tbody>
         </Table>
       </TableContainer>
-      <Box>
-        <Button
-          color={"black"}
-          padding={"8px 16px"}
-          textDecoration={"none"}
-          transition={"background-color .3s"}
-          onClick={() => changePage(--page)}
-        >
-          &laquo;
-        </Button>
-        {[...Array(parseInt(totalRowCount / 10))]?.map((x, i) => (
-          <Button
-            key={"link_" + i}
-            color={"black"}
-            padding={"8px 16px"}
-            textDecoration={"none"}
-            transition={"background-color .3s"}
-            onClick={() => changePage(i)}
-          >
-            {i + 1}
-          </Button>
-        ))}
-        <Button
-          color={"black"}
-          padding={"8px 16px"}
-          textDecoration={"none"}
-          transition={"background-color .3s"}
-          href="#"
-        >
-          &raquo;
-        </Button>
-      </Box>
+      <Pagination
+        page={page}
+        totalRowCount={totalRowCount}
+        changePage={changePage}
+      />
     </Box>
   );
 };

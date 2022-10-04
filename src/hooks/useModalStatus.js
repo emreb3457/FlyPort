@@ -4,13 +4,13 @@ export const useModalStatus = () => {
   const [isClick, setClick] = useState(null);
   const [toggle, setToggle] = useState(false);
 
-  const clickfunt = () => {
+  const clickFunct = () => {
     setToggle(!toggle);
     setClick(toggle);
   };
 
   return {
-    clickfunt,
+    clickFunct,
     isClick,
   };
 };

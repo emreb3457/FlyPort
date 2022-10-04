@@ -1,44 +1,53 @@
 import { Box, Button, Input } from "@chakra-ui/react";
-import { Fragment, useEffect, useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
+import { useState } from "react";
 import { loginUser } from "../api/userApi";
 import { useFormik } from "formik";
-import validationSchema from "../utils/validation";
-import { toast } from "react-toastify";
+import { loginValidate } from "../utils/validation";
 import { useNavigate } from "react-router-dom";
-import useSWR from "swr";
-import { errorMessageWrite } from "../utils/errorMessageWrite";
+import { sendRequest } from "../utils/helpers";
+
+const loginSubmit = async ({
+  values,
+  redirect,
+  errors,
+  setValues,
+  setLoading,
+}) => {
+  setLoading(true);
+  const { status, response } = await sendRequest(
+    loginUser({ eposta: values.email, parola: values.password }),
+    {
+      errors,
+      setValues,
+    }
+  );
+  if (status) {
+    sessionStorage.setItem("accessToken", response.token);
+    redirect("/talepler");
+  }
+  setLoading(false);
+};
+
 const Home = () => {
   const [loading, setLoading] = useState(false);
   const redirect = useNavigate();
-  const { handleSubmit, handleChange, handleBlur, values, errors } = useFormik({
-    initialValues: {
-      email: "",
-      password: "",
-    },
-    onSubmit: (values) => {
-      loginSubmit(values);
-    },
-    validationSchema,
-  });
-
-  const loginSubmit = async (values) => {
-    setLoading(true);
-    await loginUser({ eposta: values.email, parola: values.password })
-      .then((response) => {
-        sessionStorage.setItem("accessToken", response.token);
-        toast(response?.message || "Başarılı", {
-          type: "success",
+  const { handleSubmit, handleChange, handleBlur, values, errors, setValues } =
+    useFormik({
+      initialValues: {
+        email: "",
+        password: "",
+      },
+      onSubmit: (values) => {
+        loginSubmit({
+          values,
+          errors,
+          setValues,
+          setLoading,
+          redirect,
         });
-        redirect("/talepler");
-      })
-      .catch((errorResponse) => {
-        toast(errorMessageWrite(errorResponse), {
-          type: "error",
-        });
-      })
-      .finally(() => setLoading(false));
-  };
+      },
+      loginValidate,
+    });
 
   return (
     <Box w="30%" margin={"auto"} mt="50px">
