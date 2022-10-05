@@ -1,6 +1,6 @@
 import { Box, Button, Select, Text, Input, Heading } from "@chakra-ui/react"
 import { Fragment, useState } from "react"
-import { SelectInput, TextInput } from "../ProductDetailPage/MatchingProduct/MatchingProduct"
+import { SelectInput, TextInput } from "../../Inputs/CustomInputs"
 import colors from "../../../theme/colors"
 const ShippingPropert = () => {
 

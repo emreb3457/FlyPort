@@ -3,10 +3,10 @@ import BreadCrumb from "../../components/BreadCrumb/BreadCrumb";
 import ListTable from "../../components/Talepler/ProductListTable/ListTable";
 import useSWR from "swr";
 import {
-  getCountryInsert,
-  getCountryList,
-  getCountryRemove,
-  getCountryUpdate,
+  getUnitTypeInsert,
+  getUnitTypeRemove,
+  getUnitTypeUpdate,
+  getUnitTypeList,
 } from "../../api/DefinitionsApi";
 import BasicModal from "../../helpers/Modal";
 import SkeletonComp from "../../components/Skeleton/Skeleton";
@@ -14,22 +14,20 @@ import { useModalStatus } from "../../hooks/useModalStatus";
 import { TextInput } from "../../components/Inputs/CustomInputs";
 import React, { useState } from "react";
 import { useFormik } from "formik";
-import { countryValidate } from "../../utils/validation";
+import { UnitTypeValidate } from "../../utils/validation";
 import { sendRequest } from "../../utils/helpers";
 
-const CountryList = () => {
+const UnitType = () => {
   const { clickFunct, isClick } = useModalStatus();
   const [page, setPage] = useState(0);
   const [radioValue, setRadioValue] = React.useState({});
   const [submitType, setSubmitType] = React.useState("");
 
-  const { data, mutate, error } = useSWR(["_", page], getCountryList);
+  const { data, mutate, error } = useSWR(["_", page], getUnitTypeList);
 
   const { errors, handleChange, handleSubmit, values, setValues } = useFormik({
     initialValues: {
-      adTurkce: "",
-      adOrjinal: "",
-      adIng: "",
+      ad: "",
       aciklama: "",
     },
     onSubmit: (values, { resetForm }) => {
@@ -44,21 +42,19 @@ const CountryList = () => {
           });
       resetForm();
     },
-    validationSchema: countryValidate,
+    validationSchema: UnitTypeValidate,
   });
 
   const loading = !error && !data;
 
-  const Head = ["#", "ID", "Ad Orjinal", "Ad Türkçe", "Ad Ingilizce"];
-  const DataHead = ["id", "adOrjinal", "adTurkce", "adIngilizce"];
+  const Head = ["#", "ID", "Ad", "Açıklama"];
+  const DataHead = ["id", "ad", "aciklama"];
 
   const newCountrySubmit = async ({ values, mutate, errors, setValues }) => {
     const { status } = await sendRequest(
-      getCountryInsert("", {
+      getUnitTypeInsert("", {
         aciklama: values.aciklama,
-        adOrjinal: values.adOrjinal,
-        adTurkce: values.adTurkce,
-        adIngilizce: values.adIng,
+        ad: values.ad,
       }),
       {
         errors,
@@ -76,7 +72,7 @@ const CountryList = () => {
     id,
   }) => {
     const { status } = await sendRequest(
-      getCountryUpdate("", {
+      getUnitTypeUpdate("", {
         id,
         aciklama: values.aciklama,
         adOrjinal: values.adOrjinal,
@@ -93,7 +89,7 @@ const CountryList = () => {
 
   const removeCountry = async ({ radioValue, mutate }) => {
     const { status } = await sendRequest(
-      getCountryRemove("_", JSON.parse(radioValue).id)
+      getUnitTypeRemove("_", JSON.parse(radioValue).id)
     );
     status && mutate();
   };
@@ -106,22 +102,8 @@ const CountryList = () => {
   }) => {
     return (
       <form onSubmit={handleSubmit} style={{ padding: "10px 0" }}>
-        <TextInput
-          name={"adOrjinal"}
-          value={values.adOrjinal}
-          onChange={handleChange}
-        >
-          Orjinal Ad
-        </TextInput>
-        <TextInput
-          name={"adTurkce"}
-          value={values.adTurkce}
-          onChange={handleChange}
-        >
-          Türkçe Ad
-        </TextInput>
-        <TextInput name={"adIng"} value={values.adIng} onChange={handleChange}>
-          Ingilizce Ad
+        <TextInput name={"ad"} value={values.ad} onChange={handleChange}>
+          Ad
         </TextInput>
         <TextInput
           name={"aciklama"}
@@ -178,7 +160,7 @@ const CountryList = () => {
           },
         }}
       >
-        Ülkeler
+        Ülkelere Göre Maliyetleri
       </BreadCrumb>
       <Box mt="20px" px={"38px"}>
         <ListTable
@@ -203,4 +185,4 @@ const CountryList = () => {
     </Box>
   );
 };
-export default React.memo(CountryList);
+export default React.memo(UnitType);

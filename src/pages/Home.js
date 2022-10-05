@@ -46,7 +46,7 @@ const Home = () => {
           redirect,
         });
       },
-      loginValidate,
+      validationSchema: loginValidate,
     });
 
   return (

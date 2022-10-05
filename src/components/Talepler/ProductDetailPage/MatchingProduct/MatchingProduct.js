@@ -1,5 +1,6 @@
 import { Box, Text, Input, Select } from "@chakra-ui/react";
 import colors from "../../../../theme/colors";
+import { SelectInput, TextInput } from "../../../Inputs/CustomInputs";
 
 const MatchingProduct = () => {
   return (
@@ -43,45 +44,5 @@ const MatchingProduct = () => {
   );
 };
 
-export const TextInput = ({
-  name,
-  value,
-  label,
-  children,
-  bg,
-  disabled = false,
-  onChange,
-  ...props
-}) => {
-  return (
-    <Box py="10px" fontSize={"18px"} w="100%" {...props}>
-      <Text mr="5px" color={"#232F3D"}>
-        {children ? children : " "}
-      </Text>
-      <Input
-        h="54px"
-        name={name}
-        value={value}
-        onChange={onChange}
-        borderColor={"#D6D6D6"}
-        disabled={disabled}
-        bg={disabled ? "#D6D6D6" : bg}
-      />
-    </Box>
-  );
-};
 
-export const SelectInput = ({ label, children, bg, ...props }) => {
-  return (
-    <Box py="10px" fontSize={"18px"} w="100%" {...props}>
-      <Text mr="5px" color={"#232F3D"}>
-        {children ? children : " "}
-      </Text>
-      <Select h="54px" borderColor={"#D6D6D6"} bg={bg}>
-        <option>a</option>
-        <option>b</option>
-      </Select>
-    </Box>
-  );
-};
 export default MatchingProduct;

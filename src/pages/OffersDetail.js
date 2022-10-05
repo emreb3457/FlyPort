@@ -1,5 +1,5 @@
 import { Box, Text, Input, Select } from "@chakra-ui/react"
-import { SelectInput, TextInput } from "../components/Talepler/ProductDetailPage/MatchingProduct/MatchingProduct"
+import { SelectInput, TextInput } from "../components/Inputs/CustomInputs"
 import colors from "../theme/colors"
 
 

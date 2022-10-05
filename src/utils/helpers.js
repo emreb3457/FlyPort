@@ -5,8 +5,8 @@ export const getObjectLength = (object) => {
   return Object.keys(object).length;
 };
 
-export const sendRequest = async (api, formik) => {
-  if (getObjectLength(formik.errors) !== 0) {
+export const sendRequest = async (api, formik = null) => {
+  if (formik && getObjectLength(formik?.errors) !== 0) {
     Object.values(formik.errors).map((x) => toast.error(x));
   } else {
     return await api

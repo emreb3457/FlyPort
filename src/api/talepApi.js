@@ -2,7 +2,9 @@ import instance from "../utils/axios";
 import { errorMessageWrite } from "../utils/errorMessageWrite";
 
 export const getTalepList = async () => {
-  return await instance.get("/TalepUrun/BirlesmisListele?page=0", {}).then((res) => res.data);
+  return await instance
+    .get("/TalepUrun/BirlesmisListele")
+    .then((res) => res.data);
 };
 
 export const getTalep = () => async (dispatch) => {

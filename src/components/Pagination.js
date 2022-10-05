@@ -15,7 +15,7 @@ const Pagination = ({ changePage, totalRowCount, page }) => {
       >
         &laquo;
       </Button>
-      {[...Array(totalPage)]?.map((x, i) => (
+      {[...Array(totalPage ? totalPage : 1)]?.map((x, i) => (
         <Button
           key={"link_" + i}
           color={page === i ? "red" : "black"}

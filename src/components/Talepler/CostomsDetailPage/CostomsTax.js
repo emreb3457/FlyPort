@@ -1,5 +1,5 @@
 import { Box, Text } from "@chakra-ui/react"
-import { SelectInput, TextInput } from "../ProductDetailPage/MatchingProduct/MatchingProduct"
+import { SelectInput, TextInput } from "../../Inputs/CustomInputs"
 
 const CostomsTax = () => {
     return (

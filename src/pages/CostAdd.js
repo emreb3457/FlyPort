@@ -2,7 +2,7 @@
 import { Text, Box } from "@chakra-ui/react"
 import { useNavigate } from "react-router-dom"
 import BreadCrumb from "../components/BreadCrumb/BreadCrumb"
-import { TextInput, SelectInput } from "../components/Talepler/ProductDetailPage/MatchingProduct/MatchingProduct"
+import { TextInput, SelectInput } from "../components/Inputs/CustomInputs"
 
 const CostAdd = () => {
 

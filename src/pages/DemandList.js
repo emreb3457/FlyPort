@@ -4,7 +4,7 @@ import useSWR from "swr";
 import { getTalepList } from "../api/talepApi";
 import SkeletonComp from "../components/Skeleton/Skeleton";
 const DemandList = () => {
-  const { data, error } = useSWR("getusers", getTalepList);
+  const { data, error } = useSWR("getTalep", getTalepList);
   console.log(data);
   
   const loading = !error && !data;

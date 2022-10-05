@@ -1,7 +1,7 @@
 import { Box, Text } from "@chakra-ui/react"
 import { useState } from "react";
 import { useNavigate } from "react-router-dom"
-import { SelectInput, TextInput } from "../ProductDetailPage/MatchingProduct/MatchingProduct";
+import { SelectInput, TextInput } from "../../Inputs/CustomInputs";
 import ListTable from "../ProductListTable/ListTable";
 
 

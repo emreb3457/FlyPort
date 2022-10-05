@@ -23,6 +23,9 @@ import Offers2 from './pages/Offers2';
 import OffersCard from './pages/OffersCard';
 import DemandList from './pages/DemandList';
 import CountryList from './pages/tanimlamalar/Country';
+import UnitType from './pages/tanimlamalar/UnitType';
+import City from './pages/tanimlamalar/City';
+import District from './pages/tanimlamalar/District';
 const App = () => {
   return (
     <Fragment>
@@ -56,6 +59,9 @@ const App = () => {
             <Route path="/siparisler/:id" element={<ProtectedRoute><OffersCard /></ProtectedRoute>} exact />
 
             <Route path="/tanimlamalar/ulkeler" element={<ProtectedRoute><CountryList /></ProtectedRoute>} exact />
+            <Route path="/tanimlamalar/birimtipi" element={<ProtectedRoute><UnitType /></ProtectedRoute>} exact />
+            <Route path="/tanimlamalar/sehirler" element={<ProtectedRoute><City /></ProtectedRoute>} exact />
+            <Route path="/tanimlamalar/ilceler" element={<ProtectedRoute><District /></ProtectedRoute>} exact />
 
             <Route path='*' element={<div>NOT FOUND</div>} />
           </Routes>

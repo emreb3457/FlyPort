@@ -95,15 +95,15 @@ export const menuItems = [
             },
             {
                 title: "Sehirler",
-                route: "Sehirler",
+                route: "sehirler",
             },
             {
                 title: "İlçeler",
-                route: "ilçeler",
+                route: "ilceler",
             },
             {
-                title: "Ülkeler",
-                route: "ülkeler",
+                title: "Birim Tipi",
+                route: "birimtipi",
             },
             {
                 title: "Ülkeler",

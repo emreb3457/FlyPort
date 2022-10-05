@@ -8,8 +8,8 @@ import {
   ModalCloseButton,
   ModalBody,
 } from "@chakra-ui/react";
-import React, { useEffect, useMemo, useRef } from "react";
-const BasicModal = ({ click, title, component, formik }) => {
+import React, { useMemo, useRef } from "react";
+const BasicModal = ({ click, title, component }) => {
   const { isOpen, onClose, onOpen } = useDisclosure();
   const btnref = useRef();
 

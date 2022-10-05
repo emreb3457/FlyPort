@@ -20,6 +20,8 @@ const ListTable = ({
   page,
   totalRowCount,
   changePage,
+  radioSetValue,
+  radioValue,
   select = false,
   link = false,
 }) => {
@@ -39,8 +41,8 @@ const ListTable = ({
               <Tr key={index}>
                 {select ? (
                   <Td>
-                    <RadioGroup>
-                      <Radio value={`${index}`}></Radio>
+                    <RadioGroup onChange={radioSetValue} value={radioValue}>
+                      <Radio value={JSON.stringify(x)}></Radio>
                     </RadioGroup>
                   </Td>
                 ) : (
