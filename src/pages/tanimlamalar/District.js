@@ -33,41 +33,45 @@ const DistrictList = () => {
 	);
 	const { data: citydata } = useSWR(['city', page], getCityList);
 
-	const { errors, handleChange, handleSubmit, values, setValues } =
-		useFormik({
-			initialValues: {
-				adTurkce: '',
-				adOrjinal: '',
-				adIng: '',
-				aciklama: '',
-				sehirId: Number,
-			},
-			onSubmit: (values, { resetForm }) => {
-				submitType === 'create'
-					? newDistrictSubmit({ values, mutate, errors, setValues })
-					: updateDistrictSubmit({
-							values,
-							mutate,
-							errors,
-							setValues,
-							id: JSON.parse(radioValue).id,
-					  });
-				resetForm();
-			},
-			validationSchema: districtValidate,
-		});
+	const {
+		errors,
+		handleChange,
+		handleSubmit,
+		values,
+		setValues,
+		touched,
+	} = useFormik({
+		initialValues: {
+			adTurkce: '',
+			adOrjinal: '',
+			adIng: '',
+			aciklama: '',
+			sehirId: Number,
+		},
+		onSubmit: (values, { resetForm }) => {
+			submitType === 'create'
+				? newDistrictSubmit({ values, mutate, errors, setValues })
+				: updateDistrictSubmit({
+						values,
+						mutate,
+						errors,
+						setValues,
+						id: JSON.parse(radioValue).id,
+				  });
+			resetForm();
+			document
+				.getElementsByClassName('chakra-modal__close-btn')[0]
+				.click();
+		},
+		validationSchema: districtValidate,
+	});
 
 	const loading = !error && !data;
 
 	const Head = ['#', 'ID', 'Ad Orjinal', 'Ad Türkçe', 'Ad Ingilizce'];
 	const DataHead = ['id', 'adOrjinal', 'adTurkce', 'adIngilizce'];
 
-	const newDistrictSubmit = async ({
-		values,
-		mutate,
-		errors,
-		setValues,
-	}) => {
+	const newDistrictSubmit = async ({ values, mutate }) => {
 		const { status } = await sendRequest(
 			getDistrictInsert('', {
 				aciklama: values.aciklama,
@@ -75,22 +79,12 @@ const DistrictList = () => {
 				adTurkce: values.adTurkce,
 				adIngilizce: values.adIng,
 				sehirId: values.sehirId,
-			}),
-			{
-				errors,
-				setValues,
-			}
+			})
 		);
 		status && mutate();
 	};
 
-	const updateDistrictSubmit = async ({
-		values,
-		mutate,
-		errors,
-		setValues,
-		id,
-	}) => {
+	const updateDistrictSubmit = async ({ values, mutate, id }) => {
 		const { status } = await sendRequest(
 			getDistrictUpdate('', {
 				id,
@@ -99,11 +93,7 @@ const DistrictList = () => {
 				adTurkce: values.adTurkce,
 				adIngilizce: values.adIng,
 				sehirId: values.sehirId,
-			}),
-			{
-				errors,
-				setValues,
-			}
+			})
 		);
 		status && mutate();
 	};
@@ -114,7 +104,7 @@ const DistrictList = () => {
 		);
 		status && mutate();
 	};
-	console.log(errors);
+
 	const NewDistrictComp = ({
 		handleChange,
 		values,
@@ -130,6 +120,7 @@ const DistrictList = () => {
 					name={'adOrjinal'}
 					value={values.adOrjinal}
 					onChange={handleChange}
+					error={touched.adOrjinal && errors.adOrjinal}
 				>
 					Orjinal Ad
 				</TextInput>
@@ -137,6 +128,7 @@ const DistrictList = () => {
 					name={'adTurkce'}
 					value={values.adTurkce}
 					onChange={handleChange}
+					error={touched.adTurkce && errors.adTurkce}
 				>
 					Türkçe Ad
 				</TextInput>
@@ -144,6 +136,7 @@ const DistrictList = () => {
 					name={'adIng'}
 					value={values.adIng}
 					onChange={handleChange}
+					error={touched.adIng && errors.adIng}
 				>
 					Ingilizce Ad
 				</TextInput>
@@ -153,6 +146,7 @@ const DistrictList = () => {
 					onChange={handleChange}
 					data={data}
 					visableValue={'adOrjinal'}
+					error={touched.sehirId && errors.sehirId}
 				>
 					Şehir
 				</SelectInput>
@@ -160,19 +154,11 @@ const DistrictList = () => {
 					name={'aciklama'}
 					value={values.aciklama}
 					onChange={handleChange}
+					error={touched.aciklama && errors.aciklama}
 				>
 					Acıklama
 				</TextInput>
-				<Button
-					type="submit"
-					onClick={() =>
-						document
-							.getElementsByClassName('chakra-modal__close-btn')[0]
-							.click()
-					}
-				>
-					Ekle
-				</Button>
+				<Button type="submit">Ekle</Button>
 			</form>
 		);
 	};

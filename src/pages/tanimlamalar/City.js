@@ -30,36 +30,45 @@ const CityList = () => {
 	const { data, mutate, error } = useSWR(['city', page], getCityList);
 	const { data: countrydata } = useSWR(['country', page], getCountryList);
 
-	const { errors, handleChange, handleSubmit, values, setValues } =
-		useFormik({
-			initialValues: {
-				adTurkce: '',
-				adOrjinal: '',
-				adIng: '',
-				aciklama: '',
-				ulkeId: Number,
-			},
-			onSubmit: (values, { resetForm }) => {
-				submitType === 'create'
-					? newCitySubmit({ values, mutate, errors, setValues })
-					: updateCitySubmit({
-							values,
-							mutate,
-							errors,
-							setValues,
-							id: JSON.parse(radioValue).id,
-					  });
-				resetForm();
-			},
-			validationSchema: cityValidate,
-		});
+	const {
+		errors,
+		handleChange,
+		handleSubmit,
+		values,
+		setValues,
+		touched,
+	} = useFormik({
+		initialValues: {
+			adTurkce: '',
+			adOrjinal: '',
+			adIng: '',
+			aciklama: '',
+			ulkeId: Number,
+		},
+		onSubmit: (values, { resetForm }) => {
+			submitType === 'create'
+				? newCitySubmit({ values, mutate, errors, setValues })
+				: updateCitySubmit({
+						values,
+						mutate,
+						errors,
+						setValues,
+						id: JSON.parse(radioValue).id,
+				  });
+			resetForm();
+			document
+				.getElementsByClassName('chakra-modal__close-btn')[0]
+				.click();
+		},
+		validationSchema: cityValidate,
+	});
 
 	const loading = !error && !data;
 
 	const Head = ['#', 'ID', 'Ad Orjinal', 'Ad Türkçe', 'Ad Ingilizce'];
 	const DataHead = ['id', 'adOrjinal', 'adTurkce', 'adIngilizce'];
 
-	const newCitySubmit = async ({ values, mutate, errors, setValues }) => {
+	const newCitySubmit = async ({ values, mutate }) => {
 		const { status } = await sendRequest(
 			getCityInsert('', {
 				aciklama: values.aciklama,
@@ -67,22 +76,12 @@ const CityList = () => {
 				adTurkce: values.adTurkce,
 				adIngilizce: values.adIng,
 				ulkeId: values.ulkeId,
-			}),
-			{
-				errors,
-				setValues,
-			}
+			})
 		);
 		status && mutate();
 	};
 
-	const updateCitySubmit = async ({
-		values,
-		mutate,
-		errors,
-		setValues,
-		id,
-	}) => {
+	const updateCitySubmit = async ({ values, mutate, id }) => {
 		const { status } = await sendRequest(
 			getCityUpdate('', {
 				id,
@@ -91,11 +90,7 @@ const CityList = () => {
 				adTurkce: values.adTurkce,
 				adIngilizce: values.adIng,
 				ulkeId: values.ulkeId,
-			}),
-			{
-				errors,
-				setValues,
-			}
+			})
 		);
 		status && mutate();
 	};
@@ -117,6 +112,7 @@ const CityList = () => {
 					name={'adOrjinal'}
 					value={values.adOrjinal}
 					onChange={handleChange}
+					error={touched.adOrjinal && errors.adOrjinal}
 				>
 					Orjinal Ad
 				</TextInput>
@@ -124,6 +120,7 @@ const CityList = () => {
 					name={'adTurkce'}
 					value={values.adTurkce}
 					onChange={handleChange}
+					error={touched.adTurkce && errors.adTurkce}
 				>
 					Türkçe Ad
 				</TextInput>
@@ -131,6 +128,7 @@ const CityList = () => {
 					name={'adIng'}
 					value={values.adIng}
 					onChange={handleChange}
+					error={touched.adIng && errors.adIng}
 				>
 					Ingilizce Ad
 				</TextInput>
@@ -140,6 +138,7 @@ const CityList = () => {
 					onChange={handleChange}
 					data={data}
 					visableValue={'adOrjinal'}
+					error={touched.ulkeId && errors.ulkeId}
 				>
 					Ülke
 				</SelectInput>
@@ -147,19 +146,11 @@ const CityList = () => {
 					name={'aciklama'}
 					value={values.aciklama}
 					onChange={handleChange}
+					error={touched.aciklama && errors.aciklama}
 				>
 					Acıklama
 				</TextInput>
-				<Button
-					type="submit"
-					onClick={() =>
-						document
-							.getElementsByClassName('chakra-modal__close-btn')[0]
-							.click()
-					}
-				>
-					Ekle
-				</Button>
+				<Button type="submit">Ekle</Button>
 			</form>
 		);
 	};

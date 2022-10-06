@@ -25,58 +25,52 @@ const UnitType = () => {
 
 	const { data, mutate, error } = useSWR(['_', page], getUnitTypeList);
 
-	const { errors, handleChange, handleSubmit, values, setValues } =
-		useFormik({
-			initialValues: {
-				ad: '',
-				aciklama: '',
-			},
-			onSubmit: (values, { resetForm }) => {
-				submitType === 'create'
-					? newCountrySubmit({ values, mutate, errors, setValues })
-					: updateCountrySubmit({
-							values,
-							mutate,
-							errors,
-							setValues,
-							id: JSON.parse(radioValue).id,
-					  });
-				resetForm();
-			},
-			validationSchema: UnitTypeValidate,
-		});
+	const {
+		errors,
+		handleChange,
+		handleSubmit,
+		values,
+		setValues,
+		touched,
+	} = useFormik({
+		initialValues: {
+			ad: '',
+			aciklama: '',
+		},
+		onSubmit: (values, { resetForm }) => {
+			submitType === 'create'
+				? newCountrySubmit({ values, mutate, errors, setValues })
+				: updateCountrySubmit({
+						values,
+						mutate,
+						errors,
+						setValues,
+						id: JSON.parse(radioValue).id,
+				  });
+			resetForm();
+			document
+				.getElementsByClassName('chakra-modal__close-btn')[0]
+				.click();
+		},
+		validationSchema: UnitTypeValidate,
+	});
 
 	const loading = !error && !data;
 
 	const Head = ['#', 'ID', 'Ad', 'Açıklama'];
 	const DataHead = ['id', 'ad', 'aciklama'];
 
-	const newCountrySubmit = async ({
-		values,
-		mutate,
-		errors,
-		setValues,
-	}) => {
+	const newCountrySubmit = async ({ values, mutate }) => {
 		const { status } = await sendRequest(
 			getUnitTypeInsert('', {
 				aciklama: values.aciklama,
 				ad: values.ad,
-			}),
-			{
-				errors,
-				setValues,
-			}
+			})
 		);
 		status && mutate();
 	};
 
-	const updateCountrySubmit = async ({
-		values,
-		mutate,
-		errors,
-		setValues,
-		id,
-	}) => {
+	const updateCountrySubmit = async ({ values, mutate, id }) => {
 		const { status } = await sendRequest(
 			getUnitTypeUpdate('', {
 				id,
@@ -84,11 +78,7 @@ const UnitType = () => {
 				adOrjinal: values.adOrjinal,
 				adTurkce: values.adTurkce,
 				adIngilizce: values.adIng,
-			}),
-			{
-				errors,
-				setValues,
-			}
+			})
 		);
 		status && mutate();
 	};
@@ -115,6 +105,7 @@ const UnitType = () => {
 					name={'ad'}
 					value={values.ad}
 					onChange={handleChange}
+					error={touched.ad && errors.ad}
 				>
 					Ad
 				</TextInput>
@@ -122,19 +113,11 @@ const UnitType = () => {
 					name={'aciklama'}
 					value={values.aciklama}
 					onChange={handleChange}
+					error={touched.aciklama && errors.aciklama}
 				>
 					Acıklama
 				</TextInput>
-				<Button
-					type="submit"
-					onClick={() =>
-						document
-							.getElementsByClassName('chakra-modal__close-btn')[0]
-							.click()
-					}
-				>
-					Ekle
-				</Button>
+				<Button type="submit">Ekle</Button>
 			</form>
 		);
 	};
