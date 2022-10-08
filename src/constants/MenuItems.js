@@ -104,8 +104,8 @@ export const menuItems = [
 				route: 'birimtipi',
 			},
 			{
-				title: 'Ülkeler',
-				route: 'ülkeler',
+				title: 'Taşıma Tipi',
+				route: 'tasimatipi',
 			},
 		],
 	},

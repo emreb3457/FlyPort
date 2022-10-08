@@ -204,3 +204,29 @@ export const getTransportTypeRemove = async (_, id) => {
 		.then((res) => res.data);
 };
 //Transport Api - End
+
+//Delivery Api - Start
+export const getDeliveryList = async (_, page) => {
+	return await instance
+		.get('/TeslimatTipi/SayfaliListele?page=' + page)
+		.then((res) => res.data);
+};
+
+export const getDelivery = async (_, id) => {
+	return await instance.get('/TeslimatTipi/Bul/' + id).then((res) => res.data);
+};
+
+export const getDeliveryInsert = async (_, body) => {
+	return await instance.post('/TeslimatTipi/Ekle', body).then((res) => res.data);
+};
+
+export const getDeliveryUpdate = async (_, body) => {
+	return await instance
+		.post('/TeslimatTipi/Guncelle', body)
+		.then((res) => res.data);
+};
+
+export const getDeliveryRemove = async (_, id) => {
+	return await instance.get('/TeslimatTipi/Sil?id=' + id).then((res) => res.data);
+};
+//Country Api - End

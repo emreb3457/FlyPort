@@ -2,100 +2,112 @@ import { Box, Button, Input } from '@chakra-ui/react';
 import BreadCrumb from '../../components/BreadCrumb/BreadCrumb';
 import ListTable from '../../components/Talepler/ProductListTable/ListTable';
 import useSWR from 'swr';
-import {
-	getCityInsert,
-	getCityList,
-	getCityRemove,
-	getCityUpdate,
-	getCountryList,
-} from '../../api/DefinitionsApi';
 import BasicModal from '../../helpers/Modal';
 import SkeletonComp from '../../components/Skeleton/Skeleton';
 import { useModalStatus } from '../../hooks/useModalStatus';
-import {
-	SelectInput,
-	TextInput,
-} from '../../components/Inputs/CustomInputs';
+import { TextInput } from '../../components/Inputs/CustomInputs';
 import React, { useState } from 'react';
 import { useFormik } from 'formik';
-import { cityValidate } from '../../utils/validation';
+import { countryValidate } from '../../utils/validation';
 import { sendRequest } from '../../utils/helpers';
+import {
+	getTalepInsert,
+	getTalepList,
+	getTalepRemove,
+	getTalepUpdate,
+} from '../../api/talepApi';
+import { useNavigate } from 'react-router-dom';
+import { routes } from '../../constants/routes';
 
-const CityList = () => {
+const DemandList = () => {
+	const navigate = useNavigate();
 	const { clickFunct, isClick } = useModalStatus();
 	const [page, setPage] = useState(0);
 	const [radioValue, setRadioValue] = React.useState({});
 	const [submitType, setSubmitType] = React.useState('');
 
-	const { data, mutate, error } = useSWR(['getCity', page], getCityList);
-	const { data: countrydata } = useSWR(
-		['getCountry', page],
-		getCountryList
-	);
+	const { data, mutate, error } = useSWR(['_', page], getTalepList);
 
 	const {
 		errors,
 		handleChange,
 		handleSubmit,
 		values,
-		setValues,
 		touched,
+		setValues,
 	} = useFormik({
 		initialValues: {
 			adTurkce: '',
 			adOrjinal: '',
-			adIngilizce: '',
+			adIng: '',
 			aciklama: '',
-			ulkeId: Number,
 		},
 		onSubmit: (values, { resetForm }) => {
 			submitType === 'create'
-				? newCitySubmit({ values, mutate })
-				: updateCitySubmit({
+				? newDemandSubmit({ values, mutate })
+				: updateDemandSubmit({
 						values,
 						mutate,
 						id: JSON.parse(radioValue).id,
 				  });
+
 			resetForm();
 			document
 				.getElementsByClassName('chakra-modal__close-btn')[0]
 				.click();
 		},
-		validationSchema: cityValidate,
+		validationSchema: countryValidate,
 	});
 
 	const loading = !error && !data;
-
-	const Head = ['#', 'ID', 'Ad Orjinal', 'Ad Türkçe', 'Ad Ingilizce'];
+	const Head = [
+		'#',
+		'ID',
+		'Tarih',
+		'Müşteri',
+		'Ürün',
+		'Teknik Özellik',
+		'İstenen Miktar',
+		'Üretici Ülkesi',
+		'Varış Ülkesi',
+		'Sorumlu',
+		'Kalan Süre',
+	];
 	const DataHead = ['id', 'adOrjinal', 'adTurkce', 'adIngilizce'];
 
-	const newCitySubmit = async ({ values, mutate }) => {
+	const newDemandSubmit = async ({ values, mutate }) => {
 		const { status } = await sendRequest(
-			getCityInsert('', {
-				...values,
+			getTalepInsert('', {
+				aciklama: values.aciklama,
+				adOrjinal: values.adOrjinal,
+				adTurkce: values.adTurkce,
+				adIngilizce: values.adIng,
 			})
 		);
 		status && mutate();
 	};
 
-	const updateCitySubmit = async ({ values, mutate, id }) => {
+	const updateDemandSubmit = async ({ values, mutate, id }) => {
 		const { status } = await sendRequest(
-			getCityUpdate('', {
+			getTalepUpdate('', {
 				id,
-				...values,
+				aciklama: values.aciklama,
+				adOrjinal: values.adOrjinal,
+				adTurkce: values.adTurkce,
+				adIngilizce: values.adIng,
 			})
 		);
 		status && mutate();
 	};
 
-	const removeCity = async ({ radioValue, mutate }) => {
+	const removeDemand = async ({ radioValue, mutate }) => {
 		const { status } = await sendRequest(
-			getCityRemove('_', JSON.parse(radioValue).id)
+			getTalepRemove('_', JSON.parse(radioValue).id)
 		);
 		status && mutate();
 	};
 
-	const NewCityComp = ({ handleChange, values, handleSubmit, data }) => {
+	const NewDemandComp = ({ handleChange, values, handleSubmit }) => {
 		return (
 			<form
 				onSubmit={handleSubmit}
@@ -105,7 +117,7 @@ const CityList = () => {
 					name={'adOrjinal'}
 					value={values.adOrjinal}
 					onChange={handleChange}
-					error={touched.adOrjinal && errors.adOrjinal}
+					error={touched?.adOrjinal && errors.adOrjinal}
 				>
 					Orjinal Ad
 				</TextInput>
@@ -113,33 +125,23 @@ const CityList = () => {
 					name={'adTurkce'}
 					value={values.adTurkce}
 					onChange={handleChange}
-					error={touched.adTurkce && errors.adTurkce}
+					error={touched?.adTurkce && errors.adTurkce}
 				>
 					Türkçe Ad
 				</TextInput>
 				<TextInput
-					name={'adIngilizce'}
-					value={values.adIngilizce}
+					name={'adIng'}
+					value={values.adIng}
 					onChange={handleChange}
-					error={touched.adIngilizce && errors.adIngilizce}
+					error={touched?.adIng && errors.adIng}
 				>
 					Ingilizce Ad
 				</TextInput>
-				<SelectInput
-					name={'ulkeId'}
-					value={values.ulkeId}
-					onChange={handleChange}
-					data={data}
-					visableValue={'adOrjinal'}
-					error={touched.ulkeId && errors.ulkeId}
-				>
-					Ülke
-				</SelectInput>
 				<TextInput
 					name={'aciklama'}
 					value={values.aciklama}
 					onChange={handleChange}
-					error={touched.aciklama && errors.aciklama}
+					error={touched?.aciklama && errors.aciklama}
 				>
 					Acıklama
 				</TextInput>
@@ -156,8 +158,7 @@ const CityList = () => {
 				funct1={{
 					title: 'Yeni Ekle',
 					function: () => {
-						setSubmitType('create');
-						clickFunct();
+						navigate(routes.yenitalep);
 					},
 				}}
 				funct2={{
@@ -166,7 +167,10 @@ const CityList = () => {
 						setSubmitType('update');
 						const radiovalue = JSON.parse(radioValue);
 						setValues({
-							...radiovalue,
+							adTurkce: radiovalue.adTurkce,
+							adIng: radiovalue.adIngilizce,
+							adOrjinal: radiovalue.adOrjinal,
+							aciklama: radiovalue.aciklama,
 						});
 						clickFunct();
 					},
@@ -175,11 +179,11 @@ const CityList = () => {
 					title: 'Sil',
 					function: () => {
 						setSubmitType('delete');
-						removeCity({ radioValue, mutate });
+						removeDemand({ radioValue, mutate });
 					},
 				}}
 			>
-				Şehirler
+				Talepler
 			</BreadCrumb>
 			<Box
 				mt="20px"
@@ -202,14 +206,9 @@ const CityList = () => {
 				click={isClick}
 				title={'Yeni Ülke Ekle'}
 				formik={{ handleChange, handleSubmit, values }}
-				component={NewCityComp({
-					handleChange,
-					values,
-					handleSubmit,
-					data: countrydata?.data,
-				})}
+				component={NewDemandComp({ handleChange, values, handleSubmit })}
 			/>
 		</Box>
 	);
 };
-export default React.memo(CityList);
+export default React.memo(DemandList);

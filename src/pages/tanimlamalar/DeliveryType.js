@@ -3,34 +3,32 @@ import BreadCrumb from '../../components/BreadCrumb/BreadCrumb';
 import ListTable from '../../components/Talepler/ProductListTable/ListTable';
 import useSWR from 'swr';
 import {
-	getCityInsert,
-	getCityList,
-	getCityRemove,
-	getCityUpdate,
-	getCountryList,
+	getDeliveryInsert,
+	getDeliveryList,
+	getDeliveryRemove,
+	getDeliveryUpdate,
 } from '../../api/DefinitionsApi';
 import BasicModal from '../../helpers/Modal';
 import SkeletonComp from '../../components/Skeleton/Skeleton';
 import { useModalStatus } from '../../hooks/useModalStatus';
-import {
-	SelectInput,
-	TextInput,
-} from '../../components/Inputs/CustomInputs';
+import { TextInput } from '../../components/Inputs/CustomInputs';
 import React, { useState } from 'react';
 import { useFormik } from 'formik';
-import { cityValidate } from '../../utils/validation';
+import {
+	countryValidate,
+	DeliveryTypeValidate,
+} from '../../utils/validation';
 import { sendRequest } from '../../utils/helpers';
 
-const CityList = () => {
+const DeliveryType = () => {
 	const { clickFunct, isClick } = useModalStatus();
 	const [page, setPage] = useState(0);
 	const [radioValue, setRadioValue] = React.useState({});
 	const [submitType, setSubmitType] = React.useState('');
 
-	const { data, mutate, error } = useSWR(['getCity', page], getCityList);
-	const { data: countrydata } = useSWR(
-		['getCountry', page],
-		getCountryList
+	const { data, mutate, error } = useSWR(
+		['getDelivery', page],
+		getDeliveryList
 	);
 
 	const {
@@ -38,49 +36,45 @@ const CityList = () => {
 		handleChange,
 		handleSubmit,
 		values,
-		setValues,
 		touched,
+		setValues,
 	} = useFormik({
 		initialValues: {
-			adTurkce: '',
-			adOrjinal: '',
-			adIngilizce: '',
+			ad: '',
 			aciklama: '',
-			ulkeId: Number,
 		},
 		onSubmit: (values, { resetForm }) => {
 			submitType === 'create'
-				? newCitySubmit({ values, mutate })
-				: updateCitySubmit({
+				? newDeliverySubmit({ values, mutate })
+				: updateDeliverySubmit({
 						values,
 						mutate,
 						id: JSON.parse(radioValue).id,
 				  });
+
 			resetForm();
 			document
 				.getElementsByClassName('chakra-modal__close-btn')[0]
 				.click();
 		},
-		validationSchema: cityValidate,
+		validationSchema: DeliveryTypeValidate,
 	});
 
 	const loading = !error && !data;
 
-	const Head = ['#', 'ID', 'Ad Orjinal', 'Ad Türkçe', 'Ad Ingilizce'];
-	const DataHead = ['id', 'adOrjinal', 'adTurkce', 'adIngilizce'];
+	const Head = ['#', 'ID', 'Ad', 'Açıklama'];
+	const DataHead = ['id', 'ad', 'aciklama'];
 
-	const newCitySubmit = async ({ values, mutate }) => {
+	const newDeliverySubmit = async ({ mutate }) => {
 		const { status } = await sendRequest(
-			getCityInsert('', {
-				...values,
-			})
+			getDeliveryInsert('', { ...values })
 		);
 		status && mutate();
 	};
 
-	const updateCitySubmit = async ({ values, mutate, id }) => {
+	const updateDeliverySubmit = async ({ mutate, id }) => {
 		const { status } = await sendRequest(
-			getCityUpdate('', {
+			getDeliveryUpdate('', {
 				id,
 				...values,
 			})
@@ -88,58 +82,32 @@ const CityList = () => {
 		status && mutate();
 	};
 
-	const removeCity = async ({ radioValue, mutate }) => {
+	const removeDelivery = async ({ radioValue, mutate }) => {
 		const { status } = await sendRequest(
-			getCityRemove('_', JSON.parse(radioValue).id)
+			getDeliveryRemove('_', JSON.parse(radioValue).id)
 		);
 		status && mutate();
 	};
 
-	const NewCityComp = ({ handleChange, values, handleSubmit, data }) => {
+	const NewDeliveryComp = ({ handleChange, values, handleSubmit }) => {
 		return (
 			<form
 				onSubmit={handleSubmit}
 				style={{ padding: '10px 0' }}
 			>
 				<TextInput
-					name={'adOrjinal'}
-					value={values.adOrjinal}
+					name={'ad'}
+					value={values.ad}
 					onChange={handleChange}
-					error={touched.adOrjinal && errors.adOrjinal}
+					error={touched?.ad && errors.ad}
 				>
-					Orjinal Ad
+					Ad
 				</TextInput>
-				<TextInput
-					name={'adTurkce'}
-					value={values.adTurkce}
-					onChange={handleChange}
-					error={touched.adTurkce && errors.adTurkce}
-				>
-					Türkçe Ad
-				</TextInput>
-				<TextInput
-					name={'adIngilizce'}
-					value={values.adIngilizce}
-					onChange={handleChange}
-					error={touched.adIngilizce && errors.adIngilizce}
-				>
-					Ingilizce Ad
-				</TextInput>
-				<SelectInput
-					name={'ulkeId'}
-					value={values.ulkeId}
-					onChange={handleChange}
-					data={data}
-					visableValue={'adOrjinal'}
-					error={touched.ulkeId && errors.ulkeId}
-				>
-					Ülke
-				</SelectInput>
 				<TextInput
 					name={'aciklama'}
 					value={values.aciklama}
 					onChange={handleChange}
-					error={touched.aciklama && errors.aciklama}
+					error={touched?.aciklama && errors.aciklama}
 				>
 					Acıklama
 				</TextInput>
@@ -175,11 +143,11 @@ const CityList = () => {
 					title: 'Sil',
 					function: () => {
 						setSubmitType('delete');
-						removeCity({ radioValue, mutate });
+						removeDelivery({ radioValue, mutate });
 					},
 				}}
 			>
-				Şehirler
+				Taşıma Tipi
 			</BreadCrumb>
 			<Box
 				mt="20px"
@@ -200,16 +168,11 @@ const CityList = () => {
 			</Box>
 			<BasicModal
 				click={isClick}
-				title={'Yeni Ülke Ekle'}
+				title={'Taşıma Tipi Ekle'}
 				formik={{ handleChange, handleSubmit, values }}
-				component={NewCityComp({
-					handleChange,
-					values,
-					handleSubmit,
-					data: countrydata?.data,
-				})}
+				component={NewDeliveryComp({ handleChange, values, handleSubmit })}
 			/>
 		</Box>
 	);
 };
-export default React.memo(CityList);
+export default React.memo(DeliveryType);

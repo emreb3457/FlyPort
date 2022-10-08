@@ -23,7 +23,10 @@ const UnitType = () => {
 	const [radioValue, setRadioValue] = React.useState({});
 	const [submitType, setSubmitType] = React.useState('');
 
-	const { data, mutate, error } = useSWR(['_', page], getUnitTypeList);
+	const { data, mutate, error } = useSWR(
+		['getUnitType', page],
+		getUnitTypeList
+	);
 
 	const {
 		errors,
@@ -63,8 +66,7 @@ const UnitType = () => {
 	const newCountrySubmit = async ({ values, mutate }) => {
 		const { status } = await sendRequest(
 			getUnitTypeInsert('', {
-				aciklama: values.aciklama,
-				ad: values.ad,
+				...values,
 			})
 		);
 		status && mutate();
@@ -74,10 +76,7 @@ const UnitType = () => {
 		const { status } = await sendRequest(
 			getUnitTypeUpdate('', {
 				id,
-				aciklama: values.aciklama,
-				adOrjinal: values.adOrjinal,
-				adTurkce: values.adTurkce,
-				adIngilizce: values.adIng,
+				...values,
 			})
 		);
 		status && mutate();
@@ -90,12 +89,7 @@ const UnitType = () => {
 		status && mutate();
 	};
 
-	const NewCountryComp = ({
-		submitType,
-		handleChange,
-		values,
-		handleSubmit,
-	}) => {
+	const NewCountryComp = ({ handleChange, values, handleSubmit }) => {
 		return (
 			<form
 				onSubmit={handleSubmit}
@@ -121,7 +115,6 @@ const UnitType = () => {
 			</form>
 		);
 	};
-
 	return loading ? (
 		<SkeletonComp />
 	) : (
@@ -140,10 +133,7 @@ const UnitType = () => {
 						setSubmitType('update');
 						const radiovalue = JSON.parse(radioValue);
 						setValues({
-							adTurkce: radiovalue.adTurkce,
-							adIng: radiovalue.adIngilizce,
-							adOrjinal: radiovalue.adOrjinal,
-							aciklama: radiovalue.aciklama,
+							...radiovalue,
 						});
 						clickFunct();
 					},

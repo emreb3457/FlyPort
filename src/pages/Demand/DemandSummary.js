@@ -3,8 +3,8 @@ import { Fragment, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { toast } from "react-toastify";
 import useSWR from "swr";
-import { getTalepList } from "../api/talepApi";
-import SkeletonComp from "../components/Skeleton/Skeleton";
+import { getTalepList } from "../../api/talepApi";
+import SkeletonComp from "../../components/Skeleton/Skeleton";
 const DemandSummary = () => {
   return (
     <Box display={"flex"} mt="40px" px={"38px"}>

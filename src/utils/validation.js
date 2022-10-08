@@ -14,14 +14,14 @@ export const loginValidate = yup.object().shape({
 export const countryValidate = yup.object().shape({
 	adTurkce: yup.string().required('Zorunlu alan.'),
 	adOrjinal: yup.string().required('Zorunlu alan.'),
-	adIng: yup.string().required('Zorunlu alan.'),
+	adIngilizce: yup.string().required('Zorunlu alan.'),
 	aciklama: yup.string(),
 });
 
 export const cityValidate = yup.object().shape({
 	adTurkce: yup.string().required('Zorunlu alan.'),
 	adOrjinal: yup.string().required('Zorunlu alan.'),
-	adIng: yup.string().required('Zorunlu alan.'),
+	adIngilizce: yup.string().required('Zorunlu alan.'),
 	ulkeId: yup.number().required('Zorunlu alan.'),
 	aciklama: yup.string(),
 });
@@ -29,12 +29,17 @@ export const cityValidate = yup.object().shape({
 export const districtValidate = yup.object().shape({
 	adTurkce: yup.string().required('Zorunlu alan.'),
 	adOrjinal: yup.string().required('Zorunlu alan.'),
-	adIng: yup.string().required('Zorunlu alan.'),
+	adIngilizce: yup.string().required('Zorunlu alan.'),
 	sehirId: yup.number().required('Zorunlu alan.'),
 	aciklama: yup.string(),
 });
 
 export const UnitTypeValidate = yup.object().shape({
+	ad: yup.string().required('Zorunlu alan.'),
+	aciklama: yup.string(),
+});
+
+export const DeliveryTypeValidate = yup.object().shape({
 	ad: yup.string().required('Zorunlu alan.'),
 	aciklama: yup.string(),
 });

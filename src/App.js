@@ -3,7 +3,7 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { Fragment } from 'react';
 import ProtectedRoute from "./utils/ProtectedRoute"
 import Home from './pages/Home';
-import DemandSummary from './pages/DemandSummary';
+import DemandSummary from './pages/Demand/DemandSummary';
 import ProductList from './pages/ProductList';
 import ListMenu from './components/Talepler/ListMenu/ListMenu';
 import ProductDetail from './pages/ProductDetail';
@@ -21,11 +21,13 @@ import Offers from './pages/Offers';
 import OffersDetail from './pages/OffersDetail';
 import Offers2 from './pages/Offers2';
 import OffersCard from './pages/OffersCard';
-import DemandList from './pages/DemandList';
+import DemandList from './pages/Demand/DemandList';
 import CountryList from './pages/tanimlamalar/Country';
 import UnitType from './pages/tanimlamalar/UnitType';
 import City from './pages/tanimlamalar/City';
 import District from './pages/tanimlamalar/District';
+import NewDemand from './pages/Demand/NewDemand';
+import DeliveryType from './pages/tanimlamalar/DeliveryType';
 const App = () => {
   return (
     <Fragment>
@@ -34,6 +36,7 @@ const App = () => {
           <Routes>
             <Route path="/" element={<Home />} exact />
             <Route path="/talepler" element={<ProtectedRoute><DemandList/></ProtectedRoute>} exact />
+            <Route path="/talepler/yeni" element={<ProtectedRoute><NewDemand/></ProtectedRoute>} exact />
             <Route path="/:id/:id/:id/urunlistesi" element={<ProtectedRoute><ProductList /></ProtectedRoute>} exact />
             <Route path="/:id/:id/:id/urunlistesi/:id" element={<ProtectedRoute><ProductDetail /></ProtectedRoute>} exact />
 
@@ -62,7 +65,7 @@ const App = () => {
             <Route path="/tanimlamalar/birimtipi" element={<ProtectedRoute><UnitType /></ProtectedRoute>} exact />
             <Route path="/tanimlamalar/sehirler" element={<ProtectedRoute><City /></ProtectedRoute>} exact />
             <Route path="/tanimlamalar/ilceler" element={<ProtectedRoute><District /></ProtectedRoute>} exact />
-
+            <Route path="/tanimlamalar/tasimatipi" element={<ProtectedRoute><DeliveryType /></ProtectedRoute>} exact />
             <Route path='*' element={<div>NOT FOUND</div>} />
           </Routes>
         </ListMenu>

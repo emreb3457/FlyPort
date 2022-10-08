@@ -28,10 +28,10 @@ const DistrictList = () => {
 	const [submitType, setSubmitType] = React.useState('');
 
 	const { data, mutate, error } = useSWR(
-		['district', page],
+		['getDistrict', page],
 		getDistrictList
 	);
-	const { data: citydata } = useSWR(['city', page], getCityList);
+	const { data: citydata } = useSWR(['getCity', page], getCityList);
 
 	const {
 		errors,
@@ -44,7 +44,7 @@ const DistrictList = () => {
 		initialValues: {
 			adTurkce: '',
 			adOrjinal: '',
-			adIng: '',
+			adIngilizce: '',
 			aciklama: '',
 			sehirId: Number,
 		},
@@ -74,11 +74,7 @@ const DistrictList = () => {
 	const newDistrictSubmit = async ({ values, mutate }) => {
 		const { status } = await sendRequest(
 			getDistrictInsert('', {
-				aciklama: values.aciklama,
-				adOrjinal: values.adOrjinal,
-				adTurkce: values.adTurkce,
-				adIngilizce: values.adIng,
-				sehirId: values.sehirId,
+				...values,
 			})
 		);
 		status && mutate();
@@ -88,11 +84,7 @@ const DistrictList = () => {
 		const { status } = await sendRequest(
 			getDistrictUpdate('', {
 				id,
-				aciklama: values.aciklama,
-				adOrjinal: values.adOrjinal,
-				adTurkce: values.adTurkce,
-				adIngilizce: values.adIng,
-				sehirId: values.sehirId,
+				...values,
 			})
 		);
 		status && mutate();
@@ -133,10 +125,10 @@ const DistrictList = () => {
 					Türkçe Ad
 				</TextInput>
 				<TextInput
-					name={'adIng'}
-					value={values.adIng}
+					name={'adIngilizce'}
+					value={values.adIngilizce}
 					onChange={handleChange}
-					error={touched.adIng && errors.adIng}
+					error={touched.adIngilizce && errors.adIngilizce}
 				>
 					Ingilizce Ad
 				</TextInput>
@@ -181,11 +173,7 @@ const DistrictList = () => {
 						setSubmitType('update');
 						const radiovalue = JSON.parse(radioValue);
 						setValues({
-							adTurkce: radiovalue.adTurkce,
-							adIng: radiovalue.adIngilizce,
-							adOrjinal: radiovalue.adOrjinal,
-							aciklama: radiovalue.aciklama,
-							sehirId: radiovalue.sehirId,
+							...radiovalue,
 						});
 						clickFunct();
 					},

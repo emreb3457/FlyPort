@@ -23,7 +23,10 @@ const CountryList = () => {
 	const [radioValue, setRadioValue] = React.useState({});
 	const [submitType, setSubmitType] = React.useState('');
 
-	const { data, mutate, error } = useSWR(['_', page], getCountryList);
+	const { data, mutate, error } = useSWR(
+		['getCountry', page],
+		getCountryList
+	);
 
 	const {
 		errors,
@@ -36,7 +39,7 @@ const CountryList = () => {
 		initialValues: {
 			adTurkce: '',
 			adOrjinal: '',
-			adIng: '',
+			adIngilizce: '',
 			aciklama: '',
 		},
 		onSubmit: (values, { resetForm }) => {
@@ -64,10 +67,7 @@ const CountryList = () => {
 	const newCountrySubmit = async ({ values, mutate }) => {
 		const { status } = await sendRequest(
 			getCountryInsert('', {
-				aciklama: values.aciklama,
-				adOrjinal: values.adOrjinal,
-				adTurkce: values.adTurkce,
-				adIngilizce: values.adIng,
+				...values,
 			})
 		);
 		status && mutate();
@@ -77,10 +77,7 @@ const CountryList = () => {
 		const { status } = await sendRequest(
 			getCountryUpdate('', {
 				id,
-				aciklama: values.aciklama,
-				adOrjinal: values.adOrjinal,
-				adTurkce: values.adTurkce,
-				adIngilizce: values.adIng,
+				...values,
 			})
 		);
 		status && mutate();
@@ -116,10 +113,10 @@ const CountryList = () => {
 					Türkçe Ad
 				</TextInput>
 				<TextInput
-					name={'adIng'}
-					value={values.adIng}
+					name={'adIngilizce'}
+					value={values.adIngilizce}
 					onChange={handleChange}
-					error={touched?.adIng && errors.adIng}
+					error={touched?.adIngilizce && errors.adIngilizce}
 				>
 					Ingilizce Ad
 				</TextInput>
@@ -154,10 +151,7 @@ const CountryList = () => {
 						setSubmitType('update');
 						const radiovalue = JSON.parse(radioValue);
 						setValues({
-							adTurkce: radiovalue.adTurkce,
-							adIng: radiovalue.adIngilizce,
-							adOrjinal: radiovalue.adOrjinal,
-							aciklama: radiovalue.aciklama,
+							...radiovalue,
 						});
 						clickFunct();
 					},
