@@ -3,11 +3,11 @@ import BreadCrumb from '../../components/BreadCrumb/BreadCrumb';
 import ListTable from '../../components/Talepler/ProductListTable/ListTable';
 import useSWR from 'swr';
 import {
-	getDistrictInsert,
-	getDistrictList,
-	getDistrictRemove,
-	getDistrictUpdate,
-	getCityList,
+	getProductPropertyList,
+	getProductPropertyValueInsert,
+	getProductPropertyValueList,
+	getProductPropertyValueRemove,
+	getProductPropertyValueUpdate,
 } from '../../api/DefinitionsApi';
 import BasicModal from '../../helpers/Modal';
 import SkeletonComp from '../../components/Skeleton/Skeleton';
@@ -18,71 +18,76 @@ import {
 } from '../../components/Inputs/CustomInputs';
 import React, { useState } from 'react';
 import { useFormik } from 'formik';
-import { districtValidate } from '../../utils/validation';
+import { ProductPropertyValueValidate } from '../../utils/validation';
 import { sendRequest } from '../../utils/helpers';
 
-const DistrictList = () => {
+const ProductPropertyValue = () => {
 	const { clickFunct, isClick } = useModalStatus();
 	const [page, setPage] = useState(0);
 	const [radioValue, setRadioValue] = React.useState({});
 	const [submitType, setSubmitType] = React.useState('');
 
 	const { data, mutate, error } = useSWR(
-		['getDistrict', page],
-		getDistrictList
+		['getProductPropertyValue', page],
+		getProductPropertyValueList
 	);
-	const { data: citydata } = useSWR(['getCity', page], getCityList);
+
+	const { data: ProductProperty } = useSWR(
+		['getProductProperty', page],
+		getProductPropertyList
+	);
 
 	const {
 		errors,
 		handleChange,
 		handleSubmit,
 		values,
-		setValues,
 		touched,
+		setValues,
 	} = useFormik({
 		initialValues: {
-			adTurkce: '',
-			adOrjinal: '',
-			adIngilizce: '',
+			ad: '',
 			aciklama: '',
-			sehirId: Number,
+			nitelikId: '',
 		},
 		onSubmit: (values, { resetForm }) => {
 			submitType === 'create'
-				? newDistrictSubmit({ values, mutate, errors, setValues })
-				: updateDistrictSubmit({
+				? newProductPropertyValueSubmit({ values, mutate })
+				: updateProductPropertyValueSubmit({
 						values,
 						mutate,
-						errors,
-						setValues,
 						id: JSON.parse(radioValue).id,
 				  });
+
 			resetForm();
 			document
 				.getElementsByClassName('chakra-modal__close-btn')[0]
 				.click();
 		},
-		validationSchema: districtValidate,
+		validationSchema: ProductPropertyValueValidate,
 	});
 
 	const loading = !error && !data;
 
-	const Head = ['#', 'ID', 'Ad Orjinal', 'Ad Türkçe', 'Ad Ingilizce'];
-	const DataHead = ['id', 'adOrjinal', 'adTurkce', 'adIngilizce'];
+	const Head = ['#', 'ID', 'Ad ', 'Nitelik', 'Açıklama'];
+	const DataHead = ['id', 'ad', 'nitelikAd', 'aciklama'];
 
-	const newDistrictSubmit = async ({ values, mutate }) => {
+	const newProductPropertyValueSubmit = async ({ values, mutate }) => {
 		const { status } = await sendRequest(
-			getDistrictInsert('', {
+			getProductPropertyValueInsert('', {
 				...values,
 			})
 		);
 		status && mutate();
 	};
 
-	const updateDistrictSubmit = async ({ values, mutate, id }) => {
+	const updateProductPropertyValueSubmit = async ({
+		values,
+		mutate,
+		id,
+	}) => {
 		const { status } = await sendRequest(
-			getDistrictUpdate('', {
+			getProductPropertyValueUpdate('', {
 				id,
 				...values,
 			})
@@ -90,14 +95,14 @@ const DistrictList = () => {
 		status && mutate();
 	};
 
-	const removeDistrict = async ({ radioValue, mutate }) => {
+	const removeProductPropertyValue = async ({ radioValue, mutate }) => {
 		const { status } = await sendRequest(
-			getDistrictRemove('_', JSON.parse(radioValue).id)
+			getProductPropertyValueRemove('_', JSON.parse(radioValue).id)
 		);
 		status && mutate();
 	};
 
-	const NewDistrictComp = ({
+	const NewProductPropertyValueComp = ({
 		handleChange,
 		values,
 		handleSubmit,
@@ -109,47 +114,31 @@ const DistrictList = () => {
 				style={{ padding: '10px 0' }}
 			>
 				<TextInput
-					name={'adOrjinal'}
-					value={values.adOrjinal}
+					name={'ad'}
+					value={values.ad}
 					onChange={handleChange}
-					error={touched.adOrjinal && errors.adOrjinal}
+					error={touched?.ad && errors.ad}
 				>
-					Orjinal Ad
+					Ad
 				</TextInput>
-				<TextInput
-					name={'adTurkce'}
-					value={values.adTurkce}
-					onChange={handleChange}
-					error={touched.adTurkce && errors.adTurkce}
-				>
-					Türkçe Ad
-				</TextInput>
-				<TextInput
-					name={'adIngilizce'}
-					value={values.adIngilizce}
-					onChange={handleChange}
-					error={touched.adIngilizce && errors.adIngilizce}
-				>
-					Ingilizce Ad
-				</TextInput>
-				<SelectInput
-					name={'sehirId'}
-					value={values.sehirId}
-					onChange={handleChange}
-					data={data}
-					visableValue={'adOrjinal'}
-					error={touched.sehirId && errors.sehirId}
-				>
-					Şehir
-				</SelectInput>
 				<TextInput
 					name={'aciklama'}
 					value={values.aciklama}
 					onChange={handleChange}
-					error={touched.aciklama && errors.aciklama}
+					error={touched?.aciklama && errors.aciklama}
 				>
 					Acıklama
 				</TextInput>
+				<SelectInput
+					name={'nitelikId'}
+					value={values.nitelikId}
+					onChange={handleChange}
+					data={data}
+					visableValue={'ad'}
+					error={touched.nitelikId && errors.nitelikId}
+				>
+					Nitelik
+				</SelectInput>
 				<Button type="submit">Ekle</Button>
 			</form>
 		);
@@ -182,11 +171,11 @@ const DistrictList = () => {
 					title: 'Sil',
 					function: () => {
 						setSubmitType('delete');
-						removeDistrict({ radioValue, mutate });
+						removeProductPropertyValue({ radioValue, mutate });
 					},
 				}}
 			>
-				İlçeler
+				Ülkeler
 			</BreadCrumb>
 			<Box
 				mt="20px"
@@ -209,14 +198,14 @@ const DistrictList = () => {
 				click={isClick}
 				title={'Yeni Ülke Ekle'}
 				formik={{ handleChange, handleSubmit, values }}
-				component={NewDistrictComp({
+				component={NewProductPropertyValueComp({
 					handleChange,
 					values,
 					handleSubmit,
-					data: citydata?.data,
+					data: ProductProperty?.data,
 				})}
 			/>
 		</Box>
 	);
 };
-export default React.memo(DistrictList);
+export default React.memo(ProductPropertyValue);

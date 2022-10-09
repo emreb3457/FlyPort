@@ -2,7 +2,7 @@ import instance from '../utils/axios';
 import { errorMessageWrite } from '../utils/errorMessageWrite';
 
 //Country Api - Start
-export const getCountryList = async (_, page) => {
+export const getCountryList = async (_, page = 0) => {
 	return await instance
 		.get('/Ulke/SayfaliListele?page=' + page)
 		.then((res) => res.data);
@@ -28,7 +28,7 @@ export const getCountryRemove = async (_, id) => {
 //Country Api - End
 
 //Unit Type Api - Start
-export const getUnitTypeList = async (_, page) => {
+export const getUnitTypeList = async (_, page = 0) => {
 	return await instance
 		.get('/BirimTipi/SayfaliListele?page=' + page)
 		.then((res) => res.data);
@@ -60,7 +60,7 @@ export const getUnitTypeRemove = async (_, id) => {
 //Unit Type Api - End
 
 //City Api - Start
-export const getCityList = async (_, page) => {
+export const getCityList = async (_, page = 0) => {
 	return await instance
 		.get('/Sehir/SayfaliListele?page=' + page)
 		.then((res) => res.data);
@@ -86,7 +86,7 @@ export const getCityRemove = async (_, id) => {
 //City Api - End
 
 //District Api - Start
-export const getDistrictList = async (_, page) => {
+export const getDistrictList = async (_, page = 0) => {
 	return await instance
 		.get('/Ilce/SayfaliListele?page=' + page)
 		.then((res) => res.data);
@@ -111,38 +111,8 @@ export const getDistrictRemove = async (_, id) => {
 };
 //District Api - End
 
-//Category Api - Start
-export const geCategorytList = async (_, page) => {
-	return await instance
-		.get('/Ilce/SayfaliListele?page=' + page)
-		.then((res) => res.data);
-};
-
-export const getCategory = async (_, id) => {
-	return await instance.get('/Kategori/Bul/' + id).then((res) => res.data);
-};
-
-export const getCategoryInsert = async (_, body) => {
-	return await instance
-		.post('/Kategori/Ekle', body)
-		.then((res) => res.data);
-};
-
-export const getCategoryUpdate = async (_, body) => {
-	return await instance
-		.post('/Kategori/Guncelle', body)
-		.then((res) => res.data);
-};
-
-export const getCategoryRemove = async (_, id) => {
-	return await instance
-		.get('/Kategori/Sil?id=' + id)
-		.then((res) => res.data);
-};
-//Category Api - End
-
 //Certificate Api - Start
-export const getCertificateList = async (_, page) => {
+export const getCertificateList = async (_, page = 0) => {
 	return await instance
 		.get('/Sertifika/SayfaliListele?page=' + page)
 		.then((res) => res.data);
@@ -174,7 +144,7 @@ export const getCertificateRemove = async (_, id) => {
 //Certificate Api - End
 
 //Transport Api - Start
-export const getTransportTypeList = async (_, page) => {
+export const getTransportTypeList = async (_, page = 0) => {
 	return await instance
 		.get('/TasimaTipi/SayfaliListele?page=' + page)
 		.then((res) => res.data);
@@ -206,18 +176,22 @@ export const getTransportTypeRemove = async (_, id) => {
 //Transport Api - End
 
 //Delivery Api - Start
-export const getDeliveryList = async (_, page) => {
+export const getDeliveryList = async (_, page = 0) => {
 	return await instance
 		.get('/TeslimatTipi/SayfaliListele?page=' + page)
 		.then((res) => res.data);
 };
 
 export const getDelivery = async (_, id) => {
-	return await instance.get('/TeslimatTipi/Bul/' + id).then((res) => res.data);
+	return await instance
+		.get('/TeslimatTipi/Bul/' + id)
+		.then((res) => res.data);
 };
 
 export const getDeliveryInsert = async (_, body) => {
-	return await instance.post('/TeslimatTipi/Ekle', body).then((res) => res.data);
+	return await instance
+		.post('/TeslimatTipi/Ekle', body)
+		.then((res) => res.data);
 };
 
 export const getDeliveryUpdate = async (_, body) => {
@@ -227,6 +201,164 @@ export const getDeliveryUpdate = async (_, body) => {
 };
 
 export const getDeliveryRemove = async (_, id) => {
-	return await instance.get('/TeslimatTipi/Sil?id=' + id).then((res) => res.data);
+	return await instance
+		.get('/TeslimatTipi/Sil?id=' + id)
+		.then((res) => res.data);
 };
 //Country Api - End
+
+//Product Property Api - Start
+export const getProductPropertyList = async (_, page = 0) => {
+	return await instance
+		.get('/Nitelik/SayfaliListele?page=' + page)
+		.then((res) => res.data);
+};
+
+export const getProductProperty = async (_, id) => {
+	return await instance.get('/Nitelik/Bul/' + id).then((res) => res.data);
+};
+
+export const getProductPropertyInsert = async (_, body) => {
+	return await instance
+		.post('/Nitelik/Ekle', body)
+		.then((res) => res.data);
+};
+
+export const getProductPropertyUpdate = async (_, body) => {
+	return await instance
+		.post('/Nitelik/Guncelle', body)
+		.then((res) => res.data);
+};
+
+export const getProductPropertyRemove = async (_, id) => {
+	return await instance
+		.get('/Nitelik/Sil?id=' + id)
+		.then((res) => res.data);
+};
+//Product Property Api - End
+
+//Product Property Value Api - Start
+export const getProductPropertyValueList = async (_, page = 0) => {
+	return await instance
+		.get('/NitelikDeger/BirlesmisListele?page=' + page)
+		.then((res) => res.data);
+};
+
+export const getProductPropertyValue = async (_, id) => {
+	return await instance
+		.get('/NitelikDeger/Bul/' + id)
+		.then((res) => res.data);
+};
+
+export const getProductPropertyValueInsert = async (_, body) => {
+	return await instance
+		.post('/NitelikDeger/Ekle', body)
+		.then((res) => res.data);
+};
+
+export const getProductPropertyValueUpdate = async (_, body) => {
+	return await instance
+		.post('/NitelikDeger/Guncelle', body)
+		.then((res) => res.data);
+};
+
+export const getProductPropertyValueRemove = async (_, id) => {
+	return await instance
+		.get('/AnaKategori/Sil?id=' + id)
+		.then((res) => res.data);
+};
+//Product Property Value Api - End
+
+//Product  Public Category  Api - Start
+export const getPublicCategoryList = async (_, page = 0) => {
+	return await instance
+		.get('/AnaKategori/SayfaliListele?page=' + page)
+		.then((res) => res.data);
+};
+
+export const getPublicCategory = async (_, id) => {
+	return await instance
+		.get('/AnaKategori/Bul/' + id)
+		.then((res) => res.data);
+};
+
+export const getPublicCategoryInsert = async (_, body) => {
+	return await instance
+		.post('/AnaKategori/Ekle', body)
+		.then((res) => res.data);
+};
+
+export const getPublicCategoryUpdate = async (_, body) => {
+	return await instance
+		.post('/AnaKategori/Guncelle', body)
+		.then((res) => res.data);
+};
+
+export const getPublicCategoryRemove = async (_, id) => {
+	return await instance
+		.get('/AnaKategori/Sil?id=' + id)
+		.then((res) => res.data);
+};
+//Product Public Category Api - End
+
+//Product  Children Category  Api - Start
+export const getChildrenCategoryList = async (_, page = 0) => {
+	return await instance
+		.get('/AltKategori/BirlesmisListele?page=' + page)
+		.then((res) => res.data);
+};
+
+export const getChildrenCategory = async (_, id) => {
+	return await instance
+		.get('/AltKategori/Bul/' + id)
+		.then((res) => res.data);
+};
+
+export const getChildrenCategoryInsert = async (_, body) => {
+	return await instance
+		.post('/AltKategori/Ekle', body)
+		.then((res) => res.data);
+};
+
+export const getChildrenCategoryUpdate = async (_, body) => {
+	return await instance
+		.post('/AltKategori/Guncelle', body)
+		.then((res) => res.data);
+};
+
+export const getChildrenCategoryRemove = async (_, id) => {
+	return await instance
+		.get('/AltKategori/Sil?id=' + id)
+		.then((res) => res.data);
+};
+//Product Children Category Api - End
+
+//Category Api - Start
+export const getCategoryList = async (_, page = 0) => {
+	return await instance
+		.get('/Kategori/BirlesmisListele?page=' + page)
+		.then((res) => res.data);
+};
+
+export const getCategory = async (_, id) => {
+	return await instance.get('/Kategori/Bul/' + id).then((res) => res.data);
+};
+
+export const getCategoryInsert = async (_, body) => {
+	return await instance
+		.post('/Kategori/Ekle', body)
+		.then((res) => res.data);
+};
+
+export const getCategoryUpdate = async (_, body) => {
+	return await instance
+		.post('/Kategori/Guncelle', body)
+		.then((res) => res.data);
+};
+
+export const getCategoryRemove = async (_, id) => {
+	return await instance
+		.get('/Kategori/Sil?id=' + id)
+		.then((res) => res.data);
+};
+//Category Api - End

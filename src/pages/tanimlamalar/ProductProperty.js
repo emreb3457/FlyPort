@@ -3,86 +3,77 @@ import BreadCrumb from '../../components/BreadCrumb/BreadCrumb';
 import ListTable from '../../components/Talepler/ProductListTable/ListTable';
 import useSWR from 'swr';
 import {
-	getDistrictInsert,
-	getDistrictList,
-	getDistrictRemove,
-	getDistrictUpdate,
-	getCityList,
+	getProductPropertyInsert,
+	getProductPropertyList,
+	getProductPropertyRemove,
+	getProductPropertyUpdate,
 } from '../../api/DefinitionsApi';
 import BasicModal from '../../helpers/Modal';
 import SkeletonComp from '../../components/Skeleton/Skeleton';
 import { useModalStatus } from '../../hooks/useModalStatus';
-import {
-	SelectInput,
-	TextInput,
-} from '../../components/Inputs/CustomInputs';
+import { TextInput } from '../../components/Inputs/CustomInputs';
 import React, { useState } from 'react';
 import { useFormik } from 'formik';
-import { districtValidate } from '../../utils/validation';
+import { ProductPropertyValidate } from '../../utils/validation';
 import { sendRequest } from '../../utils/helpers';
 
-const DistrictList = () => {
+const ProductProperty = () => {
 	const { clickFunct, isClick } = useModalStatus();
 	const [page, setPage] = useState(0);
 	const [radioValue, setRadioValue] = React.useState({});
 	const [submitType, setSubmitType] = React.useState('');
 
 	const { data, mutate, error } = useSWR(
-		['getDistrict', page],
-		getDistrictList
+		['getProductProperty', page],
+		getProductPropertyList
 	);
-	const { data: citydata } = useSWR(['getCity', page], getCityList);
 
 	const {
 		errors,
 		handleChange,
 		handleSubmit,
 		values,
-		setValues,
 		touched,
+		setValues,
 	} = useFormik({
 		initialValues: {
-			adTurkce: '',
-			adOrjinal: '',
-			adIngilizce: '',
+			ad: '',
 			aciklama: '',
-			sehirId: Number,
 		},
 		onSubmit: (values, { resetForm }) => {
 			submitType === 'create'
-				? newDistrictSubmit({ values, mutate, errors, setValues })
-				: updateDistrictSubmit({
+				? newProductPropertySubmit({ values, mutate })
+				: updateProductPropertySubmit({
 						values,
 						mutate,
-						errors,
-						setValues,
 						id: JSON.parse(radioValue).id,
 				  });
+
 			resetForm();
 			document
 				.getElementsByClassName('chakra-modal__close-btn')[0]
 				.click();
 		},
-		validationSchema: districtValidate,
+		validationSchema: ProductPropertyValidate,
 	});
 
 	const loading = !error && !data;
 
-	const Head = ['#', 'ID', 'Ad Orjinal', 'Ad Türkçe', 'Ad Ingilizce'];
-	const DataHead = ['id', 'adOrjinal', 'adTurkce', 'adIngilizce'];
+	const Head = ['#', 'ID', 'Ad ', 'Açıklama'];
+	const DataHead = ['id', 'ad', 'aciklama'];
 
-	const newDistrictSubmit = async ({ values, mutate }) => {
+	const newProductPropertySubmit = async ({ values, mutate }) => {
 		const { status } = await sendRequest(
-			getDistrictInsert('', {
+			getProductPropertyInsert('', {
 				...values,
 			})
 		);
 		status && mutate();
 	};
 
-	const updateDistrictSubmit = async ({ values, mutate, id }) => {
+	const updateProductPropertySubmit = async ({ values, mutate, id }) => {
 		const { status } = await sendRequest(
-			getDistrictUpdate('', {
+			getProductPropertyUpdate('', {
 				id,
 				...values,
 			})
@@ -90,18 +81,17 @@ const DistrictList = () => {
 		status && mutate();
 	};
 
-	const removeDistrict = async ({ radioValue, mutate }) => {
+	const removeProductProperty = async ({ radioValue, mutate }) => {
 		const { status } = await sendRequest(
-			getDistrictRemove('_', JSON.parse(radioValue).id)
+			getProductPropertyRemove('_', JSON.parse(radioValue).id)
 		);
 		status && mutate();
 	};
 
-	const NewDistrictComp = ({
+	const NewProductPropertyComp = ({
 		handleChange,
 		values,
 		handleSubmit,
-		data,
 	}) => {
 		return (
 			<form
@@ -109,44 +99,18 @@ const DistrictList = () => {
 				style={{ padding: '10px 0' }}
 			>
 				<TextInput
-					name={'adOrjinal'}
-					value={values.adOrjinal}
+					name={'ad'}
+					value={values.ad}
 					onChange={handleChange}
-					error={touched.adOrjinal && errors.adOrjinal}
+					error={touched?.ad && errors.ad}
 				>
-					Orjinal Ad
+					Ad
 				</TextInput>
-				<TextInput
-					name={'adTurkce'}
-					value={values.adTurkce}
-					onChange={handleChange}
-					error={touched.adTurkce && errors.adTurkce}
-				>
-					Türkçe Ad
-				</TextInput>
-				<TextInput
-					name={'adIngilizce'}
-					value={values.adIngilizce}
-					onChange={handleChange}
-					error={touched.adIngilizce && errors.adIngilizce}
-				>
-					Ingilizce Ad
-				</TextInput>
-				<SelectInput
-					name={'sehirId'}
-					value={values.sehirId}
-					onChange={handleChange}
-					data={data}
-					visableValue={'adOrjinal'}
-					error={touched.sehirId && errors.sehirId}
-				>
-					Şehir
-				</SelectInput>
 				<TextInput
 					name={'aciklama'}
 					value={values.aciklama}
 					onChange={handleChange}
-					error={touched.aciklama && errors.aciklama}
+					error={touched?.aciklama && errors.aciklama}
 				>
 					Acıklama
 				</TextInput>
@@ -182,11 +146,11 @@ const DistrictList = () => {
 					title: 'Sil',
 					function: () => {
 						setSubmitType('delete');
-						removeDistrict({ radioValue, mutate });
+						removeProductProperty({ radioValue, mutate });
 					},
 				}}
 			>
-				İlçeler
+				Ülkeler
 			</BreadCrumb>
 			<Box
 				mt="20px"
@@ -209,14 +173,13 @@ const DistrictList = () => {
 				click={isClick}
 				title={'Yeni Ülke Ekle'}
 				formik={{ handleChange, handleSubmit, values }}
-				component={NewDistrictComp({
+				component={NewProductPropertyComp({
 					handleChange,
 					values,
 					handleSubmit,
-					data: citydata?.data,
 				})}
 			/>
 		</Box>
 	);
 };
-export default React.memo(DistrictList);
+export default React.memo(ProductProperty);

@@ -4,7 +4,9 @@ import { Fragment } from 'react';
 import ProtectedRoute from "./utils/ProtectedRoute"
 import Home from './pages/Home';
 import DemandSummary from './pages/Demand/DemandSummary';
-import ProductList from './pages/ProductList';
+// import ProductList from './pages/ProductList';
+import ProductList from './pages/Products/ProductList';
+import NewProduct from './pages/Products/NewProduct';
 import ListMenu from './components/Talepler/ListMenu/ListMenu';
 import ProductDetail from './pages/ProductDetail';
 import PriceSurveys from './pages/PriceSurveys';
@@ -28,6 +30,11 @@ import City from './pages/tanimlamalar/City';
 import District from './pages/tanimlamalar/District';
 import NewDemand from './pages/Demand/NewDemand';
 import DeliveryType from './pages/tanimlamalar/DeliveryType';
+import ProductProperty from './pages/tanimlamalar/ProductProperty';
+import ProductPropertyValue from './pages/tanimlamalar/ProductPropertyValue';
+import ChildrenCategory from './pages/tanimlamalar/ChildrenCategory';
+import Category from './pages/tanimlamalar/Category';
+import PublicCategory from './pages/tanimlamalar/PublicCategory';
 const App = () => {
   return (
     <Fragment>
@@ -37,6 +44,10 @@ const App = () => {
             <Route path="/" element={<Home />} exact />
             <Route path="/talepler" element={<ProtectedRoute><DemandList/></ProtectedRoute>} exact />
             <Route path="/talepler/yeni" element={<ProtectedRoute><NewDemand/></ProtectedRoute>} exact />
+
+            <Route path="/urunler" element={<ProtectedRoute><ProductList/></ProtectedRoute>} exact />
+            <Route path="/urunler/yeni" element={<ProtectedRoute><NewProduct/></ProtectedRoute>} exact />
+
             <Route path="/:id/:id/:id/urunlistesi" element={<ProtectedRoute><ProductList /></ProtectedRoute>} exact />
             <Route path="/:id/:id/:id/urunlistesi/:id" element={<ProtectedRoute><ProductDetail /></ProtectedRoute>} exact />
 
@@ -66,6 +77,11 @@ const App = () => {
             <Route path="/tanimlamalar/sehirler" element={<ProtectedRoute><City /></ProtectedRoute>} exact />
             <Route path="/tanimlamalar/ilceler" element={<ProtectedRoute><District /></ProtectedRoute>} exact />
             <Route path="/tanimlamalar/tasimatipi" element={<ProtectedRoute><DeliveryType /></ProtectedRoute>} exact />
+            <Route path="/tanimlamalar/nitelik" element={<ProtectedRoute><ProductProperty /></ProtectedRoute>} exact />
+            <Route path="/tanimlamalar/nitelikdeger" element={<ProtectedRoute><ProductPropertyValue /></ProtectedRoute>} exact />
+            <Route path="/tanimlamalar/genelkategori" element={<ProtectedRoute><PublicCategory /></ProtectedRoute>} exact />
+            <Route path="/tanimlamalar/altkategori" element={<ProtectedRoute><ChildrenCategory /></ProtectedRoute>} exact />
+            <Route path="/tanimlamalar/kategori" element={<ProtectedRoute><Category /></ProtectedRoute>} exact />
             <Route path='*' element={<div>NOT FOUND</div>} />
           </Routes>
         </ListMenu>

@@ -84,6 +84,10 @@ export const menuItems = [
 		route: 'siparisler',
 	},
 	{
+		title: 'Ürünler',
+		route: 'urunler',
+	},
+	{
 		title: 'Tanımlamalar',
 		route: 'tanimlamalar',
 		submenu: [
@@ -106,6 +110,26 @@ export const menuItems = [
 			{
 				title: 'Taşıma Tipi',
 				route: 'tasimatipi',
+			},
+			{
+				title: 'Ürün Nitelik',
+				route: 'nitelik',
+			},
+			{
+				title: 'Ürün Nitelik Değer',
+				route: 'nitelikdeger',
+			},
+			{
+				title: 'Genel Kategori',
+				route: 'genelkategori',
+			},
+			{
+				title: 'Alt Kategori',
+				route: 'altkategori',
+			},
+			{
+				title: 'Kategori',
+				route: 'kategori',
 			},
 		],
 	},

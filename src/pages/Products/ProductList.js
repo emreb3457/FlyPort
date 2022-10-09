@@ -18,15 +18,16 @@ import {
 } from '../../api/talepApi';
 import { useNavigate } from 'react-router-dom';
 import { routes } from '../../constants/routes';
+import { getProductList } from '../../api/api';
 
-const DemandList = () => {
+const ProductList = () => {
 	const navigate = useNavigate();
 	const { clickFunct, isClick } = useModalStatus();
 	const [page, setPage] = useState(0);
 	const [radioValue, setRadioValue] = React.useState({});
 	const [submitType, setSubmitType] = React.useState('');
 
-	const { data, mutate, error } = useSWR(['_', page], getTalepList);
+	const { data, mutate, error } = useSWR(['_', page], getProductList);
 
 	const {
 		errors,
@@ -37,15 +38,12 @@ const DemandList = () => {
 		setValues,
 	} = useFormik({
 		initialValues: {
-			adTurkce: '',
-			adOrjinal: '',
-			adIng: '',
 			aciklama: '',
 		},
 		onSubmit: (values, { resetForm }) => {
 			submitType === 'create'
-				? newDemandSubmit({ values, mutate })
-				: updateDemandSubmit({
+				? newProductSubmit({ values, mutate })
+				: updateProductSubmit({
 						values,
 						mutate,
 						id: JSON.parse(radioValue).id,
@@ -63,91 +61,53 @@ const DemandList = () => {
 	const Head = [
 		'#',
 		'ID',
-		'Tarih',
-		'Müşteri',
-		'Ürün',
-		'Teknik Özellik',
-		'İstenen Miktar',
-		'Üretici Ülkesi',
-		'Varış Ülkesi',
-		'Sorumlu',
-		'Kalan Süre',
+		'Ürün Tam Adı',
+		'Kısa Adı',
+		'Kategori',
+		'İşlevi',
+		'Özellik',
+		'Özellik',
+		'Özellik',
+		'GTip No',
+		'Kayıtlı Üretici',
+		'Sipariş Sayısı',
 	];
-	const DataHead = ['id', 'adOrjinal', 'adTurkce', 'adIngilizce'];
+	const DataHead = [
+		'id',
+		'urunTamAd',
+		'urunKisaAd',
+		'kategori',
+		'boş',
+		'ozellik1',	
+		'ozellik2',
+		'ozellik3',		
+		'gtipNo',
+	];
 
-	const newDemandSubmit = async ({ values, mutate }) => {
+	const newProductSubmit = async ({ values, mutate }) => {
 		const { status } = await sendRequest(
 			getTalepInsert('', {
-				aciklama: values.aciklama,
-				adOrjinal: values.adOrjinal,
-				adTurkce: values.adTurkce,
-				adIngilizce: values.adIng,
+				...values,
 			})
 		);
 		status && mutate();
 	};
 
-	const updateDemandSubmit = async ({ values, mutate, id }) => {
+	const updateProductSubmit = async ({ values, mutate, id }) => {
 		const { status } = await sendRequest(
 			getTalepUpdate('', {
 				id,
-				aciklama: values.aciklama,
-				adOrjinal: values.adOrjinal,
-				adTurkce: values.adTurkce,
-				adIngilizce: values.adIng,
+				...values,
 			})
 		);
 		status && mutate();
 	};
 
-	const removeDemand = async ({ radioValue, mutate }) => {
+	const removeProduct = async ({ radioValue, mutate }) => {
 		const { status } = await sendRequest(
 			getTalepRemove('_', JSON.parse(radioValue).id)
 		);
 		status && mutate();
-	};
-
-	const NewDemandComp = ({ handleChange, values, handleSubmit }) => {
-		return (
-			<form
-				onSubmit={handleSubmit}
-				style={{ padding: '10px 0' }}
-			>
-				<TextInput
-					name={'adOrjinal'}
-					value={values.adOrjinal}
-					onChange={handleChange}
-					error={touched?.adOrjinal && errors.adOrjinal}
-				>
-					Orjinal Ad
-				</TextInput>
-				<TextInput
-					name={'adTurkce'}
-					value={values.adTurkce}
-					onChange={handleChange}
-					error={touched?.adTurkce && errors.adTurkce}
-				>
-					Türkçe Ad
-				</TextInput>
-				<TextInput
-					name={'adIng'}
-					value={values.adIng}
-					onChange={handleChange}
-					error={touched?.adIng && errors.adIng}
-				>
-					Ingilizce Ad
-				</TextInput>
-				<TextInput
-					name={'aciklama'}
-					value={values.aciklama}
-					onChange={handleChange}
-					error={touched?.aciklama && errors.aciklama}
-				>
-					Acıklama
-				</TextInput>
-				<Button type="submit">Ekle</Button>
-			</form>
-		);
 	};
 
 	return loading ? (
@@ -158,7 +118,7 @@ const DemandList = () => {
 				funct1={{
 					title: 'Yeni Ekle',
 					function: () => {
-						navigate(routes.yenitalep);
+						navigate(routes.yeniurun);
 					},
 				}}
 				funct2={{
@@ -167,10 +127,7 @@ const DemandList = () => {
 						setSubmitType('update');
 						const radiovalue = JSON.parse(radioValue);
 						setValues({
-							adTurkce: radiovalue.adTurkce,
-							adIng: radiovalue.adIngilizce,
-							adOrjinal: radiovalue.adOrjinal,
-							aciklama: radiovalue.aciklama,
+							...radioValue,
 						});
 						clickFunct();
 					},
@@ -179,11 +136,11 @@ const DemandList = () => {
 					title: 'Sil',
 					function: () => {
 						setSubmitType('delete');
-						removeDemand({ radioValue, mutate });
+						removeProduct({ radioValue, mutate });
 					},
 				}}
 			>
-				Talepler
+				Ürünler
 			</BreadCrumb>
 			<Box
 				mt="20px"
@@ -202,13 +159,13 @@ const DemandList = () => {
 					select={true}
 				/>
 			</Box>
-			<BasicModal
+			{/* <BasicModal
 				click={isClick}
-				title={'Yeni Ülke Ekle'}
+				title={'Yeni Ürün'}
 				formik={{ handleChange, handleSubmit, values }}
-				component={NewDemandComp({ handleChange, values, handleSubmit })}
-			/>
+				component={NewProductComp({ handleChange, values, handleSubmit })}
+			/> */}
 		</Box>
 	);
 };
-export default React.memo(DemandList);
+export default React.memo(ProductList);

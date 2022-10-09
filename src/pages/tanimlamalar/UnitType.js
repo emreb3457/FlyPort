@@ -157,7 +157,7 @@ const UnitType = () => {
 					dataHead={DataHead}
 					row={data?.data}
 					page={page}
-					totalRowCount={data.totalRowCount}
+					totalRowCount={data?.totalRowCount}
 					changePage={setPage}
 					radioValue={radioValue}
 					radioSetValue={setRadioValue}

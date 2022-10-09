@@ -43,3 +43,44 @@ export const DeliveryTypeValidate = yup.object().shape({
 	ad: yup.string().required('Zorunlu alan.'),
 	aciklama: yup.string(),
 });
+
+export const ProductPropertyValidate = yup.object().shape({
+	ad: yup.string().required('Zorunlu alan.'),
+	aciklama: yup.string(),
+});
+
+export const ProductPropertyValueValidate = yup.object().shape({
+	ad: yup.string().required('Zorunlu alan.'),
+	aciklama: yup.string(),
+	nitelikId: yup.number().required('Zorunlu alan.'),
+});
+
+export const PublicCategoryValidate = yup.object().shape({
+	ad: yup.string().required('Zorunlu alan.'),
+	aciklama: yup.string(),
+});
+
+export const ChildrenCategoryValidate = yup.object().shape({
+	ad: yup.string().required('Zorunlu alan.'),
+	aciklama: yup.string(),
+	anaKategoriId: yup.number().required('Zorunlu alan.'),
+});
+
+export const CategoryValidate = yup.object().shape({
+	ad: yup.string().required('Zorunlu alan.'),
+	aciklama: yup.string(),
+	altKategoriId: yup.number().required('Zorunlu alan.'),
+});
+
+///
+
+export const newProductValide = yup.object().shape({
+	UrunAdi: yup.string().required('Zorunlu alan.'),
+	KisaAdi: yup.string(),
+	GTip: yup.string(),
+	aciklama: yup.string(),
+	GenelKategoriId: yup.number().required('Zorunlu alan.'),
+	AltKategoriId: yup.number().required('Zorunlu alan.'),
+	FlyKategoriId: yup.number().required('Zorunlu alan.'),
+	TeknikOzellikDegerleri: yup.array().required('Zorunlu alan'),
+});

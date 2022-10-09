@@ -3,11 +3,11 @@ import BreadCrumb from '../../components/BreadCrumb/BreadCrumb';
 import ListTable from '../../components/Talepler/ProductListTable/ListTable';
 import useSWR from 'swr';
 import {
-	getDistrictInsert,
-	getDistrictList,
-	getDistrictRemove,
-	getDistrictUpdate,
-	getCityList,
+	getCategoryInsert,
+	getCategoryList,
+	getCategoryRemove,
+	getCategoryUpdate,
+	getChildrenCategoryList,
 } from '../../api/DefinitionsApi';
 import BasicModal from '../../helpers/Modal';
 import SkeletonComp from '../../components/Skeleton/Skeleton';
@@ -18,71 +18,72 @@ import {
 } from '../../components/Inputs/CustomInputs';
 import React, { useState } from 'react';
 import { useFormik } from 'formik';
-import { districtValidate } from '../../utils/validation';
+import { CategoryValidate } from '../../utils/validation';
 import { sendRequest } from '../../utils/helpers';
 
-const DistrictList = () => {
+const Category = () => {
 	const { clickFunct, isClick } = useModalStatus();
 	const [page, setPage] = useState(0);
 	const [radioValue, setRadioValue] = React.useState({});
 	const [submitType, setSubmitType] = React.useState('');
 
 	const { data, mutate, error } = useSWR(
-		['getDistrict', page],
-		getDistrictList
+		['getCategory', page],
+		getCategoryList
 	);
-	const { data: citydata } = useSWR(['getCity', page], getCityList);
+
+	const { data: PublicCategory } = useSWR(
+		['getPublicCategory', page],
+		getChildrenCategoryList
+	);
 
 	const {
 		errors,
 		handleChange,
 		handleSubmit,
 		values,
-		setValues,
 		touched,
+		setValues,
 	} = useFormik({
 		initialValues: {
-			adTurkce: '',
-			adOrjinal: '',
-			adIngilizce: '',
+			ad: '',
 			aciklama: '',
-			sehirId: Number,
+			altKategoriId: '',
 		},
 		onSubmit: (values, { resetForm }) => {
 			submitType === 'create'
-				? newDistrictSubmit({ values, mutate, errors, setValues })
-				: updateDistrictSubmit({
+				? newCategorySubmit({ values, mutate })
+				: updateCategorySubmit({
 						values,
 						mutate,
-						errors,
-						setValues,
 						id: JSON.parse(radioValue).id,
 				  });
+
 			resetForm();
 			document
 				.getElementsByClassName('chakra-modal__close-btn')[0]
 				.click();
 		},
-		validationSchema: districtValidate,
+		validationSchema: CategoryValidate,
 	});
 
 	const loading = !error && !data;
 
-	const Head = ['#', 'ID', 'Ad Orjinal', 'Ad Türkçe', 'Ad Ingilizce'];
-	const DataHead = ['id', 'adOrjinal', 'adTurkce', 'adIngilizce'];
+	const Head = ['#', 'ID', 'Ad ', 'Alt Kategori', 'Açıklama'];
+	const DataHead = ['id', 'ad', 'altKAtegoriAd', 'aciklama'];
 
-	const newDistrictSubmit = async ({ values, mutate }) => {
+	const newCategorySubmit = async ({ values, mutate }) => {
 		const { status } = await sendRequest(
-			getDistrictInsert('', {
+			getCategoryInsert('', {
 				...values,
 			})
 		);
 		status && mutate();
 	};
 
-	const updateDistrictSubmit = async ({ values, mutate, id }) => {
+	const updateCategorySubmit = async ({ values, mutate, id }) => {
 		const { status } = await sendRequest(
-			getDistrictUpdate('', {
+			getCategoryUpdate('', {
 				id,
 				...values,
 			})
@@ -90,14 +91,14 @@ const DistrictList = () => {
 		status && mutate();
 	};
 
-	const removeDistrict = async ({ radioValue, mutate }) => {
+	const removeCategory = async ({ radioValue, mutate }) => {
 		const { status } = await sendRequest(
-			getDistrictRemove('_', JSON.parse(radioValue).id)
+			getCategoryRemove('_', JSON.parse(radioValue).id)
 		);
 		status && mutate();
 	};
 
-	const NewDistrictComp = ({
+	const NewCategoryComp = ({
 		handleChange,
 		values,
 		handleSubmit,
@@ -109,47 +110,31 @@ const DistrictList = () => {
 				style={{ padding: '10px 0' }}
 			>
 				<TextInput
-					name={'adOrjinal'}
-					value={values.adOrjinal}
+					name={'ad'}
+					value={values.ad}
 					onChange={handleChange}
-					error={touched.adOrjinal && errors.adOrjinal}
+					error={touched?.ad && errors.ad}
 				>
-					Orjinal Ad
+					Ad
 				</TextInput>
-				<TextInput
-					name={'adTurkce'}
-					value={values.adTurkce}
-					onChange={handleChange}
-					error={touched.adTurkce && errors.adTurkce}
-				>
-					Türkçe Ad
-				</TextInput>
-				<TextInput
-					name={'adIngilizce'}
-					value={values.adIngilizce}
-					onChange={handleChange}
-					error={touched.adIngilizce && errors.adIngilizce}
-				>
-					Ingilizce Ad
-				</TextInput>
-				<SelectInput
-					name={'sehirId'}
-					value={values.sehirId}
-					onChange={handleChange}
-					data={data}
-					visableValue={'adOrjinal'}
-					error={touched.sehirId && errors.sehirId}
-				>
-					Şehir
-				</SelectInput>
 				<TextInput
 					name={'aciklama'}
 					value={values.aciklama}
 					onChange={handleChange}
-					error={touched.aciklama && errors.aciklama}
+					error={touched?.aciklama && errors.aciklama}
 				>
 					Acıklama
 				</TextInput>
+				<SelectInput
+					name={'altKategoriId'}
+					value={values.altKategoriId}
+					onChange={handleChange}
+					data={data}
+					visableValue={'ad'}
+					error={touched.altKategoriId && errors.altKategoriId}
+				>
+					Alt Kategori
+				</SelectInput>
 				<Button type="submit">Ekle</Button>
 			</form>
 		);
@@ -182,11 +167,11 @@ const DistrictList = () => {
 					title: 'Sil',
 					function: () => {
 						setSubmitType('delete');
-						removeDistrict({ radioValue, mutate });
+						removeCategory({ radioValue, mutate });
 					},
 				}}
 			>
-				İlçeler
+				Kategori
 			</BreadCrumb>
 			<Box
 				mt="20px"
@@ -207,16 +192,16 @@ const DistrictList = () => {
 			</Box>
 			<BasicModal
 				click={isClick}
-				title={'Yeni Ülke Ekle'}
+				title={'Yeni Kategori'}
 				formik={{ handleChange, handleSubmit, values }}
-				component={NewDistrictComp({
+				component={NewCategoryComp({
 					handleChange,
 					values,
 					handleSubmit,
-					data: citydata?.data,
+					data: PublicCategory?.data,
 				})}
 			/>
 		</Box>
 	);
 };
-export default React.memo(DistrictList);
+export default React.memo(Category);

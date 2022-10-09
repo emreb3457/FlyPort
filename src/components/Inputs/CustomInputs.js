@@ -32,6 +32,7 @@ export const TextInput = ({
 				borderColor={'#D6D6D6'}
 				disabled={disabled}
 				bg={disabled ? '#D6D6D6' : bg}
+				{...props}
 			/>
 			{error && (
 				<Text
