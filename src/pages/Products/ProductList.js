@@ -18,44 +18,18 @@ import {
 } from '../../api/talepApi';
 import { useNavigate } from 'react-router-dom';
 import { routes } from '../../constants/routes';
-import { getProductList } from '../../api/api';
+import { getProductList, getProductRemove } from '../../api/api';
 
 const ProductList = () => {
 	const navigate = useNavigate();
-	const { clickFunct, isClick } = useModalStatus();
 	const [page, setPage] = useState(0);
 	const [radioValue, setRadioValue] = React.useState({});
 	const [submitType, setSubmitType] = React.useState('');
 
-	const { data, mutate, error } = useSWR(['_', page], getProductList);
-
-	const {
-		errors,
-		handleChange,
-		handleSubmit,
-		values,
-		touched,
-		setValues,
-	} = useFormik({
-		initialValues: {
-			aciklama: '',
-		},
-		onSubmit: (values, { resetForm }) => {
-			submitType === 'create'
-				? newProductSubmit({ values, mutate })
-				: updateProductSubmit({
-						values,
-						mutate,
-						id: JSON.parse(radioValue).id,
-				  });
-
-			resetForm();
-			document
-				.getElementsByClassName('chakra-modal__close-btn')[0]
-				.click();
-		},
-		validationSchema: countryValidate,
-	});
+	const { data, mutate, error } = useSWR(
+		['getProductList', page],
+		getProductList
+	);
 
 	const loading = !error && !data;
 	const Head = [
@@ -78,34 +52,15 @@ const ProductList = () => {
 		'urunKisaAd',
 		'kategori',
 		'boş',
-		'ozellik1',	
+		'ozellik1',
 		'ozellik2',
-		'ozellik3',		
+		'ozellik3',
 		'gtipNo',
 	];
 
-	const newProductSubmit = async ({ values, mutate }) => {
-		const { status } = await sendRequest(
-			getTalepInsert('', {
-				...values,
-			})
-		);
-		status && mutate();
-	};
-
-	const updateProductSubmit = async ({ values, mutate, id }) => {
-		const { status } = await sendRequest(
-			getTalepUpdate('', {
-				id,
-				...values,
-			})
-		);
-		status && mutate();
-	};
-
 	const removeProduct = async ({ radioValue, mutate }) => {
 		const { status } = await sendRequest(
-			getTalepRemove('_', JSON.parse(radioValue).id)
+			getProductRemove('_', JSON.parse(radioValue).id)
 		);
 		status && mutate();
 	};
@@ -126,10 +81,6 @@ const ProductList = () => {
 					function: () => {
 						setSubmitType('update');
 						const radiovalue = JSON.parse(radioValue);
-						setValues({
-							...radioValue,
-						});
-						clickFunct();
 					},
 				}}
 				funct3={{

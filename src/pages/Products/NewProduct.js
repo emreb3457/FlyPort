@@ -1,11 +1,8 @@
-import { Box, Select, Text } from '@chakra-ui/react';
+import { Box, Select, Text, Textarea } from '@chakra-ui/react';
 import { Form, useFormik } from 'formik';
 import BreadCrumb from '../../components/BreadCrumb/BreadCrumb';
-import {
-	TextInput,
-	SelectInput,
-} from '../../components/Inputs/CustomInputs';
-import { sendRequest } from '../../utils/helpers';
+import { TextInput, SelectInput } from '../../components/Inputs/CustomInputs';
+import { arrayParse, arrayStringify, sendRequest } from '../../utils/helpers';
 import { newProductValide } from '../../utils/validation';
 import { getProductInsert, getProductList } from '../../api/api';
 import useSWR from 'swr';
@@ -16,23 +13,11 @@ import {
 	getProductPropertyList,
 	getProductPropertyValueList,
 } from '../../api/DefinitionsApi';
-import { useState } from 'react';
-
-const arrayParse = (data) => {
-	const array = [];
-	data?.map((x) => array.push(JSON.parse(x)));
-	return array;
-};
-
-const arrayStringify = (data) => {
-	const array = [];
-	data?.map((x) => array.push(JSON.stringify(x)));
-	return array;
-};
+import { useEffect, useState } from 'react';
+import ImageComp from '../../components/Talepler/ImageComp/ImageComp';
 
 const selectNitelikDeger = (...props) => {
 	return function (obj) {
-		console.log(obj);
 		let newObj = Number;
 		props.forEach((name) => {
 			newObj = obj[name];
@@ -41,8 +26,11 @@ const selectNitelikDeger = (...props) => {
 		return newObj;
 	};
 };
+
 const NewDemand = () => {
 	const [deger, setDeger] = useState([]);
+	const [images, setImages] = useState([]);
+	const [imageURLS, setImageURLs] = useState([]);
 
 	const { data: ChildrenCategory, error } = useSWR(
 		['getChildrenCategoryList'],
@@ -65,38 +53,47 @@ const NewDemand = () => {
 		['getProductPropertyValueList'],
 		getProductPropertyValueList
 	);
-	const {
-		errors,
-		handleChange,
-		handleSubmit,
-		values,
-		touched,
-		setValues,
-		setFieldValue,
-	} = useFormik({
-		initialValues: {
-			UrunAdi: '',
-			KisaAdi: '',
-			GTip: '',
-			GenelKategoriId: '',
-			AltKategoriId: '',
-			FlyKategoriId: '',
-			TeknikOzellikDegerleri: [],
-			UrunResimleri: '',
-			aciklama: '',
-		},
-		onSubmit: (values, { resetForm }) => {
-			newProductSubmit({ values });
-		},
-	});
-	console.log(values);
 
-	const newProductSubmit = async ({ values }) => {
+	useEffect(() => {
 		setFieldValue(
 			'TeknikOzellikDegerleri',
 			arrayParse(deger).map(selectNitelikDeger('nitelikDeger'))
 		);
-		console.log(values);
+	}, [deger]);
+
+	const onImageChange = (e) => {
+		setFieldValue('UrunResimleri', [...e.target.files]);
+	};
+	const { errors, handleChange, handleSubmit, values, touched, setFieldValue } =
+		useFormik({
+			initialValues: {
+				UrunAdi: '',
+				KisaAdi: '',
+				GTip: '',
+				GenelKategoriId: '',
+				AltKategoriId: '',
+				FlyKategoriId: '',
+				TeknikOzellikDegerleri: [],
+				UrunResimleri: [],
+				aciklama: '',
+			},
+			onSubmit: (values, { resetForm }) => {
+				newProductSubmit({ values });
+			},
+			validationSchema: newProductValide,
+		});
+
+	useEffect(() => {
+		if (values.UrunResimleri.length < 1) return;
+		const newImageUrls = [];
+		values.UrunResimleri.forEach((image) =>
+			newImageUrls.push(URL.createObjectURL(image))
+		);
+		setImageURLs(newImageUrls);
+	}, [values.UrunResimleri]);
+	console.log(values.UrunResimleri);
+
+	const newProductSubmit = async ({ values }) => {
 		const formData = new FormData();
 		formData.append('UrunAdi', values.UrunAdi);
 		formData.append('KisaAdi', values.KisaAdi);
@@ -104,27 +101,45 @@ const NewDemand = () => {
 		formData.append('GenelKategoriId', values.GenelKategoriId);
 		formData.append('AltKategoriId', values.AltKategoriId);
 		formData.append('FlyKategoriId', values.FlyKategoriId);
-		formData.append(
-			'TeknikOzellikDegerleri',
-			values.TeknikOzellikDegerleri
-		);
-		formData.append('UrunResimleri', values.UrunResimleri);
+		for (let index = 0; index < values.TeknikOzellikDegerleri.length; index++) {
+			formData.append(
+				'TeknikOzellikDegerleri',
+				values.TeknikOzellikDegerleri[index]
+			);
+		}
+		for (let index = 0; index < values.TeknikOzellikDegerleri.length; index++) {
+			formData.append('UrunResimleri', values.UrunResimleri[index]);
+		}
+
 		formData.append('aciklama', values.aciklama);
-		const { status } = await sendRequest(
-			getProductInsert('', { formData })
-		);
+		const { status } = await sendRequest(getProductInsert('', formData));
 		//istege bakılacak
 	};
 	return (
 		<Box>
-			<BreadCrumb>Yeni Ürün</BreadCrumb>
+			<BreadCrumb
+				funct1={{
+					title: 'Kaydet',
+					function: () => {
+						document.getElementById('addProduct').click();
+					},
+				}}
+			>
+				Yeni Ürün
+			</BreadCrumb>
+
 			<form onSubmit={handleSubmit}>
 				<Box
 					display={'flex'}
 					mt="20px"
 					px="50px"
 				>
-					<Box width={{ lg: '35%', '2xl': '30%' }}>
+					<ImageComp images={imageURLS} />
+
+					<Box
+						width={{ lg: '35%', '2xl': '30%' }}
+						marginLeft="30px"
+					>
 						<TextInput
 							name={'UrunAdi'}
 							value={values.UrunAdi}
@@ -169,6 +184,11 @@ const NewDemand = () => {
 						>
 							Alt Kategori
 						</SelectInput>
+					</Box>
+					<Box
+						width={{ lg: '35%', '2xl': '30%' }}
+						ml="17px"
+					>
 						<SelectInput
 							name={'FlyKategoriId'}
 							value={values.FlyKategoriId}
@@ -179,11 +199,6 @@ const NewDemand = () => {
 						>
 							Fly Kategori
 						</SelectInput>
-					</Box>
-					<Box
-						width={{ lg: '35%', '2xl': '30%' }}
-						ml="17px"
-					>
 						{arrayParse(deger)?.map((data, index) => {
 							const parseData = data;
 							return (
@@ -215,43 +230,65 @@ const NewDemand = () => {
 								</Box>
 							);
 						})}
-						Ekle
-						<Select
-							onChange={(x) =>
-								setDeger((prev) => [...prev, x.target.value])
-							}
-							h="54px"
-							borderColor={'#D6D6D6'}
-							value={''}
+						<Box
+							py="10px"
+							fontSize={'18px'}
+							w="100%"
 						>
-							<option value={'default'}>Seçiniz</option>
-							{ProductProperty?.data?.map((x) => {
-								return (
-									<option
-										key={x.id}
-										value={JSON.stringify(x)}
-									>
-										{x.ad}
-									</option>
-								);
-							})}
-						</Select>
+							<Text
+								mr="5px"
+								color={'#232F3D'}
+							>
+								Ekle
+							</Text>
+							<Select
+								onChange={(x) => setDeger((prev) => [...prev, x.target.value])}
+								h="54px"
+								borderColor={'#D6D6D6'}
+								value={''}
+							>
+								<option value={'default'}>Seçiniz</option>
+								{ProductProperty?.data?.map((x) => {
+									return (
+										<option
+											key={x.id}
+											value={JSON.stringify(x)}
+										>
+											{x.ad}
+										</option>
+									);
+								})}
+							</Select>
+							<input
+								type="file"
+								multiple
+								accept="image/*"
+								onChange={onImageChange}
+							/>
+						</Box>
 					</Box>
 				</Box>
-				<Box mt="40px">
+				<Box
+					mt="40px"
+					pl="30px"
+				>
 					<Text fontSize={'22px'}>Açıklama</Text>
-					<Box
+					<Textarea
 						maxW="1000px"
-						w="100%"
-						h="444px"
+						minH="200px"
 						border={'1px solid #9B9696'}
 						borderRadius="21px"
 						mt="10px"
-					>
-						<Text></Text>
-					</Box>
+						name={'aciklama'}
+						value={values.aciklama}
+						onChange={handleChange}
+					/>
 				</Box>
-				<button type="submit">asd</button>
+				<button
+					id="addProduct"
+					type="submit"
+					style={{ visibility: 'hidden' }}
+				></button>
 			</form>
 		</Box>
 	);

@@ -1,8 +1,8 @@
 import instance from '../utils/axios';
 
-export const getProductList = async () => {
+export const getProductList = async (_, page = 0) => {
 	return await instance
-		.get('/Urun/BirlesmisListele')
+		.get('/Urun/BirlesmisListele?page=' + page)
 		.then((res) => res.data);
 };
 
@@ -11,7 +11,6 @@ export const getProduct = async (_, id) => {
 };
 
 export const getProductInsert = async (_, body) => {
-	console.log(body);
 	return await instance
 		.post('/Urun/SayfaKaydet', body, {
 			headers: { 'Content-Type': 'multipart/form-data' },

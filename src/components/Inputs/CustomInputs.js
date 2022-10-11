@@ -94,6 +94,15 @@ export const SelectInput = ({
 					);
 				})}
 			</Select>
+			{error && (
+				<Text
+					mr="5px"
+					color={'red'}
+					fontSize="12px"
+				>
+					{error}
+				</Text>
+			)}
 		</Box>
 	);
 };

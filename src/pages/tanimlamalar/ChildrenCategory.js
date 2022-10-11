@@ -24,6 +24,7 @@ import { sendRequest } from '../../utils/helpers';
 const ChildrenCategory = () => {
 	const { clickFunct, isClick } = useModalStatus();
 	const [page, setPage] = useState(0);
+	const [limit, setLimit] = useState(999);
 	const [radioValue, setRadioValue] = React.useState({});
 	const [submitType, setSubmitType] = React.useState('');
 
@@ -33,7 +34,7 @@ const ChildrenCategory = () => {
 	);
 
 	const { data: PublicCategory } = useSWR(
-		['getPublicCategoryList', page],
+		['getPublicCategoryList', page, limit],
 		getPublicCategoryList
 	);
 

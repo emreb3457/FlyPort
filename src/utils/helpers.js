@@ -21,3 +21,15 @@ export const sendRequest = async (api) => {
 			return { status: false };
 		});
 };
+
+export const arrayParse = (data) => {
+	const array = [];
+	data?.map((x) => array.push(JSON.parse(x)));
+	return array;
+};
+
+export const arrayStringify = (data) => {
+	const array = [];
+	data?.map((x) => array.push(JSON.stringify(x)));
+	return array;
+};

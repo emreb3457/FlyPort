@@ -24,12 +24,13 @@ import { sendRequest } from '../../utils/helpers';
 const CityList = () => {
 	const { clickFunct, isClick } = useModalStatus();
 	const [page, setPage] = useState(0);
+	const [limit, setLimit] = useState(999);
 	const [radioValue, setRadioValue] = React.useState({});
 	const [submitType, setSubmitType] = React.useState('');
 
 	const { data, mutate, error } = useSWR(['getCity', page], getCityList);
 	const { data: countrydata } = useSWR(
-		['getCountry', page],
+		['getCountry', page, limit],
 		getCountryList
 	);
 
