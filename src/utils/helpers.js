@@ -33,3 +33,7 @@ export const arrayStringify = (data) => {
 	data?.map((x) => array.push(JSON.stringify(x)));
 	return array;
 };
+
+export const getToken = () => {
+	return sessionStorage.getItem('accessToken');
+};

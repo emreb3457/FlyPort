@@ -8,7 +8,7 @@ import DemandSummary from './pages/Demand/DemandSummary';
 import ProductList from './pages/Products/ProductList';
 import NewProduct from './pages/Products/NewProduct';
 import ListMenu from './components/Talepler/ListMenu/ListMenu';
-import ProductDetail from './pages/ProductDetail';
+import ProductDetail from './pages/Products/ProductDetail';
 import PriceSurveys from './pages/PriceSurveys';
 import PriceSurveysDetail from './pages/PriceSurveysDetail';
 import Logistics from './pages/Logistics';
@@ -35,6 +35,7 @@ import ProductPropertyValue from './pages/tanimlamalar/ProductPropertyValue';
 import ChildrenCategory from './pages/tanimlamalar/ChildrenCategory';
 import Category from './pages/tanimlamalar/Category';
 import PublicCategory from './pages/tanimlamalar/PublicCategory';
+import UpdateProduct from './pages/Products/UpdateProduct';
 const App = () => {
   return (
     <Fragment>
@@ -47,6 +48,8 @@ const App = () => {
 
             <Route path="/urunler" element={<ProtectedRoute><ProductList/></ProtectedRoute>} exact />
             <Route path="/urunler/yeni" element={<ProtectedRoute><NewProduct/></ProtectedRoute>} exact />
+            <Route path="/urunler/guncelle" element={<ProtectedRoute><UpdateProduct/></ProtectedRoute>} exact />
+            <Route path="/urunler/:id" element={<ProtectedRoute><ProductDetail/></ProtectedRoute>} exact />
 
             <Route path="/:id/:id/:id/urunlistesi" element={<ProtectedRoute><ProductList /></ProtectedRoute>} exact />
             <Route path="/:id/:id/:id/urunlistesi/:id" element={<ProtectedRoute><ProductDetail /></ProtectedRoute>} exact />

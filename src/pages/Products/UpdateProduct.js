@@ -4,7 +4,11 @@ import BreadCrumb from "../../components/BreadCrumb/BreadCrumb";
 import { TextInput, SelectInput } from "../../components/Inputs/CustomInputs";
 import { arrayParse, arrayStringify, sendRequest } from "../../utils/helpers";
 import { newProductValide } from "../../utils/validation";
-import { getProductInsert, getProductList } from "../../api/api";
+import {
+  getProductInsert,
+  getProductList,
+  getProductUpdate,
+} from "../../api/api";
 import useSWR from "swr";
 import {
   getPublicCategoryList,
@@ -15,8 +19,7 @@ import {
 } from "../../api/DefinitionsApi";
 import { useEffect, useState } from "react";
 import ImageComp from "../../components/Talepler/ImageComp/ImageComp";
-import { Navigate, useNavigate } from "react-router-dom";
-import { routes } from "../../constants/routes";
+import { useLocation } from "react-router-dom";
 
 const selectNitelikDeger = (...props) => {
   return function (obj) {
@@ -29,10 +32,10 @@ const selectNitelikDeger = (...props) => {
   };
 };
 
-const NewDemand = () => {
-  const navigate = useNavigate();
+const UpdateProduct = () => {
   const [deger, setDeger] = useState([]);
   const [imageURLS, setImageURLs] = useState([]);
+  const { state } = useLocation();
 
   const { data: ChildrenCategory, error } = useSWR(
     ["getChildrenCategoryList"],
@@ -69,18 +72,18 @@ const NewDemand = () => {
   const { errors, handleChange, handleSubmit, values, touched, setFieldValue } =
     useFormik({
       initialValues: {
-        UrunAdi: "",
-        KisaAdi: "",
-        GTip: "",
-        GenelKategoriId: "",
-        AltKategoriId: "",
-        FlyKategoriId: "",
+        UrunAdi: state?.ad || "",
+        KisaAdi: state?.kisaAd || "",
+        GTip: state?.gtip || "",
+        GenelKategoriId: state?.anaKategoriId || "",
+        AltKategoriId: state?.altKategoriId || "",
+        FlyKategoriId: state?.kategoriId || "",
         TeknikOzellikDegerleri: [],
         UrunResimleri: [],
-        aciklama: "",
+        aciklama: state?.aciklama || "",
       },
       onSubmit: (values, { resetForm }) => {
-        newProductSubmit({ values });
+        ProductSubmit({ values });
       },
       validationSchema: newProductValide,
     });
@@ -94,7 +97,7 @@ const NewDemand = () => {
     setImageURLs(newImageUrls);
   }, [values.UrunResimleri]);
 
-  const newProductSubmit = async ({ values }) => {
+  const ProductSubmit = async ({ values }) => {
     const formData = new FormData();
     formData.append("UrunAdi", values.UrunAdi);
     formData.append("KisaAdi", values.KisaAdi);
@@ -111,11 +114,11 @@ const NewDemand = () => {
     for (let index = 0; index < values.TeknikOzellikDegerleri.length; index++) {
       formData.append("UrunResimleri", values.UrunResimleri[index]);
     }
-
+    console.log("asd");
     formData.append("aciklama", values.aciklama);
-    const { status } = await sendRequest(getProductInsert("", formData));
-    status && navigate(routes.urunler);
-    //istege bakılacak
+    const { status } = await sendRequest(
+      state ? getProductUpdate("", formData) : getProductInsert("", formData)
+    );
   };
   return (
     <Box>
@@ -266,4 +269,4 @@ const NewDemand = () => {
   );
 };
 
-export default NewDemand;
+export default UpdateProduct;

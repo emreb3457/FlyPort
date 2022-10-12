@@ -1,6 +1,6 @@
 export const routes = {
-	yenitalep: '/talepler/yeni',
-	yeniurun: '/urunler/yeni',
+  urunler: "/urunler",
+  yenitalep: "/talepler/yeni",
+  yeniurun: "/urunler/yeni",
+  urunguncelle: "/urunler/guncelle",
 };
-
-
