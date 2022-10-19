@@ -1,21 +1,10 @@
-import { Box, Button, Input } from "@chakra-ui/react";
+import { Box } from "@chakra-ui/react";
 import BreadCrumb from "../../components/BreadCrumb/BreadCrumb";
-import ListTable from "../../components/Talepler/ProductListTable/ListTable";
+import ListTable from "../../components/ListTable";
 import useSWR from "swr";
-import BasicModal from "../../helpers/Modal";
 import SkeletonComp from "../../components/Skeleton/Skeleton";
-import { useModalStatus } from "../../hooks/useModalStatus";
-import { TextInput } from "../../components/Inputs/CustomInputs";
 import React, { useState } from "react";
-import { useFormik } from "formik";
-import { countryValidate } from "../../utils/validation";
 import { sendRequest } from "../../utils/helpers";
-import {
-  getTalepInsert,
-  getTalepList,
-  getTalepRemove,
-  getTalepUpdate,
-} from "../../api/talepApi";
 import { useNavigate } from "react-router-dom";
 import { routes } from "../../constants/routes";
 import { getProductList, getProductRemove } from "../../api/api";
@@ -24,7 +13,6 @@ const ProductList = () => {
   const navigate = useNavigate();
   const [page, setPage] = useState(0);
   const [radioValue, setRadioValue] = React.useState({});
-  const [submitType, setSubmitType] = React.useState("");
 
   const { data, mutate, error } = useSWR(
     ["getProductList", page],
@@ -33,29 +21,50 @@ const ProductList = () => {
 
   const loading = !error && !data;
   const Head = [
-    "#",
-    "ID",
-    "Ürün Tam Adı",
-    "Kısa Adı",
-    "Kategori",
-    "İşlevi",
-    "Özellik 1",
-    "Özellik 2",
-    "Özellik 3",
-    "GTip No",
-    "Kayıtlı Üretici",
-    "Sipariş Sayısı",
-  ];
-  const DataHead = [
-    "id",
-    "urunTamAd",
-    "urunKisaAd",
-    "kategori",
-    "boş",
-    "ozellik1",
-    "ozellik2",
-    "ozellik3",
-    "gtipNo",
+    {
+      title: "ID",
+      column: "id",
+    },
+    {
+      title: "Ürün Tam Adı",
+      column: "urunTamAd",
+    },
+    {
+      title: "Kısa Adı",
+      column: "urunKisaAd",
+    },
+    {
+      title: "Kategori",
+      column: "kategori",
+    },
+    {
+      title: "İşlevi",
+      column: "",
+    },
+    {
+      title: "Özellik 1",
+      column: "ozellik1",
+    },
+    {
+      title: "Özellik 2",
+      column: "ozellik2",
+    },
+    {
+      title: "Özellik 3",
+      column: "ozellik3",
+    },
+    {
+      title: "GTip No",
+      column: "gtipNo",
+    },
+    {
+      title: "Kayıtlı Üretici",
+      column: "aciklama",
+    },
+    {
+      title: "Sipariş Sayısı",
+      column: "aciklama",
+    },
   ];
 
   const removeProduct = async ({ radioValue, mutate }) => {
@@ -79,7 +88,6 @@ const ProductList = () => {
         funct3={{
           title: "Sil",
           function: () => {
-            setSubmitType("delete");
             removeProduct({ radioValue, mutate });
           },
         }}
@@ -89,7 +97,6 @@ const ProductList = () => {
       <Box mt="20px" px={"38px"}>
         <ListTable
           head={Head}
-          dataHead={DataHead}
           row={data?.data}
           page={page}
           totalRowCount={data?.totalRowCount}

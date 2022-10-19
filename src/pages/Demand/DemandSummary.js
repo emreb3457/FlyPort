@@ -1,26 +1,31 @@
-import { Box, Skeleton, Stack, Text } from "@chakra-ui/react";
-import { Fragment, useEffect } from "react";
-import { useDispatch, useSelector } from "react-redux";
-import { toast } from "react-toastify";
+import { Box, Text } from "@chakra-ui/react";
+import { useParams } from "react-router-dom";
 import useSWR from "swr";
-import { getTalepList } from "../../api/talepApi";
+import { getDemand } from "../../api/api";
 import SkeletonComp from "../../components/Skeleton/Skeleton";
+
 const DemandSummary = () => {
-  return (
+  const { id } = useParams();
+  const { data: Detail, error } = useSWR(["getDemand", id], getDemand);
+  const loading = !error && !Detail;
+  console.log(Detail);
+  return loading ? (
+    <SkeletonComp />
+  ) : (
     <Box display={"flex"} mt="40px" px={"38px"}>
       <>
         <Box w="40%" mr="100px">
           <Label label={"Talep No: "} borderTop="1px solid #707070">
-            123456
+            {Detail?.talepAd}
           </Label>
           <Label label={"Talep Tarihi: "}></Label>
-          <Label label={"Müşteri: "}></Label>
-          <Label label={"Yetkili: "}></Label>
+          <Label label={"Müşteri: "}> {Detail?.musteriAd}</Label>
+          <Label label={"Yetkili: "}> {Detail?.talepEden}</Label>
           <Label label={"TalepAlan Kişi: "}></Label>
           <Label label={"Talep Türü "}></Label>
           <Label label={"Alternetif Sayısı: "}></Label>
-          <Label label={"İstenilen Ülke: "}></Label>
-          <Label label={"Varış Ülkesi: "}></Label>
+          <Label label={"İstenilen Ülke: "}>{Detail?.nerden}</Label>
+          <Label label={"Varış Ülkesi: "}>{Detail?.nereye}</Label>
         </Box>
         <Box w="40%">
           <Label

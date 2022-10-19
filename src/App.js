@@ -36,6 +36,9 @@ import ChildrenCategory from './pages/tanimlamalar/ChildrenCategory';
 import Category from './pages/tanimlamalar/Category';
 import PublicCategory from './pages/tanimlamalar/PublicCategory';
 import UpdateProduct from './pages/Products/UpdateProduct';
+import Company from './pages/Company/Company';
+import CompanyDetail from './pages/Company/CompanyDetail';
+import NewCompany from './pages/Company/NewCompany';
 const App = () => {
   return (
     <Fragment>
@@ -45,7 +48,13 @@ const App = () => {
             <Route path="/" element={<Home />} exact />
             <Route path="/talepler" element={<ProtectedRoute><DemandList/></ProtectedRoute>} exact />
             <Route path="/talepler/yeni" element={<ProtectedRoute><NewDemand/></ProtectedRoute>} exact />
+            <Route path="/talepler/:id" element={<ProtectedRoute><DemandSummary/></ProtectedRoute>} exact />
 
+            <Route path="/firmalar" element={<ProtectedRoute><Company/></ProtectedRoute>} exact />
+            <Route path="/firmalar/yeni" element={<ProtectedRoute><NewCompany/></ProtectedRoute>} exact />
+            <Route path="/firmalar/:id" element={<ProtectedRoute><CompanyDetail/></ProtectedRoute>} exact />
+
+            
             <Route path="/urunler" element={<ProtectedRoute><ProductList/></ProtectedRoute>} exact />
             <Route path="/urunler/yeni" element={<ProtectedRoute><NewProduct/></ProtectedRoute>} exact />
             <Route path="/urunler/guncelle" element={<ProtectedRoute><UpdateProduct/></ProtectedRoute>} exact />
@@ -75,6 +84,7 @@ const App = () => {
             <Route path="/siparisler" element={<ProtectedRoute><Offers2 /></ProtectedRoute>} exact />
             <Route path="/siparisler/:id" element={<ProtectedRoute><OffersCard /></ProtectedRoute>} exact />
 
+            <Route path="/tanimlamalar" element={<ProtectedRoute><CountryList /></ProtectedRoute>} exact />
             <Route path="/tanimlamalar/ulkeler" element={<ProtectedRoute><CountryList /></ProtectedRoute>} exact />
             <Route path="/tanimlamalar/birimtipi" element={<ProtectedRoute><UnitType /></ProtectedRoute>} exact />
             <Route path="/tanimlamalar/sehirler" element={<ProtectedRoute><City /></ProtectedRoute>} exact />

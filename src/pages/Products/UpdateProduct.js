@@ -2,13 +2,14 @@ import { Box, Select, Text, Textarea } from "@chakra-ui/react";
 import { Form, useFormik } from "formik";
 import BreadCrumb from "../../components/BreadCrumb/BreadCrumb";
 import { TextInput, SelectInput } from "../../components/Inputs/CustomInputs";
-import { arrayParse, arrayStringify, sendRequest } from "../../utils/helpers";
-import { newProductValide } from "../../utils/validation";
 import {
-  getProductInsert,
-  getProductList,
-  getProductUpdate,
-} from "../../api/api";
+  arrayParse,
+  arrayStringify,
+  selectNitelikDeger,
+  sendRequest,
+} from "../../utils/helpers";
+import { newProductValidate } from "../../utils/validation";
+import { getProductInsert } from "../../api/api";
 import useSWR from "swr";
 import {
   getPublicCategoryList,
@@ -19,85 +20,95 @@ import {
 } from "../../api/DefinitionsApi";
 import { useEffect, useState } from "react";
 import ImageComp from "../../components/Talepler/ImageComp/ImageComp";
-import { useLocation } from "react-router-dom";
-
-const selectNitelikDeger = (...props) => {
-  return function (obj) {
-    let newObj = Number;
-    props.forEach((name) => {
-      newObj = obj[name];
-    });
-
-    return newObj;
-  };
-};
+import { useLocation, useNavigate } from "react-router-dom";
+import { routes } from "../../constants/routes";
+import { baseApi } from "../../config/config";
+import SkeletonComp from "../../components/Skeleton/Skeleton";
 
 const UpdateProduct = () => {
-  const [deger, setDeger] = useState([]);
-  const [imageURLS, setImageURLs] = useState([]);
+  const navigate = useNavigate();
   const { state } = useLocation();
+  const [submitLoading, setSublitLoading] = useState(false);
+  const [page, setPage] = useState(0);
+  const [limit, setLimit] = useState(999);
+  const [deger, setDeger] = useState(
+    arrayStringify(state.nitelikDegerleri) || []
+  );
+  const [imageURLS, setImageURLs] = useState([]);
 
-  const { data: ChildrenCategory, error } = useSWR(
-    ["getChildrenCategoryList"],
+  const { data: ChildrenCategory } = useSWR(
+    ["getChildrenCategoryList", page, limit],
     getChildrenCategoryList
   );
 
-  const { data: PublicCategory } = useSWR(
-    ["getPublicCategoryList"],
+  const { data: PublicCategory, error } = useSWR(
+    ["getPublicCategoryList", page, limit],
     getPublicCategoryList
   );
 
-  const { data: Category } = useSWR(["getCategoryList"], getCategoryList);
+  const { data: Category } = useSWR(
+    ["getCategoryList", page, limit],
+    getCategoryList
+  );
 
   const { data: ProductProperty } = useSWR(
-    ["getProductPropertyList"],
+    ["getProductPropertyList", page, limit],
     getProductPropertyList
   );
 
   const { data: ProductPropertyValue } = useSWR(
-    ["getProductPropertyValueList"],
+    ["getProductPropertyValueList", page, limit],
     getProductPropertyValueList
   );
 
   useEffect(() => {
     setFieldValue(
       "TeknikOzellikDegerleri",
-      arrayParse(deger).map(selectNitelikDeger("nitelikDeger"))
+      arrayParse(deger).map(selectNitelikDeger("id"))
     );
   }, [deger]);
 
   const onImageChange = (e) => {
     setFieldValue("UrunResimleri", [...e.target.files]);
   };
+
   const { errors, handleChange, handleSubmit, values, touched, setFieldValue } =
     useFormik({
       initialValues: {
-        UrunAdi: state?.ad || "",
-        KisaAdi: state?.kisaAd || "",
-        GTip: state?.gtip || "",
-        GenelKategoriId: state?.anaKategoriId || "",
+        UrunAdi: state?.urunAdi || "",
+        KisaAdi: state?.kisaAdi || "",
+        GTip: state?.gTip || "",
+        GenelKategoriId: state?.genelKategoriId || "",
         AltKategoriId: state?.altKategoriId || "",
-        FlyKategoriId: state?.kategoriId || "",
+        FlyKategoriId: state?.flyKategoriId || "",
         TeknikOzellikDegerleri: [],
-        UrunResimleri: [],
+        UrunResimleri: state?.resimler || [],
         aciklama: state?.aciklama || "",
       },
       onSubmit: (values, { resetForm }) => {
         ProductSubmit({ values });
       },
-      validationSchema: newProductValide,
+      validationSchema: newProductValidate,
     });
 
   useEffect(() => {
     if (values.UrunResimleri.length < 1) return;
     const newImageUrls = [];
-    values.UrunResimleri.forEach((image) =>
-      newImageUrls.push(URL.createObjectURL(image))
-    );
+    try {
+      values.UrunResimleri.forEach((image) =>
+        newImageUrls.push(URL.createObjectURL(image))
+      );
+    } catch (error) {
+      values.UrunResimleri.forEach((image) =>
+        newImageUrls.push(baseApi + image.dosyaYolu)
+      );
+    }
+
     setImageURLs(newImageUrls);
   }, [values.UrunResimleri]);
 
   const ProductSubmit = async ({ values }) => {
+    setSublitLoading(true);
     const formData = new FormData();
     formData.append("UrunAdi", values.UrunAdi);
     formData.append("KisaAdi", values.KisaAdi);
@@ -114,15 +125,22 @@ const UpdateProduct = () => {
     for (let index = 0; index < values.TeknikOzellikDegerleri.length; index++) {
       formData.append("UrunResimleri", values.UrunResimleri[index]);
     }
-    console.log("asd");
     formData.append("aciklama", values.aciklama);
-    const { status } = await sendRequest(
-      state ? getProductUpdate("", formData) : getProductInsert("", formData)
-    );
+    state && formData.append("id", state.id);
+    const { status } = await sendRequest(getProductInsert("", formData));
+    if (status) {
+      setSublitLoading(false);
+      navigate(routes.urunler);
+    }
+    setSublitLoading(false);
   };
-  return (
+  const loading = !PublicCategory && !error;
+  return loading ? (
+    <SkeletonComp />
+  ) : (
     <Box>
       <BreadCrumb
+        loading={submitLoading}
         funct1={{
           title: "Kaydet",
           function: () => {
@@ -130,7 +148,7 @@ const UpdateProduct = () => {
           },
         }}
       >
-        Yeni Ürün
+        Güncelle
       </BreadCrumb>
 
       <form onSubmit={handleSubmit}>
@@ -195,23 +213,27 @@ const UpdateProduct = () => {
               Fly Kategori
             </SelectInput>
             {arrayParse(deger)?.map((data, index) => {
-              const parseData = data;
               return (
                 <Box key={index} display={"flex"}>
-                  <TextInput disabled={true} mr="10px" value={parseData.ad}>
-                    Teknik Özellik 1
+                  <TextInput
+                    disabled={true}
+                    mr="10px"
+                    value={data?.nitelikAd || data?.ad}
+                  >
+                    Teknik Özellik {index + 1}
                   </TextInput>
                   <SelectInput
+                    value={data?.id}
                     onChange={(x) => {
                       const newArray = arrayParse(deger);
                       newArray[index] = {
                         ...newArray[index],
-                        nitelikDeger: Number(x.target.value),
+                        id: Number(x.target.value),
                       };
                       setDeger(arrayStringify(newArray));
                     }}
                     data={ProductPropertyValue?.data.filter(
-                      (x) => x.nitelikId === parseData.id
+                      (x) => x.nitelikId === data?.nitelikId
                     )}
                     visableValue={"ad"}
                   />
@@ -242,6 +264,7 @@ const UpdateProduct = () => {
                 multiple
                 accept="image/*"
                 onChange={onImageChange}
+                style={{ marginTop: "20px" }}
               />
             </Box>
           </Box>

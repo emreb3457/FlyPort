@@ -6,13 +6,15 @@ import reportWebVitals from "./reportWebVitals";
 import { ChakraProvider } from "@chakra-ui/react";
 import "react-toastify/dist/ReactToastify.css";
 import { ToastContainer } from "react-toastify";
-
+import { SWRConfig } from "swr";
 const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
-    <ChakraProvider>
+  <ChakraProvider>
+    <SWRConfig value={{}}>
       <App />
-      <ToastContainer />
-    </ChakraProvider>
+    </SWRConfig>
+    <ToastContainer />
+  </ChakraProvider>
 );
 
 // If you want to start measuring performance in your app, pass a function

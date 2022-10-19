@@ -226,7 +226,7 @@ export const getProductPropertyList = async (
 	rowCount = 10
 ) => {
 	return await instance
-		.get('/Nitelik/SayfaliListele?page=' + page, {
+		.get('/Nitelik/BirlesmisListele?page=' + page, {
 			params: { rowCount },
 		})
 		.then((res) => res.data);

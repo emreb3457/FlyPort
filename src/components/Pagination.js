@@ -4,7 +4,7 @@ import React from "react";
 const Pagination = ({ changePage, totalRowCount, page }) => {
   const totalPage = Math.ceil(totalRowCount / 10);
   return (
-    <Box>
+    <Box marginTop={"10px"}>
       <Button
         color={"black"}
         padding={"8px 16px"}
@@ -20,6 +20,7 @@ const Pagination = ({ changePage, totalRowCount, page }) => {
           key={"link_" + i}
           color={page === i ? "red" : "black"}
           padding={"8px 16px"}
+          margin={"2px"}
           textDecoration={"none"}
           transition={"background-color .3s"}
           onClick={() => changePage(i)}

@@ -1,7 +1,7 @@
 import { Box } from "@chakra-ui/react"
 import { useEffect } from "react";
 import { useNavigate } from "react-router-dom"
-import ListTable from "../ProductListTable/ListTable";
+import ListTable from "../../ListTable";
 
 const OtherOffers = () => {
     const navigate = useNavigate();

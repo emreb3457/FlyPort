@@ -2,7 +2,7 @@ import { Box, Text, Button } from "@chakra-ui/react";
 import { useNavigate } from "react-router-dom";
 import colors from "../../theme/colors";
 
-const BreadCrumb = ({ children, funct1, funct2, funct3 }) => {
+const BreadCrumb = ({ children, funct1, funct2, funct3, loading }) => {
   const navigate = useNavigate();
 
   return (
@@ -34,24 +34,31 @@ const BreadCrumb = ({ children, funct1, funct2, funct3 }) => {
       </Text>
       <Box>
         {funct1 && (
-          <StyledButton funct={funct1?.function}>{funct1?.title}</StyledButton>
+          <StyledButton loading={loading} funct={funct1?.function}>
+            {funct1?.title}
+          </StyledButton>
         )}
         {funct2 && (
-          <StyledButton funct={funct2?.function}>{funct2?.title}</StyledButton>
+          <StyledButton loading={loading} funct={funct2?.function}>
+            {funct2?.title}
+          </StyledButton>
         )}
         {funct3 && (
-          <StyledButton funct={funct3?.function}>{funct3?.title}</StyledButton>
+          <StyledButton loading={loading} funct={funct3?.function}>
+            {funct3?.title}
+          </StyledButton>
         )}
       </Box>
     </Box>
   );
 };
-export const StyledButton = ({ children, funct, ...props }) => {
+export const StyledButton = ({ children, funct, loading, ...props }) => {
   return (
     <Button
       onClick={funct}
       bg="transparent"
       fontSize={"22px"}
+      isLoading={loading}
       _hover={{}}
       {...props}
     >

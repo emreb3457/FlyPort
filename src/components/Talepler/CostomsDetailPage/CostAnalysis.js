@@ -2,7 +2,7 @@ import { Box, Text } from "@chakra-ui/react"
 import { useState } from "react";
 import { useNavigate } from "react-router-dom"
 import { SelectInput, TextInput } from "../../Inputs/CustomInputs";
-import ListTable from "../ProductListTable/ListTable";
+import ListTable from "../../ListTable";
 
 
 const CostAnalysis = () => {

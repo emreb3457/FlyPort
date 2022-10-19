@@ -2,9 +2,14 @@ import { Box, Select, Text, Textarea } from "@chakra-ui/react";
 import { Form, useFormik } from "formik";
 import BreadCrumb from "../../components/BreadCrumb/BreadCrumb";
 import { TextInput, SelectInput } from "../../components/Inputs/CustomInputs";
-import { arrayParse, arrayStringify, sendRequest } from "../../utils/helpers";
-import { newProductValide } from "../../utils/validation";
-import { getProductInsert, getProductList } from "../../api/api";
+import {
+  arrayParse,
+  arrayStringify,
+  selectNitelikDeger,
+  sendRequest,
+} from "../../utils/helpers";
+import { newProductValidate } from "../../utils/validation";
+import { getProductInsert } from "../../api/api";
 import useSWR from "swr";
 import {
   getPublicCategoryList,
@@ -18,48 +23,43 @@ import ImageComp from "../../components/Talepler/ImageComp/ImageComp";
 import { Navigate, useNavigate } from "react-router-dom";
 import { routes } from "../../constants/routes";
 
-const selectNitelikDeger = (...props) => {
-  return function (obj) {
-    let newObj = Number;
-    props.forEach((name) => {
-      newObj = obj[name];
-    });
-
-    return newObj;
-  };
-};
-
-const NewDemand = () => {
+const NewProduct = () => {
   const navigate = useNavigate();
+  const [submitLoading, setSublitLoading] = useState(false);
+  const [page, setPage] = useState(0);
+  const [limit, setLimit] = useState(999);
   const [deger, setDeger] = useState([]);
   const [imageURLS, setImageURLs] = useState([]);
 
   const { data: ChildrenCategory, error } = useSWR(
-    ["getChildrenCategoryList"],
+    ["getChildrenCategoryList", page, limit],
     getChildrenCategoryList
   );
 
   const { data: PublicCategory } = useSWR(
-    ["getPublicCategoryList"],
+    ["getPublicCategoryList", page, limit],
     getPublicCategoryList
   );
 
-  const { data: Category } = useSWR(["getCategoryList"], getCategoryList);
+  const { data: Category } = useSWR(
+    ["getCategoryList", page, limit],
+    getCategoryList
+  );
 
   const { data: ProductProperty } = useSWR(
-    ["getProductPropertyList"],
+    ["getProductPropertyList", page, limit],
     getProductPropertyList
   );
 
   const { data: ProductPropertyValue } = useSWR(
-    ["getProductPropertyValueList"],
+    ["getProductPropertyValueList", page, limit],
     getProductPropertyValueList
   );
 
   useEffect(() => {
     setFieldValue(
       "TeknikOzellikDegerleri",
-      arrayParse(deger).map(selectNitelikDeger("nitelikDeger"))
+      arrayParse(deger).map(selectNitelikDeger("id"))
     );
   }, [deger]);
 
@@ -82,7 +82,7 @@ const NewDemand = () => {
       onSubmit: (values, { resetForm }) => {
         newProductSubmit({ values });
       },
-      validationSchema: newProductValide,
+      validationSchema: newProductValidate,
     });
 
   useEffect(() => {
@@ -95,6 +95,7 @@ const NewDemand = () => {
   }, [values.UrunResimleri]);
 
   const newProductSubmit = async ({ values }) => {
+    setSublitLoading(true);
     const formData = new FormData();
     formData.append("UrunAdi", values.UrunAdi);
     formData.append("KisaAdi", values.KisaAdi);
@@ -114,12 +115,16 @@ const NewDemand = () => {
 
     formData.append("aciklama", values.aciklama);
     const { status } = await sendRequest(getProductInsert("", formData));
-    status && navigate(routes.urunler);
-    //istege bakılacak
+    if (status) {
+      setSublitLoading(false);
+      navigate(routes.urunler);
+    }
+    setSublitLoading(false);
   };
   return (
     <Box>
       <BreadCrumb
+        loading={submitLoading}
         funct1={{
           title: "Kaydet",
           function: () => {
@@ -196,19 +201,19 @@ const NewDemand = () => {
               return (
                 <Box key={index} display={"flex"}>
                   <TextInput disabled={true} mr="10px" value={parseData.ad}>
-                    Teknik Özellik 1
+                    Teknik Özellik {index}
                   </TextInput>
                   <SelectInput
                     onChange={(x) => {
                       const newArray = arrayParse(deger);
                       newArray[index] = {
                         ...newArray[index],
-                        nitelikDeger: Number(x.target.value),
+                        id: Number(x.target.value),
                       };
                       setDeger(arrayStringify(newArray));
                     }}
                     data={ProductPropertyValue?.data.filter(
-                      (x) => x.nitelikId === parseData.id
+                      (x) => x.nitelikId === parseData.nitelikId
                     )}
                     visableValue={"ad"}
                   />
@@ -239,6 +244,7 @@ const NewDemand = () => {
                 multiple
                 accept="image/*"
                 onChange={onImageChange}
+                style={{ marginTop: "20px" }}
               />
             </Box>
           </Box>
@@ -266,4 +272,4 @@ const NewDemand = () => {
   );
 };
 
-export default NewDemand;
+export default NewProduct;
