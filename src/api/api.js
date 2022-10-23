@@ -1,9 +1,8 @@
 import instance from "../utils/axios";
+import { DevExtremeCreateStore } from "../utils/helpers";
 
 export const getProductList = async (_, page = 0) => {
-  return await instance
-    .get("/Urun/BirlesmisListele?page=" + page)
-    .then((res) => res.data);
+  return DevExtremeCreateStore("/Urun/SayfaliListele");
 };
 
 export const getProduct = async (_, id) => {
@@ -25,9 +24,7 @@ export const getProductRemove = async (_, id) => {
 
 //
 export const getDemandList = async (_, page = 0) => {
-  return await instance
-    .get("/Talep/BirlesmisListele?page=" + page)
-    .then((res) => res.data);
+  return DevExtremeCreateStore("/Talep/SayfaliListele");
 };
 
 export const getDemand = async (_, id) => {
@@ -49,9 +46,7 @@ export const getDemandRemove = async (_, id) => {
 //
 
 export const getCompanyList = async (_, page = 0) => {
-  return await instance
-    .get("/Firma/BirlesmisListele?page=" + page)
-    .then((res) => res.data);
+  return DevExtremeCreateStore("/Firma/SayfaliListele");
 };
 
 export const getCompany = async (_, id) => {

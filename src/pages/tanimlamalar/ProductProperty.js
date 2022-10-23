@@ -148,10 +148,7 @@ const ProductProperty = () => {
       <Box mt="20px" px={"38px"}>
         <ListTable
           head={Head}
-          row={data?.data}
-          page={page}
-          totalRowCount={data?.totalRowCount}
-          changePage={setPage}
+          row={data}
           radioValue={radioValue}
           radioSetValue={setRadioValue}
           link={false}

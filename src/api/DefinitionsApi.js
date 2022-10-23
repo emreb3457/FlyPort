@@ -7,10 +7,6 @@ const accessToken = sessionStorage.getItem("accessToken");
 //Country Api - Start
 export const getCountryList = (_, page = 0, rowCount = 10) => {
   return DevExtremeCreateStore("/Ulke/SayfaliListele");
-
-  //   return await instance
-  //     .get("/Ulke/SayfaliListele?page=" + page, { params: { rowCount } })
-  //     .then((res) => res.data);
 };
 
 export const getCountry = async (_, id) => {
@@ -32,11 +28,7 @@ export const getCountryRemove = async (_, id) => {
 
 //Unit Type Api - Start
 export const getUnitTypeList = async (_, page = 0, rowCount = 10) => {
-  return await instance
-    .get("/BirimTipi/SayfaliListele?page=" + page, {
-      params: { rowCount },
-    })
-    .then((res) => res.data);
+  return DevExtremeCreateStore("/BirimTipi/SayfaliListele");
 };
 
 export const getUnitType = async (_, id) => {
@@ -60,11 +52,7 @@ export const getUnitTypeRemove = async (_, id) => {
 
 //City Api - Start
 export const getCityList = async (_, page = 0, rowCount = 10) => {
-  return await instance
-    .get("/Sehir/SayfaliListele?page=" + page, {
-      params: { rowCount },
-    })
-    .then((res) => res.data);
+  return DevExtremeCreateStore("/Sehir/SayfaliListele");
 };
 
 export const getCity = async (_, id) => {
@@ -86,11 +74,7 @@ export const getCityRemove = async (_, id) => {
 
 //District Api - Start
 export const getDistrictList = async (_, page = 0, rowCount = 10) => {
-  return await instance
-    .get("/Ilce/SayfaliListele?page=" + page, {
-      params: { rowCount },
-    })
-    .then((res) => res.data);
+  return DevExtremeCreateStore("/Ilce/SayfaliListele");
 };
 
 export const getDistrict = async (_, id) => {
@@ -112,11 +96,7 @@ export const getDistrictRemove = async (_, id) => {
 
 //Certificate Api - Start
 export const getCertificateList = async (_, page = 0, rowCount = 10) => {
-  return await instance
-    .get("/Sertifika/SayfaliListele?page=" + page, {
-      params: { rowCount },
-    })
-    .then((res) => res.data);
+  return DevExtremeCreateStore("/Sertifika/SayfaliListele");
 };
 
 export const getCertificate = async (_, id) => {
@@ -140,11 +120,7 @@ export const getCertificateRemove = async (_, id) => {
 
 //Transport Api - Start
 export const getTransportTypeList = async (_, page = 0, rowCount = 10) => {
-  return await instance
-    .get("/TasimaTipi/SayfaliListele?page=" + page, {
-      params: { rowCount },
-    })
-    .then((res) => res.data);
+  return DevExtremeCreateStore("/TasimaTipi/SayfaliListele");
 };
 
 export const getTransportType = async (_, id) => {
@@ -168,11 +144,7 @@ export const getTransportTypeRemove = async (_, id) => {
 
 //Delivery Api - Start
 export const getDeliveryList = async (_, page = 0, rowCount = 10) => {
-  return await instance
-    .get("/TeslimatTipi/SayfaliListele?page=" + page, {
-      params: { rowCount },
-    })
-    .then((res) => res.data);
+  return DevExtremeCreateStore("/TeslimatTipi/SayfaliListele");
 };
 
 export const getDelivery = async (_, id) => {
@@ -200,11 +172,7 @@ export const getDeliveryRemove = async (_, id) => {
 
 //Product Property Api - Start
 export const getProductPropertyList = async (_, page = 0, rowCount = 10) => {
-  return await instance
-    .get("/Nitelik/BirlesmisListele?page=" + page, {
-      params: { rowCount },
-    })
-    .then((res) => res.data);
+  return DevExtremeCreateStore("/Nitelik/SayfaliListele");
 };
 
 export const getProductProperty = async (_, id) => {
@@ -230,11 +198,7 @@ export const getProductPropertyValueList = async (
   page = 0,
   rowCount = 10
 ) => {
-  return await instance
-    .get("/NitelikDeger/BirlesmisListele?page=" + page, {
-      params: { rowCount },
-    })
-    .then((res) => res.data);
+  return DevExtremeCreateStore("/NitelikDeger/SayfaliListele");
 };
 
 export const getProductPropertyValue = async (_, id) => {
@@ -262,11 +226,7 @@ export const getProductPropertyValueRemove = async (_, id) => {
 
 //Product  Public Category  Api - Start
 export const getPublicCategoryList = async (_, page = 0, rowCount = 10) => {
-  return await instance
-    .get("/AnaKategori/SayfaliListele?page=" + page, {
-      params: { rowCount },
-    })
-    .then((res) => res.data);
+  return DevExtremeCreateStore("/AnaKategori/SayfaliListele");
 };
 
 export const getPublicCategory = async (_, id) => {
@@ -292,11 +252,7 @@ export const getPublicCategoryRemove = async (_, id) => {
 
 //Product  Children Category  Api - Start
 export const getChildrenCategoryList = async (_, page = 0, rowCount = 10) => {
-  return await instance
-    .get("/AltKategori/BirlesmisListele?page=" + page, {
-      params: { rowCount },
-    })
-    .then((res) => res.data);
+  return DevExtremeCreateStore("/AltKategori/SayfaliListele");
 };
 
 export const getChildrenCategory = async (_, id) => {
@@ -322,11 +278,7 @@ export const getChildrenCategoryRemove = async (_, id) => {
 
 //Category Api - Start
 export const getCategoryList = async (_, page = 0, rowCount = 10) => {
-  return await instance
-    .get("/Kategori/BirlesmisListele?page=" + page, {
-      params: { rowCount },
-    })
-    .then((res) => res.data);
+  return DevExtremeCreateStore("/Kategori/SayfaliListele");
 };
 
 export const getCategory = async (_, id) => {
