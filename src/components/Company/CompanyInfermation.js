@@ -10,11 +10,28 @@ import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { routes } from "../../constants/routes";
 
-const CompanyInfermation = () => {
+const CompanyInfermation = (props) => {
+  const { item, isEdit } = props;
+  console.log(item);
   const navigate = useNavigate();
   const [submitLoading, setSublitLoading] = useState(false);
   const [page, setPage] = useState(0);
   const [limit, setLimit] = useState(999);
+
+  const data = {
+    firmaUnvanı: item?.firmaUnvani,
+    kısaAdı: item?.kısaAd,
+    ulke: item?.ulke,
+    ulkeId: item?.ulkeId,
+    sehir: item?.sehir,
+    sehirId: item?.sehirId,
+    adres: item?.adres,
+    acikAdres: item?.acikAdresi,
+    postaKodu: item?.postaKodu,
+    vergiDairesi: item?.vergiDairesi,
+    vergiNo: item?.vergiNo,
+    sektoru: item?.sektoru,
+  };
 
   const { data: Country } = useSWR(
     ["getCountryList", page, limit],
@@ -25,16 +42,16 @@ const CompanyInfermation = () => {
 
   const { errors, handleChange, handleSubmit, values, touched } = useFormik({
     initialValues: {
-      FirmaUnvani: "",
-      KisaAd: "",
-      UlkeId: "",
-      SehirId: "",
-      Adres: "",
-      PostaKodu: "",
-      AcikAdresi: "",
-      VergiDairesi: "",
-      VergiNo: "",
-      Sektoru: "",
+      FirmaUnvani: data.firmaUnvanı || "",
+      KisaAd: data.kısaAdı || "",
+      UlkeId: data.ulkeId || "",
+      SehirId: data.sehirId || "",
+      Adres: data.adres || "",
+      PostaKodu: data.postaKodu || "",
+      AcikAdresi: data.acikAdres || "",
+      VergiDairesi: data.vergiDairesi || "",
+      VergiNo: data.vergiNo || "",
+      Sektoru: data.sektoru || "",
     },
     onSubmit: (values, { resetForm }) => {
       newCompanySubmit({ values });
@@ -63,6 +80,7 @@ const CompanyInfermation = () => {
               value={values.FirmaUnvani}
               onChange={handleChange}
               error={touched.FirmaUnvani && errors.FirmaUnvani}
+              disabled={isEdit}
             >
               Firma Unvanı
             </TextInput>
@@ -71,6 +89,7 @@ const CompanyInfermation = () => {
               value={values.KisaAd}
               onChange={handleChange}
               error={touched.KisaAd && errors.KisaAd}
+              disabled={isEdit}
             >
               Kısa Adı
             </TextInput>
@@ -81,6 +100,7 @@ const CompanyInfermation = () => {
               visableValue="adOrjinal"
               onChange={handleChange}
               error={touched.UlkeId && errors.UlkeId}
+              disabled={isEdit}
             >
               Ülke
             </SelectInput>
@@ -91,6 +111,7 @@ const CompanyInfermation = () => {
               visableValue="adOrjinal"
               onChange={handleChange}
               error={touched.SehirId && errors.SehirId}
+              disabled={isEdit}
             >
               Şehir
             </SelectInput>
@@ -99,6 +120,7 @@ const CompanyInfermation = () => {
               value={values.Adres}
               onChange={handleChange}
               error={touched.Adres && errors.Adres}
+              disabled={isEdit}
             >
               Adres
             </TextInput>
@@ -107,6 +129,7 @@ const CompanyInfermation = () => {
               value={values.PostaKodu}
               onChange={handleChange}
               error={touched.PostaKodu && errors.PostaKodu}
+              disabled={isEdit}
             >
               Posta Kodu
             </TextInput>
@@ -123,6 +146,7 @@ const CompanyInfermation = () => {
                 name={"AcikAdresi"}
                 value={values.AcikAdresi}
                 onChange={handleChange}
+                disabled={isEdit}
               />
             </Box>
           </Box>
@@ -132,6 +156,7 @@ const CompanyInfermation = () => {
               value={values.VergiDairesi}
               onChange={handleChange}
               error={touched.VergiDairesi && errors.VergiDairesi}
+              disabled={isEdit}
             >
               Vergi Dairesi
             </TextInput>
@@ -140,6 +165,7 @@ const CompanyInfermation = () => {
               value={values.VergiNo}
               onChange={handleChange}
               error={touched.VergiNo && errors.VergiNo}
+              disabled={isEdit}
             >
               Vergi No
             </TextInput>
@@ -148,6 +174,7 @@ const CompanyInfermation = () => {
               value={values.Sektoru}
               onChange={handleChange}
               error={touched.Sektoru && errors.Sektoru}
+              disabled={isEdit}
             >
               Sektörü
             </TextInput>

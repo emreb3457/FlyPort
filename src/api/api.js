@@ -55,7 +55,9 @@ export const getCompanyList = async (_, page = 0) => {
 };
 
 export const getCompany = async (_, id) => {
-  return await instance.get("/Firma/Bul/" + id).then((res) => res.data);
+  return await instance
+    .get("/Firma/SayfaBilgileri/" + id)
+    .then((res) => res.data);
 };
 export const getCompanyInsert = async (_, body) => {
   return await instance

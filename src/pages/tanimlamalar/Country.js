@@ -12,7 +12,7 @@ import BasicModal from "../../helpers/Modal";
 import SkeletonComp from "../../components/Skeleton/Skeleton";
 import { useModalStatus } from "../../hooks/useModalStatus";
 import { TextInput } from "../../components/Inputs/CustomInputs";
-import React, { useState } from "react";
+import React, { useMemo, useState } from "react";
 import { useFormik } from "formik";
 import { countryValidate } from "../../utils/validation";
 import { sendRequest } from "../../utils/helpers";
@@ -23,7 +23,7 @@ const CountryList = () => {
   const [radioValue, setRadioValue] = React.useState({});
   const [submitType, setSubmitType] = React.useState("");
 
-  const { data, mutate, error } = useSWR(["getCountry", page], getCountryList);
+  const { data, mutate, error } = useSWR(["getCountry"], getCountryList);
 
   const { errors, handleChange, handleSubmit, values, touched, setValues } =
     useFormik({
@@ -171,13 +171,10 @@ const CountryList = () => {
       <Box mt="20px" px={"38px"}>
         <ListTable
           head={Head}
-          row={data?.data}
-          page={page}
-          totalRowCount={data?.totalRowCount}
-          changePage={setPage}
+          row={data}
           radioValue={radioValue}
           radioSetValue={setRadioValue}
-          link={false}
+          link={true}
           select={true}
         />
       </Box>

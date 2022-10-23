@@ -1,4 +1,6 @@
+import { createStore } from "devextreme-aspnet-data-nojquery";
 import { toast } from "react-toastify";
+import { baseApi } from "../config/config";
 import { errorMessageWrite } from "./errorMessageWrite";
 
 export const getObjectLength = (object) => {
@@ -43,6 +45,19 @@ export const selectNitelikDeger = (...props) => {
 
     return newObj;
   };
+};
+
+export const DevExtremeCreateStore = (url) => {
+  return createStore({
+    key: "id",
+    loadUrl: `${baseApi + "api/v1" + url}`,
+    onBeforeSend: (method, ajaxOptions) => {
+      ajaxOptions.headers = {
+        "Content-Type": "application/json",
+        Authorization: "Bearer " + getToken(),
+      };
+    },
+  });
 };
 
 export const getToken = () => {

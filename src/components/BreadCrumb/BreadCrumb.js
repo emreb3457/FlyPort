@@ -2,7 +2,14 @@ import { Box, Text, Button } from "@chakra-ui/react";
 import { useNavigate } from "react-router-dom";
 import colors from "../../theme/colors";
 
-const BreadCrumb = ({ children, funct1, funct2, funct3, loading }) => {
+const BreadCrumb = ({
+  children,
+  funct1,
+  funct2,
+  funct3,
+  loading,
+  ...props
+}) => {
   const navigate = useNavigate();
 
   return (
@@ -15,6 +22,7 @@ const BreadCrumb = ({ children, funct1, funct2, funct3, loading }) => {
       alignItems="center"
       px="30px"
       mb="40px"
+      {...props}
     >
       <Box
         display={"flex"}
