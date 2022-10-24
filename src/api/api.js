@@ -2,7 +2,7 @@ import instance from "../utils/axios";
 import { DevExtremeCreateStore } from "../utils/helpers";
 
 export const getProductList = async (_, page = 0) => {
-  return DevExtremeCreateStore("/Urun/SayfaliListele");
+  return DevExtremeCreateStore("/Urun/BirlesmisListele");
 };
 
 export const getProduct = async (_, id) => {
@@ -24,7 +24,7 @@ export const getProductRemove = async (_, id) => {
 
 //
 export const getDemandList = async (_, page = 0) => {
-  return DevExtremeCreateStore("/Talep/SayfaliListele");
+  return DevExtremeCreateStore("/Talep/BirlesmisListele");
 };
 
 export const getDemand = async (_, id) => {
@@ -46,7 +46,7 @@ export const getDemandRemove = async (_, id) => {
 //
 
 export const getCompanyList = async (_, page = 0) => {
-  return DevExtremeCreateStore("/Firma/SayfaliListele");
+  return DevExtremeCreateStore("/Firma/BirlesmisListele");
 };
 
 export const getCompany = async (_, id) => {

@@ -1,5 +1,6 @@
 import { Box, Text, Button } from "@chakra-ui/react";
 import { useNavigate } from "react-router-dom";
+import AlertModal from "../../helpers/AlertModal";
 import colors from "../../theme/colors";
 
 const BreadCrumb = ({
@@ -51,11 +52,7 @@ const BreadCrumb = ({
             {funct2?.title}
           </StyledButton>
         )}
-        {funct3 && (
-          <StyledButton loading={loading} funct={funct3?.function}>
-            {funct3?.title}
-          </StyledButton>
-        )}
+        {funct3 && <AlertModal removeFunction={funct3.function} />}
       </Box>
     </Box>
   );

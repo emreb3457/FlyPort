@@ -74,9 +74,7 @@ const DemandList = () => {
   ];
 
   const removeDemand = async ({ radioValue, mutate }) => {
-    const { status } = await sendRequest(
-      getDemandRemove("_", JSON.parse(radioValue).id)
-    );
+    const { status } = await sendRequest(getDemandRemove("_", radioValue.id));
     status && mutate();
   };
 
@@ -91,8 +89,13 @@ const DemandList = () => {
             navigate(routes.yenitalep);
           },
         }}
+        funct2={{
+          title: "Detay",
+          function: () => {
+            navigate(routes.talepdetay + radioValue.id);
+          },
+        }}
         funct3={{
-          title: "Sil",
           function: () => {
             removeDemand({ radioValue, mutate });
           },

@@ -1,9 +1,12 @@
 export const routes = {
   urunler: "/urunler",
-  talepler: "/talepler",
+  urundetay: "/urunler/",
+  talepler: "/talepler/",
+  talepdetay: "/talepler",
   yenitalep: "/talepler/yeni",
   yeniurun: "/urunler/yeni",
   urunguncelle: "/urunler/guncelle",
   newcompany: "/firmalar/yeni",
   company: "/firmalar",
+  companydetail: "/firmalar/",
 };

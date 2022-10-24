@@ -40,7 +40,7 @@ const DeliveryType = () => {
           : updateDeliverySubmit({
               values,
               mutate,
-              id: JSON.parse(radioValue).id,
+              id: radioValue.id,
             });
 
         resetForm();
@@ -82,10 +82,12 @@ const DeliveryType = () => {
   };
 
   const removeDelivery = async ({ radioValue, mutate }) => {
-    const { status } = await sendRequest(
-      getDeliveryRemove("_", JSON.parse(radioValue).id)
-    );
-    status && mutate();
+    if (radioValue) {
+      const { status } = await sendRequest(
+        getDeliveryRemove("_", radioValue.id)
+      );
+      status && mutate();
+    }
   };
 
   const NewDeliveryComp = ({ handleChange, values, handleSubmit }) => {
@@ -107,7 +109,9 @@ const DeliveryType = () => {
         >
           Acıklama
         </TextInput>
-        <Button type="submit">Ekle</Button>
+        <Button type="submit">
+          {submitType === "create" ? "Ekle" : "Güncelle"}
+        </Button>
       </form>
     );
   };
@@ -128,17 +132,14 @@ const DeliveryType = () => {
           title: "Düzenle",
           function: () => {
             setSubmitType("update");
-            const radiovalue = JSON.parse(radioValue);
             setValues({
-              ...radiovalue,
+              ...radioValue,
             });
             clickFunct();
           },
         }}
         funct3={{
-          title: "Sil",
           function: () => {
-            setSubmitType("delete");
             removeDelivery({ radioValue, mutate });
           },
         }}
@@ -157,7 +158,7 @@ const DeliveryType = () => {
       </Box>
       <BasicModal
         click={isClick}
-        title={"Taşıma Tipi Ekle"}
+        title={submitType === "create" ? "Yeni Taşıma Tipi" : "Güncelle"}
         formik={{ handleChange, handleSubmit, values }}
         component={NewDeliveryComp({ handleChange, values, handleSubmit })}
       />

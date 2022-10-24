@@ -33,13 +33,13 @@ const UnitType = () => {
       },
       onSubmit: (values, { resetForm }) => {
         submitType === "create"
-          ? newCountrySubmit({ values, mutate, errors, setValues })
-          : updateCountrySubmit({
+          ? newUnitTypeSubmit({ values, mutate, errors, setValues })
+          : updateUnitTypeSubmit({
               values,
               mutate,
               errors,
               setValues,
-              id: JSON.parse(radioValue).id,
+              id: radioValue.id,
             });
         resetForm();
         document.getElementsByClassName("chakra-modal__close-btn")[0].click();
@@ -64,7 +64,7 @@ const UnitType = () => {
 
   const loading = !error && !data;
 
-  const newCountrySubmit = async ({ values, mutate }) => {
+  const newUnitTypeSubmit = async ({ values, mutate }) => {
     const { status } = await sendRequest(
       getUnitTypeInsert("", {
         ...values,
@@ -73,7 +73,7 @@ const UnitType = () => {
     status && mutate();
   };
 
-  const updateCountrySubmit = async ({ values, mutate, id }) => {
+  const updateUnitTypeSubmit = async ({ values, mutate, id }) => {
     const { status } = await sendRequest(
       getUnitTypeUpdate("", {
         id,
@@ -83,14 +83,12 @@ const UnitType = () => {
     status && mutate();
   };
 
-  const removeCountry = async ({ radioValue, mutate }) => {
-    const { status } = await sendRequest(
-      getUnitTypeRemove("_", JSON.parse(radioValue).id)
-    );
+  const removeUnitType = async ({ radioValue, mutate }) => {
+    const { status } = await sendRequest(getUnitTypeRemove("_", radioValue.id));
     status && mutate();
   };
 
-  const NewCountryComp = ({ handleChange, values, handleSubmit }) => {
+  const NewUnitTypeComp = ({ handleChange, values, handleSubmit }) => {
     return (
       <form onSubmit={handleSubmit} style={{ padding: "10px 0" }}>
         <TextInput
@@ -109,7 +107,9 @@ const UnitType = () => {
         >
           Acıklama
         </TextInput>
-        <Button type="submit">Ekle</Button>
+        <Button type="submit">
+          {submitType === "create" ? "Ekle" : "Güncelle"}
+        </Button>
       </form>
     );
   };
@@ -129,18 +129,15 @@ const UnitType = () => {
           title: "Düzenle",
           function: () => {
             setSubmitType("update");
-            const radiovalue = JSON.parse(radioValue);
             setValues({
-              ...radiovalue,
+              ...radioValue,
             });
             clickFunct();
           },
         }}
         funct3={{
-          title: "Sil",
           function: () => {
-            setSubmitType("delete");
-            removeCountry({ radioValue, mutate });
+            removeUnitType({ radioValue, mutate });
           },
         }}
       >
@@ -158,9 +155,9 @@ const UnitType = () => {
       </Box>
       <BasicModal
         click={isClick}
-        title={"Yeni Ülke Ekle"}
+        title={submitType === "create" ? "Yeni Birim Tipi" : "Güncelle"}
         formik={{ handleChange, handleSubmit, values }}
-        component={NewCountryComp({ handleChange, values, handleSubmit })}
+        component={NewUnitTypeComp({ handleChange, values, handleSubmit })}
       />
     </Box>
   );

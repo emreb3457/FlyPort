@@ -48,7 +48,7 @@ const ChildrenCategory = () => {
           : updateChildrenCategorySubmit({
               values,
               mutate,
-              id: JSON.parse(radioValue).id,
+              id: radioValue.id,
             });
 
         resetForm();
@@ -97,10 +97,12 @@ const ChildrenCategory = () => {
   };
 
   const removeChildrenCategory = async ({ radioValue, mutate }) => {
-    const { status } = await sendRequest(
-      getChildrenCategoryRemove("_", JSON.parse(radioValue).id)
-    );
-    status && mutate();
+    if (radioValue) {
+      const { status } = await sendRequest(
+        getChildrenCategoryRemove("_", radioValue.id)
+      );
+      status && mutate();
+    }
   };
 
   const NewChildrenCategoryComp = ({
@@ -137,7 +139,9 @@ const ChildrenCategory = () => {
         >
           Ana Kategori
         </SelectInput>
-        <Button type="submit">Ekle</Button>
+        <Button type="submit">
+          {submitType === "create" ? "Ekle" : "Güncelle"}
+        </Button>
       </form>
     );
   };
@@ -158,17 +162,14 @@ const ChildrenCategory = () => {
           title: "Düzenle",
           function: () => {
             setSubmitType("update");
-            const radiovalue = JSON.parse(radioValue);
             setValues({
-              ...radiovalue,
+              ...radioValue,
             });
             clickFunct();
           },
         }}
         funct3={{
-          title: "Sil",
           function: () => {
-            setSubmitType("delete");
             removeChildrenCategory({ radioValue, mutate });
           },
         }}
@@ -182,12 +183,11 @@ const ChildrenCategory = () => {
           radioValue={radioValue}
           radioSetValue={setRadioValue}
           link={false}
-          select={true}
         />
       </Box>
       <BasicModal
         click={isClick}
-        title={"Yeni Alt Kategori"}
+        title={submitType === "create" ? "Yeni Alt Kategori" : "Güncelle"}
         formik={{ handleChange, handleSubmit, values }}
         component={NewChildrenCategoryComp({
           handleChange,

@@ -96,9 +96,11 @@ import DataGrid, {
   ColumnFixing,
 } from "devextreme-react/data-grid";
 import { useNavigate } from "react-router-dom";
+import { Button } from "devextreme-react";
 
-const ListTable = ({ row, head, link, select }) => {
+const ListTable = ({ row, head, radioSetValue }) => {
   const navigation = useNavigate();
+
   return (
     <DataGrid
       dataSource={row}
@@ -106,29 +108,25 @@ const ListTable = ({ row, head, link, select }) => {
       allowColumnReordering={true}
       remoteOperations={true}
       columnAutoWidth={true}
-      // onSelectionChanged={(e) =>
-      //   link && navigation(e.selectedRowsData[0].id.toString())
-      // }
+      onSelectionChanged={(x) => radioSetValue(x.selectedRowsData[0])}
     >
       <ColumnChooser enabled={true} />
       <ColumnFixing enabled={true} />
       <Grouping autoExpandAll={true} />
       <FilterRow visible={true} />
-      <Selection mode={select && "multiple"} />
+      <Selection mode="multiple" />
       {head?.map((data, index) => {
         return index === 0 ? (
-          <>
-            <Column
-              key={index}
-              allowSorting={false}
-              allowFiltering={false}
-              allowGrouping={false}
-              allowReordering={false}
-              width={100}
-              caption={data.title}
-              dataField={data.column}
-            />
-          </>
+          <Column
+            key={index}
+            allowSorting={false}
+            allowFiltering={false}
+            allowGrouping={false}
+            allowReordering={false}
+            width={100}
+            caption={data.title}
+            dataField={data.column}
+          />
         ) : (
           <Column key={index} caption={data.title} dataField={data.column} />
         );

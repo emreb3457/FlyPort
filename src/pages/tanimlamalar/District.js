@@ -48,7 +48,7 @@ const DistrictList = () => {
               mutate,
               errors,
               setValues,
-              id: JSON.parse(radioValue).id,
+              id: radioValue.id,
             });
         resetForm();
         document.getElementsByClassName("chakra-modal__close-btn")[0].click();
@@ -97,10 +97,12 @@ const DistrictList = () => {
   };
 
   const removeDistrict = async ({ radioValue, mutate }) => {
-    const { status } = await sendRequest(
-      getDistrictRemove("_", JSON.parse(radioValue).id)
-    );
-    status && mutate();
+    if (radioValue) {
+      const { status } = await sendRequest(
+        getDistrictRemove("_", radioValue.id)
+      );
+      status && mutate();
+    }
   };
 
   const NewDistrictComp = ({ handleChange, values, handleSubmit, data }) => {
@@ -148,7 +150,10 @@ const DistrictList = () => {
         >
           Acıklama
         </TextInput>
-        <Button type="submit">Ekle</Button>
+        <Button type="submit">
+          {" "}
+          {submitType === "create" ? "Ekle" : "Güncelle"}
+        </Button>
       </form>
     );
   };
@@ -169,17 +174,14 @@ const DistrictList = () => {
           title: "Düzenle",
           function: () => {
             setSubmitType("update");
-            const radiovalue = JSON.parse(radioValue);
             setValues({
-              ...radiovalue,
+              ...radioValue,
             });
             clickFunct();
           },
         }}
         funct3={{
-          title: "Sil",
           function: () => {
-            setSubmitType("delete");
             removeDistrict({ radioValue, mutate });
           },
         }}
@@ -198,7 +200,7 @@ const DistrictList = () => {
       </Box>
       <BasicModal
         click={isClick}
-        title={"Yeni Ülke Ekle"}
+        title={submitType === "create" ? "Yeni İlçe" : "Güncelle"}
         formik={{ handleChange, handleSubmit, values }}
         component={NewDistrictComp({
           handleChange,

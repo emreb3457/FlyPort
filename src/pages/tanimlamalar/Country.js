@@ -39,7 +39,7 @@ const CountryList = () => {
           : updateCountrySubmit({
               values,
               mutate,
-              id: JSON.parse(radioValue).id,
+              id: radioValue.id,
             });
 
         resetForm();
@@ -88,11 +88,13 @@ const CountryList = () => {
     status && mutate();
   };
 
-  const removeCountry = async ({ radioValue, mutate }) => {
-    const { status } = await sendRequest(
-      getCountryRemove("_", JSON.parse(radioValue).id)
-    );
-    status && mutate();
+  const removeCountry = async ({ radioValue }) => {
+    if (radioValue) {
+      const { status } = await sendRequest(
+        getCountryRemove("_", radioValue.id)
+      );
+      status && mutate();
+    }
   };
 
   const NewCountryComp = ({ handleChange, values, handleSubmit }) => {
@@ -130,7 +132,9 @@ const CountryList = () => {
         >
           Acıklama
         </TextInput>
-        <Button type="submit">Ekle</Button>
+        <Button type="submit">
+          {submitType === "create" ? "Ekle" : "Güncelle"}
+        </Button>
       </form>
     );
   };
@@ -151,17 +155,14 @@ const CountryList = () => {
           title: "Düzenle",
           function: () => {
             setSubmitType("update");
-            const radiovalue = JSON.parse(radioValue);
             setValues({
-              ...radiovalue,
+              ...radioValue,
             });
             clickFunct();
           },
         }}
         funct3={{
-          title: "Sil",
           function: () => {
-            setSubmitType("delete");
             removeCountry({ radioValue, mutate });
           },
         }}
@@ -174,13 +175,12 @@ const CountryList = () => {
           row={data}
           radioValue={radioValue}
           radioSetValue={setRadioValue}
-          link={true}
-          select={true}
+          link={false}
         />
       </Box>
       <BasicModal
         click={isClick}
-        title={"Yeni Ülke Ekle"}
+        title={submitType === "create" ? "Yeni Ülke Ekle" : "Güncelle"}
         formik={{ handleChange, handleSubmit, values }}
         component={NewCountryComp({ handleChange, values, handleSubmit })}
       />

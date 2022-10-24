@@ -48,7 +48,7 @@ const Category = () => {
           : updateCategorySubmit({
               values,
               mutate,
-              id: JSON.parse(radioValue).id,
+              id: radioValue.id,
             });
 
         resetForm();
@@ -98,10 +98,12 @@ const Category = () => {
   };
 
   const removeCategory = async ({ radioValue, mutate }) => {
-    const { status } = await sendRequest(
-      getCategoryRemove("_", JSON.parse(radioValue).id)
-    );
-    status && mutate();
+    if (radioValue) {
+      const { status } = await sendRequest(
+        getCategoryRemove("_", radioValue.id)
+      );
+      status && mutate();
+    }
   };
 
   const NewCategoryComp = ({ handleChange, values, handleSubmit, data }) => {
@@ -133,7 +135,9 @@ const Category = () => {
         >
           Alt Kategori
         </SelectInput>
-        <Button type="submit">Ekle</Button>
+        <Button type="submit">
+          {submitType === "create" ? "Ekle" : "Güncelle"}
+        </Button>
       </form>
     );
   };
@@ -154,17 +158,14 @@ const Category = () => {
           title: "Düzenle",
           function: () => {
             setSubmitType("update");
-            const radiovalue = JSON.parse(radioValue);
             setValues({
-              ...radiovalue,
+              ...radioValue,
             });
             clickFunct();
           },
         }}
         funct3={{
-          title: "Sil",
           function: () => {
-            setSubmitType("delete");
             removeCategory({ radioValue, mutate });
           },
         }}
@@ -183,7 +184,7 @@ const Category = () => {
       </Box>
       <BasicModal
         click={isClick}
-        title={"Yeni Kategori"}
+        title={submitType === "create" ? "Yeni Kategori Ekle" : "Güncelle"}
         formik={{ handleChange, handleSubmit, values }}
         component={NewCategoryComp({
           handleChange,

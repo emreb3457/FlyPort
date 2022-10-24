@@ -40,7 +40,7 @@ const PublicCategory = () => {
           : updatePublicCategorySubmit({
               values,
               mutate,
-              id: JSON.parse(radioValue).id,
+              id: radioValue.id,
             });
 
         resetForm();
@@ -86,10 +86,12 @@ const PublicCategory = () => {
   };
 
   const removePublicCategory = async ({ radioValue, mutate }) => {
-    const { status } = await sendRequest(
-      getPublicCategoryRemove("_", JSON.parse(radioValue).id)
-    );
-    status && mutate();
+    if (radioValue) {
+      const { status } = await sendRequest(
+        getPublicCategoryRemove("_", radioValue.id)
+      );
+      status && mutate();
+    }
   };
 
   const NewPublicCategoryComp = ({ handleChange, values, handleSubmit }) => {
@@ -111,7 +113,10 @@ const PublicCategory = () => {
         >
           Acıklama
         </TextInput>
-        <Button type="submit">Ekle</Button>
+        <Button type="submit">
+          {" "}
+          {submitType === "create" ? "Ekle" : "Güncelle"}
+        </Button>
       </form>
     );
   };
@@ -132,17 +137,14 @@ const PublicCategory = () => {
           title: "Düzenle",
           function: () => {
             setSubmitType("update");
-            const radiovalue = JSON.parse(radioValue);
             setValues({
-              ...radiovalue,
+              ...radioValue,
             });
             clickFunct();
           },
         }}
         funct3={{
-          title: "Sil",
           function: () => {
-            setSubmitType("delete");
             removePublicCategory({ radioValue, mutate });
           },
         }}
@@ -161,7 +163,7 @@ const PublicCategory = () => {
       </Box>
       <BasicModal
         click={isClick}
-        title={"Yeni Genel Kategori"}
+        title={submitType === "create" ? "Yeni Genel Kategori" : "Güncelle"}
         formik={{ handleChange, handleSubmit, values }}
         component={NewPublicCategoryComp({
           handleChange,

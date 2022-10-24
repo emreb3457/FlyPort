@@ -65,9 +65,7 @@ const CompanyList = () => {
   ];
 
   const removeCompany = async ({ radioValue, mutate }) => {
-    const { status } = await sendRequest(
-      getCompanyRemove("_", JSON.parse(radioValue).id)
-    );
+    const { status } = await sendRequest(getCompanyRemove("_", radioValue.id));
     status && mutate();
   };
 
@@ -82,8 +80,13 @@ const CompanyList = () => {
             navigate(routes.newcompany);
           },
         }}
+        funct2={{
+          title: "Detay",
+          function: () => {
+            navigate(routes.companydetail + radioValue.id);
+          },
+        }}
         funct3={{
-          title: "Sil",
           function: () => {
             removeCompany({ radioValue, mutate });
           },

@@ -13,7 +13,7 @@ root.render(
     <SWRConfig value={{}}>
       <App />
     </SWRConfig>
-    <ToastContainer />
+    <ToastContainer pauseOnHover={false} />
   </ChakraProvider>
 );
 

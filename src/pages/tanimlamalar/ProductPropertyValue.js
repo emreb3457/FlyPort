@@ -48,7 +48,7 @@ const ProductPropertyValue = () => {
           : updateProductPropertyValueSubmit({
               values,
               mutate,
-              id: JSON.parse(radioValue).id,
+              id: radioValue.id,
             });
 
         resetForm();
@@ -94,10 +94,13 @@ const ProductPropertyValue = () => {
   };
 
   const removeProductPropertyValue = async ({ radioValue, mutate }) => {
-    const { status } = await sendRequest(
-      getProductPropertyValueRemove("_", JSON.parse(radioValue).id)
-    );
-    status && mutate();
+    console.log(radioValue);
+    if (radioValue) {
+      const { status } = await sendRequest(
+        getProductPropertyValueRemove("_", radioValue.id)
+      );
+      status && mutate();
+    }
   };
 
   const NewProductPropertyValueComp = ({
@@ -134,7 +137,9 @@ const ProductPropertyValue = () => {
         >
           Nitelik
         </SelectInput>
-        <Button type="submit">Ekle</Button>
+        <Button type="submit">
+          {submitType === "create" ? "Ekle" : "Güncelle"}
+        </Button>
       </form>
     );
   };
@@ -155,17 +160,14 @@ const ProductPropertyValue = () => {
           title: "Düzenle",
           function: () => {
             setSubmitType("update");
-            const radiovalue = JSON.parse(radioValue);
             setValues({
-              ...radiovalue,
+              ...radioValue,
             });
             clickFunct();
           },
         }}
         funct3={{
-          title: "Sil",
           function: () => {
-            setSubmitType("delete");
             removeProductPropertyValue({ radioValue, mutate });
           },
         }}
@@ -184,7 +186,7 @@ const ProductPropertyValue = () => {
       </Box>
       <BasicModal
         click={isClick}
-        title={"Yeni Ülke Ekle"}
+        title={submitType === "create" ? "Yeni Nitelik Değer" : "Güncelle"}
         formik={{ handleChange, handleSubmit, values }}
         component={NewProductPropertyValueComp({
           handleChange,

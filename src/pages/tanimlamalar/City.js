@@ -46,7 +46,7 @@ const CityList = () => {
           : updateCitySubmit({
               values,
               mutate,
-              id: JSON.parse(radioValue).id,
+              id: radioValue.id,
             });
         resetForm();
         document.getElementsByClassName("chakra-modal__close-btn")[0].click();
@@ -95,10 +95,10 @@ const CityList = () => {
   };
 
   const removeCity = async ({ radioValue, mutate }) => {
-    const { status } = await sendRequest(
-      getCityRemove("_", JSON.parse(radioValue).id)
-    );
-    status && mutate();
+    if (radioValue) {
+      const { status } = await sendRequest(getCityRemove("_", radioValue.id));
+      status && mutate();
+    }
   };
 
   const NewCityComp = ({ handleChange, values, handleSubmit, data }) => {
@@ -146,7 +146,10 @@ const CityList = () => {
         >
           Acıklama
         </TextInput>
-        <Button type="submit">Ekle</Button>
+        <Button type="submit">
+          {" "}
+          {submitType === "create" ? "Ekle" : "Güncelle"}
+        </Button>
       </form>
     );
   };
@@ -167,17 +170,14 @@ const CityList = () => {
           title: "Düzenle",
           function: () => {
             setSubmitType("update");
-            const radiovalue = JSON.parse(radioValue);
             setValues({
-              ...radiovalue,
+              ...radioValue,
             });
             clickFunct();
           },
         }}
         funct3={{
-          title: "Sil",
           function: () => {
-            setSubmitType("delete");
             removeCity({ radioValue, mutate });
           },
         }}
@@ -191,12 +191,11 @@ const CityList = () => {
           radioValue={radioValue}
           radioSetValue={setRadioValue}
           link={false}
-          select={true}
         />
       </Box>
       <BasicModal
         click={isClick}
-        title={"Yeni Ülke Ekle"}
+        title={submitType === "create" ? "Yeni Ülke" : "Güncelle"}
         formik={{ handleChange, handleSubmit, values }}
         component={NewCityComp({
           handleChange,

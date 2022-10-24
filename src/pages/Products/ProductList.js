@@ -8,6 +8,7 @@ import { sendRequest } from "../../utils/helpers";
 import { useNavigate } from "react-router-dom";
 import { routes } from "../../constants/routes";
 import { getProductList, getProductRemove } from "../../api/api";
+import AlertModal from "../../helpers/AlertModal";
 
 const ProductList = () => {
   const navigate = useNavigate();
@@ -59,7 +60,7 @@ const ProductList = () => {
     },
     {
       title: "Kayıtlı Üretici",
-      column: "aciklama",
+      column: "kayıtlıuretici",
     },
     {
       title: "Sipariş Sayısı",
@@ -68,10 +69,12 @@ const ProductList = () => {
   ];
 
   const removeProduct = async ({ radioValue, mutate }) => {
-    const { status } = await sendRequest(
-      getProductRemove("_", JSON.parse(radioValue).id)
-    );
-    status && mutate();
+    if (radioValue) {
+      const { status } = await sendRequest(
+        getProductRemove("_", radioValue.id)
+      );
+      status && mutate();
+    }
   };
 
   return loading ? (
@@ -85,8 +88,13 @@ const ProductList = () => {
             navigate(routes.yeniurun);
           },
         }}
+        funct2={{
+          title: "Detay",
+          function: () => {
+            navigate(routes.urundetay + radioValue.id);
+          },
+        }}
         funct3={{
-          title: "Sil",
           function: () => {
             removeProduct({ radioValue, mutate });
           },
@@ -100,7 +108,7 @@ const ProductList = () => {
           row={data}
           radioValue={radioValue}
           radioSetValue={setRadioValue}
-          link={true}
+          link={false}
           select={true}
         />
       </Box>
