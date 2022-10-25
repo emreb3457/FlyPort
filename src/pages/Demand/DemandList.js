@@ -7,7 +7,7 @@ import React, { useState } from "react";
 import { sendRequest } from "../../utils/helpers";
 import { useNavigate } from "react-router-dom";
 import { routes } from "../../constants/routes";
-import { getDemandList, getDemandRemove } from "../../api/api";
+import { getDemandList, getDemandRemove, getDemandTable } from "../../api/api";
 
 const DemandList = () => {
   const navigate = useNavigate();
@@ -16,7 +16,7 @@ const DemandList = () => {
 
   const { data, mutate, error } = useSWR(
     ["getDemandList", page],
-    getDemandList
+    getDemandTable
   );
 
   const loading = !error && !data;

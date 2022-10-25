@@ -6,6 +6,7 @@ import {
   getDeliveryInsert,
   getDeliveryList,
   getDeliveryRemove,
+  getDeliveryTable,
   getDeliveryUpdate,
 } from "../../api/DefinitionsApi";
 import BasicModal from "../../helpers/Modal";
@@ -25,7 +26,7 @@ const DeliveryType = () => {
 
   const { data, mutate, error } = useSWR(
     ["getDelivery", page],
-    getDeliveryList
+    getDeliveryTable
   );
 
   const { errors, handleChange, handleSubmit, values, touched, setValues } =

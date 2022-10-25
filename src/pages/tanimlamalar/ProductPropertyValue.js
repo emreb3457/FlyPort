@@ -7,6 +7,7 @@ import {
   getProductPropertyValueInsert,
   getProductPropertyValueList,
   getProductPropertyValueRemove,
+  getProductPropertyValueTable,
   getProductPropertyValueUpdate,
 } from "../../api/DefinitionsApi";
 import BasicModal from "../../helpers/Modal";
@@ -27,7 +28,7 @@ const ProductPropertyValue = () => {
 
   const { data, mutate, error } = useSWR(
     ["getProductPropertyValue", page],
-    getProductPropertyValueList
+    getProductPropertyValueTable
   );
 
   const { data: ProductProperty } = useSWR(
@@ -175,7 +176,8 @@ const ProductPropertyValue = () => {
         Ürün Nitelik Değer
       </BreadCrumb>
       <Box mt="20px" px={"38px"}>
-        <ListTable id="Prog"
+        <ListTable
+          id="ProductPropertyValue"
           head={Head}
           row={data}
           radioValue={radioValue}

@@ -6,6 +6,7 @@ import {
   getPublicCategoryInsert,
   getPublicCategoryList,
   getPublicCategoryRemove,
+  getPublicCategoryTable,
   getPublicCategoryUpdate,
 } from "../../api/DefinitionsApi";
 import BasicModal from "../../helpers/Modal";
@@ -25,7 +26,7 @@ const PublicCategory = () => {
 
   const { data, mutate, error } = useSWR(
     ["getPublicCategory", page],
-    getPublicCategoryList
+    getPublicCategoryTable
   );
 
   const { errors, handleChange, handleSubmit, values, touched, setValues } =
@@ -152,7 +153,8 @@ const PublicCategory = () => {
         Genel Kategori
       </BreadCrumb>
       <Box mt="20px" px={"38px"}>
-        <ListTable id="PublicCategory"
+        <ListTable
+          id="PublicCategory"
           head={Head}
           row={data}
           radioValue={radioValue}

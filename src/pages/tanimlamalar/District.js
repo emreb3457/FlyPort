@@ -8,6 +8,7 @@ import {
   getDistrictRemove,
   getDistrictUpdate,
   getCityList,
+  getDistrictTable,
 } from "../../api/DefinitionsApi";
 import BasicModal from "../../helpers/Modal";
 import SkeletonComp from "../../components/Skeleton/Skeleton";
@@ -27,7 +28,7 @@ const DistrictList = () => {
 
   const { data, mutate, error } = useSWR(
     ["getDistrict", page],
-    getDistrictList
+    getDistrictTable
   );
   const { data: citydata } = useSWR(["getCity", page, limit], getCityList);
 

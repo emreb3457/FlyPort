@@ -6,6 +6,7 @@ import {
   getCountryInsert,
   getCountryList,
   getCountryRemove,
+  getCountryTable,
   getCountryUpdate,
 } from "../../api/DefinitionsApi";
 import BasicModal from "../../helpers/Modal";
@@ -23,7 +24,7 @@ const CountryList = () => {
   const [radioValue, setRadioValue] = React.useState({});
   const [submitType, setSubmitType] = React.useState("");
 
-  const { data, mutate, error } = useSWR(["getCountry"], getCountryList);
+  const { data, mutate, error } = useSWR(["getCountry"], getCountryTable);
 
   const { errors, handleChange, handleSubmit, values, touched, setValues } =
     useFormik({
@@ -170,7 +171,8 @@ const CountryList = () => {
         Ülkeler
       </BreadCrumb>
       <Box mt="20px" px={"38px"}>
-        <ListTable id="Country"
+        <ListTable
+          id="Country"
           head={Head}
           row={data}
           radioValue={radioValue}

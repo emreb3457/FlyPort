@@ -212,7 +212,7 @@ export const getProductPropertyTable = async (_, page = 0, rowCount = 10) => {
 };
 
 export const getProductPropertyList = async (_, page = 0, rowCount = 10) => {
-  return await instance.post("/Nitelik/SayfaliListele").then((res) => res.data);
+  return await instance.get("/Nitelik/SayfaliListele").then((res) => res.data);
 };
 
 export const getProductProperty = async (_, id) => {
@@ -247,7 +247,7 @@ export const getProductPropertyValueList = async (
   rowCount = 10
 ) => {
   return await instance
-    .post("/NitelikDeger/SayfaliListele")
+    .get("/NitelikDeger/SayfaliListele")
     .then((res) => res.data);
 };
 
@@ -281,7 +281,7 @@ export const getPublicCategoryTable = async (_, page = 0, rowCount = 10) => {
 
 export const getPublicCategoryList = async (_, page = 0, rowCount = 10) => {
   return await instance
-    .post("/AnaKategori/SayfaliListele")
+    .get("/AnaKategori/SayfaliListele")
     .then((res) => res.data);
 };
 
@@ -313,7 +313,7 @@ export const getChildrenCategoryTable = async (_, page = 0, rowCount = 10) => {
 
 export const getChildrenCategoryList = async (_, page = 0, rowCount = 10) => {
   return await instance
-    .post("/AltKategori/SayfaliListele")
+    .get("/AltKategori/SayfaliListele")
     .then((res) => res.data);
 };
 
@@ -345,7 +345,7 @@ export const getCategoryTable = async (_, page = 0, rowCount = 10) => {
 
 export const getCategoryList = async (_, page = 0, rowCount = 10) => {
   return await instance
-    .post("/Kategori/SayfaliListele")
+    .get("/Kategori/SayfaliListele")
     .then((res) => res.data);
 };
 

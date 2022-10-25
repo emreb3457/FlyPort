@@ -6,6 +6,7 @@ import {
   getCategoryInsert,
   getCategoryList,
   getCategoryRemove,
+  getCategoryTable,
   getCategoryUpdate,
   getChildrenCategoryList,
 } from "../../api/DefinitionsApi";
@@ -27,7 +28,7 @@ const Category = () => {
 
   const { data, mutate, error } = useSWR(
     ["getCategory", page],
-    getCategoryList
+    getCategoryTable
   );
 
   const { data: PublicCategory } = useSWR(
@@ -173,7 +174,8 @@ const Category = () => {
         Kategori
       </BreadCrumb>
       <Box mt="20px" px={"38px"}>
-        <ListTable id="Category"
+        <ListTable
+          id="Category"
           head={Head}
           row={data}
           radioValue={radioValue}

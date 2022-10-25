@@ -7,6 +7,7 @@ import {
   getUnitTypeRemove,
   getUnitTypeUpdate,
   getUnitTypeList,
+  getUnitTypeTable,
 } from "../../api/DefinitionsApi";
 import BasicModal from "../../helpers/Modal";
 import SkeletonComp from "../../components/Skeleton/Skeleton";
@@ -23,7 +24,7 @@ const UnitType = () => {
   const [radioValue, setRadioValue] = React.useState({});
   const [submitType, setSubmitType] = React.useState("");
 
-  const { data, mutate, error } = useSWR(["getUnitType"], getUnitTypeList);
+  const { data, mutate, error } = useSWR(["getUnitType"], getUnitTypeTable);
 
   const { errors, handleChange, handleSubmit, values, setValues, touched } =
     useFormik({
@@ -144,7 +145,8 @@ const UnitType = () => {
         Birim Tipi
       </BreadCrumb>
       <Box mt="20px" px={"38px"}>
-        <ListTable id="UnitType"
+        <ListTable
+          id="UnitType"
           head={Head}
           row={data}
           radioValue={radioValue}

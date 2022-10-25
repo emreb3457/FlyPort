@@ -6,7 +6,7 @@ export const getProductTable = async (_, page = 0) => {
 };
 
 export const getProductList = async (_, page = 0) => {
-  return await instance.post("/Urun/BirlesmisListele").then((res) => res.data);
+  return await instance.get("/Urun/BirlesmisListele").then((res) => res.data);
 };
 
 export const getProduct = async (_, id) => {
@@ -32,7 +32,7 @@ export const getDemandTable = async (_, page = 0) => {
 };
 
 export const getDemandList = async (_, page = 0) => {
-  return await instance.post("/Talep/BirlesmisListele").then((res) => res.data);
+  return await instance.get("/Talep/BirlesmisListele").then((res) => res.data);
 };
 
 export const getDemand = async (_, id) => {
@@ -58,7 +58,7 @@ export const getCompanyTable = async (_, page = 0) => {
 };
 
 export const getCompanyList = async (_, page = 0) => {
-  return await instance.post("/Firma/BirlesmisTablo").then((res) => res.data);
+  return await instance.get("/Firma/BirlesmisTablo").then((res) => res.data);
 };
 
 export const getCompany = async (_, id) => {

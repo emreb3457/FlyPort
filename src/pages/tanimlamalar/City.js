@@ -6,6 +6,7 @@ import {
   getCityInsert,
   getCityList,
   getCityRemove,
+  getCityTable,
   getCityUpdate,
   getCountryList,
 } from "../../api/DefinitionsApi";
@@ -25,7 +26,7 @@ const CityList = () => {
   const [radioValue, setRadioValue] = React.useState({});
   const [submitType, setSubmitType] = React.useState("");
 
-  const { data, mutate, error } = useSWR(["getCity", page], getCityList);
+  const { data, mutate, error } = useSWR(["getCity", page], getCityTable);
   const { data: countrydata } = useSWR(
     ["getCountry", page, limit],
     getCountryList
@@ -185,7 +186,7 @@ const CityList = () => {
         Şehirler
       </BreadCrumb>
       <Box mt="20px" px={"38px"}>
-        <ListTable id="Citu"
+        <ListTable id="City"
           head={Head}
           row={data}
           radioValue={radioValue}

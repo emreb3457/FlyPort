@@ -4,8 +4,8 @@ import ListTable from "../../components/ListTable";
 import useSWR from "swr";
 import {
   getProductPropertyInsert,
-  getProductPropertyList,
   getProductPropertyRemove,
+  getProductPropertyTable,
   getProductPropertyUpdate,
 } from "../../api/DefinitionsApi";
 import BasicModal from "../../helpers/Modal";
@@ -25,9 +25,9 @@ const ProductProperty = () => {
 
   const { data, mutate, error } = useSWR(
     ["getProductProperty", page],
-    getProductPropertyList
+    getProductPropertyTable
   );
-
+  console.log(data);
   const { errors, handleChange, handleSubmit, values, touched, setValues } =
     useFormik({
       initialValues: {
@@ -147,7 +147,8 @@ const ProductProperty = () => {
         Nitelik
       </BreadCrumb>
       <Box mt="20px" px={"38px"}>
-        <ListTable id="ProductionProp"
+        <ListTable
+          id="ProductPropert"
           head={Head}
           row={data}
           radioValue={radioValue}

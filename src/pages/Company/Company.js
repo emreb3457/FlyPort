@@ -7,7 +7,11 @@ import React, { useState } from "react";
 import { sendRequest } from "../../utils/helpers";
 import { useNavigate } from "react-router-dom";
 import { routes } from "../../constants/routes";
-import { getCompanyList, getCompanyRemove } from "../../api/api";
+import {
+  getCompanyList,
+  getCompanyRemove,
+  getCompanyTable,
+} from "../../api/api";
 
 const CompanyList = () => {
   const navigate = useNavigate();
@@ -16,7 +20,7 @@ const CompanyList = () => {
 
   const { data, mutate, error } = useSWR(
     ["getCompanyList", page],
-    getCompanyList
+    getCompanyTable
   );
 
   const loading = !error && !data;

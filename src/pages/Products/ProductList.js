@@ -7,8 +7,7 @@ import React, { useState } from "react";
 import { sendRequest } from "../../utils/helpers";
 import { useNavigate } from "react-router-dom";
 import { routes } from "../../constants/routes";
-import { getProductList, getProductRemove } from "../../api/api";
-import AlertModal from "../../helpers/AlertModal";
+import { getProductTable, getProductRemove } from "../../api/api";
 
 const ProductList = () => {
   const navigate = useNavigate();
@@ -17,7 +16,7 @@ const ProductList = () => {
 
   const { data, mutate, error } = useSWR(
     ["getProductList", page],
-    getProductList
+    getProductTable
   );
 
   const loading = !error && !data;
@@ -103,7 +102,8 @@ const ProductList = () => {
         Ürünler
       </BreadCrumb>
       <Box mt="20px" px={"38px"}>
-        <ListTable id="ProductList"
+        <ListTable
+          id="ProductList"
           head={Head}
           row={data}
           radioValue={radioValue}

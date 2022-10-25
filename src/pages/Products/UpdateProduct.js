@@ -72,6 +72,8 @@ const UpdateProduct = () => {
     setFieldValue("UrunResimleri", [...e.target.files]);
   };
 
+  useEffect(() => {}, [ProductPropertyValue]); //don't delete
+
   const { errors, handleChange, handleSubmit, values, touched, setFieldValue } =
     useFormik({
       initialValues: {
