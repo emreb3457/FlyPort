@@ -53,7 +53,7 @@ const PriceSurveys = () => {
     ]
     return (
         <Box mt="20px" px={"38px"}>
-            <ListTable head={Head} row={Row} select={true} link={true} />
+            <ListTable id="PriceSurveys" head={Head} row={Row} select={true} link={true} />
         </Box>
     )
 }

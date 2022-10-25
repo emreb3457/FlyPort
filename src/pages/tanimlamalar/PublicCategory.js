@@ -152,7 +152,7 @@ const PublicCategory = () => {
         Genel Kategori
       </BreadCrumb>
       <Box mt="20px" px={"38px"}>
-        <ListTable
+        <ListTable id="PublicCategory"
           head={Head}
           row={data}
           radioValue={radioValue}

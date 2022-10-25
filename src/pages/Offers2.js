@@ -64,7 +64,7 @@ const Offers2 = () => {
     ]
     return (
         <Box mt="20px" px={"38px"}>
-            <ListTable head={Head} row={Row} select={true} link={true} />
+            <ListTable id="Offers2" head={Head} row={Row} select={true} link={true} />
         </Box>
     )
 }

@@ -147,7 +147,7 @@ const ProductProperty = () => {
         Nitelik
       </BreadCrumb>
       <Box mt="20px" px={"38px"}>
-        <ListTable
+        <ListTable id="ProductionProp"
           head={Head}
           row={data}
           radioValue={radioValue}

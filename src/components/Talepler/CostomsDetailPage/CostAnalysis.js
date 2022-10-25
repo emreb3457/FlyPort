@@ -59,7 +59,7 @@ const CostAnalysis = () => {
     return (
         <Box>
             <Box mt="20px" px={"38px"}>
-                <ListTable head={Head} row={Row} />
+                <ListTable id="CostAnalysis" head={Head} row={Row} />
                 <Box display={"flex"} justifyContent="end" mt={{ lg: "80px" }}>
                     <Box width={{ lg: "35%", "2xl": "30%" }} >
                         <Label label={"Taşıma Tipi: "} >123456</Label>

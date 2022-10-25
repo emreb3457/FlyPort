@@ -46,7 +46,7 @@ const ProductList = () => {
                 <StyledButton>Sil</StyledButton>
                 <StyledButton>Excelden Aktar</StyledButton>
             </Box>
-            <ListTable head={Head} row={Row} link={true} />
+            <ListTable id="ProductList" head={Head} row={Row} link={true} />
         </Box>
     )
 }

@@ -170,7 +170,7 @@ const CountryList = () => {
         Ülkeler
       </BreadCrumb>
       <Box mt="20px" px={"38px"}>
-        <ListTable
+        <ListTable id="Country"
           head={Head}
           row={data}
           radioValue={radioValue}

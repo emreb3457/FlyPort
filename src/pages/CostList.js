@@ -75,7 +75,7 @@ const CustomsList = () => {
                 }}
             >Ülkelere Göre Maliyetleri</BreadCrumb>
             <Box mt="20px" px={"38px"}>
-                <ListTable head={Head} row={Row} link={true} select={true} />
+                <ListTable id="CostList" head={Head} row={Row} link={true} select={true} />
             </Box>
         </Box>
     )
