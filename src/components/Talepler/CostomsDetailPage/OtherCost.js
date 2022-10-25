@@ -55,7 +55,7 @@ const OtherCost = () => {
     return (
         <Box>
             <Box mt="20px" px={"38px"}>
-                <ListTable head={Head} row={Row} link={true} select={true} />
+                <ListTable id="OtherCost" head={Head} row={Row} link={true} select={true} />
             </Box>
         </Box>
     )

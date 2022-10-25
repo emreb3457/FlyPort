@@ -147,7 +147,7 @@ const DeliveryType = () => {
         Taşıma Tipi
       </BreadCrumb>
       <Box mt="20px" px={"38px"}>
-        <ListTable
+        <ListTable id="DeliveryType"
           head={Head}
           row={data}
           radioValue={radioValue}

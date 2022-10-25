@@ -51,7 +51,7 @@ const Logistics = () => {
                 }}
             >Yurtdışı Taşıma</BreadCrumb>
             <Box mt="20px" px={"38px"}>
-                <ListTable head={Head} row={Row} link={true} />
+                <ListTable id="Logistis" head={Head} row={Row} link={true} />
             </Box>
         </Box>
     )

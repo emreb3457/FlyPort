@@ -175,7 +175,7 @@ const ProductPropertyValue = () => {
         Ürün Nitelik Değer
       </BreadCrumb>
       <Box mt="20px" px={"38px"}>
-        <ListTable
+        <ListTable id="Prog"
           head={Head}
           row={data}
           radioValue={radioValue}

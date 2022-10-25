@@ -97,11 +97,20 @@ import DataGrid, {
   StateStoring,
 } from "devextreme-react/data-grid";
 import { useNavigate } from "react-router-dom";
-import { Button } from "devextreme-react";
 
-const ListTable = ({ row, head, radioSetValue }) => {
+
+
+const ListTable = ({ id, row, head, radioSetValue }) => {
   const navigation = useNavigate();
+  const tableKey = `${id}_table`;
+  const customLoad = () => {
+    var state = localStorage.getItem(tableKey);
+    return JSON.parse(state);
+  };
 
+  const customSave = (state) => {
+    localStorage.setItem(tableKey, JSON.stringify(state));
+  };
   return (
     <DataGrid
       dataSource={row}
@@ -112,7 +121,7 @@ const ListTable = ({ row, head, radioSetValue }) => {
       onSelectionChanged={(x) => radioSetValue(x.selectedRowsData[0])}
     >
       <ColumnChooser enabled={true} />
-      <StateStoring enabled={true}></StateStoring>
+      <StateStoring enabled={true} type="custom" customLoad={customLoad} customSave={customSave} />
       <ColumnFixing enabled={true} />
       <Grouping autoExpandAll={true} />
       <FilterRow visible={true} />

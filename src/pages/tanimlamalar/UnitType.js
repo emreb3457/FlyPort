@@ -144,7 +144,7 @@ const UnitType = () => {
         Birim Tipi
       </BreadCrumb>
       <Box mt="20px" px={"38px"}>
-        <ListTable
+        <ListTable id="UnitType"
           head={Head}
           row={data}
           radioValue={radioValue}
