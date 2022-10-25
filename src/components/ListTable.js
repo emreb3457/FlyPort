@@ -94,6 +94,7 @@ import DataGrid, {
   Selection,
   ColumnChooser,
   ColumnFixing,
+  StateStoring,
 } from "devextreme-react/data-grid";
 import { useNavigate } from "react-router-dom";
 import { Button } from "devextreme-react";
@@ -111,6 +112,7 @@ const ListTable = ({ row, head, radioSetValue }) => {
       onSelectionChanged={(x) => radioSetValue(x.selectedRowsData[0])}
     >
       <ColumnChooser enabled={true} />
+      <StateStoring enabled={true}></StateStoring>
       <ColumnFixing enabled={true} />
       <Grouping autoExpandAll={true} />
       <FilterRow visible={true} />
