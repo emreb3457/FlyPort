@@ -1,8 +1,12 @@
 import instance from "../utils/axios";
 import { DevExtremeCreateStore } from "../utils/helpers";
 
+export const getProductTable = async (_, page = 0) => {
+  return DevExtremeCreateStore("/Urun/BirlesmisTablo");
+};
+
 export const getProductList = async (_, page = 0) => {
-  return DevExtremeCreateStore("/Urun/BirlesmisListele");
+  return await instance.post("/Urun/BirlesmisListele").then((res) => res.data);
 };
 
 export const getProduct = async (_, id) => {
@@ -23,8 +27,12 @@ export const getProductRemove = async (_, id) => {
 };
 
 //
+export const getDemandTable = async (_, page = 0) => {
+  return DevExtremeCreateStore("/Talep/BirlesmisTablo");
+};
+
 export const getDemandList = async (_, page = 0) => {
-  return DevExtremeCreateStore("/Talep/BirlesmisListele");
+  return await instance.post("/Talep/BirlesmisListele").then((res) => res.data);
 };
 
 export const getDemand = async (_, id) => {
@@ -45,8 +53,12 @@ export const getDemandRemove = async (_, id) => {
 };
 //
 
+export const getCompanyTable = async (_, page = 0) => {
+  return DevExtremeCreateStore("/Firma/BirlesmisTablo");
+};
+
 export const getCompanyList = async (_, page = 0) => {
-  return DevExtremeCreateStore("/Firma/BirlesmisListele");
+  return await instance.post("/Firma/BirlesmisTablo").then((res) => res.data);
 };
 
 export const getCompany = async (_, id) => {
