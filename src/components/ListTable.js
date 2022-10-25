@@ -83,7 +83,7 @@
 // };
 // export default ListTable;
 // Powered by DevExtreme React Components. See https://www.npmjs.com/package/devextreme-react
-import React from "react";
+import React, { useMemo, useState } from "react";
 
 import DataGrid, {
   Column,
@@ -98,54 +98,62 @@ import DataGrid, {
 } from "devextreme-react/data-grid";
 import { useNavigate } from "react-router-dom";
 
-
-
-const ListTable = ({ id, row, head, radioSetValue }) => {
-  const navigation = useNavigate();
+const ListTable = ({ id, row, head, radioSetValue, selected }) => {
   const tableKey = `${id}_table`;
+
   const customLoad = () => {
-    var state = localStorage.getItem(tableKey);
+    let state = localStorage.getItem(tableKey);
     return JSON.parse(state);
   };
 
   const customSave = (state) => {
     localStorage.setItem(tableKey, JSON.stringify(state));
   };
-  return (
-    <DataGrid
-      dataSource={row}
-      keyExpr={"id"}
-      allowColumnReordering={true}
-      remoteOperations={true}
-      columnAutoWidth={true}
-      onSelectionChanged={(x) => radioSetValue(x.selectedRowsData[0])}
-    >
-      <ColumnChooser enabled={true} />
-      <StateStoring enabled={true} type="custom" customLoad={customLoad} customSave={customSave} />
-      <ColumnFixing enabled={true} />
-      <Grouping autoExpandAll={true} />
-      <FilterRow visible={true} />
-      <Selection mode="multiple" />
-      {head?.map((data, index) => {
-        return index === 0 ? (
-          <Column
-            key={index}
-            allowSorting={false}
-            allowFiltering={false}
-            allowGrouping={false}
-            allowReordering={false}
-            width={100}
-            caption={data.title}
-            dataField={data.column}
-          />
-        ) : (
-          <Column key={index} caption={data.title} dataField={data.column} />
-        );
-      })}
 
-      <Pager allowedPageSizes={[5, 10, 20]} showPageSizeSelector={true} />
-      <Paging defaultPageSize={10} />
-    </DataGrid>
-  );
+  const TableComp = useMemo(() => {
+    return (
+      <DataGrid
+        dataSource={row}
+        keyExpr={"id"}
+        allowColumnReordering={true}
+        remoteOperations={true}
+        columnAutoWidth={true}
+        onSelectionChanged={(x) => radioSetValue(x.selectedRowsData[0])}
+      >
+        <ColumnChooser enabled={true} />
+        <StateStoring
+          enabled={true}
+          type="custom"
+          customLoad={customLoad}
+          customSave={customSave}
+        />
+        <ColumnFixing enabled={true} />
+        <Grouping autoExpandAll={true} />
+        <FilterRow visible={true} />
+        <Selection mode={selected ? "multiple" : "single"} />
+        {head?.map((data, index) => {
+          return index === 0 ? (
+            <Column
+              key={index}
+              allowSorting={false}
+              allowFiltering={false}
+              allowGrouping={false}
+              allowReordering={false}
+              width={100}
+              caption={data.title}
+              dataField={data.column}
+            />
+          ) : (
+            <Column key={index} caption={data.title} dataField={data.column} />
+          );
+        })}
+
+        <Pager allowedPageSizes={[5, 10, 20]} showPageSizeSelector={true} />
+        <Paging defaultPageSize={10} />
+      </DataGrid>
+    );
+  }, [id, row]);
+
+  return <div>{TableComp}</div>;
 };
-export default ListTable;
+export default React.memo(ListTable);
