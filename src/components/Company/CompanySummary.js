@@ -5,12 +5,11 @@ import { useNavigate } from "react-router-dom";
 
 const CompanySummary = (props) => {
   const { item } = props;
-  console.log(item);
   const [inputDisabled, setInputDisabled] = useState(true);
 
   const data = {
     firmaUnvanı: item?.firmaUnvani,
-    kısaAdı: item?.kısaAd,
+    kısaAdı: item?.kisaAd,
     ulke: item?.ulke,
     sehir: item?.sehir,
     adres: item?.adres,

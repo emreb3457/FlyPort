@@ -2,25 +2,32 @@ import { Box, Text, Textarea } from "@chakra-ui/react";
 import { useFormik } from "formik";
 import { TextInput, SelectInput } from "../../components/Inputs/CustomInputs";
 import { sendRequest } from "../../utils/helpers";
-import { newDemandValidate } from "../../utils/validation";
-import { getDemandInsert } from "../../api/api";
+import { newCompanyValidate } from "../../utils/validation";
+import { getCompanyUpdate } from "../../api/api";
 import useSWR from "swr";
 import { getCountryList, getCityList } from "../../api/DefinitionsApi";
-import { useState } from "react";
-import { useNavigate } from "react-router-dom";
-import { routes } from "../../constants/routes";
+import { useEffect, useState } from "react";
+import { useNavigate, useParams } from "react-router-dom";
+
+const updateCompanySubmit = async ({ values, mutate, id }) => {
+  const { status } = await sendRequest(
+    getCompanyUpdate("_", {
+      id,
+      ...values,
+    })
+  );
+};
 
 const CompanyInfermation = (props) => {
-  const { item, isEdit } = props;
-  console.log(item);
-  const navigate = useNavigate();
-  const [submitLoading, setSublitLoading] = useState(false);
+  const { item, setFunctions } = props;
+  const { id } = useParams();
+  const [isEdit, setIsEdit] = useState(true);
   const [page, setPage] = useState(0);
   const [limit, setLimit] = useState(999);
 
   const data = {
     firmaUnvanı: item?.firmaUnvani,
-    kısaAdı: item?.kısaAd,
+    kısaAdı: item?.kisaAd,
     ulke: item?.ulke,
     ulkeId: item?.ulkeId,
     sehir: item?.sehir,
@@ -32,7 +39,6 @@ const CompanyInfermation = (props) => {
     vergiNo: item?.vergiNo,
     sektoru: item?.sektoru,
   };
-
   const { data: Country } = useSWR(
     ["getCountryList", page, limit],
     getCountryList
@@ -54,19 +60,18 @@ const CompanyInfermation = (props) => {
       Sektoru: data.sektoru || "",
     },
     onSubmit: (values, { resetForm }) => {
-      newCompanySubmit({ values });
+      updateCompanySubmit({ values, id });
     },
-    validationSchema: newDemandValidate,
+    validationSchema: newCompanyValidate,
   });
 
-  const newCompanySubmit = async ({ values }) => {
-    setSublitLoading(true);
-    const { status } = await sendRequest(getDemandInsert("", { ...values }));
-    if (status) {
-      setSublitLoading(false);
-      navigate(routes.company);
-    }
-  };
+  useEffect(() => {
+    setFunctions({
+      create: { title: "Kaydet", function: handleSubmit },
+      update: { title: "Düzenle", function: () => setIsEdit(false) },
+    });
+  }, []);
+
   return (
     <Box px="50px" mt="40px">
       <form onSubmit={handleSubmit}>

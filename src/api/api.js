@@ -51,6 +51,7 @@ export const getDemandInsert = async (_, body) => {
 export const getDemandRemove = async (_, id) => {
   return await instance.get("/Talep/Sil?id=" + id).then((res) => res.data);
 };
+
 //
 
 export const getCompanyTable = async (_, page = 0) => {
@@ -72,6 +73,42 @@ export const getCompanyInsert = async (_, body) => {
     .then((res) => res.data);
 };
 
+export const getCompanyUpdate = async (_, body) => {
+  return await instance
+    .post("/Firma/Guncelle", body, {})
+    .then((res) => res.data);
+};
+
 export const getCompanyRemove = async (_, id) => {
   return await instance.get("/Firma/Sil?id=" + id).then((res) => res.data);
+};
+
+//company adress
+
+export const getCompanyAdressTable = async (_, page = 0, rowCount = 10) => {
+  return DevExtremeCreateStore("/FirmaAdres/SayfaliTablo");
+};
+
+export const getCompanyAdressList = async (_, page = 0, rowCount = 10) => {
+  return await instance
+    .get("/FirmaAdres/SayfaliListele")
+    .then((res) => res.data);
+};
+
+export const getCompanyAdress = async (_, id) => {
+  return await instance.get("/FirmaAdres/Bul/" + id).then((res) => res.data);
+};
+
+export const getCompanyAdressInsert = async (_, body) => {
+  return await instance.post("/FirmaAdres/Ekle", body).then((res) => res.data);
+};
+
+export const getCompanyAdressUpdate = async (_, body) => {
+  return await instance
+    .post("/FirmaAdres/Guncelle", body)
+    .then((res) => res.data);
+};
+
+export const getCompanyAdressRemove = async (_, id) => {
+  return await instance.get("/FirmaAdres/Sil?id=" + id).then((res) => res.data);
 };

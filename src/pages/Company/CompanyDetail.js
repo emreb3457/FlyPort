@@ -1,14 +1,15 @@
 import { Box } from "@chakra-ui/react";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { StyledButton } from "../ProductList";
 import colors from "../../theme/colors";
 import BreadCrumb from "../../components/BreadCrumb/BreadCrumb";
 import { useParams } from "react-router-dom";
 import CompanyInfermation from "../../components/Company/CompanyInfermation";
 import useSWR from "swr";
-import { getCompany } from "../../api/api";
+import { getCompany, getCompanyRemove } from "../../api/api";
 import CompanySummary from "../../components/Company/CompanySummary";
 import SkeletonComp from "../../components/Skeleton/Skeleton";
+import CompanyAdress from "../../components/Company/CompanyAdress";
 const Tabs = [
   {
     title: "Özet Bilgi",
@@ -20,7 +21,7 @@ const Tabs = [
   },
   {
     title: "Adresleri",
-    comp: "<Cif />",
+    comp: CompanyAdress,
   },
   {
     title: "Yetkili Kişiler",
@@ -46,11 +47,10 @@ const Tabs = [
 
 const CompanyDetail = () => {
   const { id } = useParams();
-  const { data, error } = useSWR(["getProduct", id ?? null], getCompany);
   const [activeTab, setActiveTab] = useState(Tabs[0]);
-  const [selectFunction, setSelectFunction] = useState();
-  const [isEdit, setIsEdit] = useState(true);
-  const { data: companyDetail } = useSWR(["getCompany", id], getCompany);
+  const [selectFunction, setSelectFunction] = useState({});
+
+  const { data: companyDetail, error } = useSWR(["getCompany", id], getCompany);
   // const NewCountryComp = ({ handleChange, values, handleSubmit }) => {
   //   return (
   //     <form onSubmit={handleSubmit} style={{ padding: "10px 0" }}>
@@ -91,6 +91,7 @@ const CompanyDetail = () => {
   //   );
   // };
 
+  useEffect(() => {}, [selectFunction]);
   const loading = !companyDetail && !error;
   return loading ? (
     <SkeletonComp />
@@ -100,11 +101,32 @@ const CompanyDetail = () => {
         <BreadCrumb
           funct1={
             activeTab.title === "Firma Bilgileri"
-              ? { title: "Kaydet" }
-              : { title: "Yeni Ekle" }
+              ? {
+                  title: selectFunction?.create?.title,
+                  function: () => {
+                    selectFunction?.create?.function();
+                  },
+                }
+              : {
+                  title: selectFunction?.create?.title,
+                  function: () => {
+                    selectFunction?.create?.function();
+                  },
+                }
           }
-          funct2={{ title: "Düzenle", function: () => setIsEdit(false) }}
-          funct3={{ title: "Sil" }}
+          funct2={{
+            title: selectFunction?.update?.title,
+            function: () => {
+              selectFunction?.update?.function();
+            },
+          }}
+          funct3={
+            selectFunction?.remove && {
+              function: () => {
+                selectFunction?.remove?.function();
+              },
+            }
+          }
         >
           Firmalar
         </BreadCrumb>
@@ -129,7 +151,12 @@ const CompanyDetail = () => {
           ))}
         </Box>
         <Box px="38px">
-          {<activeTab.comp item={companyDetail} isEdit={isEdit} />}
+          {
+            <activeTab.comp
+              item={companyDetail}
+              setFunctions={setSelectFunction}
+            />
+          }
         </Box>
       </Box>
       {/* <BasicModal

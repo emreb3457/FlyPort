@@ -113,4 +113,9 @@ export const newCompanyValidate = yup.object().shape({
   Sektoru: yup.string().required("Zorunlu alan."),
 });
 
-
+export const newCompanyAdressValidate = yup.object().shape({
+  ad: yup.string().required("Zorunlu alan."),
+  ulkeId: yup.number().required("Zorunlu alan."),
+  sehirId: yup.number().required("Zorunlu alan."),
+  // firmaId: yup.number().required("Zorunlu alan."),
+});
