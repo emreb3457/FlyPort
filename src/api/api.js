@@ -85,13 +85,13 @@ export const getCompanyRemove = async (_, id) => {
 
 //company adress
 
-export const getCompanyAdressTable = async (_, page = 0, rowCount = 10) => {
-  return DevExtremeCreateStore("/FirmaAdres/SayfaliTablo");
+export const getCompanyAdressTable = async (_, id) => {
+  return DevExtremeCreateStore("/FirmaAdres/BirlesmisTablo/" + id);
 };
 
-export const getCompanyAdressList = async (_, page = 0, rowCount = 10) => {
+export const getCompanyAdressList = async (_, id) => {
   return await instance
-    .get("/FirmaAdres/SayfaliListele")
+    .get("/FirmaAdres/SayfaliListele/" + id)
     .then((res) => res.data);
 };
 
@@ -100,7 +100,9 @@ export const getCompanyAdress = async (_, id) => {
 };
 
 export const getCompanyAdressInsert = async (_, body) => {
-  return await instance.post("/FirmaAdres/Ekle", body).then((res) => res.data);
+  return await instance
+    .post("/FirmaAdres/SayfaKaydet", body)
+    .then((res) => res.data);
 };
 
 export const getCompanyAdressUpdate = async (_, body) => {
@@ -111,4 +113,32 @@ export const getCompanyAdressUpdate = async (_, body) => {
 
 export const getCompanyAdressRemove = async (_, id) => {
   return await instance.get("/FirmaAdres/Sil?id=" + id).then((res) => res.data);
+};
+
+//Company Official
+
+export const getCompanyOfficialTable = async (_, id) => {
+  return DevExtremeCreateStore("/FirmaYetkili/BirlesmisTablo/" + id);
+};
+
+export const getCompanyOfficialList = async (_, page = 0, rowCount = 10) => {
+  return await instance
+    .get("/FirmaYetkili/SayfaliListele")
+    .then((res) => res.data);
+};
+
+export const getCompanyOfficial = async (_, id) => {
+  return await instance.get("/FirmaYetkili/Bul/" + id).then((res) => res.data);
+};
+
+export const getCompanyOfficialInsert = async (_, body) => {
+  return await instance
+    .post("/FirmaYetkili/SayfaKaydet", body)
+    .then((res) => res.data);
+};
+
+export const getCompanyOfficialRemove = async (_, id) => {
+  return await instance
+    .get("/FirmaYetkili/Sil?id=" + id)
+    .then((res) => res.data);
 };

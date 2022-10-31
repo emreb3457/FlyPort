@@ -7,6 +7,7 @@ import {
   getCompanyAdressRemove,
   getCompanyAdressTable,
   getCompanyAdressUpdate,
+  getCompanyOfficialList,
 } from "../../api/api";
 import BasicModal from "../../helpers/Modal";
 import SkeletonComp from "../../components/Skeleton/Skeleton";
@@ -17,15 +18,18 @@ import { useFormik } from "formik";
 import { newCompanyAdressValidate } from "../../utils/validation";
 import { sendRequest } from "../../utils/helpers";
 import {
+  getAdressType,
+  getAdressTypeList,
   getCityList,
   getCountryList,
   getDistrictList,
 } from "../../api/DefinitionsApi";
 
-const newCompanyAdressSubmit = async ({ values, mutate }) => {
+const newCompanyAdressSubmit = async ({ values, mutate, id }) => {
   const { status } = await sendRequest(
     getCompanyAdressInsert("", {
       ...values,
+      firmaId: id,
     })
   );
   status && mutate();
@@ -33,7 +37,7 @@ const newCompanyAdressSubmit = async ({ values, mutate }) => {
 
 const updateCompanyAdressSubmit = async ({ values, mutate, id }) => {
   const { status } = await sendRequest(
-    getCompanyAdressUpdate("", {
+    getCompanyAdressInsert("", {
       id,
       ...values,
     })
@@ -49,14 +53,14 @@ const removeCompanyAdress = async ({ radioValue, mutate }) => {
     status && mutate();
   }
 };
-const CompanyAdress = ({ setFunctions }) => {
+const CompanyAdress = ({ setFunctions, item }) => {
   const { clickFunct, isClick } = useModalStatus();
   const [page, setPage] = useState(0);
   const [radioValue, setRadioValue] = React.useState({});
   const [submitType, setSubmitType] = React.useState("");
 
   const { data, mutate, error } = useSWR(
-    ["getCompanyAdress"],
+    ["getCompanyAdress", item?.id],
     getCompanyAdressTable
   );
 
@@ -66,19 +70,24 @@ const CompanyAdress = ({ setFunctions }) => {
 
   const { data: Ilce } = useSWR(["getDistrictList"], getDistrictList);
 
+  const { data: AdresTipi } = useSWR(["getAdressTypeList"], getAdressTypeList);
   const { errors, handleChange, handleSubmit, values, touched, setValues } =
     useFormik({
       initialValues: {
-        ad: "",
+        id: Number,
+        adresTipiId: Number,
+        adres: "",
         ulkeId: Number,
         sehirId: Number,
         ilceId: Number,
-        yetkiliId: Number,
-        firmaId: Number,
+        yetkiliAd: "",
+        yetkiliSoyad: "",
+        yetkiliEmail: "",
+        yetkiliIletisim: "",
       },
       onSubmit: (values, { resetForm }) => {
         submitType === "create"
-          ? newCompanyAdressSubmit({ values, mutate })
+          ? newCompanyAdressSubmit({ values, id: item?.id, mutate })
           : updateCompanyAdressSubmit({
               values,
               mutate,
@@ -90,7 +99,7 @@ const CompanyAdress = ({ setFunctions }) => {
       },
       validationSchema: newCompanyAdressValidate,
     });
-  console.log(radioValue);
+
   useEffect(() => {
     setFunctions({
       create: {
@@ -125,40 +134,54 @@ const CompanyAdress = ({ setFunctions }) => {
     },
     {
       title: "Adres Tipi",
-      column: "ad",
+      column: "adresTipi",
     },
     {
       title: "Ülke",
-      column: "ulkeAd",
+      column: "ulke",
     },
     {
       title: "Şehir",
-      column: "sehirAd",
+      column: "sehir",
     },
     {
-      title: "Yetkili",
-      column: "yetkili",
+      title: "İlçe",
+      column: "ilce",
+    },
+    {
+      title: "Adres",
+      column: "adres",
+    },
+    {
+      title: "Yetkili Adı",
+      column: "yetkiliAd",
+    },
+    {
+      title: "Yetkili Soyadı",
+      column: "yetkiliSoyad",
     },
     {
       title: "Yetkili E-mail",
-      column: "yetkiliemail",
+      column: "yetkiliEmail",
     },
     {
       title: "Yetkili İletişim",
-      column: "yetkilino",
+      column: "yetkiliIletisim",
     },
   ];
   const NewCompanyAdressComp = ({ handleChange, values, handleSubmit }) => {
     return (
       <form onSubmit={handleSubmit} style={{ padding: "10px 0" }}>
-        <TextInput
-          name={"ad"}
-          value={values.ad}
+        <SelectInput
+          name={"adresTipiId"}
+          value={values.adresTipiId}
           onChange={handleChange}
-          error={touched?.ad && errors.ad}
+          data={AdresTipi?.data}
+          visableValue={"ad"}
+          error={touched.adresTipiId && errors.adresTipiId}
         >
           Adres Tipi
-        </TextInput>
+        </SelectInput>
         <SelectInput
           name={"ulkeId"}
           value={values.ulkeId}
@@ -189,16 +212,46 @@ const CompanyAdress = ({ setFunctions }) => {
         >
           İlçe
         </SelectInput>
-        <SelectInput
-          name={"ilceId"}
-          value={values.ilceId}
+        <TextInput
+          name={"adres"}
+          value={values.adres}
           onChange={handleChange}
-          data={Ilce?.data}
-          visableValue={"adOrjinal"}
-          error={touched.ilceId && errors.ilceId}
+          error={touched?.adres && errors.adres}
         >
-          Yetkili
-        </SelectInput>
+          Adres
+        </TextInput>
+        <TextInput
+          name={"yetkiliAd"}
+          value={values.yetkiliAd}
+          onChange={handleChange}
+          error={touched?.yetkiliAd && errors.yetkiliAd}
+        >
+          Yetkili Adı
+        </TextInput>
+        <TextInput
+          name={"yetkiliSoyad"}
+          value={values.yetkiliSoyad}
+          onChange={handleChange}
+          error={touched?.yetkiliSoyad && errors.yetkiliSoyad}
+        >
+          Yetkili Soyadı
+        </TextInput>
+        <TextInput
+          name={"yetkiliEmail"}
+          value={values.yetkiliEmail}
+          onChange={handleChange}
+          error={touched?.yetkiliEmail && errors.yetkiliEmail}
+        >
+          Yetkili Email
+        </TextInput>
+        <TextInput
+          name={"yetkiliIletisim"}
+          value={values.yetkiliIletisim}
+          onChange={handleChange}
+          error={touched?.yetkiliIletisim && errors.yetkiliIletisim}
+        >
+          Yetkili İletisim
+        </TextInput>
         <Button type="submit">
           {submitType === "create" ? "Ekle" : "Güncelle"}
         </Button>

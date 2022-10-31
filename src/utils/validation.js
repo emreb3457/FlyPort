@@ -39,6 +39,11 @@ export const UnitTypeValidate = yup.object().shape({
   aciklama: yup.string(),
 });
 
+export const AdressTypeValidate = yup.object().shape({
+  ad: yup.string().required("Zorunlu alan."),
+  aciklama: yup.string(),
+});
+
 export const DeliveryTypeValidate = yup.object().shape({
   ad: yup.string().required("Zorunlu alan."),
   aciklama: yup.string(),
@@ -114,8 +119,23 @@ export const newCompanyValidate = yup.object().shape({
 });
 
 export const newCompanyAdressValidate = yup.object().shape({
-  ad: yup.string().required("Zorunlu alan."),
+  adresTipiId: yup.number().required("Zorunlu alan."),
+  adres: yup.string().required("Zorunlu alan."),
   ulkeId: yup.number().required("Zorunlu alan."),
   sehirId: yup.number().required("Zorunlu alan."),
-  // firmaId: yup.number().required("Zorunlu alan."),
+  ilceId: yup.number().required("Zorunlu alan."),
+  yetkiliAd: yup.string().required("Zorunlu alan."),
+  yetkiliSoyad: yup.string().required("Zorunlu alan."),
+  yetkiliEmail: yup.string().required("Zorunlu alan."),
+  yetkiliIletisim: yup.string().required("Zorunlu alan."),
+});
+
+export const newCompanyOfficialValidate = yup.object().shape({
+  ad: yup.string().required("Zorunlu alan."),
+  soyad: yup.string().required("Zorunlu alan."),
+  gorev: yup.string().required("Zorunlu alan."),
+  email: yup.string().required("Zorunlu alan."),
+  gsm: yup.string().required("Zorunlu alan."),
+  weChat: yup.string(),
+  digerIletisim: yup.string(),
 });

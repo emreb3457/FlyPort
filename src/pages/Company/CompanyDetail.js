@@ -10,6 +10,7 @@ import { getCompany, getCompanyRemove } from "../../api/api";
 import CompanySummary from "../../components/Company/CompanySummary";
 import SkeletonComp from "../../components/Skeleton/Skeleton";
 import CompanyAdress from "../../components/Company/CompanyAdress";
+import CompanyOfficial from "../../components/Company/CompanyOfficial";
 const Tabs = [
   {
     title: "Özet Bilgi",
@@ -25,7 +26,7 @@ const Tabs = [
   },
   {
     title: "Yetkili Kişiler",
-    comp: "<OtherCost />",
+    comp: CompanyOfficial,
   },
   {
     title: "Sektörel Bilgileri",

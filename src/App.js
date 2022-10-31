@@ -39,6 +39,7 @@ import UpdateProduct from './pages/Products/UpdateProduct';
 import Company from './pages/Company/Company';
 import CompanyDetail from './pages/Company/CompanyDetail';
 import NewCompany from './pages/Company/NewCompany';
+import AdressType from './pages/tanimlamalar/AdressType';
 const App = () => {
   return (
     <Fragment>
@@ -87,6 +88,7 @@ const App = () => {
             <Route path="/tanimlamalar" element={<ProtectedRoute><CountryList /></ProtectedRoute>} exact />
             <Route path="/tanimlamalar/ulkeler" element={<ProtectedRoute><CountryList /></ProtectedRoute>} exact />
             <Route path="/tanimlamalar/birimtipi" element={<ProtectedRoute><UnitType /></ProtectedRoute>} exact />
+            <Route path="/tanimlamalar/adrestipi" element={<ProtectedRoute><AdressType /></ProtectedRoute>} exact />
             <Route path="/tanimlamalar/sehirler" element={<ProtectedRoute><City /></ProtectedRoute>} exact />
             <Route path="/tanimlamalar/ilceler" element={<ProtectedRoute><District /></ProtectedRoute>} exact />
             <Route path="/tanimlamalar/tasimatipi" element={<ProtectedRoute><DeliveryType /></ProtectedRoute>} exact />

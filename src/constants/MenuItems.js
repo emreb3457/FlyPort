@@ -135,6 +135,10 @@ export const menuItems = [
         title: "Kategori",
         route: "kategori",
       },
+      {
+        title: "Adres Tipi",
+        route: "adrestipi",
+      },
     ],
   },
 ];

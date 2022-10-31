@@ -60,6 +60,36 @@ export const getUnitTypeRemove = async (_, id) => {
 };
 //Unit Type Api - End
 
+//Unit Type Api - Start
+export const getAdressTypeTable = async (_, page = 0, rowCount = 10) => {
+  return DevExtremeCreateStore("/AdresTipi/SayfaliTablo");
+};
+
+export const getAdressTypeList = async (_, page = 0, rowCount = 10) => {
+  return await instance
+    .get("/AdresTipi/SayfaliListele")
+    .then((res) => res.data);
+};
+
+export const getAdressType = async (_, id) => {
+  return await instance.get("/AdresTipi/Bul/" + id).then((res) => res.data);
+};
+
+export const getAdressTypeInsert = async (_, body) => {
+  return await instance.post("/AdresTipi/Ekle", body).then((res) => res.data);
+};
+
+export const getAdressTypeUpdate = async (_, body) => {
+  return await instance
+    .post("/AdresTipi/Guncelle", body)
+    .then((res) => res.data);
+};
+
+export const getAdressTypeRemove = async (_, id) => {
+  return await instance.get("/AdresTipi/Sil?id=" + id).then((res) => res.data);
+};
+//Unit Type Api - End
+
 //City Api - Start
 export const getCityTable = async (_, page = 0, rowCount = 10) => {
   return DevExtremeCreateStore("/Sehir/SayfaliTablo");
@@ -344,9 +374,7 @@ export const getCategoryTable = async (_, page = 0, rowCount = 10) => {
 };
 
 export const getCategoryList = async (_, page = 0, rowCount = 10) => {
-  return await instance
-    .get("/Kategori/SayfaliListele")
-    .then((res) => res.data);
+  return await instance.get("/Kategori/SayfaliListele").then((res) => res.data);
 };
 
 export const getCategory = async (_, id) => {
