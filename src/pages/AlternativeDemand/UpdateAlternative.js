@@ -20,23 +20,28 @@ import {
 } from "../../api/DefinitionsApi";
 import { useEffect, useState } from "react";
 import ImageComp from "../../components/Talepler/ImageComp/ImageComp";
-import { Navigate, useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import { routes } from "../../constants/routes";
+import { baseApi } from "../../config/config";
+import SkeletonComp from "../../components/Skeleton/Skeleton";
 
-const NewProduct = () => {
+const UpdateAlternative = () => {
   const navigate = useNavigate();
+  const { state } = useLocation();
   const [submitLoading, setSublitLoading] = useState(false);
   const [page, setPage] = useState(0);
   const [limit, setLimit] = useState(999);
-  const [deger, setDeger] = useState([]);
+  const [deger, setDeger] = useState(
+    arrayStringify(state.nitelikDegerleri) || []
+  );
   const [imageURLS, setImageURLs] = useState([]);
 
-  const { data: ChildrenCategory, error } = useSWR(
+  const { data: ChildrenCategory } = useSWR(
     ["getChildrenCategoryList", page, limit],
     getChildrenCategoryList
   );
 
-  const { data: PublicCategory } = useSWR(
+  const { data: PublicCategory, error } = useSWR(
     ["getPublicCategoryList", page, limit],
     getPublicCategoryList
   );
@@ -66,21 +71,24 @@ const NewProduct = () => {
   const onImageChange = (e) => {
     setFieldValue("UrunResimleri", [...e.target.files]);
   };
+
+  useEffect(() => {}, [ProductPropertyValue]); //don't delete
+
   const { errors, handleChange, handleSubmit, values, touched, setFieldValue } =
     useFormik({
       initialValues: {
-        UrunAdi: "",
-        KisaAdi: "",
-        GTip: "",
-        GenelKategoriId: "",
-        AltKategoriId: "",
-        FlyKategoriId: "",
+        UrunAdi: state?.urunAdi || "",
+        KisaAdi: state?.kisaAdi || "",
+        GTip: state?.gTip || "",
+        GenelKategoriId: state?.genelKategoriId || "",
+        AltKategoriId: state?.altKategoriId || "",
+        FlyKategoriId: state?.flyKategoriId || "",
         TeknikOzellikDegerleri: [],
-        UrunResimleri: [],
-        aciklama: "",
+        UrunResimleri: state?.resimler || [],
+        aciklama: state?.aciklama || "",
       },
       onSubmit: (values, { resetForm }) => {
-        newProductSubmit({ values });
+        ProductSubmit({ values });
       },
       validationSchema: newProductValidate,
     });
@@ -88,13 +96,20 @@ const NewProduct = () => {
   useEffect(() => {
     if (values.UrunResimleri.length < 1) return;
     const newImageUrls = [];
-    values.UrunResimleri.forEach((image) =>
-      newImageUrls.push(URL.createObjectURL(image))
-    );
+    try {
+      values.UrunResimleri.forEach((image) =>
+        newImageUrls.push(URL.createObjectURL(image))
+      );
+    } catch (error) {
+      values.UrunResimleri.forEach((image) =>
+        newImageUrls.push(baseApi + image.dosyaYolu)
+      );
+    }
+
     setImageURLs(newImageUrls);
   }, [values.UrunResimleri]);
 
-  const newProductSubmit = async ({ values }) => {
+  const ProductSubmit = async ({ values }) => {
     setSublitLoading(true);
     const formData = new FormData();
     formData.append("UrunAdi", values.UrunAdi);
@@ -112,8 +127,8 @@ const NewProduct = () => {
     for (let index = 0; index < values.TeknikOzellikDegerleri.length; index++) {
       formData.append("UrunResimleri", values.UrunResimleri[index]);
     }
-
     formData.append("aciklama", values.aciklama);
+    state && formData.append("id", state.id);
     const { status } = await sendRequest(getProductInsert("", formData));
     if (status) {
       setSublitLoading(false);
@@ -121,7 +136,10 @@ const NewProduct = () => {
     }
     setSublitLoading(false);
   };
-  return (
+  const loading = !PublicCategory && !error;
+  return loading ? (
+    <SkeletonComp />
+  ) : (
     <Box>
       <BreadCrumb
         loading={submitLoading}
@@ -132,7 +150,7 @@ const NewProduct = () => {
           },
         }}
       >
-        Yeni Ürün
+        Güncelle
       </BreadCrumb>
 
       <form onSubmit={handleSubmit}>
@@ -197,23 +215,27 @@ const NewProduct = () => {
               Fly Kategori
             </SelectInput>
             {arrayParse(deger)?.map((data, index) => {
-              const parseData = data;
               return (
                 <Box key={index} display={"flex"}>
-                  <TextInput disabled={true} mr="10px" value={parseData.ad}>
-                    Teknik Özellik {index}
+                  <TextInput
+                    disabled={true}
+                    mr="10px"
+                    value={data?.nitelikAd || data?.ad}
+                  >
+                    Teknik Özellik {index + 1}
                   </TextInput>
                   <SelectInput
+                    value={data?.id}
                     onChange={(x) => {
                       const newArray = arrayParse(deger);
                       newArray[index] = {
                         ...newArray[index],
-                        nitelikId: Number(x.target.value),
+                        id: Number(x.target.value),
                       };
                       setDeger(arrayStringify(newArray));
                     }}
                     data={ProductPropertyValue?.data.filter(
-                      (x) => x.nitelikId === parseData.id
+                      (x) => x.nitelikId === data?.nitelikId
                     )}
                     visableValue={"ad"}
                   />
@@ -272,4 +294,4 @@ const NewProduct = () => {
   );
 };
 
-export default NewProduct;
+export default UpdateAlternative;

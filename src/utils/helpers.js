@@ -63,3 +63,7 @@ export const DevExtremeCreateStore = (url) => {
 export const getToken = () => {
   return sessionStorage.getItem("accessToken");
 };
+
+export const removeToken = () => {
+  return sessionStorage.removeItem("accessToken");
+};

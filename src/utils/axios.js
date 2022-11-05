@@ -1,4 +1,5 @@
 import axios from "axios";
+import { removeToken } from "./helpers";
 
 export const baseURL = "https://flyport.herokuapp.com/api/v1";
 
@@ -15,4 +16,15 @@ instance.interceptors.request.use(async (options) => {
   options.headers.accept = "application/json";
   return options;
 });
+
+instance.interceptors.response.use(
+  (response) => response,
+  (error) => {
+    if (error.response.status === 401) {
+      removeToken();
+      window.location.reload();
+    }
+  }
+);
+
 export default instance;

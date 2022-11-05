@@ -79,3 +79,39 @@ export const SelectInput = ({
     </Box>
   );
 };
+
+export const DateInput = ({
+  name,
+  value,
+  label,
+  children,
+  bg,
+  disabled = false,
+  onChange,
+  error,
+  ...props
+}) => {
+  return (
+    <Box py="10px" fontSize={"18px"} w="100%" {...props}>
+      <Text mr="5px" color={"#232F3D"}>
+        {children ? children : " "}
+      </Text>
+      <Input
+        h="54px"
+        name={name}
+        value={value}
+        onChange={onChange}
+        borderColor={"#D6D6D6"}
+        disabled={disabled}
+        bg={disabled ? "#D6D6D6" : bg}
+        type="date"
+        {...props}
+      />
+      {error && (
+        <Text mr="5px" color={"red"} fontSize="12px">
+          {error}
+        </Text>
+      )}
+    </Box>
+  );
+};

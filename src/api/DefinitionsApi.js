@@ -172,36 +172,6 @@ export const getCertificateRemove = async (_, id) => {
 };
 //Certificate Api - End
 
-//Transport Api - Start
-export const getTransportTypeTable = async (_, page = 0, rowCount = 10) => {
-  return DevExtremeCreateStore("/TasimaTipi/SayfaliTablo");
-};
-
-export const getTransportTypeList = async (_, page = 0, rowCount = 10) => {
-  return await instance
-    .get("/TasimaTipi/SayfaliListele")
-    .then((res) => res.data);
-};
-
-export const getTransportType = async (_, id) => {
-  return await instance.get("/TasimaTipi/Bul/" + id).then((res) => res.data);
-};
-
-export const getTransportTypeInsert = async (_, body) => {
-  return await instance.post("/TasimaTipi/Ekle", body).then((res) => res.data);
-};
-
-export const getTransportTypeUpdate = async (_, body) => {
-  return await instance
-    .post("/TasimaTipi/Guncelle", body)
-    .then((res) => res.data);
-};
-
-export const getTransportTypeRemove = async (_, id) => {
-  return await instance.get("/TasimaTipi/Sil?id=" + id).then((res) => res.data);
-};
-//Transport Api - End
-
 //Delivery Api - Start
 export const getDeliveryTable = async (_, page = 0, rowCount = 10) => {
   return DevExtremeCreateStore("/TeslimatTipi/SayfaliTablo");
@@ -209,7 +179,7 @@ export const getDeliveryTable = async (_, page = 0, rowCount = 10) => {
 
 export const getDeliveryList = async (_, page = 0, rowCount = 10) => {
   return await instance
-    .post("/TeslimatTipi/SayfaliListele")
+    .get("/TeslimatTipi/SayfaliListele")
     .then((res) => res.data);
 };
 

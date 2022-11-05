@@ -8,7 +8,7 @@ import { sendRequest } from "../../utils/helpers";
 import { useNavigate } from "react-router-dom";
 import { routes } from "../../constants/routes";
 import { getDemandList, getDemandRemove, getDemandTable } from "../../api/api";
-import moment from "moment";
+
 const DemandList = () => {
   const navigate = useNavigate();
   const [page, setPage] = useState(0);
@@ -35,22 +35,26 @@ const DemandList = () => {
       column: "musteri",
     },
 
-    // {
-    //   title: "Ürün",
-    //   column: "urunTamAd",
-    // },
-    // {
-    //   title: "Özellik 1",
-    //   column: "ozellik1",
-    // },
-    // {
-    //   title: "Özellik 2",
-    //   column: "ozellik2",
-    // },
-    // {
-    //   title: "Özellik 3",
-    //   column: "ozellik3",
-    // },
+    {
+      title: "Ürün",
+      column: "urunTamAd",
+    },
+    {
+      title: "Özellik 1",
+      column: "ozellik1",
+    },
+    {
+      title: "Özellik 2",
+      column: "ozellik2",
+    },
+    {
+      title: "Özellik 3",
+      column: "ozellik3",
+    },
+    {
+      title: "İstenen Miktar",
+      column: "miktar",
+    },
     {
       title: "Üretici Ülkesi",
       column: "ureticiUlkesi",
@@ -64,7 +68,7 @@ const DemandList = () => {
       column: "sorumlu",
     },
     {
-      title: "Geçerlilik Tarihi",
+      title: "Kalan Süre",
       column: "kalanSure",
     },
   ];
@@ -100,8 +104,7 @@ const DemandList = () => {
         Talepler
       </BreadCrumb>
       <Box mt="20px" px={"38px"}>
-        <ListTable
-          id="DemandList"
+        <ListTable id="DemandList"
           head={Head}
           row={data}
           radioValue={radioValue}

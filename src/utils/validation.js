@@ -91,6 +91,16 @@ export const newProductValidate = yup.object().shape({
 });
 
 export const newDemandValidate = yup.object().shape({
+  musteriId: yup.number().required("Zorunlu alan."),
+  yetkiliId: yup.number().required("Zorunlu alan."),
+  talepTuru: yup.number().required("Zorunlu alan."),
+  istenilenUlkeId: yup.number().required("Zorunlu alan."),
+  varisUlkesiId: yup.number().required("Zorunlu alan."),
+  talepTarihi: "",
+});
+
+export const newDemandProductValidate = yup.object().shape({
+  TalepId: yup.number().required("Zorunlu alan."),
   Islenilen: yup.number().required("Zorunlu alan."),
   NerdenId: yup.number().required("Zorunlu alan."),
   NereyeId: yup.number().required("Zorunlu alan."),

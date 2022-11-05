@@ -159,7 +159,7 @@ const AdressTypeList = () => {
       </Box>
       <BasicModal
         click={isClick}
-        title={submitType === "create" ? "Yeni Ülke Ekle" : "Güncelle"}
+        title={submitType === "create" ? "Adres Tipi Ekle" : "Güncelle"}
         formik={{ handleChange, handleSubmit, values }}
         component={NewAdressTypeComp({ handleChange, values, handleSubmit })}
       />

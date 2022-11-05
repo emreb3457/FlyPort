@@ -40,6 +40,9 @@ import Company from './pages/Company/Company';
 import CompanyDetail from './pages/Company/CompanyDetail';
 import NewCompany from './pages/Company/NewCompany';
 import AdressType from './pages/tanimlamalar/AdressType';
+import { routes } from './constants/routes';
+import AlternativeNewDemand from './pages/AlternativeDemand/AlternativeNewDemandProduct';
+import AlternativeDemandList from './pages/AlternativeDemand/AlternativeDemandList';
 const App = () => {
   return (
     <Fragment>
@@ -50,6 +53,9 @@ const App = () => {
             <Route path="/talepler" element={<ProtectedRoute><DemandList/></ProtectedRoute>} exact />
             <Route path="/talepler/yeni" element={<ProtectedRoute><NewDemand/></ProtectedRoute>} exact />
             <Route path="/talepler/:id" element={<ProtectedRoute><DemandSummary/></ProtectedRoute>} exact />
+
+            <Route path={routes.yeniAlternatif} element={<ProtectedRoute><AlternativeNewDemand/></ProtectedRoute>} exact />
+            <Route path={routes.alternatif} element={<ProtectedRoute><AlternativeDemandList/></ProtectedRoute>} exact />
 
             <Route path="/firmalar" element={<ProtectedRoute><Company/></ProtectedRoute>} exact />
             <Route path="/firmalar/yeni" element={<ProtectedRoute><NewCompany/></ProtectedRoute>} exact />

@@ -9,7 +9,7 @@ import { useNavigate } from "react-router-dom";
 import { routes } from "../../constants/routes";
 import { getDemandList, getDemandRemove, getDemandTable } from "../../api/api";
 import moment from "moment";
-const DemandList = () => {
+const AlternativeDemandList = () => {
   const navigate = useNavigate();
   const [page, setPage] = useState(0);
   const [radioValue, setRadioValue] = React.useState({});
@@ -52,6 +52,10 @@ const DemandList = () => {
     //   column: "ozellik3",
     // },
     {
+      title: "İstenen Miktar",
+      column: "istenilenMiktar",
+    },
+    {
       title: "Üretici Ülkesi",
       column: "ureticiUlkesi",
     },
@@ -64,7 +68,7 @@ const DemandList = () => {
       column: "sorumlu",
     },
     {
-      title: "Geçerlilik Tarihi",
+      title: "Kalan Süre",
       column: "kalanSure",
     },
   ];
@@ -80,12 +84,6 @@ const DemandList = () => {
     <Box>
       <BreadCrumb
         funct1={{
-          title: "Yeni Ekle",
-          function: () => {
-            navigate(routes.yenitalep);
-          },
-        }}
-        funct2={{
           title: "Detay",
           function: () => {
             navigate(routes.talepdetay + radioValue.id);
@@ -97,7 +95,7 @@ const DemandList = () => {
           },
         }}
       >
-        Talepler
+        Alternatifler
       </BreadCrumb>
       <Box mt="20px" px={"38px"}>
         <ListTable
@@ -113,4 +111,4 @@ const DemandList = () => {
     </Box>
   );
 };
-export default React.memo(DemandList);
+export default React.memo(AlternativeDemandList);

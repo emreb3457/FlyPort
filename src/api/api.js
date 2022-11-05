@@ -26,7 +26,7 @@ export const getProductRemove = async (_, id) => {
   return await instance.get("/Urun/Sil?id=" + id).then((res) => res.data);
 };
 
-//
+////////////////////////////////////////////////////////////////////////
 export const getDemandTable = async (_, page = 0) => {
   return DevExtremeCreateStore("/Talep/BirlesmisTablo");
 };
@@ -42,9 +42,7 @@ export const getDemand = async (_, id) => {
 };
 export const getDemandInsert = async (_, body) => {
   return await instance
-    .post("/Talep/SayfaKaydet", body, {
-      headers: { "Content-Type": "multipart/form-data" },
-    })
+    .post("/Talep/SayfaKaydet", body)
     .then((res) => res.data);
 };
 
@@ -52,7 +50,62 @@ export const getDemandRemove = async (_, id) => {
   return await instance.get("/Talep/Sil?id=" + id).then((res) => res.data);
 };
 
-//
+////////////////////////////////////////////////////////////////////////
+export const getAlternativeDemandTable = async (_, id) => {
+  return DevExtremeCreateStore("/Talep/AlternatifListele/" + id);
+};
+
+export const getAlternativeDemandList = async (_, page = 0) => {
+  return await instance.get("/Talep/BirlesmisListele").then((res) => res.data);
+};
+
+export const getAlternativeDemand = async (_, id) => {
+  return await instance
+    .get("/Talep/SayfaBilgileriniBul/" + id)
+    .then((res) => res.data);
+};
+export const getAlternativeDemandInsert = async (_, body) => {
+  return await instance
+    .post("/Talep/AlternatifEkle", body, {
+      headers: { "Content-Type": "multipart/form-data" },
+    })
+    .then((res) => res.data);
+};
+
+export const getAlternativeDemandRemove = async (_, id) => {
+  return await instance.get("/Talep/Sil?id=" + id).then((res) => res.data);
+};
+////////////////////////////////////////////////////////////////////////
+
+////////////////////////////////////////////////////////////////////////
+export const getDemandProductTable = async (_, page = 0) => {
+  return DevExtremeCreateStore("/TalepUrun/BirlesmisTablo");
+};
+
+export const getDemandProductList = async (_, page = 0) => {
+  return await instance
+    .get("/TalepUrun/BirlesmisListele")
+    .then((res) => res.data);
+};
+
+export const getDemandProduct = async (_, id) => {
+  return await instance
+    .get("/TalepUrun/SayfaBilgileriniBul/" + id)
+    .then((res) => res.data);
+};
+export const getDemandProductInsert = async (_, body) => {
+  return await instance
+    .post("/Talep/UrunKaydet", body, {
+      headers: { "Content-Type": "multipart/form-data" },
+    })
+    .then((res) => res.data);
+};
+
+export const getDemandProductRemove = async (_, id) => {
+  return await instance.get("/TalepUrun/Sil?id=" + id).then((res) => res.data);
+};
+
+////////////////////////////////////////////////////////////////////////
 
 export const getCompanyTable = async (_, page = 0) => {
   return DevExtremeCreateStore("/Firma/BirlesmisTablo");
@@ -83,7 +136,7 @@ export const getCompanyRemove = async (_, id) => {
   return await instance.get("/Firma/Sil?id=" + id).then((res) => res.data);
 };
 
-//company adress
+////////////////////////////////////////////////////////////////////////company adress
 
 export const getCompanyAdressTable = async (_, id) => {
   return DevExtremeCreateStore("/FirmaAdres/BirlesmisTablo/" + id);
@@ -115,7 +168,7 @@ export const getCompanyAdressRemove = async (_, id) => {
   return await instance.get("/FirmaAdres/Sil?id=" + id).then((res) => res.data);
 };
 
-//Company Official
+////////////////////////////////////////////////////////////////////////Company Official
 
 export const getCompanyOfficialTable = async (_, id) => {
   return DevExtremeCreateStore("/FirmaYetkili/BirlesmisTablo/" + id);
