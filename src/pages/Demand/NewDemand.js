@@ -57,7 +57,7 @@ const NewDemand = () => {
       },
       validationSchema: newDemandValidate,
     });
-  console.log(values);
+  
   useEffect(() => {
     setCompanyId(values.musteriId);
   }, [values]);
@@ -144,7 +144,7 @@ const NewDemand = () => {
               value={values.yetkiliId}
               onChange={handleChange}
               data={CompanyOfficial?.firmaYetkilileri}
-              visableValue={"email"}
+              visableValue={"ad"}
               error={touched.yetkiliId && errors.yetkiliId}
             >
               Yetkili

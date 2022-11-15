@@ -43,6 +43,8 @@ import AdressType from './pages/tanimlamalar/AdressType';
 import { routes } from './constants/routes';
 import AlternativeNewDemand from './pages/AlternativeDemand/AlternativeNewDemandProduct';
 import AlternativeDemandList from './pages/AlternativeDemand/AlternativeDemandList';
+import AlternativeDetail from './pages/AlternativeDemand/AlternativeDetail';
+import UpdateAlternative from './pages/AlternativeDemand/UpdateAlternative';
 const App = () => {
   return (
     <Fragment>
@@ -54,8 +56,10 @@ const App = () => {
             <Route path="/talepler/yeni" element={<ProtectedRoute><NewDemand/></ProtectedRoute>} exact />
             <Route path="/talepler/:id" element={<ProtectedRoute><DemandSummary/></ProtectedRoute>} exact />
 
-            <Route path={routes.yeniAlternatif} element={<ProtectedRoute><AlternativeNewDemand/></ProtectedRoute>} exact />
-            <Route path={routes.alternatif} element={<ProtectedRoute><AlternativeDemandList/></ProtectedRoute>} exact />
+            <Route path="/talepler/alternatifler/yeni" element={<ProtectedRoute><AlternativeNewDemand/></ProtectedRoute>} exact />
+            <Route path="/talepler/alternatifler" element={<ProtectedRoute><AlternativeDemandList/></ProtectedRoute>} exact />
+            <Route path="/talepler/alternatifler/:id" element={<ProtectedRoute><AlternativeDetail/></ProtectedRoute>} exact />
+            <Route path="/talepler/alternatifler/guncelle" element={<ProtectedRoute><UpdateAlternative/></ProtectedRoute>} exact />
 
             <Route path="/firmalar" element={<ProtectedRoute><Company/></ProtectedRoute>} exact />
             <Route path="/firmalar/yeni" element={<ProtectedRoute><NewCompany/></ProtectedRoute>} exact />

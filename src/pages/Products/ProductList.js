@@ -58,10 +58,6 @@ const ProductList = () => {
       column: "gtipNo",
     },
     {
-      title: "Kayıtlı Üretici",
-      column: "kayıtlıuretici",
-    },
-    {
       title: "Sipariş Sayısı",
       column: "aciklama",
     },

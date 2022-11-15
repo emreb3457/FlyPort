@@ -39,12 +39,6 @@ const CompanyInfermation = (props) => {
     vergiNo: item?.vergiNo,
     sektoru: item?.sektoru,
   };
-  const { data: Country } = useSWR(
-    ["getCountryList", page, limit],
-    getCountryList
-  );
-
-  const { data: City } = useSWR(["getCityList", page, limit], getCityList);
 
   const { errors, handleChange, handleSubmit, values, touched } = useFormik({
     initialValues: {
@@ -64,13 +58,23 @@ const CompanyInfermation = (props) => {
     },
     validationSchema: newCompanyValidate,
   });
+  console.log(values);
+  const { data: Country } = useSWR(
+    ["getCountryList", page, limit],
+    getCountryList
+  );
 
+  const { data: City } = useSWR(
+    ["getCityList", values.UlkeId, page, limit],
+    getCityList
+  );
+  console.log(values.UlkeId);
   useEffect(() => {
     setFunctions({
-      create: { title: "Kaydet", function: handleSubmit },
+      create: !isEdit && { title: "Kaydet", function: handleSubmit },
       update: { title: "Düzenle", function: () => setIsEdit(false) },
     });
-  }, []);
+  }, [isEdit]);
 
   return (
     <Box px="50px" mt="40px">

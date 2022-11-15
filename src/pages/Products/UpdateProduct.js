@@ -155,7 +155,7 @@ const UpdateProduct = () => {
 
       <form onSubmit={handleSubmit}>
         <Box display={"flex"} mt="20px" px="50px">
-          <ImageComp images={imageURLS} />
+          <ImageComp images={imageURLS} onImageChange={onImageChange}/>
 
           <Box width={{ lg: "35%", "2xl": "30%" }} marginLeft="30px">
             <TextInput
@@ -261,13 +261,6 @@ const UpdateProduct = () => {
                   );
                 })}
               </Select>
-              <input
-                type="file"
-                multiple
-                accept="image/*"
-                onChange={onImageChange}
-                style={{ marginTop: "20px" }}
-              />
             </Box>
           </Box>
         </Box>

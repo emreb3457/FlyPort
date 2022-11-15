@@ -38,7 +38,7 @@ const ProductDetail = () => {
   const [activeTab, setActiveTab] = useState(Tabs[0]);
   const [images, setImages] = useState([]);
   useEffect(() => {
-    data?.resimler.forEach((image) =>
+    data?.resimler?.forEach((image) =>
       setImages((prev) => [...prev, baseApi + image.dosyaYolu])
     );
   }, [data]);

@@ -95,7 +95,6 @@ const ProductPropertyValue = () => {
   };
 
   const removeProductPropertyValue = async ({ radioValue, mutate }) => {
-    console.log(radioValue);
     if (radioValue) {
       const { status } = await sendRequest(
         getProductPropertyValueRemove("_", radioValue.id)

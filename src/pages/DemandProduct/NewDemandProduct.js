@@ -70,7 +70,7 @@ const NewDemand = () => {
     ["getCompanyList", page, limit],
     getCompanyList
   );
-  
+
   useEffect(() => {
     setFieldValue(
       "TeknikOzellikDegerleri",
@@ -103,7 +103,7 @@ const NewDemand = () => {
       },
       validationSchema: newDemandValidate,
     });
-  console.log(errors);
+
   useEffect(() => {
     if (values.UrunResimleri.length < 1) return;
     const newImageUrls = [];
@@ -161,7 +161,7 @@ const NewDemand = () => {
 
       <form onSubmit={handleSubmit}>
         <Box display={["block", "block", "block", "flex"]} mt="20px" px="50px">
-          <ImageComp images={imageURLS} />
+          <ImageComp images={imageURLS} onImageChange={onImageChange} />
 
           <Box width={{ lg: "35%", "2xl": "30%" }} marginLeft="30px">
             <SelectInput
@@ -316,13 +316,6 @@ const NewDemand = () => {
             >
               Telefon
             </TextInput>
-            <input
-              type="file"
-              multiple
-              accept="image/*"
-              onChange={onImageChange}
-              style={{ marginTop: "20px" }}
-            />
           </Box>
         </Box>
         <Box mt="40px" pl="30px">

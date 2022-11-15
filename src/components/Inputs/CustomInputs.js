@@ -1,4 +1,5 @@
 import { Box, Text, Input, Select } from "@chakra-ui/react";
+import { SelectBox } from "devextreme-react";
 
 export const TextInput = ({
   name,
@@ -53,13 +54,32 @@ export const SelectInput = ({
       <Text mr="5px" color={"#232F3D"}>
         {children ? children : " "}
       </Text>
+      {/* <SelectBox
+        name={name}
+        dataSource={data}
+        defaultValue={value}
+        displayExpr={visableValue}
+        searchEnabled={true}
+        searchMode={"contains"}
+        searchExpr={visableValue}
+        searchTimeout={200}
+        minSearchLength={0}
+        showDataBeforeSearch={false}
+        onValueChanged={(e) =>
+          onChange(name, e.value?.id || e.value?.nitelikId)
+        }
+        height="54px"
+        onValueChange={() => console.log("a")}
+        style={{}}
+      /> */}
       <Select
         name={name}
         onChange={onChange}
         data={data}
         h="54px"
         borderColor={"#D6D6D6"}
-        bg={bg}
+        disabled={disabled}
+        bg={disabled ? "#D6D6D6" : bg}
         defaultValue={value}
       >
         <option value={"default"}>Seçiniz</option>

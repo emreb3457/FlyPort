@@ -5,18 +5,18 @@ import useSWR from "swr";
 import SkeletonComp from "../../components/Skeleton/Skeleton";
 import React, { useState } from "react";
 import { sendRequest } from "../../utils/helpers";
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import { routes } from "../../constants/routes";
-import { getDemandList, getDemandRemove, getDemandTable } from "../../api/api";
-import moment from "moment";
+import { getAlternativeDemandTable, getDemandRemove } from "../../api/api";
 const AlternativeDemandList = () => {
+  const location = useLocation();
   const navigate = useNavigate();
   const [page, setPage] = useState(0);
   const [radioValue, setRadioValue] = React.useState({});
 
   const { data, mutate, error } = useSWR(
-    ["getDemandList", page],
-    getDemandTable
+    ["getAlternativeDemandTable", location.state],
+    getAlternativeDemandTable
   );
 
   const loading = !error && !data;
@@ -28,48 +28,36 @@ const AlternativeDemandList = () => {
     },
     {
       title: "Tarih",
-      column: "tarih",
+      column: "talepTarihi",
     },
     {
       title: "Müşteri",
-      column: "musteri",
+      column: "musteriAd",
     },
 
-    // {
-    //   title: "Ürün",
-    //   column: "urunTamAd",
-    // },
-    // {
-    //   title: "Özellik 1",
-    //   column: "ozellik1",
-    // },
-    // {
-    //   title: "Özellik 2",
-    //   column: "ozellik2",
-    // },
-    // {
-    //   title: "Özellik 3",
-    //   column: "ozellik3",
-    // },
+    {
+      title: "Ürün",
+      column: "urun",
+    },
+    {
+      title: "Özellik 1",
+      column: "ozellik1",
+    },
     {
       title: "İstenen Miktar",
-      column: "istenilenMiktar",
+      column: "miktar",
     },
     {
       title: "Üretici Ülkesi",
-      column: "ureticiUlkesi",
+      column: "nerden",
     },
     {
       title: "Varış Ülkesi",
-      column: "varisUlkesi",
+      column: "nereye",
     },
     {
       title: "Sorumlu",
-      column: "sorumlu",
-    },
-    {
-      title: "Kalan Süre",
-      column: "kalanSure",
+      column: "talepEden",
     },
   ];
 
@@ -86,7 +74,7 @@ const AlternativeDemandList = () => {
         funct1={{
           title: "Detay",
           function: () => {
-            navigate(routes.talepdetay + radioValue.id);
+            navigate("/talepler/alternatifler/" + radioValue.id);
           },
         }}
         funct3={{
@@ -99,7 +87,7 @@ const AlternativeDemandList = () => {
       </BreadCrumb>
       <Box mt="20px" px={"38px"}>
         <ListTable
-          id="DemandList"
+          id="AlternativeList"
           head={Head}
           row={data}
           radioValue={radioValue}

@@ -9,6 +9,7 @@ import {
   getCityTable,
   getCityUpdate,
   getCountryList,
+  getCountryTable,
 } from "../../api/DefinitionsApi";
 import BasicModal from "../../helpers/Modal";
 import SkeletonComp from "../../components/Skeleton/Skeleton";
@@ -18,6 +19,7 @@ import React, { useState } from "react";
 import { useFormik } from "formik";
 import { cityValidate } from "../../utils/validation";
 import { sendRequest } from "../../utils/helpers";
+import { SelectBox } from "devextreme-react";
 
 const CityList = () => {
   const { clickFunct, isClick } = useModalStatus();
@@ -29,31 +31,38 @@ const CityList = () => {
   const { data, mutate, error } = useSWR(["getCity", page], getCityTable);
   const { data: countrydata } = useSWR(
     ["getCountry", page, limit],
-    getCountryList
+    getCountryTable
   );
 
-  const { errors, handleChange, handleSubmit, values, setValues, touched } =
-    useFormik({
-      initialValues: {
-        adTurkce: "",
-        adOrjinal: "",
-        adIngilizce: "",
-        aciklama: "",
-        ulkeId: Number,
-      },
-      onSubmit: (values, { resetForm }) => {
-        submitType === "create"
-          ? newCitySubmit({ values, mutate })
-          : updateCitySubmit({
-              values,
-              mutate,
-              id: radioValue.id,
-            });
-        resetForm();
-        document.getElementsByClassName("chakra-modal__close-btn")[0].click();
-      },
-      validationSchema: cityValidate,
-    });
+  const {
+    errors,
+    handleChange,
+    handleSubmit,
+    values,
+    setValues,
+    touched,
+    setFieldValue,
+  } = useFormik({
+    initialValues: {
+      adTurkce: "",
+      adOrjinal: "",
+      adIngilizce: "",
+      aciklama: "",
+      ulkeId: Number,
+    },
+    onSubmit: (values, { resetForm }) => {
+      submitType === "create"
+        ? newCitySubmit({ values, mutate })
+        : updateCitySubmit({
+            values,
+            mutate,
+            id: radioValue.id,
+          });
+      resetForm();
+      document.getElementsByClassName("chakra-modal__close-btn")[0].click();
+    },
+    validationSchema: cityValidate,
+  });
 
   const Head = [
     {
@@ -102,7 +111,13 @@ const CityList = () => {
     }
   };
 
-  const NewCityComp = ({ handleChange, values, handleSubmit, data }) => {
+  const NewCityComp = ({
+    handleChange,
+    setFieldValue,
+    values,
+    handleSubmit,
+    data,
+  }) => {
     return (
       <form onSubmit={handleSubmit} style={{ padding: "10px 0" }}>
         <TextInput
@@ -132,7 +147,7 @@ const CityList = () => {
         <SelectInput
           name={"ulkeId"}
           value={values.ulkeId}
-          onChange={handleChange}
+          onChange={setFieldValue}
           data={data}
           visableValue={"adOrjinal"}
           error={touched.ulkeId && errors.ulkeId}
@@ -186,7 +201,8 @@ const CityList = () => {
         Şehirler
       </BreadCrumb>
       <Box mt="20px" px={"38px"}>
-        <ListTable id="City"
+        <ListTable
+          id="City"
           head={Head}
           row={data}
           radioValue={radioValue}
@@ -196,13 +212,14 @@ const CityList = () => {
       </Box>
       <BasicModal
         click={isClick}
-        title={submitType === "create" ? "Yeni Ülke" : "Güncelle"}
+        title={submitType === "create" ? "Yeni Şehir" : "Güncelle"}
         formik={{ handleChange, handleSubmit, values }}
         component={NewCityComp({
           handleChange,
           values,
           handleSubmit,
-          data: countrydata?.data,
+          setFieldValue,
+          data: countrydata,
         })}
       />
     </Box>

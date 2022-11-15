@@ -2,7 +2,7 @@ import { Box, Text, Button } from "@chakra-ui/react";
 import { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import useSWR from "swr";
-import { getProduct } from "../../api/api";
+import { getAlternativeDemand, getProduct } from "../../api/api";
 import BreadCrumb from "../../components/BreadCrumb/BreadCrumb";
 import SkeletonComp from "../../components/Skeleton/Skeleton";
 import ImageComp from "../../components/Talepler/ImageComp/ImageComp";
@@ -16,14 +16,18 @@ import { StyledButton } from "../ProductList";
 const AlternativeDetail = () => {
   const navigate = useNavigate();
   const { id } = useParams();
-  const { data, error } = useSWR(["getProduct", id ?? null], getProduct);
+  const { data, error } = useSWR(
+    ["getAlternativeDemand", id ?? null],
+    getAlternativeDemand
+  );
+
   const Tabs = [
     {
       title: "İstenen Ürün",
       comp: DesiredProduct,
     },
     {
-      title: "Teknik Özellikleri",
+      title: "Eşleşen Ürün",
       comp: TechnicialSpecifications,
     },
     {
@@ -38,7 +42,7 @@ const AlternativeDetail = () => {
   const [activeTab, setActiveTab] = useState(Tabs[0]);
   const [images, setImages] = useState([]);
   useEffect(() => {
-    data?.resimler.forEach((image) =>
+    data?.resimler?.forEach((image) =>
       setImages((prev) => [...prev, baseApi + image.dosyaYolu])
     );
   }, [data]);
@@ -49,12 +53,12 @@ const AlternativeDetail = () => {
   ) : (
     <Box>
       <BreadCrumb
-        funct2={{
-          title: "Düzenle",
-          function: () => {
-            navigate(routes.urunguncelle, { state: data });
-          },
-        }}
+        // funct2={{
+        //   title: "Düzenle",
+        //   function: () => {
+        //     navigate(routes.alternatifGuncelle, { state: data });
+        //   },
+        // }}
       >
         {data?.ad}
       </BreadCrumb>
@@ -77,7 +81,7 @@ const AlternativeDetail = () => {
               </StyledButton>
             ))}
           </Box>
-          <Box>{activeTab?.comp({ detail: data })}</Box>
+          <Box>{activeTab?.comp({ detail: data, page: "alternative" })}</Box>
         </Box>
       </Box>
     </Box>

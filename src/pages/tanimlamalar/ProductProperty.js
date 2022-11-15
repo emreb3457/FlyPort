@@ -27,7 +27,7 @@ const ProductProperty = () => {
     ["getProductProperty", page],
     getProductPropertyTable
   );
-  console.log(data);
+  
   const { errors, handleChange, handleSubmit, values, touched, setValues } =
     useFormik({
       initialValues: {

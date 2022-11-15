@@ -9,6 +9,8 @@ import {
   getDistrictUpdate,
   getCityList,
   getDistrictTable,
+  getCountryList,
+  getCity,
 } from "../../api/DefinitionsApi";
 import BasicModal from "../../helpers/Modal";
 import SkeletonComp from "../../components/Skeleton/Skeleton";
@@ -26,12 +28,6 @@ const DistrictList = () => {
   const [radioValue, setRadioValue] = React.useState({});
   const [submitType, setSubmitType] = React.useState("");
 
-  const { data, mutate, error } = useSWR(
-    ["getDistrict", page],
-    getDistrictTable
-  );
-  const { data: citydata } = useSWR(["getCity", page, limit], getCityList);
-
   const { errors, handleChange, handleSubmit, values, setValues, touched } =
     useFormik({
       initialValues: {
@@ -39,7 +35,8 @@ const DistrictList = () => {
         adOrjinal: "",
         adIngilizce: "",
         aciklama: "",
-        sehirId: Number,
+        sehirId: "",
+        ulkeId: "",
       },
       onSubmit: (values, { resetForm }) => {
         submitType === "create"
@@ -56,6 +53,13 @@ const DistrictList = () => {
       },
       validationSchema: districtValidate,
     });
+
+  const { data, mutate, error } = useSWR(
+    ["getDistrict", page],
+    getDistrictTable
+  );
+  const { data: getCountry } = useSWR(["getCountryList"], getCountryList);
+  const { data: citydata } = useSWR(["getCity", values.ulkeId], getCityList);
 
   const Head = [
     {
@@ -134,10 +138,20 @@ const DistrictList = () => {
           Ingilizce Ad
         </TextInput>
         <SelectInput
+          name={"ulkeId"}
+          value={values.ulkeId}
+          onChange={handleChange}
+          data={getCountry?.data}
+          visableValue={"adOrjinal"}
+          error={touched.ulkeId && errors.ulkeId}
+        >
+          Ülke
+        </SelectInput>
+        <SelectInput
           name={"sehirId"}
           value={values.sehirId}
           onChange={handleChange}
-          data={data}
+          data={citydata?.data}
           visableValue={"adOrjinal"}
           error={touched.sehirId && errors.sehirId}
         >
@@ -190,7 +204,8 @@ const DistrictList = () => {
         İlçeler
       </BreadCrumb>
       <Box mt="20px" px={"38px"}>
-        <ListTable id="District"
+        <ListTable
+          id="District"
           head={Head}
           row={data}
           radioValue={radioValue}

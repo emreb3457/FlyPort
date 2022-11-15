@@ -74,78 +74,45 @@ const ListMenuItem =
         tab6?.submenu?.filter(x =>
             x.route == path[7] && setTab7[x]
         )
-        const close1 = () => {
-            setTab(null);
-            setTab2(null);
-            setTab3(null);
-            setTab4(null);
-            setTab5(null);
-            setTab6(null);
-        }
-        const close2 = () => {
-            setTab2(null);
-            setTab3(null);
-            setTab4(null);
-            setTab5(null);
-            setTab6(null);
-        }
-
-        const close3 = () => {
-            setTab3(null);
-            setTab4(null);
-            setTab5(null);
-            setTab6(null);
-        }
-
-        const close4 = () => {
-            setTab4(null);
-            setTab5(null);
-            setTab6(null);
-        }
-        const close5 = () => {
-            setTab5(null);
-            setTab6(null);
-        }
+        
         return (
             <Fragment>
-
-
                 <Box bg={colors.darkblue} {...props}>
                     <ul style={{ marginTop: "50px" }}>
                         {items.map((menu, index) => {
                             return (
                                 <li className="menuItem" key={index} style={{ marginLeft: "12px" }}>
-                                    <CLink as={RLink} color={tab?.route == menu.route ? colors.yellow : "white"} onClick={() => tab?.route == menu.route ? close1() : setTab(menu)} to={`/${menu.route}`}>{menu.title}</CLink >
+                                    <CLink as={RLink} color={tab?.route == menu.route ? colors.yellow : "white"} onClick={() => setTab(menu)} to={`/${menu.route}`}>{menu.title}</CLink >
                                     {tab?.title == menu.title &&
                                         <ul>
                                             {menu.submenu?.map((sub1, index) => {
                                                 return (
                                                     <li key={index}>
-                                                        <CLink as={RLink} color={tab2?.route == sub1.route ? colors.yellow : "white"} onClick={() => tab2?.route == sub1.route ? close2() : setTab2(sub1)} to={`/${menu.route}/${sub1.route}`} style={{ marginLeft: "15px" }}>{sub1.title}</CLink >
+                                                        <CLink as={RLink} color={tab2?.route == sub1.route ? colors.yellow : "white"} onClick={() => setTab2(sub1)} to={`/${menu.route}/${sub1.route}`} style={{ marginLeft: "15px" }}>{sub1.title}</CLink >
                                                         {tab2?.route == sub1.route &&
                                                             <ul>
                                                                 {sub1.submenu?.map((sub2, index) => {
                                                                     return (
                                                                         <li key={index}>
-                                                                            <CLink as={RLink} color={tab3?.route == sub2?.route ? colors.yellow : "white"} onClick={() => tab3?.route == sub2.route ? close3() : setTab3(sub2)} to={`/${menu.route}/${sub1.route}/${sub2.route}`} style={{ marginLeft: "30px" }}>{sub2.title}</CLink >
+                                                                            <CLink as={RLink} color={tab3?.route == sub2?.route ? colors.yellow : "white"} onClick={() => setTab3(sub2)} to={`/${menu.route}/${sub1.route}/${sub2.route}`} style={{ marginLeft: "30px" }}>{sub2.title}</CLink >
                                                                             {tab3?.route == sub2.route &&
                                                                                 <ul>
                                                                                     {sub2.submenu?.map((sub3, index) => {
                                                                                         return (
                                                                                             <li key={index}>
-                                                                                                <CLink as={RLink} color={tab4?.route == sub3.route ? colors.yellow : "white"} onClick={() => tab4?.route == sub3.route ? close4() : setTab4(sub3)} to={`/${menu.route}/${sub1.route}/${sub2.route}/${sub3.route}`} style={{ marginLeft: "45px" }}>{sub3.title}</CLink >
+                                                                                                <CLink as={RLink} color={tab4?.route == sub3.route ? colors.yellow : "white"} onClick={() =>  setTab4(sub3)} to={`/${menu.route}/${sub1.route}/${sub2.route}/${sub3.route}`} style={{ marginLeft: "45px" }}>{sub3.title}</CLink >
                                                                                                 {tab4?.route == sub3.route &&
                                                                                                     <ul>
                                                                                                         {sub3.submenu?.map((sub4, index) => {
                                                                                                             return (
                                                                                                                 <li key={index}>
-                                                                                                                    <CLink as={RLink} color={tab5?.route == sub4.route ? colors.yellow : "white"} onClick={() => tab5?.route == sub4.route ? close5() : setTab5(sub4)} to={`/${menu.route}/${sub1.route}/${sub2.route}/${sub3.route}/${sub4.route}`} style={{ marginLeft: "60px" }}>{sub4.title}</CLink >
+                                                                                                                    <CLink as={RLink} color={tab5?.route == sub4.route ? colors.yellow : "white"} onClick={() =>setTab5(sub4)} to={`/${menu.route}/${sub1.route}/${sub2.route}/${sub3.route}/${sub4.route}`} style={{ marginLeft: "60px" }}>{sub4.title}</CLink >
                                                                                                                     {tab5?.route == sub4.route &&
                                                                                                                         <ul>
                                                                                                                             {sub4.submenu?.map((sub5, index) => {
                                                                                                                                 return (
                                                                                                                                     <li key={index}>
-                                                                                                                                        <CLink as={RLink} color={tab6?.route == sub5.route ? colors.yellow : "white"} onClick={() => tab6?.route == sub5.route ? setTab6(null) : setTab6(sub5)} to={`/${menu.route}/${sub1.route}/${sub2.route}/${sub3.route}/${sub4.route}/${sub5.route}`} style={{ marginLeft: "75px" }}>{sub5.title}</CLink >
+                                                                                                                                        <CLink as={RLink} color={tab6?.route == sub5.route ? colors.yellow : "white"} onClick={() => setTab6(sub5)} to={`/${menu.route}/${sub1.route}/${sub2.route}/${sub3.route}/${sub4.route}/${sub5.route}`} style={{ marginLeft: "75px" }}>{sub5.title}</CLink >
                                                                                                                                     </li>
                                                                                                                                 );
                                                                                                                             })}

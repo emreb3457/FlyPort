@@ -10,7 +10,7 @@ export const routes = {
   newcompany: "/firmalar/yeni",
   company: "/firmalar",
   companydetail: "/firmalar/",
-  yeniAlternatif: "/talep/alternatif/yeni",
-  alternatif: "/talep/alternatif",
-  alternatifDetay: "/talep/alternatif/",
+  yeniAlternatif: "/talepler/alternatifler/yeni",
+  alternatif: "/talepler/alternatifler",
+  alternatifGuncelle: "/talepler/alternatifler/guncelle",
 };

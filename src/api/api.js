@@ -61,7 +61,7 @@ export const getAlternativeDemandList = async (_, page = 0) => {
 
 export const getAlternativeDemand = async (_, id) => {
   return await instance
-    .get("/Talep/SayfaBilgileriniBul/" + id)
+    .get("/Talep/IstenenUrun/" + id)
     .then((res) => res.data);
 };
 export const getAlternativeDemandInsert = async (_, body) => {

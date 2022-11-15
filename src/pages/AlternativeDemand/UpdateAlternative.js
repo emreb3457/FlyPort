@@ -112,12 +112,18 @@ const UpdateAlternative = () => {
   const ProductSubmit = async ({ values }) => {
     setSublitLoading(true);
     const formData = new FormData();
-    formData.append("UrunAdi", values.UrunAdi);
-    formData.append("KisaAdi", values.KisaAdi);
-    formData.append("GTip", values.GTip);
-    formData.append("GenelKategoriId", values.GenelKategoriId);
-    formData.append("AltKategoriId", values.AltKategoriId);
-    formData.append("FlyKategoriId", values.FlyKategoriId);
+    formData.append("UrunAdi", values.urunAdi);
+    formData.append("Islenilen", values.Islenilen);
+    formData.append("NerdenId", values.NerdenId);
+    formData.append("NereyeId", values.NereyeId);
+    formData.append("TeslimSekliId", values.TeslimSekliId);
+    formData.append("Miktar", values.Miktar);
+    formData.append("KategoriId", values.KategoriId);
+    formData.append("UrunId", values.UrunId);
+    formData.append("MusteriId", values.MusteriId);
+    formData.append("TalepEden", values.TalepEden);
+    formData.append("Email", values.Email);
+    formData.append("Telefon", values.Telefon);
     for (let index = 0; index < values.TeknikOzellikDegerleri.length; index++) {
       formData.append(
         "TeknikOzellikDegerleri",
@@ -155,7 +161,7 @@ const UpdateAlternative = () => {
 
       <form onSubmit={handleSubmit}>
         <Box display={"flex"} mt="20px" px="50px">
-          <ImageComp images={imageURLS} />
+          <ImageComp images={imageURLS} onImageChange={onImageChange} />
 
           <Box width={{ lg: "35%", "2xl": "30%" }} marginLeft="30px">
             <TextInput
@@ -261,13 +267,6 @@ const UpdateAlternative = () => {
                   );
                 })}
               </Select>
-              <input
-                type="file"
-                multiple
-                accept="image/*"
-                onChange={onImageChange}
-                style={{ marginTop: "20px" }}
-              />
             </Box>
           </Box>
         </Box>

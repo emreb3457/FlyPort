@@ -29,7 +29,7 @@ const newCompanyAdressSubmit = async ({ values, mutate, id }) => {
   const { status } = await sendRequest(
     getCompanyAdressInsert("", {
       ...values,
-      firmaId: id,
+      id: id,
     })
   );
   status && mutate();
@@ -64,22 +64,16 @@ const CompanyAdress = ({ setFunctions, item }) => {
     getCompanyAdressTable
   );
 
-  const { data: Ulke } = useSWR(["getCountryList"], getCountryList);
-
-  const { data: Sehir } = useSWR(["getCityList"], getCityList);
-
-  const { data: Ilce } = useSWR(["getDistrictList"], getDistrictList);
-
   const { data: AdresTipi } = useSWR(["getAdressTypeList"], getAdressTypeList);
   const { errors, handleChange, handleSubmit, values, touched, setValues } =
     useFormik({
       initialValues: {
-        id: Number,
-        adresTipiId: Number,
+        id: item?.id,
+        adresTipiId: "",
         adres: "",
-        ulkeId: Number,
-        sehirId: Number,
-        ilceId: Number,
+        ulkeId: "",
+        sehirId: "",
+        ilceId: "",
         yetkiliAd: "",
         yetkiliSoyad: "",
         yetkiliEmail: "",
@@ -100,6 +94,20 @@ const CompanyAdress = ({ setFunctions, item }) => {
       validationSchema: newCompanyAdressValidate,
     });
 
+  const { data: Adress } = useSWR(
+    ["getCompanyAdressTable", item?.id],
+    getCompanyAdressTable
+  );
+
+  const { data: Ulke } = useSWR(["getCountryList"], getCountryList);
+
+  const { data: Sehir } = useSWR(["getCityList", values.ulkeId], getCityList);
+
+  const { data: Ilce } = useSWR(
+    ["getDistrictList", values.sehirId],
+    getDistrictList
+  );
+
   useEffect(() => {
     setFunctions({
       create: {
@@ -116,7 +124,7 @@ const CompanyAdress = ({ setFunctions, item }) => {
           setValues({
             ...radioValue,
           });
-          clickFunct();
+          radioValue?.id && clickFunct();
         },
       },
       remove: {
@@ -267,7 +275,7 @@ const CompanyAdress = ({ setFunctions, item }) => {
         <ListTable
           id="CompanyAdress"
           head={Head}
-          row={data}
+          row={Adress}
           radioValue={radioValue}
           radioSetValue={setRadioValue}
           link={false}

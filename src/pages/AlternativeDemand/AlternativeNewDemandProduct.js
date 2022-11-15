@@ -167,7 +167,7 @@ const AlternativeNewDemand = () => {
 
       <form onSubmit={handleSubmit}>
         <Box display={["block", "block", "block", "flex"]} mt="20px" px="50px">
-          <ImageComp images={imageURLS} />
+          <ImageComp images={imageURLS} onImageChange={onImageChange} />
 
           <Box width={{ lg: "35%", "2xl": "30%" }} marginLeft="30px">
             <SelectInput
@@ -322,13 +322,6 @@ const AlternativeNewDemand = () => {
             >
               Telefon
             </TextInput>
-            <input
-              type="file"
-              multiple
-              accept="image/*"
-              onChange={onImageChange}
-              style={{ marginTop: "20px" }}
-            />
           </Box>
         </Box>
         <Box mt="40px" pl="30px">

@@ -17,13 +17,6 @@ const NewCompany = () => {
   const [page, setPage] = useState(0);
   const [limit, setLimit] = useState(999);
 
-  const { data: Country, mutate } = useSWR(
-    ["getCountryList", page, limit],
-    getCountryList
-  );
-
-  const { data: City } = useSWR(["getCityList", page, limit], getCityList);
-
   const { errors, handleChange, handleSubmit, values, touched } = useFormik({
     initialValues: {
       FirmaUnvani: "",
@@ -42,6 +35,16 @@ const NewCompany = () => {
     },
     validationSchema: newCompanyValidate,
   });
+
+  const { data: Country, mutate } = useSWR(
+    ["getCountryList", page, limit],
+    getCountryList
+  );
+
+  const { data: City } = useSWR(
+    ["getCityList", values.UlkeId, page, limit],
+    getCityList
+  );
 
   const newCompanySubmit = async ({ values }) => {
     setSublitLoading(true);

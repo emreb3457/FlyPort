@@ -31,6 +31,7 @@ export const districtValidate = yup.object().shape({
   adOrjinal: yup.string().required("Zorunlu alan."),
   adIngilizce: yup.string().required("Zorunlu alan."),
   sehirId: yup.number().required("Zorunlu alan."),
+  ulkeId: yup.number().required("Zorunlu alan."),
   aciklama: yup.string(),
 });
 
@@ -146,6 +147,6 @@ export const newCompanyOfficialValidate = yup.object().shape({
   gorev: yup.string().required("Zorunlu alan."),
   email: yup.string().required("Zorunlu alan."),
   gsm: yup.string().required("Zorunlu alan."),
-  weChat: yup.string(),
-  digerIletisim: yup.string(),
+  weChat: yup.string().nullable(),
+  digerIletisim: yup.string().nullable(),
 });
