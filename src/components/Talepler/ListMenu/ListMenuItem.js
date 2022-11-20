@@ -27,10 +27,10 @@ const ListMenuItem =
         useEffect(() => {
 
             //Sayfayı yenilediğimizde seçili alanların kaybolmaması için
-            setTab(menuItems.find(x =>
+            setTab(items.find(x =>
                 x.route == path[1]
             ))
-            let Tab = menuItems.find(x => x.route == path[1])
+            let Tab = items.find(x => x.route == path[1])
             setTab2(
                 Tab?.submenu?.filter(x => x.route == path[2])[0]
             )

@@ -1,3 +1,5 @@
+import { useLocation } from "react-router-dom";
+
 export const menuItems = [
   {
     title: "Firmalar",
@@ -144,7 +146,11 @@ export const menuItems = [
 ];
 
 export const DemandMenu = () => {
-  const asd = [
+  const menuItems = [
+    {
+      title: "Ana Sayfa",
+      route: "",
+    },
     {
       title: "Görevler",
       route: "gorevler",
@@ -177,5 +183,5 @@ export const DemandMenu = () => {
     },
   ];
 
-  return asd;
+  return menuItems;
 };

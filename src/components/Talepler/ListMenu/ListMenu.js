@@ -19,7 +19,7 @@ const ListMenu = ({ children }) => {
   const [selectMenu, setMenuItems] = useState(MenuNames.Home);
   const location = useLocation();
   useMemo(() => {
-    location.pathname.split("/").includes("alternatifler")
+    location.pathname.split("/").includes("gorevler")
       ? setMenuItems(MenuNames.Demand)
       : setMenuItems("");
   }, [location.pathname]);

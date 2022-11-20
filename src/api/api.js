@@ -60,9 +60,7 @@ export const getAlternativeDemandList = async (_, page = 0) => {
 };
 
 export const getAlternativeDemand = async (_, id) => {
-  return await instance
-    .get("/Talep/IstenenUrun/" + id)
-    .then((res) => res.data);
+  return await instance.get("/Talep/IstenenUrun/" + id).then((res) => res.data);
 };
 export const getAlternativeDemandInsert = async (_, body) => {
   return await instance
@@ -194,4 +192,19 @@ export const getCompanyOfficialRemove = async (_, id) => {
   return await instance
     .get("/FirmaYetkili/Sil?id=" + id)
     .then((res) => res.data);
+};
+
+////////////////////////////////////////
+
+////////////////////////////////////////////////////////////////////////Company Official
+export const getPriceResearchTable = async (_, id) => {
+  return DevExtremeCreateStore("/Teklif/SayfaliTablo");
+};
+
+export const getPriceResearchList = async (_, page = 0, rowCount = 10) => {
+  return await instance.get("/Teklif/SayfaliListele").then((res) => res.data);
+};
+
+export const getPriceResearchRemove = async (_, id) => {
+  return await instance.get("/Teklif/Sil?id=" + id).then((res) => res.data);
 };

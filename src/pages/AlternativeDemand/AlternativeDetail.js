@@ -53,12 +53,24 @@ const AlternativeDetail = () => {
   ) : (
     <Box>
       <BreadCrumb
-        // funct2={{
-        //   title: "Düzenle",
-        //   function: () => {
-        //     navigate(routes.alternatifGuncelle, { state: data });
-        //   },
-        // }}
+        funct={{
+          title: "Görevler",
+          function: () => {
+            navigate(routes.gorevler, { state: id });
+          },
+        }}
+        funct1={{
+          title: "Maliyetler",
+          function: () => {
+            navigate(routes.maliyetler, { state: id });
+          },
+        }}
+        funct2={{
+          title: "Teklif",
+          function: () => {
+            navigate(routes.teklif, { state: id });
+          },
+        }}
       >
         {data?.ad}
       </BreadCrumb>

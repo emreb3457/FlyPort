@@ -45,6 +45,8 @@ import AlternativeNewDemand from './pages/AlternativeDemand/AlternativeNewDemand
 import AlternativeDemandList from './pages/AlternativeDemand/AlternativeDemandList';
 import AlternativeDetail from './pages/AlternativeDemand/AlternativeDetail';
 import UpdateAlternative from './pages/AlternativeDemand/UpdateAlternative';
+import PriceResearch from './pages/PriceResearch/PriceResearch';
+import NewPriceResearch from './pages/PriceResearch/NewPriceResearch';
 const App = () => {
   return (
     <Fragment>
@@ -60,6 +62,10 @@ const App = () => {
             <Route path="/talepler/alternatifler" element={<ProtectedRoute><AlternativeDemandList/></ProtectedRoute>} exact />
             <Route path="/talepler/alternatifler/:id" element={<ProtectedRoute><AlternativeDetail/></ProtectedRoute>} exact />
             <Route path="/talepler/alternatifler/guncelle" element={<ProtectedRoute><UpdateAlternative/></ProtectedRoute>} exact />
+
+            <Route path="/gorevler" element={<ProtectedRoute><PriceResearch/></ProtectedRoute>} exact />
+            <Route path="/gorevler/fiyatarastirma" element={<ProtectedRoute><PriceResearch/></ProtectedRoute>} exact />
+            <Route path="/gorevler/fiyatarastirma/yeni" element={<ProtectedRoute><NewPriceResearch/></ProtectedRoute>} exact />
 
             <Route path="/firmalar" element={<ProtectedRoute><Company/></ProtectedRoute>} exact />
             <Route path="/firmalar/yeni" element={<ProtectedRoute><NewCompany/></ProtectedRoute>} exact />

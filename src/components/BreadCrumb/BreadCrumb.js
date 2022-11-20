@@ -5,6 +5,7 @@ import colors from "../../theme/colors";
 
 const BreadCrumb = ({
   children,
+  funct,
   funct1,
   funct2,
   funct3,
@@ -12,7 +13,6 @@ const BreadCrumb = ({
   ...props
 }) => {
   const navigate = useNavigate();
-
   return (
     <Box
       display="flex"
@@ -42,6 +42,11 @@ const BreadCrumb = ({
         {children}
       </Text>
       <Box>
+        {funct && (
+          <StyledButton loading={loading} funct={funct?.function}>
+            {funct?.title}
+          </StyledButton>
+        )}
         {funct1 && (
           <StyledButton loading={loading} funct={funct1?.function}>
             {funct1?.title}
