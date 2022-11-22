@@ -225,7 +225,7 @@ const CompanyOfficial = ({ setFunctions, item }) => {
       </Box>
       <BasicModal
         click={isClick}
-        title={submitType === "create" ? "Yeni Adres Ekle" : "Güncelle"}
+        title={submitType === "create" ? "Yeni Yetkili Ekle" : "Güncelle"}
         formik={{ handleChange, handleSubmit, values }}
         component={NewCompanyOfficialComp({
           handleChange,

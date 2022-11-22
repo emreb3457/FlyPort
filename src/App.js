@@ -47,6 +47,7 @@ import AlternativeDetail from './pages/AlternativeDemand/AlternativeDetail';
 import UpdateAlternative from './pages/AlternativeDemand/UpdateAlternative';
 import PriceResearch from './pages/PriceResearch/PriceResearch';
 import NewPriceResearch from './pages/PriceResearch/NewPriceResearch';
+import CurrencyType from './pages/tanimlamalar/CurrencyType';
 const App = () => {
   return (
     <Fragment>
@@ -113,6 +114,7 @@ const App = () => {
             <Route path="/tanimlamalar/genelkategori" element={<ProtectedRoute><PublicCategory /></ProtectedRoute>} exact />
             <Route path="/tanimlamalar/altkategori" element={<ProtectedRoute><ChildrenCategory /></ProtectedRoute>} exact />
             <Route path="/tanimlamalar/kategori" element={<ProtectedRoute><Category /></ProtectedRoute>} exact />
+            <Route path="/tanimlamalar/dovizcinsi" element={<ProtectedRoute><CurrencyType /></ProtectedRoute>} exact />
             <Route path='*' element={<div>NOT FOUND</div>} />
           </Routes>
         </ListMenu>

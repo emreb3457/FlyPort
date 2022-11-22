@@ -1,7 +1,4 @@
 import instance from "../utils/axios";
-import { errorMessageWrite } from "../utils/errorMessageWrite";
-import { createStore } from "devextreme-aspnet-data-nojquery";
-import { baseApi } from "../config/config";
 import { DevExtremeCreateStore } from "../utils/helpers";
 const accessToken = sessionStorage.getItem("accessToken");
 //Country Api - Start
@@ -61,6 +58,36 @@ export const getUnitTypeRemove = async (_, id) => {
   return await instance.get("/BirimTipi/Sil?id=" + id).then((res) => res.data);
 };
 //Unit Type Api - End
+
+//Currency Type Api - Start
+export const getCurrencyTypeTable = async (_, page = 0, rowCount = 999) => {
+  return DevExtremeCreateStore("/ParaBirimi/SayfaliTablo");
+};
+
+export const getCurrencyTypeList = async (_, page = 0, rowCount = 999) => {
+  return await instance
+    .get("/ParaBirimi/SayfaliListele")
+    .then((res) => res.data);
+};
+
+export const getCurrencyType = async (_, id) => {
+  return await instance.get("/ParaBirimi/Bul/" + id).then((res) => res.data);
+};
+
+export const getCurrencyTypeInsert = async (_, body) => {
+  return await instance.post("/ParaBirimi/Ekle", body).then((res) => res.data);
+};
+
+export const getCurrencyTypeUpdate = async (_, body) => {
+  return await instance
+    .post("/ParaBirimi/Guncelle", body)
+    .then((res) => res.data);
+};
+
+export const getCurrencyTypeRemove = async (_, id) => {
+  return await instance.get("/ParaBirimi/Sil?id=" + id).then((res) => res.data);
+};
+//Currency Type Api - End
 
 //Unit Type Api - Start
 export const getAdressTypeTable = async (_, page = 0, rowCount = 999) => {

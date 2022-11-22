@@ -45,6 +45,11 @@ export const AdressTypeValidate = yup.object().shape({
   aciklama: yup.string(),
 });
 
+export const CurrencyTypeValidate = yup.object().shape({
+  ad: yup.string().required("Zorunlu alan."),
+  aciklama: yup.string(),
+});
+
 export const DeliveryTypeValidate = yup.object().shape({
   ad: yup.string().required("Zorunlu alan."),
   aciklama: yup.string(),
@@ -149,4 +154,20 @@ export const newCompanyOfficialValidate = yup.object().shape({
   gsm: yup.string().required("Zorunlu alan."),
   weChat: yup.string().nullable(),
   digerIletisim: yup.string().nullable(),
+});
+
+export const newPriceResearch = yup.object().shape({
+  ureticiFirmaId: yup.number().required("Zorunlu alan."),
+  istenilenUrunAynisiMi: yup.boolean().required("Zorunlu alan."),
+  ureticininBulunduguUlkeId: yup.number().required("Zorunlu alan."),
+  ureticininBulunduguSehirId: yup.number().required("Zorunlu alan."),
+  teslimSekliId: yup.number().required("Zorunlu alan."),
+  ucretlendirmeyeEsasMiktarBirimiId: yup.number().required("Zorunlu alan."),
+  hazirOlanMiktar: yup.string().required("Zorunlu alan."),
+  miktarBirimiId: yup.number().required("Zorunlu alan."),
+  istenikenMiktarIcinHazirlikSuresi: yup.string().required("Zorunlu alan."),
+  birimFiyati: yup.string().required("Zorunlu alan."),
+  dovizCinsi: yup.string().required("Zorunlu alan."),
+  teklifGecerlilikTarihi: yup.string().required("Zorunlu alan."),
+  aciklama: yup.string().required("Zorunlu alan."),
 });

@@ -18,7 +18,6 @@ import { useFormik } from "formik";
 import { newCompanyAdressValidate } from "../../utils/validation";
 import { sendRequest } from "../../utils/helpers";
 import {
-  getAdressType,
   getAdressTypeList,
   getCityList,
   getCountryList,
@@ -29,7 +28,7 @@ const newCompanyAdressSubmit = async ({ values, mutate, id }) => {
   const { status } = await sendRequest(
     getCompanyAdressInsert("", {
       ...values,
-      id: id,
+      firmaId: id,
     })
   );
   status && mutate();
@@ -38,7 +37,7 @@ const newCompanyAdressSubmit = async ({ values, mutate, id }) => {
 const updateCompanyAdressSubmit = async ({ values, mutate, id }) => {
   const { status } = await sendRequest(
     getCompanyAdressInsert("", {
-      id,
+      firmaId: id,
       ...values,
     })
   );
@@ -68,7 +67,6 @@ const CompanyAdress = ({ setFunctions, item }) => {
   const { errors, handleChange, handleSubmit, values, touched, setValues } =
     useFormik({
       initialValues: {
-        id: item?.id,
         adresTipiId: "",
         adres: "",
         ulkeId: "",

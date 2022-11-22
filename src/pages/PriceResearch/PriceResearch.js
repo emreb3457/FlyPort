@@ -5,7 +5,7 @@ import useSWR from "swr";
 import SkeletonComp from "../../components/Skeleton/Skeleton";
 import React, { useState } from "react";
 import { sendRequest } from "../../utils/helpers";
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import { routes } from "../../constants/routes";
 import {
   getPriceResearchList,
@@ -15,6 +15,8 @@ import {
 
 const PriceResearchList = () => {
   const navigate = useNavigate();
+  const location = useLocation();
+  console.log(location);
   const [page, setPage] = useState(0);
   const [radioValue, setRadioValue] = React.useState({});
 
@@ -30,39 +32,48 @@ const PriceResearchList = () => {
       column: "id",
     },
     {
-      title: "Kısa Adı",
-      column: "kisaAdi",
+      title: "Üretici",
+      column: "uretici",
     },
     {
-      title: "Firma Ünvanı",
-      column: "firmaUnvani",
+      title: "Ülkesi",
+      column: "ulkesi",
     },
 
     {
-      title: "Yetkili",
-      column: "yetkili",
+      title: "Teklifin A. Tarihi",
+      column: "teklifAlinmaTarih",
     },
     {
-      title: "Firma Tipi",
-      column: "firmaTipi",
+      title: "Teklif Alan Kişi",
+      column: "teklifAlanKisi",
     },
     {
-      title: "E-mail",
-      column: "email",
+      title: "Miktar",
+      column: "miktar",
     },
     {
-      title: "Ülke",
-      column: "ulke",
+      title: "Birim Fiyatı",
+      column: "birimFiyati",
     },
     {
-      title: "Şehir",
+      title: "Para Birimi",
+      column: "paraBirimi",
+    },
+    {
+      title: "Güncel USD",
       column: "sehir",
     },
-  
+    {
+      title: "Geçerlilik Tarihi",
+      column: "gecerlilikTarihi",
+    },
   ];
 
   const removePriceResearch = async ({ radioValue, mutate }) => {
-    const { status } = await sendRequest(getPriceResearchRemove("_", radioValue.id));
+    const { status } = await sendRequest(
+      getPriceResearchRemove("_", radioValue.id)
+    );
     status && mutate();
   };
 
@@ -74,7 +85,7 @@ const PriceResearchList = () => {
         funct1={{
           title: "Yeni Ekle",
           function: () => {
-            navigate(routes.yenifiyat);
+            navigate(routes.yenifiyat, { state: location.state });
           },
         }}
         funct2={{

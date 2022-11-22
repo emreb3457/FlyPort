@@ -198,11 +198,17 @@ export const getCompanyOfficialRemove = async (_, id) => {
 
 ////////////////////////////////////////////////////////////////////////Company Official
 export const getPriceResearchTable = async (_, id) => {
-  return DevExtremeCreateStore("/Teklif/SayfaliTablo");
+  return DevExtremeCreateStore("/Teklif/BirlesmisTablo");
 };
 
 export const getPriceResearchList = async (_, page = 0, rowCount = 10) => {
   return await instance.get("/Teklif/SayfaliListele").then((res) => res.data);
+};
+
+export const getPriceResearchInsert = async (_, body) => {
+  return await instance
+    .post("/Teklif/SayfaKaydet", body)
+    .then((res) => res.data);
 };
 
 export const getPriceResearchRemove = async (_, id) => {

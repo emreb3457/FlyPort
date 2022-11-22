@@ -13,36 +13,24 @@ import CompanyAdress from "../../components/Company/CompanyAdress";
 import CompanyOfficial from "../../components/Company/CompanyOfficial";
 const Tabs = [
   {
-    title: "Özet Bilgi",
+    title: "Ürün Fiyatı",
     comp: CompanySummary,
   },
   {
-    title: "Firma Bilgileri",
+    title: "Teknik Özellikleri",
     comp: CompanyInfermation,
   },
   {
-    title: "Adresleri",
+    title: "Kargo Özellikleri",
     comp: CompanyAdress,
   },
   {
-    title: "Yetkili Kişiler",
+    title: "Ürün Sertifikaları",
     comp: CompanyOfficial,
   },
   {
-    title: "Sektörel Bilgileri",
+    title: "Firma Bilgileri",
     comp: "<CostAnalysis />",
-  },
-  {
-    title: "Alinan Teklifler",
-    comp: "<OffersDetail />",
-  },
-  {
-    title: "Verilen Teklifler",
-    comp: "ffersDetail />",
-  },
-  {
-    title: "Ürünleri",
-    comp: "<OffersDetail />",
   },
 ];
 
@@ -52,45 +40,7 @@ const CompanyDetail = () => {
   const [selectFunction, setSelectFunction] = useState({});
 
   const { data: companyDetail, error } = useSWR(["getCompany", id], getCompany);
-  // const NewCountryComp = ({ handleChange, values, handleSubmit }) => {
-  //   return (
-  //     <form onSubmit={handleSubmit} style={{ padding: "10px 0" }}>
-  //       <TextInput
-  //         name={"adOrjinal"}
-  //         value={values.adOrjinal}
-  //         onChange={handleChange}
-  //         error={touched?.adOrjinal && errors.adOrjinal}
-  //       >
-  //         Orjinal Ad
-  //       </TextInput>
-  //       <TextInput
-  //         name={"adTurkce"}
-  //         value={values.adTurkce}
-  //         onChange={handleChange}
-  //         error={touched?.adTurkce && errors.adTurkce}
-  //       >
-  //         Türkçe Ad
-  //       </TextInput>
-  //       <TextInput
-  //         name={"adIngilizce"}
-  //         value={values.adIngilizce}
-  //         onChange={handleChange}
-  //         error={touched?.adIngilizce && errors.adIngilizce}
-  //       >
-  //         Ingilizce Ad
-  //       </TextInput>
-  //       <TextInput
-  //         name={"aciklama"}
-  //         value={values.aciklama}
-  //         onChange={handleChange}
-  //         error={touched?.aciklama && errors.aciklama}
-  //       >
-  //         Acıklama
-  //       </TextInput>
-  //       <Button type="submit">Ekle</Button>
-  //     </form>
-  //   );
-  // };
+  
 
   useEffect(() => {}, [selectFunction]);
   const loading = !companyDetail && !error;
@@ -160,12 +110,7 @@ const CompanyDetail = () => {
           }
         </Box>
       </Box>
-      {/* <BasicModal
-        click={isClick}
-        title={"Yeni Ülke Ekle"}
-        formik={{ handleChange, handleSubmit, values }}
-        component={NewCountryComp({ handleChange, values, handleSubmit })}
-      /> */}
+    
     </Box>
   );
 };

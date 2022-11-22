@@ -141,6 +141,10 @@ export const menuItems = [
         title: "Adres Tipi",
         route: "adrestipi",
       },
+      {
+        title: "Döviz Cinsi",
+        route: "dovizcinsi",
+      },
     ],
   },
 ];

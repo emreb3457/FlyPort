@@ -7,29 +7,35 @@ import {
   DateInput,
 } from "../../components/Inputs/CustomInputs";
 import { sendRequest } from "../../utils/helpers";
-import { newCompanyValidate } from "../../utils/validation";
+import { newCompanyValidate, newPriceResearch } from "../../utils/validation";
 import useSWR from "swr";
 import {
   getCountryList,
   getCityList,
   getDeliveryList,
   getUnitTypeList,
+  getCurrencyTypeList,
 } from "../../api/DefinitionsApi";
 import { useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import { routes } from "../../constants/routes";
-import { getCompanyInsert } from "../../api/api";
+import {
+  getCompanyInsert,
+  getCompanyList,
+  getPriceResearchInsert,
+} from "../../api/api";
 
-const NewCompany = () => {
+const NewPriceResearch = () => {
   const navigate = useNavigate();
+  const location = useLocation();
   const [submitLoading, setSublitLoading] = useState(false);
   const [page, setPage] = useState(0);
   const [limit, setLimit] = useState(999);
 
   const { errors, handleChange, handleSubmit, values, touched } = useFormik({
     initialValues: {
-      talepId: "",
-      ureticiFirmaUnvani: "",
+      talepUrunId: location.state,
+      ureticiFirmaId: "",
       istenilenUrunAynisiMi: "",
       ureticininBulunduguUlkeId: "",
       ureticininBulunduguSehirId: "",
@@ -40,14 +46,13 @@ const NewCompany = () => {
       istenikenMiktarIcinHazirlikSuresi: "",
       birimFiyati: "",
       dovizCinsi: "",
-      teklifinAlindigiTarihi: "",
       teklifGecerlilikTarihi: "",
       aciklama: "",
     },
     onSubmit: (values, { resetForm }) => {
-      newCompanySubmit({ values });
+      newPriceResearchSubmit({ values });
     },
-    validationSchema: newCompanyValidate,
+    validationSchema: newPriceResearch,
   });
 
   const { data: Country, mutate } = useSWR(
@@ -70,12 +75,24 @@ const NewCompany = () => {
     getUnitTypeList
   );
 
-  const newCompanySubmit = async ({ values }) => {
+  const { data: CurrencyType } = useSWR(
+    ["getCurrencyTypeList", page, limit],
+    getCurrencyTypeList
+  );
+
+  const { data: Company } = useSWR(
+    ["getCompanyList", page, limit],
+    getCompanyList
+  );
+
+  const newPriceResearchSubmit = async ({ values }) => {
     setSublitLoading(true);
-    const { status } = await sendRequest(getCompanyInsert("", { ...values }));
+    const { status } = await sendRequest(
+      getPriceResearchInsert("", { ...values })
+    );
     if (status) {
       setSublitLoading(false);
-      navigate(routes.company);
+      navigate(routes.teklif);
     }
     setSublitLoading(false);
   };
@@ -92,21 +109,27 @@ const NewCompany = () => {
       >
         Yeni Fiyat Araştırma
       </BreadCrumb>
-
       <Box px="50px" mt="40px">
         <form onSubmit={handleSubmit}>
-          <Text fontSize={"24px"} fontWeight="bold">
-            Üretici Firma Ünvanı
-          </Text>
           <Box display={["block", "block", "block", "flex"]} mt="20px">
             <Box width={{ lg: "35%", "2xl": "30%" }}>
+              <SelectInput
+                name={"ureticiFirmaId"}
+                value={values.ureticiFirmaId}
+                data={Company?.data}
+                visableValue="firmaUnvani"
+                onChange={handleChange}
+                error={touched.ureticiFirmaId && errors.ureticiFirmaId}
+              >
+                Üretici Firma Ünvanı
+              </SelectInput>
               <SelectInput
                 name={"istenilenUrunAynisiMi"}
                 value={values.istenilenUrunAynisiMi}
                 onChange={handleChange}
                 data={[
-                  { ad: "Evet", id: 1 },
-                  { ad: "Hayır", id: 2 },
+                  { ad: "Evet", id: true },
+                  { ad: "Hayır", id: false },
                 ]}
                 visableValue={"ad"}
                 error={
@@ -129,7 +152,7 @@ const NewCompany = () => {
                 Üreticinin Bulunduğu Ülke
               </SelectInput>
               <SelectInput
-                name={"ureticininBulunduguUlkeId"}
+                name={"ureticininBulunduguSehirId"}
                 value={values.ureticininBulunduguSehirId}
                 data={City?.data}
                 visableValue="adOrjinal"
@@ -154,8 +177,8 @@ const NewCompany = () => {
               <SelectInput
                 name={"ucretlendirmeyeEsasMiktarBirimiId"}
                 value={values.ucretlendirmeyeEsasMiktarBirimiId}
-                data={Delivery?.data}
-                visableValue="adOrjinal"
+                data={UnitType?.data}
+                visableValue="ad"
                 onChange={handleChange}
                 error={
                   touched.ucretlendirmeyeEsasMiktarBirimiId &&
@@ -187,6 +210,17 @@ const NewCompany = () => {
             </Box>
             <Box width={{ lg: "35%", "2xl": "30%" }} ml="17px">
               <TextInput
+                name={"istenikenMiktarIcinHazirlikSuresi"}
+                value={values.istenikenMiktarIcinHazirlikSuresi}
+                onChange={handleChange}
+                error={
+                  touched.istenikenMiktarIcinHazirlikSuresi &&
+                  errors.istenikenMiktarIcinHazirlikSuresi
+                }
+              >
+                İsteniken Miktar İcin Hazırlık Süresi
+              </TextInput>
+              <TextInput
                 name={"birimFiyati"}
                 value={values.birimFiyati}
                 onChange={handleChange}
@@ -194,16 +228,18 @@ const NewCompany = () => {
               >
                 1 Birim Fiyatı
               </TextInput>
-              <TextInput
+              <SelectInput
                 name={"dovizCinsi"}
                 value={values.dovizCinsi}
+                data={CurrencyType?.data}
+                visableValue="ad"
                 onChange={handleChange}
                 error={touched.dovizCinsi && errors.dovizCinsi}
               >
-                Doviz Cinsi
-              </TextInput>
+                Döviz Cinsi
+              </SelectInput>
               <DateInput
-                name={"Sektoru"}
+                name={"teklifGecerlilikTarihi"}
                 value={values.teklifGecerlilikTarihi}
                 onChange={handleChange}
                 error={
@@ -213,6 +249,21 @@ const NewCompany = () => {
               >
                 Teklifin Geçerlilik Tarihi
               </DateInput>
+            </Box>
+            <Box width={{ lg: "35%", "2xl": "30%" }} ml="17px">
+              <Box pl="30px">
+                <Text fontSize={"22px"}>Açıklama</Text>
+                <Textarea
+                  maxW="1000px"
+                  minH="200px"
+                  border={"1px solid #9B9696"}
+                  borderRadius="21px"
+                  mt="10px"
+                  name={"aciklama"}
+                  value={values.aciklama}
+                  onChange={handleChange}
+                />
+              </Box>
             </Box>
           </Box>
           <button
@@ -226,7 +277,7 @@ const NewCompany = () => {
   );
 };
 
-export default NewCompany;
+export default NewPriceResearch;
 
 //firma detay bağlancak
 //talep detay eksiklere bakılacak

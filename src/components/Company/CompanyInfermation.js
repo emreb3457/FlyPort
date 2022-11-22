@@ -3,7 +3,7 @@ import { useFormik } from "formik";
 import { TextInput, SelectInput } from "../../components/Inputs/CustomInputs";
 import { sendRequest } from "../../utils/helpers";
 import { newCompanyValidate } from "../../utils/validation";
-import { getCompanyUpdate } from "../../api/api";
+import { getCompanyInsert } from "../../api/api";
 import useSWR from "swr";
 import { getCountryList, getCityList } from "../../api/DefinitionsApi";
 import { useEffect, useState } from "react";
@@ -11,7 +11,7 @@ import { useNavigate, useParams } from "react-router-dom";
 
 const updateCompanySubmit = async ({ values, mutate, id }) => {
   const { status } = await sendRequest(
-    getCompanyUpdate("_", {
+    getCompanyInsert("_", {
       id,
       ...values,
     })
@@ -54,7 +54,7 @@ const CompanyInfermation = (props) => {
       Sektoru: data.sektoru || "",
     },
     onSubmit: (values, { resetForm }) => {
-      updateCompanySubmit({ values, id });
+      updateCompanySubmit({ values, id: parseInt(id) });
     },
     validationSchema: newCompanyValidate,
   });
@@ -68,7 +68,7 @@ const CompanyInfermation = (props) => {
     ["getCityList", values.UlkeId, page, limit],
     getCityList
   );
-  console.log(values.UlkeId);
+
   useEffect(() => {
     setFunctions({
       create: !isEdit && { title: "Kaydet", function: handleSubmit },
