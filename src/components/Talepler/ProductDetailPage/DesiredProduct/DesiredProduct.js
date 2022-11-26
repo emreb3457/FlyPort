@@ -1,15 +1,14 @@
 import { Box, Text } from "@chakra-ui/react";
 import colors from "../../../../theme/colors";
 
-export const DesiredProduct = ({ detail, page }) => {
+const DesiredProduct = ({ detail, page }) => {
   const currentPage = page;
-
   const demandType = [
     { ad: "Ürün Tedarigi", id: 1 },
     { ad: "Taşıma", id: 2 },
     { ad: "Gümrükleme", id: 3 },
   ];
-
+  console.log(detail);
   const Productdetail = (
     <Box mt="20px">
       <Box display={"flex"}>
@@ -47,7 +46,7 @@ export const DesiredProduct = ({ detail, page }) => {
       </Box>
     </Box>
   );
-  
+
   const AlternativeDetail = (
     <Box mt="20px">
       <Box display={"flex"}>
@@ -88,6 +87,8 @@ export const DesiredProduct = ({ detail, page }) => {
   );
   return currentPage === "alternative" ? AlternativeDetail : Productdetail;
 };
+
+export default DesiredProduct;
 
 const Label = ({ label, children, ...props }) => {
   return (

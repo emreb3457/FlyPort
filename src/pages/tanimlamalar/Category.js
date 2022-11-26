@@ -36,27 +36,34 @@ const Category = () => {
     getChildrenCategoryList
   );
 
-  const { errors, handleChange, handleSubmit, values, touched, setValues } =
-    useFormik({
-      initialValues: {
-        ad: "",
-        aciklama: "",
-        altKategoriId: "",
-      },
-      onSubmit: (values, { resetForm }) => {
-        submitType === "create"
-          ? newCategorySubmit({ values, mutate })
-          : updateCategorySubmit({
-              values,
-              mutate,
-              id: radioValue.id,
-            });
+  const {
+    errors,
+    handleChange,
+    handleSubmit,
+    values,
+    touched,
+    setValues,
+    setFieldValue,
+  } = useFormik({
+    initialValues: {
+      ad: "",
+      aciklama: "",
+      altKategoriId: "",
+    },
+    onSubmit: (values, { resetForm }) => {
+      submitType === "create"
+        ? newCategorySubmit({ values, mutate })
+        : updateCategorySubmit({
+            values,
+            mutate,
+            id: radioValue.id,
+          });
 
-        resetForm();
-        document.getElementsByClassName("chakra-modal__close-btn")[0].click();
-      },
-      validationSchema: CategoryValidate,
-    });
+      resetForm();
+      document.getElementsByClassName("chakra-modal__close-btn")[0].click();
+    },
+    validationSchema: CategoryValidate,
+  });
 
   const loading = !error && !data;
 
@@ -129,7 +136,7 @@ const Category = () => {
         <SelectInput
           name={"altKategoriId"}
           value={values.altKategoriId}
-          onChange={handleChange}
+          onChange={setFieldValue}
           data={data}
           visableValue={"ad"}
           error={touched.altKategoriId && errors.altKategoriId}

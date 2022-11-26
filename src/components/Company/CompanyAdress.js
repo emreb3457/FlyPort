@@ -22,6 +22,10 @@ import {
   getCityList,
   getCountryList,
   getDistrictList,
+  getAdressTypeTable,
+  getCountryTable,
+  getCityTable,
+  getDistrictTable,
 } from "../../api/DefinitionsApi";
 
 const newCompanyAdressSubmit = async ({ values, mutate, id }) => {
@@ -63,47 +67,57 @@ const CompanyAdress = ({ setFunctions, item }) => {
     getCompanyAdressTable
   );
 
-  const { data: AdresTipi } = useSWR(["getAdressTypeList"], getAdressTypeList);
-  const { errors, handleChange, handleSubmit, values, touched, setValues } =
-    useFormik({
-      initialValues: {
-        adresTipiId: "",
-        adres: "",
-        ulkeId: "",
-        sehirId: "",
-        ilceId: "",
-        yetkiliAd: "",
-        yetkiliSoyad: "",
-        yetkiliEmail: "",
-        yetkiliIletisim: "",
-      },
-      onSubmit: (values, { resetForm }) => {
-        submitType === "create"
-          ? newCompanyAdressSubmit({ values, id: item?.id, mutate })
-          : updateCompanyAdressSubmit({
-              values,
-              mutate,
-              id: radioValue.id,
-            });
+  const { data: AdresTipi } = useSWR(
+    ["getAdressTypeTable"],
+    getAdressTypeTable
+  );
+  const {
+    errors,
+    handleChange,
+    handleSubmit,
+    values,
+    touched,
+    setValues,
+    setFieldValue,
+  } = useFormik({
+    initialValues: {
+      adresTipiId: "",
+      adres: "",
+      ulkeId: "",
+      sehirId: "",
+      ilceId: "",
+      yetkiliAd: "",
+      yetkiliSoyad: "",
+      yetkiliEmail: "",
+      yetkiliIletisim: "",
+    },
+    onSubmit: (values, { resetForm }) => {
+      submitType === "create"
+        ? newCompanyAdressSubmit({ values, id: item?.id, mutate })
+        : updateCompanyAdressSubmit({
+            values,
+            mutate,
+            id: radioValue.id,
+          });
 
-        resetForm();
-        document.getElementsByClassName("chakra-modal__close-btn")[0].click();
-      },
-      validationSchema: newCompanyAdressValidate,
-    });
+      resetForm();
+      document.getElementsByClassName("chakra-modal__close-btn")[0].click();
+    },
+    validationSchema: newCompanyAdressValidate,
+  });
 
   const { data: Adress } = useSWR(
     ["getCompanyAdressTable", item?.id],
     getCompanyAdressTable
   );
+  console.log(values);
+  const { data: Ulke } = useSWR(["getCountryTable"], getCountryTable);
 
-  const { data: Ulke } = useSWR(["getCountryList"], getCountryList);
-
-  const { data: Sehir } = useSWR(["getCityList", values.ulkeId], getCityList);
+  const { data: Sehir } = useSWR(["getCityTable", values.ulkeId], getCityTable);
 
   const { data: Ilce } = useSWR(
-    ["getDistrictList", values.sehirId],
-    getDistrictList
+    ["getDistrictTable", values.sehirId],
+    getDistrictTable
   );
 
   useEffect(() => {
@@ -131,7 +145,9 @@ const CompanyAdress = ({ setFunctions, item }) => {
       },
     });
   });
-
+  useEffect(() => {
+    console.log(values);
+  }, [values]);
   const loading = !error && !data;
   const Head = [
     {
@@ -181,8 +197,8 @@ const CompanyAdress = ({ setFunctions, item }) => {
         <SelectInput
           name={"adresTipiId"}
           value={values.adresTipiId}
-          onChange={handleChange}
-          data={AdresTipi?.data}
+          onChange={setFieldValue}
+          data={AdresTipi}
           visableValue={"ad"}
           error={touched.adresTipiId && errors.adresTipiId}
         >
@@ -191,8 +207,8 @@ const CompanyAdress = ({ setFunctions, item }) => {
         <SelectInput
           name={"ulkeId"}
           value={values.ulkeId}
-          onChange={handleChange}
-          data={Ulke?.data}
+          onChange={setFieldValue}
+          data={Ulke}
           visableValue={"adOrjinal"}
           error={touched.ulkeId && errors.ulkeId}
         >
@@ -201,8 +217,8 @@ const CompanyAdress = ({ setFunctions, item }) => {
         <SelectInput
           name={"sehirId"}
           value={values.sehirId}
-          onChange={handleChange}
-          data={Sehir?.data}
+          onChange={setFieldValue}
+          data={Sehir}
           visableValue={"adOrjinal"}
           error={touched.sehirId && errors.sehirId}
         >
@@ -211,8 +227,8 @@ const CompanyAdress = ({ setFunctions, item }) => {
         <SelectInput
           name={"ilceId"}
           value={values.ilceId}
-          onChange={handleChange}
-          data={Ilce?.data}
+          onChange={setFieldValue}
+          data={Ilce}
           visableValue={"adOrjinal"}
           error={touched.ilceId && errors.ilceId}
         >

@@ -5,7 +5,7 @@ import { sendRequest } from "../../utils/helpers";
 import { newCompanyValidate } from "../../utils/validation";
 import { getCompanyInsert } from "../../api/api";
 import useSWR from "swr";
-import { getCountryList, getCityList } from "../../api/DefinitionsApi";
+import { getCountryList, getCityList, getCountryTable, getCityTable } from "../../api/DefinitionsApi";
 import { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 
@@ -40,7 +40,7 @@ const CompanyInfermation = (props) => {
     sektoru: item?.sektoru,
   };
 
-  const { errors, handleChange, handleSubmit, values, touched } = useFormik({
+  const { errors, handleChange, handleSubmit, values, touched,setFieldValue } = useFormik({
     initialValues: {
       FirmaUnvani: data.firmaUnvanı || "",
       KisaAd: data.kısaAdı || "",
@@ -60,13 +60,13 @@ const CompanyInfermation = (props) => {
   });
   console.log(values);
   const { data: Country } = useSWR(
-    ["getCountryList", page, limit],
-    getCountryList
+    ["getCountryTable", page, limit],
+    getCountryTable
   );
 
   const { data: City } = useSWR(
-    ["getCityList", values.UlkeId, page, limit],
-    getCityList
+    ["getCityTable", values.UlkeId, page, limit],
+    getCityTable
   );
 
   useEffect(() => {
@@ -105,9 +105,9 @@ const CompanyInfermation = (props) => {
             <SelectInput
               name={"UlkeId"}
               value={values.UlkeId}
-              data={Country?.data}
+              data={Country}
               visableValue="adOrjinal"
-              onChange={handleChange}
+              onChange={setFieldValue}
               error={touched.UlkeId && errors.UlkeId}
               disabled={isEdit}
             >
@@ -116,9 +116,9 @@ const CompanyInfermation = (props) => {
             <SelectInput
               name={"SehirId"}
               value={values.SehirId}
-              data={City?.data}
+              data={City}
               visableValue="adOrjinal"
-              onChange={handleChange}
+              onChange={setFieldValue}
               error={touched.SehirId && errors.SehirId}
               disabled={isEdit}
             >

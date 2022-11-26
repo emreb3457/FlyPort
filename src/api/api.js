@@ -214,3 +214,7 @@ export const getPriceResearchInsert = async (_, body) => {
 export const getPriceResearchRemove = async (_, id) => {
   return await instance.get("/Teklif/Sil?id=" + id).then((res) => res.data);
 };
+
+export const getMatchingProduct = async (_, id) => {
+  return await instance.get("/Talep/EslesenUrun/" + id).then((res) => res.data);
+};

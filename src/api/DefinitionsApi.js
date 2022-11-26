@@ -120,8 +120,8 @@ export const getAdressTypeRemove = async (_, id) => {
 //Unit Type Api - End
 
 //City Api - Start
-export const getCityTable = async (_, page = 0, rowCount = 999) => {
-  return DevExtremeCreateStore("/Sehir/SayfaliTablo");
+export const getCityTable = async (_, id) => {
+  return DevExtremeCreateStore("/Sehir/SayfaliTablo/" + id);
 };
 
 export const getCityList = async (_, ulkeId, page, limit) => {
@@ -148,8 +148,8 @@ export const getCityRemove = async (_, id) => {
 //City Api - End
 
 //District Api - Start
-export const getDistrictTable = async (_, page = 0, rowCount = 999) => {
-  return DevExtremeCreateStore("/Ilce/SayfaliTablo");
+export const getDistrictTable = async (_, id) => {
+  return DevExtremeCreateStore("/Ilce/SayfaliTablo/" + id);
 };
 
 export const getDistrictList = async (_, sehirId, limit = 999, page = 0) => {
@@ -266,11 +266,7 @@ export const getProductPropertyRemove = async (_, id) => {
 //Product Property Api - End
 
 //Product Property Value Api - Start
-export const getProductPropertyValueTable = async (
-  _,
-  page = 0,
-  rowCount = 999
-) => {
+export const getProductPropertyValueTable = async (_) => {
   return DevExtremeCreateStore("/NitelikDeger/SayfaliTablo");
 };
 

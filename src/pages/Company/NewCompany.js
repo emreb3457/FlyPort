@@ -5,7 +5,12 @@ import { TextInput, SelectInput } from "../../components/Inputs/CustomInputs";
 import { sendRequest } from "../../utils/helpers";
 import { newCompanyValidate } from "../../utils/validation";
 import useSWR from "swr";
-import { getCountryList, getCityList } from "../../api/DefinitionsApi";
+import {
+  getCountryList,
+  getCityList,
+  getCountryTable,
+  getCityTable,
+} from "../../api/DefinitionsApi";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { routes } from "../../constants/routes";
@@ -17,33 +22,34 @@ const NewCompany = () => {
   const [page, setPage] = useState(0);
   const [limit, setLimit] = useState(999);
 
-  const { errors, handleChange, handleSubmit, values, touched } = useFormik({
-    initialValues: {
-      FirmaUnvani: "",
-      KisaAd: "",
-      UlkeId: "",
-      SehirId: "",
-      Adres: "",
-      PostaKodu: "",
-      AcikAdresi: "",
-      VergiDairesi: "",
-      VergiNo: "",
-      Sektoru: "",
-    },
-    onSubmit: (values, { resetForm }) => {
-      newCompanySubmit({ values });
-    },
-    validationSchema: newCompanyValidate,
-  });
+  const { errors, handleChange, handleSubmit, values, touched, setFieldValue } =
+    useFormik({
+      initialValues: {
+        FirmaUnvani: "",
+        KisaAd: "",
+        UlkeId: "",
+        SehirId: "",
+        Adres: "",
+        PostaKodu: "",
+        AcikAdresi: "",
+        VergiDairesi: "",
+        VergiNo: "",
+        Sektoru: "",
+      },
+      onSubmit: (values, { resetForm }) => {
+        newCompanySubmit({ values });
+      },
+      validationSchema: newCompanyValidate,
+    });
 
   const { data: Country, mutate } = useSWR(
-    ["getCountryList", page, limit],
-    getCountryList
+    ["getCountryTable", page, limit],
+    getCountryTable
   );
 
   const { data: City } = useSWR(
-    ["getCityList", values.UlkeId, page, limit],
-    getCityList
+    ["getCityTable", values.UlkeId, page, limit],
+    getCityTable
   );
 
   const newCompanySubmit = async ({ values }) => {
@@ -95,9 +101,9 @@ const NewCompany = () => {
               <SelectInput
                 name={"UlkeId"}
                 value={values.UlkeId}
-                data={Country?.data}
+                data={Country}
                 visableValue="adOrjinal"
-                onChange={handleChange}
+                onChange={setFieldValue}
                 error={touched.UlkeId && errors.UlkeId}
               >
                 Ülke
@@ -105,9 +111,9 @@ const NewCompany = () => {
               <SelectInput
                 name={"SehirId"}
                 value={values.SehirId}
-                data={City?.data}
+                data={City}
                 visableValue="adOrjinal"
-                onChange={handleChange}
+                onChange={setFieldValue}
                 error={touched.SehirId && errors.SehirId}
               >
                 Şehir

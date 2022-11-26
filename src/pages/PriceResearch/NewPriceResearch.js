@@ -15,6 +15,11 @@ import {
   getDeliveryList,
   getUnitTypeList,
   getCurrencyTypeList,
+  getCountryTable,
+  getCityTable,
+  getDeliveryTable,
+  getUnitTypeTable,
+  getCurrencyTypeTable,
 } from "../../api/DefinitionsApi";
 import { useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
@@ -22,6 +27,7 @@ import { routes } from "../../constants/routes";
 import {
   getCompanyInsert,
   getCompanyList,
+  getCompanyTable,
   getPriceResearchInsert,
 } from "../../api/api";
 
@@ -32,57 +38,58 @@ const NewPriceResearch = () => {
   const [page, setPage] = useState(0);
   const [limit, setLimit] = useState(999);
 
-  const { errors, handleChange, handleSubmit, values, touched } = useFormik({
-    initialValues: {
-      talepUrunId: location.state,
-      ureticiFirmaId: "",
-      istenilenUrunAynisiMi: "",
-      ureticininBulunduguUlkeId: "",
-      ureticininBulunduguSehirId: "",
-      teslimSekliId: "",
-      ucretlendirmeyeEsasMiktarBirimiId: "",
-      hazirOlanMiktar: "",
-      miktarBirimiId: "",
-      istenikenMiktarIcinHazirlikSuresi: "",
-      birimFiyati: "",
-      dovizCinsi: "",
-      teklifGecerlilikTarihi: "",
-      aciklama: "",
-    },
-    onSubmit: (values, { resetForm }) => {
-      newPriceResearchSubmit({ values });
-    },
-    validationSchema: newPriceResearch,
-  });
+  const { errors, handleChange, handleSubmit, values, touched, setFieldValue } =
+    useFormik({
+      initialValues: {
+        talepUrunId: location.state,
+        ureticiFirmaId: "",
+        istenilenUrunAynisiMi: "",
+        ureticininBulunduguUlkeId: "",
+        ureticininBulunduguSehirId: "",
+        teslimSekliId: "",
+        ucretlendirmeyeEsasMiktarBirimiId: "",
+        hazirOlanMiktar: "",
+        miktarBirimiId: "",
+        istenikenMiktarIcinHazirlikSuresi: "",
+        birimFiyati: "",
+        dovizCinsi: "",
+        teklifGecerlilikTarihi: "",
+        aciklama: "",
+      },
+      onSubmit: (values, { resetForm }) => {
+        newPriceResearchSubmit({ values });
+      },
+      validationSchema: newPriceResearch,
+    });
 
   const { data: Country, mutate } = useSWR(
-    ["getCountryList", page, limit],
-    getCountryList
+    ["getCountryTable", page, limit],
+    getCountryTable
   );
 
   const { data: City } = useSWR(
-    ["getCityList", values.ureticininBulunduguUlkeId, page, limit],
-    getCityList
+    ["getCityTable", values.ureticininBulunduguUlkeId, page, limit],
+    getCityTable
   );
 
   const { data: Delivery } = useSWR(
-    ["getDeliveryList", page, limit],
-    getDeliveryList
+    ["getDeliveryTable", page, limit],
+    getDeliveryTable
   );
 
   const { data: UnitType } = useSWR(
-    ["getUnitTypeList", page, limit],
-    getUnitTypeList
+    ["getUnitTypeTable", page, limit],
+    getUnitTypeTable
   );
 
   const { data: CurrencyType } = useSWR(
-    ["getCurrencyTypeList", page, limit],
-    getCurrencyTypeList
+    ["getCurrencyTypeTable", page, limit],
+    getCurrencyTypeTable
   );
 
   const { data: Company } = useSWR(
-    ["getCompanyList", page, limit],
-    getCompanyList
+    ["getCompanyTable", page, limit],
+    getCompanyTable
   );
 
   const newPriceResearchSubmit = async ({ values }) => {
@@ -116,9 +123,9 @@ const NewPriceResearch = () => {
               <SelectInput
                 name={"ureticiFirmaId"}
                 value={values.ureticiFirmaId}
-                data={Company?.data}
+                data={Company}
                 visableValue="firmaUnvani"
-                onChange={handleChange}
+                onChange={setFieldValue}
                 error={touched.ureticiFirmaId && errors.ureticiFirmaId}
               >
                 Üretici Firma Ünvanı
@@ -126,7 +133,7 @@ const NewPriceResearch = () => {
               <SelectInput
                 name={"istenilenUrunAynisiMi"}
                 value={values.istenilenUrunAynisiMi}
-                onChange={handleChange}
+                onChange={setFieldValue}
                 data={[
                   { ad: "Evet", id: true },
                   { ad: "Hayır", id: false },
@@ -141,9 +148,9 @@ const NewPriceResearch = () => {
               <SelectInput
                 name={"ureticininBulunduguUlkeId"}
                 value={values.ureticininBulunduguUlkeId}
-                data={Country?.data}
+                data={Country}
                 visableValue="adOrjinal"
-                onChange={handleChange}
+                onChange={setFieldValue}
                 error={
                   touched.ureticininBulunduguUlkeId &&
                   errors.ureticininBulunduguUlkeId
@@ -154,9 +161,9 @@ const NewPriceResearch = () => {
               <SelectInput
                 name={"ureticininBulunduguSehirId"}
                 value={values.ureticininBulunduguSehirId}
-                data={City?.data}
+                data={City}
                 visableValue="adOrjinal"
-                onChange={handleChange}
+                onChange={setFieldValue}
                 error={
                   touched.ureticininBulunduguSehirId &&
                   errors.ureticininBulunduguSehirId
@@ -167,9 +174,9 @@ const NewPriceResearch = () => {
               <SelectInput
                 name={"teslimSekliId"}
                 value={values.teslimSekliId}
-                data={Delivery?.data}
+                data={Delivery}
                 visableValue="ad"
-                onChange={handleChange}
+                onChange={setFieldValue}
                 error={touched.teslimSekliId && errors.teslimSekliId}
               >
                 Teslim Şekli
@@ -177,9 +184,9 @@ const NewPriceResearch = () => {
               <SelectInput
                 name={"ucretlendirmeyeEsasMiktarBirimiId"}
                 value={values.ucretlendirmeyeEsasMiktarBirimiId}
-                data={UnitType?.data}
+                data={UnitType}
                 visableValue="ad"
-                onChange={handleChange}
+                onChange={setFieldValue}
                 error={
                   touched.ucretlendirmeyeEsasMiktarBirimiId &&
                   errors.ucretlendirmeyeEsasMiktarBirimiId
@@ -199,9 +206,9 @@ const NewPriceResearch = () => {
                 <SelectInput
                   name={"miktarBirimiId"}
                   value={values.miktarBirimiId}
-                  data={UnitType?.data}
+                  data={UnitType}
                   visableValue="ad"
-                  onChange={handleChange}
+                  onChange={setFieldValue}
                   error={touched.miktarBirimiId && errors.miktarBirimiId}
                 >
                   Miktar Birimi
@@ -231,9 +238,9 @@ const NewPriceResearch = () => {
               <SelectInput
                 name={"dovizCinsi"}
                 value={values.dovizCinsi}
-                data={CurrencyType?.data}
+                data={CurrencyType}
                 visableValue="ad"
-                onChange={handleChange}
+                onChange={setFieldValue}
                 error={touched.dovizCinsi && errors.dovizCinsi}
               >
                 Döviz Cinsi

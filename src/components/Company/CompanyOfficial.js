@@ -10,8 +10,8 @@ import {
 import BasicModal from "../../helpers/Modal";
 import SkeletonComp from "../../components/Skeleton/Skeleton";
 import { useModalStatus } from "../../hooks/useModalStatus";
-import { SelectInput, TextInput } from "../../components/Inputs/CustomInputs";
-import React, { useEffect, useMemo, useState } from "react";
+import { TextInput } from "../../components/Inputs/CustomInputs";
+import React, { useEffect, useState } from "react";
 import { useFormik } from "formik";
 import { newCompanyOfficialValidate } from "../../utils/validation";
 import { sendRequest } from "../../utils/helpers";
@@ -141,7 +141,6 @@ const CompanyOfficial = ({ setFunctions, item }) => {
       title: "Diğer İletişim",
       column: "digerIletisim",
     },
-
   ];
   const NewCompanyOfficialComp = ({ handleChange, values, handleSubmit }) => {
     return (

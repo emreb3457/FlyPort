@@ -4,6 +4,7 @@ import ListTable from "../../components/ListTable";
 import useSWR from "swr";
 import {
   getProductPropertyList,
+  getProductPropertyTable,
   getProductPropertyValueInsert,
   getProductPropertyValueList,
   getProductPropertyValueRemove,
@@ -32,31 +33,38 @@ const ProductPropertyValue = () => {
   );
 
   const { data: ProductProperty } = useSWR(
-    ["getProductProperty", page, limit],
-    getProductPropertyList
+    ["getProductPropertyTable", page, limit],
+    getProductPropertyTable
   );
 
-  const { errors, handleChange, handleSubmit, values, touched, setValues } =
-    useFormik({
-      initialValues: {
-        ad: "",
-        aciklama: "",
-        nitelikId: "",
-      },
-      onSubmit: (values, { resetForm }) => {
-        submitType === "create"
-          ? newProductPropertyValueSubmit({ values, mutate })
-          : updateProductPropertyValueSubmit({
-              values,
-              mutate,
-              id: radioValue.id,
-            });
+  const {
+    errors,
+    handleChange,
+    handleSubmit,
+    values,
+    touched,
+    setValues,
+    setFieldValue,
+  } = useFormik({
+    initialValues: {
+      ad: "",
+      aciklama: "",
+      nitelikId: "",
+    },
+    onSubmit: (values, { resetForm }) => {
+      submitType === "create"
+        ? newProductPropertyValueSubmit({ values, mutate })
+        : updateProductPropertyValueSubmit({
+            values,
+            mutate,
+            id: radioValue.id,
+          });
 
-        resetForm();
-        document.getElementsByClassName("chakra-modal__close-btn")[0].click();
-      },
-      validationSchema: ProductPropertyValueValidate,
-    });
+      resetForm();
+      document.getElementsByClassName("chakra-modal__close-btn")[0].click();
+    },
+    validationSchema: ProductPropertyValueValidate,
+  });
 
   const Head = [
     {
@@ -66,10 +74,6 @@ const ProductPropertyValue = () => {
     {
       title: "Ad ",
       column: "ad",
-    },
-    {
-      title: "Nitelik ",
-      column: "nitelikAd",
     },
   ];
 
@@ -130,7 +134,7 @@ const ProductPropertyValue = () => {
         <SelectInput
           name={"nitelikId"}
           value={values.nitelikId}
-          onChange={handleChange}
+          onChange={setFieldValue}
           data={data}
           visableValue={"ad"}
           error={touched.nitelikId && errors.nitelikId}
@@ -143,7 +147,7 @@ const ProductPropertyValue = () => {
       </form>
     );
   };
-
+  console.log(values);
   return loading ? (
     <SkeletonComp />
   ) : (
@@ -193,7 +197,7 @@ const ProductPropertyValue = () => {
           handleChange,
           values,
           handleSubmit,
-          data: ProductProperty?.data,
+          data: ProductProperty,
         })}
       />
     </Box>

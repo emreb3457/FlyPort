@@ -11,6 +11,8 @@ import {
   getDistrictTable,
   getCountryList,
   getCity,
+  getCountryTable,
+  getCityTable,
 } from "../../api/DefinitionsApi";
 import BasicModal from "../../helpers/Modal";
 import SkeletonComp from "../../components/Skeleton/Skeleton";
@@ -28,38 +30,48 @@ const DistrictList = () => {
   const [radioValue, setRadioValue] = React.useState({});
   const [submitType, setSubmitType] = React.useState("");
 
-  const { errors, handleChange, handleSubmit, values, setValues, touched } =
-    useFormik({
-      initialValues: {
-        adTurkce: "",
-        adOrjinal: "",
-        adIngilizce: "",
-        aciklama: "",
-        sehirId: "",
-        ulkeId: "",
-      },
-      onSubmit: (values, { resetForm }) => {
-        submitType === "create"
-          ? newDistrictSubmit({ values, mutate, errors, setValues })
-          : updateDistrictSubmit({
-              values,
-              mutate,
-              errors,
-              setValues,
-              id: radioValue.id,
-            });
-        resetForm();
-        document.getElementsByClassName("chakra-modal__close-btn")[0].click();
-      },
-      validationSchema: districtValidate,
-    });
+  const {
+    errors,
+    handleChange,
+    handleSubmit,
+    values,
+    setValues,
+    touched,
+    setFieldValue,
+  } = useFormik({
+    initialValues: {
+      adTurkce: "",
+      adOrjinal: "",
+      adIngilizce: "",
+      aciklama: "",
+      sehirId: "",
+      ulkeId: "",
+    },
+    onSubmit: (values, { resetForm }) => {
+      submitType === "create"
+        ? newDistrictSubmit({ values, mutate, errors, setValues })
+        : updateDistrictSubmit({
+            values,
+            mutate,
+            errors,
+            setValues,
+            id: radioValue.id,
+          });
+      resetForm();
+      document.getElementsByClassName("chakra-modal__close-btn")[0].click();
+    },
+    validationSchema: districtValidate,
+  });
 
   const { data, mutate, error } = useSWR(
     ["getDistrict", page],
     getDistrictTable
   );
-  const { data: getCountry } = useSWR(["getCountryList"], getCountryList);
-  const { data: citydata } = useSWR(["getCity", values.ulkeId], getCityList);
+  const { data: getCountry } = useSWR(["getCountryTable"], getCountryTable);
+  const { data: citydata } = useSWR(
+    ["getCityTable", values.ulkeId],
+    getCityTable
+  );
 
   const Head = [
     {
@@ -140,8 +152,8 @@ const DistrictList = () => {
         <SelectInput
           name={"ulkeId"}
           value={values.ulkeId}
-          onChange={handleChange}
-          data={getCountry?.data}
+          onChange={setFieldValue}
+          data={getCountry}
           visableValue={"adOrjinal"}
           error={touched.ulkeId && errors.ulkeId}
         >
@@ -150,8 +162,8 @@ const DistrictList = () => {
         <SelectInput
           name={"sehirId"}
           value={values.sehirId}
-          onChange={handleChange}
-          data={citydata?.data}
+          onChange={setFieldValue}
+          data={citydata}
           visableValue={"adOrjinal"}
           error={touched.sehirId && errors.sehirId}
         >

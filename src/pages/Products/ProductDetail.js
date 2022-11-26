@@ -6,8 +6,8 @@ import { getProduct } from "../../api/api";
 import BreadCrumb from "../../components/BreadCrumb/BreadCrumb";
 import SkeletonComp from "../../components/Skeleton/Skeleton";
 import ImageComp from "../../components/Talepler/ImageComp/ImageComp";
-import { DesiredProduct } from "../../components/Talepler/ProductDetailPage/DesiredProduct/DesiredProduct";
-import { TechnicialSpecifications } from "../../components/Talepler/ProductDetailPage/TechnicialSpecifications/TechnicialSpecifications";
+import DesiredProduct from "../../components/Talepler/ProductDetailPage/DesiredProduct/DesiredProduct";
+import TechnicialSpecifications from "../../components/Talepler/ProductDetailPage/TechnicialSpecifications/TechnicialSpecifications";
 import { baseApi } from "../../config/config";
 import { routes } from "../../constants/routes";
 import colors from "../../theme/colors";
@@ -77,7 +77,9 @@ const ProductDetail = () => {
               </StyledButton>
             ))}
           </Box>
-          <Box>{activeTab?.comp({ detail: data })}</Box>
+          <Box>
+            <activeTab.comp detail={data} />
+          </Box>
         </Box>
       </Box>
     </Box>

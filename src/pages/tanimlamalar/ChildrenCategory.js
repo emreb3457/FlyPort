@@ -36,27 +36,34 @@ const ChildrenCategory = () => {
     getPublicCategoryList
   );
 
-  const { errors, handleChange, handleSubmit, values, touched, setValues } =
-    useFormik({
-      initialValues: {
-        ad: "",
-        aciklama: "",
-        anaKategoriId: "",
-      },
-      onSubmit: (values, { resetForm }) => {
-        submitType === "create"
-          ? newChildrenCategorySubmit({ values, mutate })
-          : updateChildrenCategorySubmit({
-              values,
-              mutate,
-              id: radioValue.id,
-            });
+  const {
+    errors,
+    handleChange,
+    handleSubmit,
+    values,
+    touched,
+    setValues,
+    setFieldValue,
+  } = useFormik({
+    initialValues: {
+      ad: "",
+      aciklama: "",
+      anaKategoriId: "",
+    },
+    onSubmit: (values, { resetForm }) => {
+      submitType === "create"
+        ? newChildrenCategorySubmit({ values, mutate })
+        : updateChildrenCategorySubmit({
+            values,
+            mutate,
+            id: radioValue.id,
+          });
 
-        resetForm();
-        document.getElementsByClassName("chakra-modal__close-btn")[0].click();
-      },
-      validationSchema: ChildrenCategoryValidate,
-    });
+      resetForm();
+      document.getElementsByClassName("chakra-modal__close-btn")[0].click();
+    },
+    validationSchema: ChildrenCategoryValidate,
+  });
 
   const Head = [
     {
@@ -133,7 +140,7 @@ const ChildrenCategory = () => {
         <SelectInput
           name={"anaKategoriId"}
           value={values.anaKategoriId}
-          onChange={handleChange}
+          onChange={setFieldValue}
           data={data}
           visableValue={"ad"}
           error={touched.anaKategoriId && errors.anaKategoriId}

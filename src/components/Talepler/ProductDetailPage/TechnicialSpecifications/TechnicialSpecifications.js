@@ -1,6 +1,6 @@
 import { Flex, Box } from "@chakra-ui/react";
 import { TextInput } from "../../../Inputs/CustomInputs";
-export const TechnicialSpecifications = ({ detail }) => {
+const TechnicialSpecifications = ({ detail }) => {
   return (
     <Flex flexDir={"column"}>
       {detail?.nitelikler?.map((data, index) => {
@@ -23,3 +23,4 @@ export const TechnicialSpecifications = ({ detail }) => {
     </Flex>
   );
 };
+export default TechnicialSpecifications;

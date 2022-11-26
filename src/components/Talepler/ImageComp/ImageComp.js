@@ -7,7 +7,7 @@ const ImageComp = ({ images, onImageChange, ...props }) => {
   return (
     <Box maxW="390px" mt="30px" {...props}>
       <label for="file-input">
-        <Box>
+        <Box cursor={"pointer"}>
           <Img
             src={
               (isImages && images[0]) ||

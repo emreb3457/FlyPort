@@ -13,9 +13,13 @@ import {
   sendRequest,
 } from "../../utils/helpers";
 import { newDemandValidate } from "../../utils/validation";
-import { getCompanyList, getCompany, getDemandInsert } from "../../api/api";
+import { getCompanyList, getCompany, getDemandInsert, getCompanyTable } from "../../api/api";
 import useSWR from "swr";
-import { getCountryList, getDeliveryList } from "../../api/DefinitionsApi";
+import {
+  getCountryList,
+  getCountryTable,
+  getDeliveryList,
+} from "../../api/DefinitionsApi";
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { routes } from "../../constants/routes";
@@ -28,13 +32,13 @@ const NewDemand = () => {
   const [companyId, setCompanyId] = useState();
 
   const { data: Country } = useSWR(
-    ["getCountryList", page, limit],
-    getCountryList
+    ["getCountryTable", page, limit],
+    getCountryTable
   );
 
   const { data: Company } = useSWR(
-    ["getCompanyList", page, limit],
-    getCompanyList
+    ["getCompanyTable", page, limit],
+    getCompanyTable
   );
 
   const { data: CompanyOfficial } = useSWR(
@@ -57,7 +61,7 @@ const NewDemand = () => {
       },
       validationSchema: newDemandValidate,
     });
-  
+
   useEffect(() => {
     setCompanyId(values.musteriId);
   }, [values]);
@@ -96,7 +100,7 @@ const NewDemand = () => {
             <SelectInput
               name={"talepTuru"}
               value={values.Islenilen}
-              onChange={handleChange}
+              onChange={setFieldValue}
               data={[
                 { ad: "Ürün Tedarigi", id: 1 },
                 { ad: "Taşıma", id: 2 },
@@ -110,9 +114,9 @@ const NewDemand = () => {
             <SelectInput
               name={"istenilenUlkeId"}
               value={values.istenilenUlkeId}
-              data={Country?.data}
+              data={Country}
               visableValue="adOrjinal"
-              onChange={handleChange}
+              onChange={setFieldValue}
               error={touched.istenilenUlkeId && errors.istenilenUlkeId}
             >
               İstenen Ülke
@@ -120,9 +124,9 @@ const NewDemand = () => {
             <SelectInput
               name={"varisUlkesiId"}
               value={values.varisUlkesiId}
-              data={Country?.data}
+              data={Country}
               visableValue="adOrjinal"
-              onChange={handleChange}
+              onChange={setFieldValue}
               error={touched.varisUlkesiId && errors.varisUlkesiId}
             >
               Varış Ülkesi
@@ -132,8 +136,8 @@ const NewDemand = () => {
             <SelectInput
               name={"musteriId"}
               value={values.musteriId}
-              onChange={handleChange}
-              data={Company?.data}
+              onChange={setFieldValue}
+              data={Company}
               visableValue={"kisaAdi"}
               error={touched.musteriId && errors.musteriId}
             >
@@ -142,8 +146,8 @@ const NewDemand = () => {
             <SelectInput
               name={"yetkiliId"}
               value={values.yetkiliId}
-              onChange={handleChange}
-              data={CompanyOfficial?.firmaYetkilileri}
+              onChange={setFieldValue}
+              data={CompanyOfficial}
               visableValue={"ad"}
               error={touched.yetkiliId && errors.yetkiliId}
             >

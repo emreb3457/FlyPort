@@ -11,9 +11,11 @@ import {
 import { newDemandValidate } from "../../utils/validation";
 import {
   getCompanyList,
+  getCompanyTable,
   getDemandInsert,
   getProductInsert,
   getProductList,
+  getProductTable,
 } from "../../api/api";
 import useSWR from "swr";
 import {
@@ -22,6 +24,9 @@ import {
   getProductPropertyValueList,
   getCountryList,
   getDeliveryList,
+  getPublicCategoryTable,
+  getCountryTable,
+  getDeliveryTable,
 } from "../../api/DefinitionsApi";
 import { useEffect, useState } from "react";
 import ImageComp from "../../components/Talepler/ImageComp/ImageComp";
@@ -37,13 +42,13 @@ const NewDemand = () => {
   const [imageURLS, setImageURLs] = useState([]);
 
   const { data: Product } = useSWR(
-    ["getProductList", page, limit],
-    getProductList
+    ["getProductTable", page, limit],
+    getProductTable
   );
 
   const { data: PublicCategory } = useSWR(
-    ["getPublicCategoryList", page, limit],
-    getPublicCategoryList
+    ["getPublicCategoryTable", page, limit],
+    getPublicCategoryTable
   );
 
   const { data: ProductProperty } = useSWR(
@@ -57,18 +62,18 @@ const NewDemand = () => {
   );
 
   const { data: Country } = useSWR(
-    ["getCountryList", page, limit],
-    getCountryList
+    ["getCountryTable", page, limit],
+    getCountryTable
   );
 
   const { data: Delivery } = useSWR(
-    ["getDeliveryList", page, limit],
-    getDeliveryList
+    ["getDeliveryTable", page, limit],
+    getDeliveryTable
   );
 
   const { data: Company } = useSWR(
-    ["getCompanyList", page, limit],
-    getCompanyList
+    ["getCompanyTable", page, limit],
+    getCompanyTable
   );
 
   useEffect(() => {
@@ -167,7 +172,7 @@ const NewDemand = () => {
             <SelectInput
               name={"Islenilen"}
               value={values.Islenilen}
-              onChange={handleChange}
+              onChange={setFieldValue}
               data={[
                 { ad: "Ürün Tedarigi", id: 1 },
                 { ad: "Taşıma", id: 2 },
@@ -181,9 +186,9 @@ const NewDemand = () => {
             <SelectInput
               name={"NerdenId"}
               value={values.NerdenId}
-              data={Country?.data}
+              data={Country}
               visableValue="adOrjinal"
-              onChange={handleChange}
+              onChange={setFieldValue}
               error={touched.NerdenId && errors.NerdenId}
             >
               Nereden
@@ -191,9 +196,9 @@ const NewDemand = () => {
             <SelectInput
               name={"NereyeId"}
               value={values.NereyeId}
-              data={Country?.data}
+              data={Country}
               visableValue="adOrjinal"
-              onChange={handleChange}
+              onChange={setFieldValue}
               error={touched.NereyeId && errors.NereyeId}
             >
               Nereye
@@ -201,8 +206,8 @@ const NewDemand = () => {
             <SelectInput
               name={"TeslimSekliId"}
               value={values.TeslimSekliId}
-              onChange={handleChange}
-              data={Delivery?.data}
+              onChange={setFieldValue}
+              data={Delivery}
               visableValue={"ad"}
               error={touched.TeslimSekliId && errors.TeslimSekliId}
             >
@@ -219,8 +224,8 @@ const NewDemand = () => {
             <SelectInput
               name={"KategoriId"}
               value={values.KategoriId}
-              onChange={handleChange}
-              data={PublicCategory?.data}
+              onChange={setFieldValue}
+              data={PublicCategory}
               visableValue={"ad"}
               error={touched.KategoriId && errors.KategoriId}
             >
@@ -231,8 +236,8 @@ const NewDemand = () => {
             <SelectInput
               name={"UrunId"}
               value={values.UrunId}
-              onChange={handleChange}
-              data={Product?.data}
+              onChange={setFieldValue}
+              data={Product}
               visableValue={"urunKisaAd"}
               error={touched.UrunId && errors.UrunId}
             >
@@ -285,8 +290,8 @@ const NewDemand = () => {
             <SelectInput
               name={"MusteriId"}
               value={values.MusteriId}
-              onChange={handleChange}
-              data={Company?.data}
+              onChange={setFieldValue}
+              data={Company}
               visableValue={"kisaAdi"}
               error={touched.MusteriId && errors.MusteriId}
             >

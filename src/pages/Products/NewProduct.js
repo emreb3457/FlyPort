@@ -17,6 +17,9 @@ import {
   getCategoryList,
   getProductPropertyList,
   getProductPropertyValueList,
+  getChildrenCategoryTable,
+  getPublicCategoryTable,
+  getCategoryTable,
 } from "../../api/DefinitionsApi";
 import { useEffect, useState } from "react";
 import ImageComp from "../../components/Talepler/ImageComp/ImageComp";
@@ -32,18 +35,18 @@ const NewProduct = () => {
   const [imageURLS, setImageURLs] = useState([]);
 
   const { data: ChildrenCategory, error } = useSWR(
-    ["getChildrenCategoryList", page, limit],
-    getChildrenCategoryList
+    ["getChildrenCategoryTable", page, limit],
+    getChildrenCategoryTable
   );
 
   const { data: PublicCategory } = useSWR(
-    ["getPublicCategoryList", page, limit],
-    getPublicCategoryList
+    ["getPublicCategoryTable", page, limit],
+    getPublicCategoryTable
   );
 
   const { data: Category } = useSWR(
-    ["getCategoryList", page, limit],
-    getCategoryList
+    ["getCategoryTable", page, limit],
+    getCategoryTable
   );
 
   const { data: ProductProperty } = useSWR(
@@ -167,8 +170,8 @@ const NewProduct = () => {
             <SelectInput
               name={"GenelKategoriId"}
               value={values.GenelKategoriId}
-              onChange={handleChange}
-              data={PublicCategory?.data}
+              onChange={setFieldValue}
+              data={PublicCategory}
               visableValue={"ad"}
               error={touched.GenelKategoriId && errors.GenelKategoriId}
             >
@@ -177,8 +180,8 @@ const NewProduct = () => {
             <SelectInput
               name={"AltKategoriId"}
               value={values.AltKategoriId}
-              onChange={handleChange}
-              data={ChildrenCategory?.data}
+              onChange={setFieldValue}
+              data={ChildrenCategory}
               visableValue={"ad"}
               error={touched.AltKategoriId && errors.AltKategoriId}
             >
@@ -189,8 +192,8 @@ const NewProduct = () => {
             <SelectInput
               name={"FlyKategoriId"}
               value={values.FlyKategoriId}
-              onChange={handleChange}
-              data={Category?.data}
+              onChange={setFieldValue}
+              data={Category}
               visableValue={"ad"}
               error={touched.FlyKategoriId && errors.FlyKategoriId}
             >
