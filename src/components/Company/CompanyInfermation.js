@@ -5,7 +5,12 @@ import { sendRequest } from "../../utils/helpers";
 import { newCompanyValidate } from "../../utils/validation";
 import { getCompanyInsert } from "../../api/api";
 import useSWR from "swr";
-import { getCountryList, getCityList, getCountryTable, getCityTable } from "../../api/DefinitionsApi";
+import {
+  getCountryList,
+  getCityList,
+  getCountryTable,
+  getCityTable,
+} from "../../api/DefinitionsApi";
 import { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 
@@ -40,25 +45,26 @@ const CompanyInfermation = (props) => {
     sektoru: item?.sektoru,
   };
 
-  const { errors, handleChange, handleSubmit, values, touched,setFieldValue } = useFormik({
-    initialValues: {
-      FirmaUnvani: data.firmaUnvanı || "",
-      KisaAd: data.kısaAdı || "",
-      UlkeId: data.ulkeId || "",
-      SehirId: data.sehirId || "",
-      Adres: data.adres || "",
-      PostaKodu: data.postaKodu || "",
-      AcikAdresi: data.acikAdres || "",
-      VergiDairesi: data.vergiDairesi || "",
-      VergiNo: data.vergiNo || "",
-      Sektoru: data.sektoru || "",
-    },
-    onSubmit: (values, { resetForm }) => {
-      updateCompanySubmit({ values, id: parseInt(id) });
-    },
-    validationSchema: newCompanyValidate,
-  });
-  console.log(values);
+  const { errors, handleChange, handleSubmit, values, touched, setFieldValue } =
+    useFormik({
+      initialValues: {
+        FirmaUnvani: data.firmaUnvanı || "",
+        KisaAd: data.kısaAdı || "",
+        UlkeId: data.ulkeId || "",
+        SehirId: data.sehirId || "",
+        Adres: data.adres || "",
+        PostaKodu: data.postaKodu || "",
+        AcikAdresi: data.acikAdres || "",
+        VergiDairesi: data.vergiDairesi || "",
+        VergiNo: data.vergiNo || "",
+        Sektoru: data.sektoru || "",
+      },
+      onSubmit: (values, { resetForm }) => {
+        updateCompanySubmit({ values, id: parseInt(id) });
+      },
+      validationSchema: newCompanyValidate,
+    });
+
   const { data: Country } = useSWR(
     ["getCountryTable", page, limit],
     getCountryTable

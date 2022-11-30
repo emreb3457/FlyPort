@@ -5,16 +5,12 @@ import {
   TextInput,
   SelectInput,
   DateInput,
+  DefaultSelect,
 } from "../../components/Inputs/CustomInputs";
 import { sendRequest } from "../../utils/helpers";
-import { newCompanyValidate, newPriceResearch } from "../../utils/validation";
+import { newPriceResearch } from "../../utils/validation";
 import useSWR from "swr";
 import {
-  getCountryList,
-  getCityList,
-  getDeliveryList,
-  getUnitTypeList,
-  getCurrencyTypeList,
   getCountryTable,
   getCityTable,
   getDeliveryTable,
@@ -24,17 +20,12 @@ import {
 import { useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import { routes } from "../../constants/routes";
-import {
-  getCompanyInsert,
-  getCompanyList,
-  getCompanyTable,
-  getPriceResearchInsert,
-} from "../../api/api";
+import { getCompanyTable, getPriceResearchInsert } from "../../api/api";
 
 const NewPriceResearch = () => {
   const navigate = useNavigate();
   const location = useLocation();
-  const [submitLoading, setSublitLoading] = useState(false);
+  const [submitLoading, setSubmitLoading] = useState(false);
   const [page, setPage] = useState(0);
   const [limit, setLimit] = useState(999);
 
@@ -93,15 +84,15 @@ const NewPriceResearch = () => {
   );
 
   const newPriceResearchSubmit = async ({ values }) => {
-    setSublitLoading(true);
+    setSubmitLoading(true);
     const { status } = await sendRequest(
       getPriceResearchInsert("", { ...values })
     );
     if (status) {
-      setSublitLoading(false);
-      navigate(routes.teklif);
+      setSubmitLoading(false);
+      navigate(routes.gorevler);
     }
-    setSublitLoading(false);
+    setSubmitLoading(false);
   };
   return (
     <Box>
@@ -130,10 +121,10 @@ const NewPriceResearch = () => {
               >
                 Üretici Firma Ünvanı
               </SelectInput>
-              <SelectInput
+              <DefaultSelect
                 name={"istenilenUrunAynisiMi"}
                 value={values.istenilenUrunAynisiMi}
-                onChange={setFieldValue}
+                onChange={handleChange}
                 data={[
                   { ad: "Evet", id: true },
                   { ad: "Hayır", id: false },
@@ -144,7 +135,7 @@ const NewPriceResearch = () => {
                 }
               >
                 İstenen Ürünün Aynısı mı?
-              </SelectInput>
+              </DefaultSelect>
               <SelectInput
                 name={"ureticininBulunduguUlkeId"}
                 value={values.ureticininBulunduguUlkeId}

@@ -5,6 +5,7 @@ import {
   TextInput,
   SelectInput,
   DateInput,
+  DefaultSelect,
 } from "../../components/Inputs/CustomInputs";
 import {
   arrayParse,
@@ -13,7 +14,11 @@ import {
   sendRequest,
 } from "../../utils/helpers";
 import { newDemandValidate } from "../../utils/validation";
-import { getCompanyList, getCompany, getDemandInsert, getCompanyTable } from "../../api/api";
+import {
+  getCompanyOfficialTable,
+  getDemandInsert,
+  getCompanyTable,
+} from "../../api/api";
 import useSWR from "swr";
 import {
   getCountryList,
@@ -26,10 +31,26 @@ import { routes } from "../../constants/routes";
 
 const NewDemand = () => {
   const navigate = useNavigate();
-  const [submitLoading, setSublitLoading] = useState(false);
+  const [submitLoading, setSubmitLoading] = useState(false);
   const [page, setPage] = useState(0);
   const [limit, setLimit] = useState(999);
   const [companyId, setCompanyId] = useState();
+
+  const { errors, handleChange, handleSubmit, values, touched, setFieldValue } =
+    useFormik({
+      initialValues: {
+        musteriId: "",
+        yetkiliId: "",
+        talepTuru: "",
+        istenilenUlkeId: "",
+        varisUlkesiId: "",
+        talepTarihi: "",
+      },
+      onSubmit: (values, { resetForm }) => {
+        newDemondSubmit({ values });
+      },
+      validationSchema: newDemandValidate,
+    });
 
   const { data: Country } = useSWR(
     ["getCountryTable", page, limit],
@@ -42,44 +63,28 @@ const NewDemand = () => {
   );
 
   const { data: CompanyOfficial } = useSWR(
-    ["getCompanyList", companyId],
-    getCompany
+    ["getCompanyOfficialTable", values?.musteriId],
+    getCompanyOfficialTable
   );
-
-  const { errors, handleChange, handleSubmit, values, touched, setFieldValue } =
-    useFormik({
-      initialValues: {
-        musteriId: Number,
-        yetkiliId: Number,
-        talepTuru: Number,
-        istenilenUlkeId: Number,
-        varisUlkesiId: Number,
-        talepTarihi: "",
-      },
-      onSubmit: (values, { resetForm }) => {
-        newDemondSubmit({ values });
-      },
-      validationSchema: newDemandValidate,
-    });
 
   useEffect(() => {
     setCompanyId(values.musteriId);
   }, [values]);
 
   const newDemondSubmit = async ({ values }) => {
-    setSublitLoading(true);
+    setSubmitLoading(true);
     const { status } = await sendRequest(
       getDemandInsert("", {
         ...values,
       })
     );
     if (status) {
-      setSublitLoading(false);
+      setSubmitLoading(false);
       navigate(routes.talepler);
     }
-    setSublitLoading(false);
+    setSubmitLoading(false);
   };
-
+  
   return (
     <Box>
       <BreadCrumb
@@ -97,20 +102,20 @@ const NewDemand = () => {
       <form onSubmit={handleSubmit}>
         <Box display={["block", "block", "block", "flex"]} mt="20px" px="50px">
           <Box width={{ lg: "35%", "2xl": "30%" }} marginLeft="30px">
-            <SelectInput
+            <DefaultSelect
               name={"talepTuru"}
-              value={values.Islenilen}
-              onChange={setFieldValue}
+              value={values.talepTuru}
+              onChange={handleChange}
               data={[
                 { ad: "Ürün Tedarigi", id: 1 },
                 { ad: "Taşıma", id: 2 },
                 { ad: "Gümrükleme", id: 3 },
               ]}
               visableValue={"ad"}
-              error={touched.Islenilen && errors.Islenilen}
+              error={touched.talepTuru && errors.talepTuru}
             >
               Talep Türü
-            </SelectInput>
+            </DefaultSelect>
             <SelectInput
               name={"istenilenUlkeId"}
               value={values.istenilenUlkeId}

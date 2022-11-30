@@ -6,15 +6,16 @@ import BreadCrumb from "../../components/BreadCrumb/BreadCrumb";
 import { useParams } from "react-router-dom";
 import CompanyInfermation from "../../components/Company/CompanyInfermation";
 import useSWR from "swr";
-import { getCompany, getCompanyRemove } from "../../api/api";
-import CompanySummary from "../../components/Company/CompanySummary";
+import { getCompany, getPriceResearch } from "../../api/api";
 import SkeletonComp from "../../components/Skeleton/Skeleton";
 import CompanyAdress from "../../components/Company/CompanyAdress";
 import CompanyOfficial from "../../components/Company/CompanyOfficial";
+import ProductPrice from "../../components/Talepler/PriceSurveyDetailpage/ProductPrice";
+import ShippingProperty from "../../components/Talepler/PriceSurveyDetailpage/ShippingProperty";
 const Tabs = [
   {
     title: "Ürün Fiyatı",
-    comp: CompanySummary,
+    comp: ProductPrice,
   },
   {
     title: "Teknik Özellikleri",
@@ -22,7 +23,7 @@ const Tabs = [
   },
   {
     title: "Kargo Özellikleri",
-    comp: CompanyAdress,
+    comp: ShippingProperty,
   },
   {
     title: "Ürün Sertifikaları",
@@ -34,13 +35,15 @@ const Tabs = [
   },
 ];
 
-const CompanyDetail = () => {
+const PriceResearchDetail = () => {
   const { id } = useParams();
   const [activeTab, setActiveTab] = useState(Tabs[0]);
   const [selectFunction, setSelectFunction] = useState({});
 
-  const { data: companyDetail, error } = useSWR(["getCompany", id], getCompany);
-  
+  const { data: companyDetail, error } = useSWR(
+    ["getCompany", id],
+    getPriceResearch
+  );
 
   useEffect(() => {}, [selectFunction]);
   const loading = !companyDetail && !error;
@@ -48,40 +51,38 @@ const CompanyDetail = () => {
     <SkeletonComp />
   ) : (
     <Box w="100%">
-      {activeTab !== Tabs[0] && (
-        <BreadCrumb
-          funct1={
-            activeTab.title === "Firma Bilgileri"
-              ? {
-                  title: selectFunction?.create?.title,
-                  function: () => {
-                    selectFunction?.create?.function();
-                  },
-                }
-              : {
-                  title: selectFunction?.create?.title,
-                  function: () => {
-                    selectFunction?.create?.function();
-                  },
-                }
-          }
-          funct2={{
-            title: selectFunction?.update?.title,
+      <BreadCrumb
+        funct1={
+          activeTab.title === "Firma Bilgileri"
+            ? {
+                title: selectFunction?.create?.title,
+                function: () => {
+                  selectFunction?.create?.function();
+                },
+              }
+            : {
+                title: selectFunction?.create?.title,
+                function: () => {
+                  selectFunction?.create?.function();
+                },
+              }
+        }
+        funct2={{
+          title: selectFunction?.update?.title,
+          function: () => {
+            selectFunction?.update?.function();
+          },
+        }}
+        funct3={
+          selectFunction?.remove && {
             function: () => {
-              selectFunction?.update?.function();
+              selectFunction?.remove?.function();
             },
-          }}
-          funct3={
-            selectFunction?.remove && {
-              function: () => {
-                selectFunction?.remove?.function();
-              },
-            }
           }
-        >
-          Firmalar
-        </BreadCrumb>
-      )}
+        }
+      >
+        Fiyat Araştırma
+      </BreadCrumb>
 
       <Box display={"flex"} flexDirection="column" w="100%" mt="20px">
         <Box borderBottom={"1px solid black"} w="100%">
@@ -110,8 +111,7 @@ const CompanyDetail = () => {
           }
         </Box>
       </Box>
-    
     </Box>
   );
 };
-export default CompanyDetail;
+export default PriceResearchDetail;

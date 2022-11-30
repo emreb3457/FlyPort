@@ -37,7 +37,7 @@ import { routes } from "../../constants/routes";
 const AlternativeNewDemand = () => {
   const location = useLocation();
   const navigate = useNavigate();
-  const [submitLoading, setSublitLoading] = useState(false);
+  const [submitLoading, setSubmitLoading] = useState(false);
   const [page, setPage] = useState(0);
   const [limit, setLimit] = useState(999);
   const [deger, setDeger] = useState([]);
@@ -88,6 +88,7 @@ const AlternativeNewDemand = () => {
   const onImageChange = (e) => {
     setFieldValue("UrunResimleri", [...e.target.files]);
   };
+
   const { errors, handleChange, handleSubmit, values, touched, setFieldValue } =
     useFormik({
       initialValues: {
@@ -121,7 +122,7 @@ const AlternativeNewDemand = () => {
   }, [values.UrunResimleri]);
 
   const newDemondSubmit = async ({ values }) => {
-    setSublitLoading(true);
+    setSubmitLoading(true);
     const formData = new FormData();
     formData.append("TalepId", values.TalepId);
     formData.append("Islenilen", values.Islenilen);
@@ -150,11 +151,11 @@ const AlternativeNewDemand = () => {
       getAlternativeDemandInsert("", formData)
     );
     if (status) {
-      setSublitLoading(false);
+      setSubmitLoading(false);
       navigate(routes.talepler);
     }
 
-    setSublitLoading(false);
+    setSubmitLoading(false);
   };
   return (
     <Box>

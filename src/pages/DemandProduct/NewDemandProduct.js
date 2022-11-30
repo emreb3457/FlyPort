@@ -35,7 +35,7 @@ import { routes } from "../../constants/routes";
 
 const NewDemand = () => {
   const navigate = useNavigate();
-  const [submitLoading, setSublitLoading] = useState(false);
+  const [submitLoading, setSubmitLoading] = useState(false);
   const [page, setPage] = useState(0);
   const [limit, setLimit] = useState(999);
   const [deger, setDeger] = useState([]);
@@ -119,7 +119,7 @@ const NewDemand = () => {
   }, [values.UrunResimleri]);
 
   const newDemondSubmit = async ({ values }) => {
-    setSublitLoading(true);
+    setSubmitLoading(true);
     const formData = new FormData();
     formData.append("Islenilen", values.Islenilen);
     formData.append("NerdenId", values.NerdenId);
@@ -145,10 +145,10 @@ const NewDemand = () => {
     formData.append("aciklama", values.aciklama);
     const { status } = await sendRequest(getDemandInsert("", formData));
     if (status) {
-      setSublitLoading(false);
+      setSubmitLoading(false);
       navigate(routes.talepler);
     }
-    setSublitLoading(false);
+    setSubmitLoading(false);
   };
   return (
     <Box>

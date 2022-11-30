@@ -18,7 +18,7 @@ import { getCompanyInsert } from "../../api/api";
 
 const NewCompany = () => {
   const navigate = useNavigate();
-  const [submitLoading, setSublitLoading] = useState(false);
+  const [submitLoading, setSubmitLoading] = useState(false);
   const [page, setPage] = useState(0);
   const [limit, setLimit] = useState(999);
 
@@ -53,13 +53,13 @@ const NewCompany = () => {
   );
 
   const newCompanySubmit = async ({ values }) => {
-    setSublitLoading(true);
+    setSubmitLoading(true);
     const { status } = await sendRequest(getCompanyInsert("", { ...values }));
     if (status) {
-      setSublitLoading(false);
+      setSubmitLoading(false);
       navigate(routes.company);
     }
-    setSublitLoading(false);
+    setSubmitLoading(false);
   };
   return (
     <Box>

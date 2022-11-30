@@ -17,4 +17,5 @@ export const routes = {
   maliyetler: "/maliyetler",
   teklif: "/teklif",
   yenifiyat: "/gorevler/fiyatarastirma/yeni",
+  fiyatdetay: "/gorevler/fiyatarastirma/",
 };

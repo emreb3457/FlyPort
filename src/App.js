@@ -48,6 +48,7 @@ import UpdateAlternative from './pages/AlternativeDemand/UpdateAlternative';
 import PriceResearch from './pages/PriceResearch/PriceResearch';
 import NewPriceResearch from './pages/PriceResearch/NewPriceResearch';
 import CurrencyType from './pages/tanimlamalar/CurrencyType';
+import PriceResearchDetail from './pages/PriceResearch/PriceResearchDetail';
 const App = () => {
   return (
     <Fragment>
@@ -66,6 +67,7 @@ const App = () => {
 
             <Route path="/gorevler" element={<ProtectedRoute><PriceResearch/></ProtectedRoute>} exact />
             <Route path="/gorevler/fiyatarastirma" element={<ProtectedRoute><PriceResearch/></ProtectedRoute>} exact />
+            <Route path="/gorevler/fiyatarastirma/:id" element={<ProtectedRoute><PriceResearchDetail/></ProtectedRoute>} exact />
             <Route path="/gorevler/fiyatarastirma/yeni" element={<ProtectedRoute><NewPriceResearch/></ProtectedRoute>} exact />
 
             <Route path="/firmalar" element={<ProtectedRoute><Company/></ProtectedRoute>} exact />

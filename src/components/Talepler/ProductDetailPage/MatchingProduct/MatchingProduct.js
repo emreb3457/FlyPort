@@ -37,7 +37,7 @@ import SkeletonComp from "../../../../components/Skeleton/Skeleton";
 const MatchingProduct = () => {
   const navigate = useNavigate();
   const params = useParams();
-  const [submitLoading, setSublitLoading] = useState(false);
+  const [submitLoading, setSubmitLoading] = useState(false);
   const [page, setPage] = useState(0);
   const [limit, setLimit] = useState(999);
   const [deger, setDeger] = useState([]);
@@ -120,7 +120,7 @@ const MatchingProduct = () => {
   }, [values.UrunResimleri]);
 
   const ProductSubmit = async ({ values }) => {
-    setSublitLoading(true);
+    setSubmitLoading(true);
     const formData = new FormData();
     formData.append("UrunAdi", values.UrunAdi);
     formData.append("KisaAdi", values.KisaAdi);
@@ -140,10 +140,10 @@ const MatchingProduct = () => {
     formData.append("aciklama", values.aciklama);
     const { status } = await sendRequest(getProductInsert("", formData));
     if (status) {
-      setSublitLoading(false);
+      setSubmitLoading(false);
       navigate(routes.urunler);
     }
-    setSublitLoading(false);
+    setSubmitLoading(false);
   };
   const loading = !PublicCategory && !error;
   return loading ? (

@@ -91,7 +91,7 @@ const PriceResearchList = () => {
         funct2={{
           title: "Detay",
           function: () => {
-            navigate(routes.companydetail + radioValue.id);
+            navigate(routes.fiyatdetay + radioValue.id);
           },
         }}
         funct3={{

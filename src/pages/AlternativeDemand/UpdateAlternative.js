@@ -31,7 +31,7 @@ import SkeletonComp from "../../components/Skeleton/Skeleton";
 const UpdateAlternative = () => {
   const navigate = useNavigate();
   const { state } = useLocation();
-  const [submitLoading, setSublitLoading] = useState(false);
+  const [submitLoading, setSubmitLoading] = useState(false);
   const [page, setPage] = useState(0);
   const [limit, setLimit] = useState(999);
   const [deger, setDeger] = useState(
@@ -113,7 +113,7 @@ const UpdateAlternative = () => {
   }, [values.UrunResimleri]);
 
   const ProductSubmit = async ({ values }) => {
-    setSublitLoading(true);
+    setSubmitLoading(true);
     const formData = new FormData();
     formData.append("UrunAdi", values.urunAdi);
     formData.append("Islenilen", values.Islenilen);
@@ -140,10 +140,10 @@ const UpdateAlternative = () => {
     state && formData.append("id", state.id);
     const { status } = await sendRequest(getProductInsert("", formData));
     if (status) {
-      setSublitLoading(false);
+      setSubmitLoading(false);
       navigate(routes.urunler);
     }
-    setSublitLoading(false);
+    setSubmitLoading(false);
   };
   const loading = !PublicCategory && !error;
   return loading ? (

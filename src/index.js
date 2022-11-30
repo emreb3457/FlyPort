@@ -10,7 +10,13 @@ import { SWRConfig } from "swr";
 const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
   <ChakraProvider>
-    <SWRConfig value={{}}>
+    <SWRConfig
+      value={{
+        shouldRetryOnError: false,
+        refreshWhenHidden: false,
+        revalidateOnFocus: false,
+      }}
+    >
       <App />
     </SWRConfig>
     <ToastContainer pauseOnHover={false} />

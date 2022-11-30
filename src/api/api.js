@@ -205,7 +205,17 @@ export const getPriceResearchList = async (_, page = 0, rowCount = 10) => {
   return await instance.get("/Teklif/SayfaliListele").then((res) => res.data);
 };
 
+export const getPriceResearch = async (_, id) => {
+  return await instance.get("/Teklif/Bul/" + id).then((res) => res.data);
+};
+
 export const getPriceResearchInsert = async (_, body) => {
+  return await instance
+    .post("/Teklif/SayfaKaydet", body)
+    .then((res) => res.data);
+};
+
+export const getPriceResearchUpdate = async (_, body) => {
   return await instance
     .post("/Teklif/SayfaKaydet", body)
     .then((res) => res.data);
@@ -218,3 +228,35 @@ export const getPriceResearchRemove = async (_, id) => {
 export const getMatchingProduct = async (_, id) => {
   return await instance.get("/Talep/EslesenUrun/" + id).then((res) => res.data);
 };
+
+////////////////////////////////////////////////////////////////////////Company Official
+
+export const getShippingTable = async (_, id) => {
+  return DevExtremeCreateStore("/Kargo/SayfaliTablo/" + id);
+};
+
+export const getShippingList = async (_, page = 0, rowCount = 10) => {
+  return await instance.get("/Kargo/SayfaliListele").then((res) => res.data);
+};
+
+export const getShipping = async (_, id) => {
+  return await instance
+    .get("/Kargo/BulByTeklifId/" + id)
+    .then((res) => res.data);
+};
+
+export const shippingInsert = async (_, body) => {
+  return await instance.post("/Kargo/Ekle", body).then((res) => res.data);
+};
+
+export const shippingUpdate = async (_, body) => {
+  return await instance.post("/Kargo/Ekle", body).then((res) => res.data);
+};
+
+export const shippingRemove = async (_, id) => {
+  return await instance
+    .get("/FirmaYetkili/Sil?id=" + id)
+    .then((res) => res.data);
+};
+
+////////////////////////////////////////

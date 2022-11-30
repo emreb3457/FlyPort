@@ -21,7 +21,7 @@ const CompanySummary = (props) => {
     website: item?.web,
     infoMail: item?.infomail,
     vchat: item?.vchat,
-    yetkiliGorevi: item?.firmaYetkilileri[0]?.gorevi,
+    yetkiliGorevi: item?.firmaYetkilileri[0]?.gorev,
     yetkiliAd: item?.firmaYetkilileri[0]?.ad,
     yetkiliSoyad: item?.firmaYetkilileri[0]?.soyad,
     yetkiliGSM: item?.firmaYetkilileri[0]?.gsm,
@@ -144,7 +144,7 @@ const CompanySummary = (props) => {
             <Box>
               <TextInput
                 disabled={inputDisabled}
-                name={"Telefon"}
+                name={"Görev"}
                 value={data?.yetkiliGorevi}
               >
                 Görevi
