@@ -18,6 +18,7 @@ const ShippingProperty = (props) => {
   const { errors, handleChange, handleSubmit, values, touched, setFieldValue } =
     useFormik({
       initialValues: {
+        id: item?.shipping?.id !== 0 ? item?.shipping?.id : undefined,
         teklifId: item?.shipping?.teklifId || "",
         tasimaSekli: item?.shipping?.tasimaSekli || "",
         uzunluk: item?.shipping?.uzunluk || "",
@@ -38,7 +39,7 @@ const ShippingProperty = (props) => {
         resetForm();
       },
     });
-
+  
   useEffect(() => {
     setFunctions({
       create: !isEdit && { title: "Kaydet", function: handleSubmit },
