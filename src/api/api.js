@@ -206,7 +206,7 @@ export const getPriceResearchList = async (_, page = 0, rowCount = 10) => {
 };
 
 export const getPriceResearch = async (_, id) => {
-  return await instance.get("/Teklif/Bul/" + id).then((res) => res.data);
+  return await instance.get("/Teklif/SayfaBilgileriniBul/" + id).then((res) => res.data);
 };
 
 export const getPriceResearchInsert = async (_, body) => {
@@ -255,8 +255,9 @@ export const shippingUpdate = async (_, body) => {
 
 export const shippingRemove = async (_, id) => {
   return await instance
-    .get("/FirmaYetkili/Sil?id=" + id)
+    .get("/Kargo/Sil?id=" + id)
     .then((res) => res.data);
 };
 
 ////////////////////////////////////////
+

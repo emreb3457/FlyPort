@@ -1,7 +1,7 @@
 import axios from "axios";
 import { removeToken } from "./helpers";
 
-export const baseURL = "https://flyport.herokuapp.com/api/v1";
+export const baseURL = "https://elaport.com/api/v1";
 
 const instance = axios.create({
   baseURL: baseURL,

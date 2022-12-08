@@ -3,9 +3,10 @@ import { Fragment, useEffect, useState } from "react";
 import { SelectInput, TextInput } from "../../Inputs/CustomInputs";
 import colors from "../../../theme/colors";
 import { useFormik } from "formik";
-import { shippingInsert } from "../../../api/api";
+import { getShipping, shippingInsert } from "../../../api/api";
 import { sendRequest } from "../../../utils/helpers";
 import { useParams } from "react-router-dom";
+import useSWR from "swr";
 
 const ShippingProperty = (props) => {
   const { item, setFunctions } = props;
@@ -17,20 +18,20 @@ const ShippingProperty = (props) => {
   const { errors, handleChange, handleSubmit, values, touched, setFieldValue } =
     useFormik({
       initialValues: {
-        teklifId: item?.id,
-        tasimaSekli: "",
-        uzunluk: "",
-        uzunlukBirim: "",
-        genislik: "",
-        genislikBirim: "",
-        yukseklik: "",
-        yukseklikBirim: "",
-        birimAgirlik: "",
-        birimAgirlikBirim: "",
-        urunMiktari: "",
-        urunMiktariBirim: "",
-        toplamM3: "",
-        toplamAgirlik: "",
+        teklifId: item?.teklifId || "",
+        tasimaSekli: item?.tasimaSekli || "",
+        uzunluk: item?.uzunluk || "",
+        uzunlukBirim: item?.uzunlukBirim || "",
+        genislik: item?.genislik || "",
+        genislikBirim: item?.genislikBirim || "",
+        yukseklik: item?.yukseklik || "",
+        yukseklikBirim: item?.yukseklikBirim || "",
+        birimAgirlik: item?.birimAgirlik || "",
+        birimAgirlikBirim: item?.birimAgirlikBirim || "",
+        urunMiktari: item?.urunMiktari || "",
+        urunMiktariBirim: item?.urunMiktariBirim || "",
+        toplamM3: item?.toplamM3 || "",
+        toplamAgirlik: item?.toplamAgirlik || "",
       },
       onSubmit: (values, { resetForm }) => {
         newPriceResearchSubmit({ values });

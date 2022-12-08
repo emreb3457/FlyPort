@@ -4,12 +4,10 @@ import { StyledButton } from "../ProductList";
 import colors from "../../theme/colors";
 import BreadCrumb from "../../components/BreadCrumb/BreadCrumb";
 import { useParams } from "react-router-dom";
-import CompanyInfermation from "../../components/Company/CompanyInfermation";
 import useSWR from "swr";
-import { getCompany, getPriceResearch } from "../../api/api";
+import { getPriceResearch, getShipping } from "../../api/api";
 import SkeletonComp from "../../components/Skeleton/Skeleton";
-import CompanyAdress from "../../components/Company/CompanyAdress";
-import CompanyOfficial from "../../components/Company/CompanyOfficial";
+
 import ProductPrice from "../../components/Talepler/PriceSurveyDetailpage/ProductPrice";
 import ShippingProperty from "../../components/Talepler/PriceSurveyDetailpage/ShippingProperty";
 const Tabs = [
@@ -19,7 +17,7 @@ const Tabs = [
   },
   {
     title: "Teknik Özellikleri",
-    comp: CompanyInfermation,
+    comp: <></>,
   },
   {
     title: "Kargo Özellikleri",
@@ -27,7 +25,7 @@ const Tabs = [
   },
   {
     title: "Ürün Sertifikaları",
-    comp: CompanyOfficial,
+    comp: <></>,
   },
   {
     title: "Firma Bilgileri",
@@ -40,13 +38,16 @@ const PriceResearchDetail = () => {
   const [activeTab, setActiveTab] = useState(Tabs[0]);
   const [selectFunction, setSelectFunction] = useState({});
 
-  const { data: companyDetail, error } = useSWR(
+  const { data: priceResarchDetail, error } = useSWR(
     ["getCompany", id],
     getPriceResearch
   );
 
+  const { data: Shipping, mutate } = useSWR(["getShipping", id], getShipping);
+
+  const newObj = { ...priceResarchDetail, ...Shipping };
   useEffect(() => {}, [selectFunction]);
-  const loading = !companyDetail && !error;
+  const loading = !priceResarchDetail && !error;
   return loading ? (
     <SkeletonComp />
   ) : (
@@ -103,12 +104,7 @@ const PriceResearchDetail = () => {
           ))}
         </Box>
         <Box px="38px">
-          {
-            <activeTab.comp
-              item={companyDetail}
-              setFunctions={setSelectFunction}
-            />
-          }
+          {<activeTab.comp item={newObj} setFunctions={setSelectFunction} />}
         </Box>
       </Box>
     </Box>

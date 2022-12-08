@@ -22,6 +22,7 @@ import { getCompanyTable, getPriceResearchUpdate } from "../../../api/api";
 import { useNavigate, useParams } from "react-router-dom";
 
 const updateCompanySubmit = async ({ values, mutate, id }) => {
+  console.log("asd");
   const { status } = await sendRequest(
     getPriceResearchUpdate("_", {
       id,
@@ -37,44 +38,32 @@ const ProductPrice = (props) => {
   const [page, setPage] = useState(0);
   const [limit, setLimit] = useState(999);
 
-  const data = {
-    firmaUnvanı: item?.firmaUnvani,
-    kısaAdı: item?.kisaAd,
-    ulke: item?.ulke,
-    ulkeId: item?.ulkeId,
-    sehir: item?.sehir,
-    sehirId: item?.sehirId,
-    adres: item?.adres,
-    acikAdres: item?.acikAdresi,
-    postaKodu: item?.postaKodu,
-    vergiDairesi: item?.vergiDairesi,
-    vergiNo: item?.vergiNo,
-    sektoru: item?.sektoru,
-  };
-
   const { errors, handleChange, handleSubmit, values, touched, setFieldValue } =
     useFormik({
       initialValues: {
-        ureticiFirmaId: "",
-        istenilenUrunAynisiMi: "",
-        ureticininBulunduguUlkeId: "",
-        ureticininBulunduguSehirId: "",
-        teslimSekliId: "",
-        ucretlendirmeyeEsasMiktarBirimiId: "",
-        hazirOlanMiktar: "",
-        miktarBirimiId: "",
-        istenikenMiktarIcinHazirlikSuresi: "",
-        birimFiyati: "",
-        dovizCinsi: "",
-        teklifGecerlilikTarihi: "",
-        aciklama: "",
+        ureticiFirmaId: item?.ureticiFirmaId,
+        istenilenUrunAynisiMi:
+          item?.istenilenUrunAynisiMi == "True" ? true : false,
+        ureticininBulunduguUlkeId: item?.ureticininBulunduguSehirId,
+        ureticininBulunduguSehirId: item?.ureticininBulunduguSehirId,
+        teslimSekliId: item?.teslimSekliId,
+        ucretlendirmeyeEsasMiktarBirimiId:
+          item?.ucretlendirmeyeEsasMiktarBirimiId,
+        hazirOlanMiktar: item?.hazirOlanMiktar,
+        miktarBirimiId: item?.miktarBirimiId,
+        istenikenMiktarIcinHazirlikSuresi:
+          item?.istenikenMiktarIcinHazirlikSuresi,
+        birimFiyati: item?.birimFiyati,
+        dovizCinsi: item?.dovizCinsi,
+        teklifGecerlilikTarihi: item?.teklifGecerlilikTarihi,
+        aciklama: item?.aciklama,
       },
       onSubmit: (values, { resetForm }) => {
-        updateCompanySubmit({ values });
+        updateCompanySubmit({ values, id });
       },
       validationSchema: newPriceResearch,
     });
-
+  console.log(errors);
   const { data: Country, mutate } = useSWR(
     ["getCountryTable", page, limit],
     getCountryTable
@@ -133,8 +122,8 @@ const ProductPrice = (props) => {
               value={values.istenilenUrunAynisiMi}
               onChange={handleChange}
               data={[
-                { ad: "Evet", id: true },
-                { ad: "Hayır", id: false },
+                { ad: "true", id: true },
+                { ad: "false", id: false },
               ]}
               visableValue={"ad"}
               disabled={isEdit}

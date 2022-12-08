@@ -16,7 +16,6 @@ import {
 const PriceResearchList = () => {
   const navigate = useNavigate();
   const location = useLocation();
-  console.log(location);
   const [page, setPage] = useState(0);
   const [radioValue, setRadioValue] = React.useState({});
 
