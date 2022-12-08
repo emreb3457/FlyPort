@@ -45,7 +45,7 @@ const PriceResearchDetail = () => {
 
   const { data: Shipping, mutate } = useSWR(["getShipping", id], getShipping);
 
-  const newObj = { ...priceResarchDetail, ...Shipping };
+  const newObj = { ...priceResarchDetail, shipping: Shipping };
   useEffect(() => {}, [selectFunction]);
   const loading = !priceResarchDetail && !error;
   return loading ? (

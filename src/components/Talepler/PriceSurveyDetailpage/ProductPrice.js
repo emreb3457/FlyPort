@@ -22,7 +22,6 @@ import { getCompanyTable, getPriceResearchUpdate } from "../../../api/api";
 import { useNavigate, useParams } from "react-router-dom";
 
 const updateCompanySubmit = async ({ values, mutate, id }) => {
-  console.log("asd");
   const { status } = await sendRequest(
     getPriceResearchUpdate("_", {
       id,
@@ -43,7 +42,7 @@ const ProductPrice = (props) => {
       initialValues: {
         ureticiFirmaId: item?.ureticiFirmaId,
         istenilenUrunAynisiMi:
-          item?.istenilenUrunAynisiMi == "True" ? true : false,
+          item?.istenilenUrunAynisiMi === "True" ? true : false,
         ureticininBulunduguUlkeId: item?.ureticininBulunduguSehirId,
         ureticininBulunduguSehirId: item?.ureticininBulunduguSehirId,
         teslimSekliId: item?.teslimSekliId,
@@ -63,7 +62,6 @@ const ProductPrice = (props) => {
       },
       validationSchema: newPriceResearch,
     });
-  console.log(errors);
   const { data: Country, mutate } = useSWR(
     ["getCountryTable", page, limit],
     getCountryTable
@@ -100,7 +98,7 @@ const ProductPrice = (props) => {
       update: { title: "Düzenle", function: () => setIsEdit(false) },
     });
   }, [isEdit]);
-
+  
   return (
     <Box px="50px" mt="40px">
       <form onSubmit={handleSubmit}>

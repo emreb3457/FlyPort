@@ -1,6 +1,5 @@
 import { Box, Text, Input, Select } from "@chakra-ui/react";
 import { SelectBox } from "devextreme-react";
-import DataSource from "devextreme/data/data_source";
 
 export const TextInput = ({
   name,
@@ -50,11 +49,6 @@ export const SelectInput = ({
   error,
   ...props
 }) => {
-  const selectBoxData = new DataSource({
-    store: data,
-    paginate: true,
-    pageSize: 10,
-  });
   return (
     <Box py="10px" fontSize={"18px"} w="100%" {...props}>
       <Text mr="5px" color={"#232F3D"}>
@@ -62,7 +56,7 @@ export const SelectInput = ({
       </Text>
       <SelectBox
         name={name}
-        dataSource={selectBoxData}
+        dataSource={data}
         defaultValue={value}
         displayExpr={visableValue}
         searchEnabled={true}

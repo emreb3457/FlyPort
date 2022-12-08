@@ -15,24 +15,31 @@ import BasicModal from "../../helpers/Modal";
 import SkeletonComp from "../../components/Skeleton/Skeleton";
 import { useModalStatus } from "../../hooks/useModalStatus";
 import { SelectInput, TextInput } from "../../components/Inputs/CustomInputs";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useFormik } from "formik";
 import { cityValidate } from "../../utils/validation";
-import { sendRequest } from "../../utils/helpers";
+import { DevExtremeCreateStore, sendRequest } from "../../utils/helpers";
 import { SelectBox } from "devextreme-react";
+import DataSource from "devextreme/data/data_source";
 
 const CityList = () => {
   const { clickFunct, isClick } = useModalStatus();
   const [page, setPage] = useState(0);
   const [limit, setLimit] = useState(999);
+  const [countrydata, setCountrydata] = React.useState({});
   const [radioValue, setRadioValue] = React.useState({});
   const [submitType, setSubmitType] = React.useState("");
 
   const { data, mutate, error } = useSWR(["getCity", page], getCityTable);
-  const { data: countrydata } = useSWR(
-    ["getCountry", page, limit],
-    getCountryTable
-  );
+
+  useEffect(() => {
+    setCountrydata(new DataSource({
+      store: DevExtremeCreateStore("/Ulke/SayfaliTablo"),
+      paginate: true,
+      pageSize: 10,
+    }));
+    debugger
+  }, []);
 
   const {
     errors,
