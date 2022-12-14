@@ -39,7 +39,7 @@ const ShippingProperty = (props) => {
         resetForm();
       },
     });
-  
+
   useEffect(() => {
     setFunctions({
       create: !isEdit && { title: "Kaydet", function: handleSubmit },

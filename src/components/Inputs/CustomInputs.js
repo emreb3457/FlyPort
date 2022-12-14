@@ -1,5 +1,7 @@
 import { Box, Text, Input, Select } from "@chakra-ui/react";
 import { SelectBox } from "devextreme-react";
+import DataSource from "devextreme/data/data_source";
+import { useMemo } from "react";
 
 export const TextInput = ({
   name,
@@ -49,37 +51,39 @@ export const SelectInput = ({
   error,
   ...props
 }) => {
-  return (
-    <Box py="10px" fontSize={"18px"} w="100%" {...props}>
-      <Text mr="5px" color={"#232F3D"}>
-        {children ? children : " "}
-      </Text>
-      <SelectBox
-        name={name}
-        dataSource={data}
-        defaultValue={value}
-        displayExpr={visableValue}
-        searchEnabled={true}
-        searchMode={"contains"}
-        searchExpr={visableValue}
-        searchTimeout={200}
-        minSearchLength={0}
-        showDataBeforeSearch={false}
-        onValueChanged={(e) =>
-          onChange(name, e.value?.id || e.value?.nitelikId)
-        }
-        height="54px"
-        disabled={disabled}
-        style={disabled ? { backgroundColor: "#D6D6D6" } : {}}
-      />
-
-      {error && (
-        <Text mr="5px" color={"red"} fontSize="12px">
-          {error}
+  return useMemo(() => {
+    return (
+      <Box py="10px" fontSize={"18px"} w="100%" {...props}>
+        <Text mr="5px" color={"#232F3D"}>
+          {children ? children : " "}
         </Text>
-      )}
-    </Box>
-  );
+        <SelectBox
+          name={name}
+          dataSource={data}
+          defaultValue={value}
+          displayExpr={visableValue}
+          searchEnabled={true}
+          searchMode={"contains"}
+          searchExpr={visableValue}
+          searchTimeout={200}
+          minSearchLength={0}
+          showDataBeforeSearch={false}
+          onValueChanged={(e) =>
+            onChange(name, e.value?.id || e.value?.nitelikId)
+          }
+          height="54px"
+          disabled={disabled}
+          style={disabled ? { backgroundColor: "#D6D6D6" } : {}}
+        />
+
+        {error && (
+          <Text mr="5px" color={"red"} fontSize="12px">
+            {error}
+          </Text>
+        )}
+      </Box>
+    );
+  }, [data]);
 };
 
 export const DateInput = ({

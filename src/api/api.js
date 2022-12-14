@@ -249,9 +249,7 @@ export const shippingInsert = async (_, body) => {
   return await instance.post("/Kargo/Ekle", body).then((res) => res.data);
 };
 
-export const shippingUpdate = async (_, body) => {
-  return await instance.post("/Kargo/Ekle", body).then((res) => res.data);
-};
+
 
 export const shippingRemove = async (_, id) => {
   return await instance
