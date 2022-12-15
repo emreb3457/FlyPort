@@ -39,7 +39,7 @@ const PriceResearchDetail = () => {
   const [selectFunction, setSelectFunction] = useState({});
 
   const { data: priceResarchDetail, error } = useSWR(
-    ["getCompany", id],
+    ["getPriceResearch", id],
     getPriceResearch
   );
 

@@ -57,10 +57,7 @@ const ProductList = () => {
       title: "GTip No",
       column: "gtipNo",
     },
-    {
-      title: "Sipariş Sayısı",
-      column: "aciklama",
-    },
+   
   ];
 
   const removeProduct = async ({ radioValue, mutate }) => {

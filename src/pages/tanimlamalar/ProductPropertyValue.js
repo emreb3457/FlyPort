@@ -147,7 +147,7 @@ const ProductPropertyValue = () => {
       </form>
     );
   };
-  console.log(values);
+
   return loading ? (
     <SkeletonComp />
   ) : (

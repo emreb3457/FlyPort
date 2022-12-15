@@ -20,7 +20,7 @@ const AlternativeDetail = () => {
     ["getAlternativeDemand", id ?? null],
     getAlternativeDemand
   );
-  console.log(data);
+
   const Tabs = [
     {
       title: "İstenen Ürün",
@@ -93,7 +93,9 @@ const AlternativeDetail = () => {
               </StyledButton>
             ))}
           </Box>
-          <Box w="100%">{<activeTab.comp detail={data} page={"alternative"} />}</Box>
+          <Box w="100%">
+            {<activeTab.comp detail={data} page={"alternative"} />}
+          </Box>
         </Box>
       </Box>
     </Box>

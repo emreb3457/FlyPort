@@ -62,7 +62,7 @@ const DistrictList = () => {
     },
     validationSchema: districtValidate,
   });
-  console.log(values.ulkeId);
+
   const { data, mutate, error } = useSWR(
     ["getDistrict", page],
     getDistrictTable

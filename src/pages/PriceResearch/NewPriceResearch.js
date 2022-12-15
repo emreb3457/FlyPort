@@ -60,7 +60,7 @@ const NewPriceResearch = () => {
 
   const { data: City } = useSWR(
     ["getCityTable", values.ureticininBulunduguUlkeId, page, limit],
-    getCityTable
+    values.ureticininBulunduguUlkeId && getCityTable
   );
 
   const { data: Delivery } = useSWR(

@@ -36,13 +36,14 @@ const ProductPrice = (props) => {
   const [isEdit, setIsEdit] = useState(true);
   const [page, setPage] = useState(0);
   const [limit, setLimit] = useState(999);
+  const formatDate = new Date(item?.teklifGecerlilikTarihi);
 
   const { errors, handleChange, handleSubmit, values, touched, setFieldValue } =
     useFormik({
       initialValues: {
         ureticiFirmaId: item?.ureticiFirmaId,
         istenilenUrunAynisiMi:
-          item?.istenilenUrunAynisiMi === "True" ? true : false,
+          item?.istenilenUrunAynisiMi === "True" ? "true" : "false",
         ureticininBulunduguUlkeId: item?.ureticininBulunduguSehirId,
         ureticininBulunduguSehirId: item?.ureticininBulunduguSehirId,
         teslimSekliId: item?.teslimSekliId,
@@ -54,7 +55,7 @@ const ProductPrice = (props) => {
           item?.istenikenMiktarIcinHazirlikSuresi,
         birimFiyati: item?.birimFiyati,
         dovizCinsi: item?.dovizCinsi,
-        teklifGecerlilikTarihi: item?.teklifGecerlilikTarihi,
+        teklifGecerlilikTarihi: formatDate.toISOString().split("T")[0],
         aciklama: item?.aciklama,
       },
       onSubmit: (values, { resetForm }) => {
@@ -98,7 +99,7 @@ const ProductPrice = (props) => {
       update: { title: "Düzenle", function: () => setIsEdit(false) },
     });
   }, [isEdit]);
-  
+ 
   return (
     <Box px="50px" mt="40px">
       <form onSubmit={handleSubmit}>

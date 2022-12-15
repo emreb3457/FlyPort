@@ -8,7 +8,7 @@ const DesiredProduct = ({ detail, page }) => {
     { ad: "Taşıma", id: 2 },
     { ad: "Gümrükleme", id: 3 },
   ];
-  console.log(detail);
+
   const Productdetail = (
     <Box mt="20px">
       <Box display={"flex"}>

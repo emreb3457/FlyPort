@@ -52,6 +52,11 @@ export const SelectInput = ({
   ...props
 }) => {
   return useMemo(() => {
+    const datasource = new DataSource({
+      store: data,
+      paginate: true,
+      pageSize: 10,
+    });
     return (
       <Box py="10px" fontSize={"18px"} w="100%" {...props}>
         <Text mr="5px" color={"#232F3D"}>
@@ -59,7 +64,7 @@ export const SelectInput = ({
         </Text>
         <SelectBox
           name={name}
-          dataSource={data}
+          dataSource={datasource}
           defaultValue={value}
           displayExpr={visableValue}
           searchEnabled={true}

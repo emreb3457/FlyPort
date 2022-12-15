@@ -110,7 +110,6 @@ const CompanyAdress = ({ setFunctions, item }) => {
     ["getCompanyAdressTable", item?.id],
     getCompanyAdressTable
   );
-  console.log(values);
   const { data: Ulke } = useSWR(["getCountryTable"], getCountryTable);
 
   const { data: Sehir } = useSWR(["getCityTable", values.ulkeId], getCityTable);
@@ -145,9 +144,7 @@ const CompanyAdress = ({ setFunctions, item }) => {
       },
     });
   });
-  useEffect(() => {
-    console.log(values);
-  }, [values]);
+  useEffect(() => {}, [values]);
   const loading = !error && !data;
   const Head = [
     {
