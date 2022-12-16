@@ -1,25 +1,28 @@
 import { Box, Button, Select, Text, Input, Heading } from "@chakra-ui/react";
 import { Fragment, useEffect, useState } from "react";
-import { SelectInput, TextInput } from "../../Inputs/CustomInputs";
+import {
+  DefaultSelect,
+  SelectInput,
+  TextInput,
+} from "../../Inputs/CustomInputs";
 import colors from "../../../theme/colors";
 import { useFormik } from "formik";
 import { getShipping, shippingInsert } from "../../../api/api";
 import { sendRequest } from "../../../utils/helpers";
 import { useParams } from "react-router-dom";
 import useSWR from "swr";
+import { uzunlukBirim } from "../../../constants/other";
 
 const ShippingProperty = (props) => {
   const { item, setFunctions } = props;
   const { id } = useParams();
   const [isEdit, setIsEdit] = useState(true);
-  const [page, setPage] = useState(0);
-  const [limit, setLimit] = useState(999);
 
   const { errors, handleChange, handleSubmit, values, touched, setFieldValue } =
     useFormik({
       initialValues: {
         id: item?.shipping?.id !== 0 ? item?.shipping?.id : undefined,
-        teklifId: item?.shipping?.teklifId || "",
+        teklifId: item?.teklifId || "",
         tasimaSekli: item?.shipping?.tasimaSekli || "",
         uzunluk: item?.shipping?.uzunluk || "",
         uzunlukBirim: item?.shipping?.uzunlukBirim || "",
@@ -36,7 +39,6 @@ const ShippingProperty = (props) => {
       },
       onSubmit: (values, { resetForm }) => {
         newPriceResearchSubmit({ values });
-        resetForm();
       },
     });
 
@@ -116,14 +118,17 @@ const ShippingProperty = (props) => {
             >
               Uzunluğu
             </TextInput>
-            <TextInput
-              pl="10px"
+            <DefaultSelect
               name={"uzunlukBirim"}
               value={values.uzunlukBirim}
               onChange={handleChange}
               disabled={isEdit}
+              data={uzunlukBirim}
+              visableValue={"value"}
               error={touched.uzunlukBirim && errors.uzunlukBirim}
-            ></TextInput>
+            >
+              Birim
+            </DefaultSelect>
           </Box>
           <Box display={"flex"} alignItems="end">
             <TextInput
@@ -136,14 +141,17 @@ const ShippingProperty = (props) => {
             >
               Genişliği
             </TextInput>
-            <TextInput
-              pl="10px"
+            <DefaultSelect
               name={"genislikBirim"}
               value={values.genislikBirim}
               onChange={handleChange}
               disabled={isEdit}
+              data={uzunlukBirim}
+              visableValue={"value"}
               error={touched.genislikBirim && errors.genislikBirim}
-            ></TextInput>
+            >
+              Birim
+            </DefaultSelect>
           </Box>
           <Box display={"flex"} alignItems="end">
             <TextInput
@@ -156,14 +164,17 @@ const ShippingProperty = (props) => {
             >
               Yüksekliği
             </TextInput>
-            <TextInput
-              pl="10px"
+            <DefaultSelect
               name={"yukseklikBirim"}
               value={values.yukseklikBirim}
               onChange={handleChange}
               disabled={isEdit}
+              data={uzunlukBirim}
+              visableValue={"value"}
               error={touched.yukseklikBirim && errors.yukseklikBirim}
-            ></TextInput>
+            >
+              Birim
+            </DefaultSelect>
           </Box>
           <Box display={"flex"} alignItems="end">
             <TextInput
@@ -176,14 +187,17 @@ const ShippingProperty = (props) => {
             >
               Birim Ağırlığı
             </TextInput>
-            <TextInput
-              pl="10px"
+            <DefaultSelect
               name={"birimAgirlikBirim"}
               value={values.birimAgirlikBirim}
               onChange={handleChange}
               disabled={isEdit}
+              data={uzunlukBirim}
+              visableValue={"value"}
               error={touched.birimAgirlikBirim && errors.birimAgirlikBirim}
-            ></TextInput>
+            >
+              Birim
+            </DefaultSelect>
           </Box>
         </Box>
         <Box width={{ lg: "35%", "2xl": "30%" }} ml="20px">

@@ -88,7 +88,7 @@ export const SelectInput = ({
         )}
       </Box>
     );
-  }, [data]);
+  }, [data, disabled, error]);
 };
 
 export const DateInput = ({
