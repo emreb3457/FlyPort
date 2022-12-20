@@ -1,6 +1,6 @@
-import { Box, Button, Text } from "@chakra-ui/react";
-import { useEffect, useMemo, useState } from "react";
-import { Link, useLocation } from "react-router-dom";
+import { Box } from "@chakra-ui/react";
+import { useMemo, useState } from "react";
+import { useLocation } from "react-router-dom";
 import { DemandMenu, menuItems } from "../../../constants/MenuItems";
 import ListMenuItem from "./ListMenuItem";
 const ListMenu = ({ children }) => {
@@ -27,7 +27,7 @@ const ListMenu = ({ children }) => {
   const visableMenuItems = useMemo(() => {
     switch (selectMenu) {
       case MenuNames.Demand:
-        return DemandMenu();
+        return DemandMenu(location?.state || location.pathname.split("/")[2]);
 
       default:
         return menuItems;

@@ -1,11 +1,11 @@
 import { Box, Img } from "@chakra-ui/react";
 import { useState } from "react";
 
-const ImageComp = ({ images, onImageChange, ...props }) => {
+const ImageComp = ({ images, onImageChange, disabled, ...props }) => {
   const [active, setActive] = useState();
   const isImages = images?.length ? true : false;
   return (
-    <Box maxW="390px" mt="30px" {...props}>
+    <Box maxW="390px" mt="30px" {...props} pointerEvents={disabled && "none"}>
       <label for="file-input">
         <Box cursor={"pointer"}>
           <Img

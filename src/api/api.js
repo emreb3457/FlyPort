@@ -1,3 +1,4 @@
+import query from "devextreme/data/query";
 import instance from "../utils/axios";
 import { DevExtremeCreateStore } from "../utils/helpers";
 
@@ -206,7 +207,9 @@ export const getPriceResearchList = async (_, page = 0, rowCount = 10) => {
 };
 
 export const getPriceResearch = async (_, id) => {
-  return await instance.get("/Teklif/SayfaBilgileriniBul/" + id).then((res) => res.data);
+  return await instance
+    .get("/Teklif/SayfaBilgileriniBul/" + id)
+    .then((res) => res.data);
 };
 
 export const getPriceResearchInsert = async (_, body) => {
@@ -249,13 +252,46 @@ export const shippingInsert = async (_, body) => {
   return await instance.post("/Kargo/Ekle", body).then((res) => res.data);
 };
 
-
-
 export const shippingRemove = async (_, id) => {
-  return await instance
-    .get("/Kargo/Sil?id=" + id)
-    .then((res) => res.data);
+  return await instance.get("/Kargo/Sil?id=" + id).then((res) => res.data);
 };
 
 ////////////////////////////////////////
 
+////////////////////////////////////////////////////////////////////////Company Official
+
+export const getLogisticsTable = async (_, id) => {
+  return DevExtremeCreateStore("/TeklifMaliyet/BirlesmisTablo?teklifId=" + id);
+};
+
+export const getLogisticList = async (_) => {
+  return await instance
+    .get("/TeklifMaliyet/SayfaliListele")
+    .then((res) => res.data);
+};
+
+export const getLogisticsDetail = async (_, id) => {
+  return await instance
+    .get("/TeklifMaliyet/Bul/" + id)
+    .then((res) => res.data);
+};
+
+export const logisticsInsert = async (_, body) => {
+  return await instance
+    .post("/TeklifMaliyet/Ekle", body)
+    .then((res) => res.data);
+};
+
+export const logisticsUpdate = async (_, body) => {
+  return await instance
+    .post("/TeklifMaliyet/Guncelle", body)
+    .then((res) => res.data);
+};
+
+export const logisticRemove = async (_, id) => {
+  return await instance
+    .get("/TeklifMaliyet/Sil?id=" + id)
+    .then((res) => res.data);
+};
+
+////////////////////////////////////////

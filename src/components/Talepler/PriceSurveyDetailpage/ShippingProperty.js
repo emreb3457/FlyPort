@@ -15,7 +15,7 @@ import { uzunlukBirim } from "../../../constants/other";
 
 const ShippingProperty = (props) => {
   const { item, setFunctions } = props;
-  const { id } = useParams();
+  const { detayId } = useParams();
   const [isEdit, setIsEdit] = useState(true);
 
   const { errors, handleChange, handleSubmit, values, touched, setFieldValue } =

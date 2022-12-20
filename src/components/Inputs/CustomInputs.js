@@ -12,6 +12,7 @@ export const TextInput = ({
   disabled = false,
   onChange,
   error,
+  type,
   ...props
 }) => {
   return (
@@ -27,6 +28,7 @@ export const TextInput = ({
         borderColor={"#D6D6D6"}
         disabled={disabled}
         bg={disabled ? "#D6D6D6" : bg}
+        type={type}
         {...props}
       />
       {error && (

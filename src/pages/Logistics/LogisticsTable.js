@@ -7,22 +7,17 @@ import React, { useState } from "react";
 import { sendRequest } from "../../utils/helpers";
 import { useLocation, useNavigate, useParams } from "react-router-dom";
 import { routes } from "../../constants/routes";
-import {
-  getPriceResearchList,
-  getPriceResearchRemove,
-  getPriceResearchTable,
-} from "../../api/api";
+import { getLogisticsTable, logisticRemove } from "../../api/api";
 
-const PriceResearchList = () => {
+const LogisticsTable = () => {
   const navigate = useNavigate();
   const location = useLocation();
-  const params = useParams();
-  const [page, setPage] = useState(0);
+  const { id } = useParams();
   const [radioValue, setRadioValue] = React.useState({});
 
   const { data, mutate, error } = useSWR(
-    ["getPriceResearchList", page],
-    getPriceResearchTable
+    ["getLogisticsTable", id],
+    getLogisticsTable
   );
 
   const loading = !error && !data;
@@ -32,51 +27,44 @@ const PriceResearchList = () => {
       column: "id",
     },
     {
-      title: "Üretici",
-      column: "uretici",
+      title: "Taşıma Tipi",
+      column: "tasimaTipi",
     },
     {
-      title: "Ülkesi",
-      column: "ulkesi",
-    },
-
-    {
-      title: "Teklifin A. Tarihi",
-      column: "teklifAlinmaTarih",
+      title: "Kalkış Limanı",
+      column: "yuklemeYeri",
     },
     {
-      title: "Teklif Alan Kişi",
+      title: "Varış Limanı",
+      column: "teslimYeri",
+    },
+    {
+      title: "Taşımacı",
       column: "teklifAlanKisi",
     },
     {
-      title: "Miktar",
-      column: "miktar",
+      title: "Ürün Miktarı",
+      column: "tasimaMiktari",
     },
     {
-      title: "Birim Fiyatı",
-      column: "birimFiyati",
+      title: "Taşıma Ücreti",
+      column: "toplamTutar",
     },
     {
-      title: "Para Birimi",
-      column: "paraBirimi",
+      title: "Doviz Cinsi",
+      column: "dovizCinsiId",
     },
     {
-      title: "Güncel USD",
-      column: "sehir",
-    },
-    {
-      title: "Geçerlilik Tarihi",
-      column: "gecerlilikTarihi",
+      title: "USD Tutarı",
+      column: "",
     },
   ];
 
-  const removePriceResearch = async ({ radioValue, mutate }) => {
-    const { status } = await sendRequest(
-      getPriceResearchRemove("_", radioValue.id)
-    );
+  const removeLogistics = async ({ radioValue, mutate }) => {
+    const { status } = await sendRequest(logisticRemove("_", radioValue.id));
     status && mutate();
   };
-  
+
   return loading ? (
     <SkeletonComp />
   ) : (
@@ -85,22 +73,24 @@ const PriceResearchList = () => {
         funct1={{
           title: "Yeni Ekle",
           function: () => {
-            navigate(location.pathname + "/yeni", { state: params.id });
+            navigate(location.pathname + "/yeni", { state: id });
           },
         }}
         funct2={{
           title: "Detay",
           function: () => {
-            navigate(location.pathname + "/" + radioValue.id);
+            navigate(location.pathname + "/" + radioValue.id, {
+              state: radioValue,
+            });
           },
         }}
         funct3={{
           function: () => {
-            removePriceResearch({ radioValue, mutate });
+            removeLogistics({ radioValue, mutate });
           },
         }}
       >
-        Fiyat Araştırma
+        Lojistik
       </BreadCrumb>
       <Box mt="20px" px={"38px"}>
         <ListTable
@@ -115,4 +105,4 @@ const PriceResearchList = () => {
     </Box>
   );
 };
-export default React.memo(PriceResearchList);
+export default LogisticsTable;

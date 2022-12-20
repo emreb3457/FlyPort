@@ -3,11 +3,11 @@ import BreadCrumb from "../../components/BreadCrumb/BreadCrumb";
 import ListTable from "../../components/ListTable";
 import useSWR from "swr";
 import {
-  getDeliveryInsert,
-  getDeliveryList,
-  getDeliveryRemove,
-  getDeliveryTable,
-  getDeliveryUpdate,
+  getTransportInsert,
+  getTransportList,
+  getTransportRemove,
+  getTransportTable,
+  getTransportUpdate,
 } from "../../api/DefinitionsApi";
 import BasicModal from "../../helpers/Modal";
 import SkeletonComp from "../../components/Skeleton/Skeleton";
@@ -15,18 +15,18 @@ import { useModalStatus } from "../../hooks/useModalStatus";
 import { TextInput } from "../../components/Inputs/CustomInputs";
 import React, { useState } from "react";
 import { useFormik } from "formik";
-import { countryValidate, DeliveryTypeValidate } from "../../utils/validation";
+import { TransportTypeValidate } from "../../utils/validation";
 import { sendRequest } from "../../utils/helpers";
 
-const DeliveryType = () => {
+const TransportType = () => {
   const { clickFunct, isClick } = useModalStatus();
   const [page, setPage] = useState(0);
   const [radioValue, setRadioValue] = React.useState({});
   const [submitType, setSubmitType] = React.useState("");
 
   const { data, mutate, error } = useSWR(
-    ["getDelivery", page],
-    getDeliveryTable
+    ["getTransport", page],
+    getTransportTable
   );
 
   const { errors, handleChange, handleSubmit, values, touched, setValues } =
@@ -37,8 +37,8 @@ const DeliveryType = () => {
       },
       onSubmit: (values, { resetForm }) => {
         submitType === "create"
-          ? newDeliverySubmit({ values, mutate })
-          : updateDeliverySubmit({
+          ? newTransportSubmit({ values, mutate })
+          : updateTransportSubmit({
               values,
               mutate,
               id: radioValue.id,
@@ -47,7 +47,7 @@ const DeliveryType = () => {
         resetForm();
         document.getElementsByClassName("chakra-modal__close-btn")[0].click();
       },
-      validationSchema: DeliveryTypeValidate,
+      validationSchema: TransportTypeValidate,
     });
 
   const Head = [
@@ -67,14 +67,14 @@ const DeliveryType = () => {
 
   const loading = !error && !data;
 
-  const newDeliverySubmit = async ({ mutate }) => {
-    const { status } = await sendRequest(getDeliveryInsert("", { ...values }));
+  const newTransportSubmit = async ({ mutate }) => {
+    const { status } = await sendRequest(getTransportInsert("", { ...values }));
     status && mutate();
   };
 
-  const updateDeliverySubmit = async ({ mutate, id }) => {
+  const updateTransportSubmit = async ({ mutate, id }) => {
     const { status } = await sendRequest(
-      getDeliveryUpdate("", {
+      getTransportUpdate("", {
         id,
         ...values,
       })
@@ -82,16 +82,16 @@ const DeliveryType = () => {
     status && mutate();
   };
 
-  const removeDelivery = async ({ radioValue, mutate }) => {
+  const removeTransport = async ({ radioValue, mutate }) => {
     if (radioValue) {
       const { status } = await sendRequest(
-        getDeliveryRemove("_", radioValue.id)
+        getTransportRemove("_", radioValue.id)
       );
       status && mutate();
     }
   };
 
-  const NewDeliveryComp = ({ handleChange, values, handleSubmit }) => {
+  const NewTransportComp = ({ handleChange, values, handleSubmit }) => {
     return (
       <form onSubmit={handleSubmit} style={{ padding: "10px 0" }}>
         <TextInput
@@ -141,14 +141,15 @@ const DeliveryType = () => {
         }}
         funct3={{
           function: () => {
-            removeDelivery({ radioValue, mutate });
+            removeTransport({ radioValue, mutate });
           },
         }}
       >
-        Teslimat Tipi
+        Taşıma Tipi
       </BreadCrumb>
       <Box mt="20px" px={"38px"}>
-        <ListTable id="DeliveryType"
+        <ListTable
+          id="TransportType"
           head={Head}
           row={data}
           radioValue={radioValue}
@@ -161,9 +162,9 @@ const DeliveryType = () => {
         click={isClick}
         title={submitType === "create" ? "Yeni Taşıma Tipi" : "Güncelle"}
         formik={{ handleChange, handleSubmit, values }}
-        component={NewDeliveryComp({ handleChange, values, handleSubmit })}
+        component={NewTransportComp({ handleChange, values, handleSubmit })}
       />
     </Box>
   );
 };
-export default React.memo(DeliveryType);
+export default TransportType;

@@ -34,16 +34,19 @@ const Tabs = [
 ];
 
 const PriceResearchDetail = () => {
-  const { id } = useParams();
+  const { detayId } = useParams();
   const [activeTab, setActiveTab] = useState(Tabs[0]);
   const [selectFunction, setSelectFunction] = useState({});
-
+  
   const { data: priceResarchDetail, error } = useSWR(
-    ["getPriceResearch", id],
+    ["getPriceResearch", detayId],
     getPriceResearch
   );
 
-  const { data: Shipping, mutate } = useSWR(["getShipping", id], getShipping);
+  const { data: Shipping, mutate } = useSWR(
+    ["getShipping", detayId],
+    getShipping
+  );
 
   const newObj = { ...priceResarchDetail, shipping: Shipping };
   useEffect(() => {}, [selectFunction]);

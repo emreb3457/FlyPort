@@ -237,6 +237,40 @@ export const getDeliveryRemove = async (_, id) => {
     .get("/TeslimatTipi/Sil?id=" + id)
     .then((res) => res.data);
 };
+
+//Transport Api - Start
+export const getTransportTable = async (_, page = 0, rowCount = 999) => {
+  return DevExtremeCreateStore("/TasimaTipi/SayfaliTablo");
+};
+
+export const getTransportList = async (_, page = 0, rowCount = 999) => {
+  return await instance
+    .get("/TasimaTipi/SayfaliListele")
+    .then((res) => res.data);
+};
+
+export const getTransport = async (_, id) => {
+  return await instance.get("/TasimaTipi/Bul/" + id).then((res) => res.data);
+};
+
+export const getTransportInsert = async (_, body) => {
+  return await instance
+    .post("/TasimaTipi/Ekle", body)
+    .then((res) => res.data);
+};
+
+export const getTransportUpdate = async (_, body) => {
+  return await instance
+    .post("/TasimaTipi/Guncelle", body)
+    .then((res) => res.data);
+};
+
+export const getTransportRemove = async (_, id) => {
+  return await instance
+    .get("/TasimaTipi/Sil?id=" + id)
+    .then((res) => res.data);
+};
+
 //Country Api - End
 
 //Product Property Api - Start

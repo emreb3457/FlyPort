@@ -56,7 +56,7 @@ const AlternativeDetail = () => {
         funct={{
           title: "Görevler",
           function: () => {
-            navigate(routes.gorevler, { state: id });
+            navigate(routes.gorevler.replace(":id", id), { state: id });
           },
         }}
         funct1={{
@@ -75,7 +75,7 @@ const AlternativeDetail = () => {
         {data?.ad}
       </BreadCrumb>
       <Box display={"flex"} mt="20px" px={"38px"}>
-        <ImageComp images={images} />
+        <ImageComp images={images} disabled={true} />
         <Box display={"flex"} flexDirection="column" pl={{ sm: "71px" }}>
           <Box borderBottom={"1px solid black"}>
             {Tabs?.map((tab, index) => (

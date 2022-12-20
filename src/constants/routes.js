@@ -13,9 +13,12 @@ export const routes = {
   yeniAlternatif: "/talepler/alternatifler/yeni",
   alternatif: "/talepler/alternatifler",
   alternatifGuncelle: "/talepler/alternatifler/guncelle",
-  gorevler: "/gorevler",
+  gorevler: "/gorevler/:id",
   maliyetler: "/maliyetler",
   teklif: "/teklif",
   yenifiyat: "/gorevler/fiyatarastirma/yeni",
   fiyatdetay: "/gorevler/fiyatarastirma/",
+  yeniLojistik: "/gorevler/lojistik/yeni",
+  lojistikDetay: "/gorevler/lojistik/",
+  lojistik: "/gorevler/lojistik/",
 };

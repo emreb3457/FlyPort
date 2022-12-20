@@ -6,7 +6,7 @@ import {
   DateInput,
   DefaultSelect,
 } from "../../../components/Inputs/CustomInputs";
-import { sendRequest } from "../../../utils/helpers";
+import { formatDate, sendRequest } from "../../../utils/helpers";
 import { newPriceResearch } from "../../../utils/validation";
 import useSWR from "swr";
 import {
@@ -32,11 +32,10 @@ const updateCompanySubmit = async ({ values, mutate, id }) => {
 
 const ProductPrice = (props) => {
   const { item, setFunctions } = props;
-  const { id } = useParams();
+  const { detayId } = useParams();
   const [isEdit, setIsEdit] = useState(true);
   const [page, setPage] = useState(0);
   const [limit, setLimit] = useState(999);
-  const formatDate = new Date(item?.teklifGecerlilikTarihi);
 
   const { errors, handleChange, handleSubmit, values, touched, setFieldValue } =
     useFormik({
@@ -55,11 +54,11 @@ const ProductPrice = (props) => {
           item?.istenikenMiktarIcinHazirlikSuresi,
         birimFiyati: item?.birimFiyati,
         dovizCinsi: item?.dovizCinsi,
-        teklifGecerlilikTarihi: formatDate.toISOString().split("T")[0],
+        teklifGecerlilikTarihi: formatDate(item?.teklifGecerlilikTarihi),
         aciklama: item?.aciklama,
       },
       onSubmit: (values, { resetForm }) => {
-        updateCompanySubmit({ values, id });
+        updateCompanySubmit({ values, detayId });
       },
       validationSchema: newPriceResearch,
     });
@@ -99,7 +98,7 @@ const ProductPrice = (props) => {
       update: { title: "Düzenle", function: () => setIsEdit(false) },
     });
   }, [isEdit]);
- 
+
   return (
     <Box px="50px" mt="40px">
       <form onSubmit={handleSubmit}>

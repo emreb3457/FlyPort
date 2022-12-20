@@ -49,6 +49,11 @@ import PriceResearch from './pages/PriceResearch/PriceResearch';
 import NewPriceResearch from './pages/PriceResearch/NewPriceResearch';
 import CurrencyType from './pages/tanimlamalar/CurrencyType';
 import PriceResearchDetail from './pages/PriceResearch/PriceResearchDetail';
+import LogisticsTable from './pages/Logistics/LogisticsTable';
+import LogisticsDetail from './pages/Logistics/LogisticsDetail';
+import NewLogistics from './pages/Logistics/NewLogistics';
+import TransportType from './pages/tanimlamalar/TransportType';
+
 const App = () => {
   return (
     <Fragment>
@@ -65,10 +70,14 @@ const App = () => {
             <Route path="/talepler/alternatifler/:id" element={<ProtectedRoute><AlternativeDetail/></ProtectedRoute>} exact />
             <Route path="/talepler/alternatifler/guncelle" element={<ProtectedRoute><UpdateAlternative/></ProtectedRoute>} exact />
 
-            <Route path="/gorevler" element={<ProtectedRoute><PriceResearch/></ProtectedRoute>} exact />
-            <Route path="/gorevler/fiyatarastirma" element={<ProtectedRoute><PriceResearch/></ProtectedRoute>} exact />
-            <Route path="/gorevler/fiyatarastirma/:id" element={<ProtectedRoute><PriceResearchDetail/></ProtectedRoute>} exact />
-            <Route path="/gorevler/fiyatarastirma/yeni" element={<ProtectedRoute><NewPriceResearch/></ProtectedRoute>} exact />
+            <Route path="/gorevler/:id" element={<ProtectedRoute><PriceResearch/></ProtectedRoute>} exact />
+            <Route path="/gorevler/:id/fiyatarastirma" element={<ProtectedRoute><PriceResearch/></ProtectedRoute>} exact />
+            <Route path="/gorevler/:id/fiyatarastirma/:detayId" element={<ProtectedRoute><PriceResearchDetail/></ProtectedRoute>} exact />
+            <Route path="/gorevler/:id/fiyatarastirma/yeni" element={<ProtectedRoute><NewPriceResearch/></ProtectedRoute>} exact />
+
+            <Route path="/gorevler/:id/lojistik" element={<ProtectedRoute><LogisticsTable/></ProtectedRoute>} exact />
+            <Route path="/gorevler/:id/lojistik/:detayId" element={<ProtectedRoute><LogisticsDetail/></ProtectedRoute>} exact />
+            <Route path="/gorevler/:id/lojistik/yeni" element={<ProtectedRoute><NewLogistics/></ProtectedRoute>} exact />
 
             <Route path="/firmalar" element={<ProtectedRoute><Company/></ProtectedRoute>} exact />
             <Route path="/firmalar/yeni" element={<ProtectedRoute><NewCompany/></ProtectedRoute>} exact />
@@ -110,13 +119,14 @@ const App = () => {
             <Route path="/tanimlamalar/adrestipi" element={<ProtectedRoute><AdressType /></ProtectedRoute>} exact />
             <Route path="/tanimlamalar/sehirler" element={<ProtectedRoute><City /></ProtectedRoute>} exact />
             <Route path="/tanimlamalar/ilceler" element={<ProtectedRoute><District /></ProtectedRoute>} exact />
-            <Route path="/tanimlamalar/tasimatipi" element={<ProtectedRoute><DeliveryType /></ProtectedRoute>} exact />
+            <Route path="/tanimlamalar/teslimattipi" element={<ProtectedRoute><DeliveryType /></ProtectedRoute>} exact />
             <Route path="/tanimlamalar/nitelik" element={<ProtectedRoute><ProductProperty /></ProtectedRoute>} exact />
             <Route path="/tanimlamalar/nitelikdeger" element={<ProtectedRoute><ProductPropertyValue /></ProtectedRoute>} exact />
             <Route path="/tanimlamalar/genelkategori" element={<ProtectedRoute><PublicCategory /></ProtectedRoute>} exact />
             <Route path="/tanimlamalar/altkategori" element={<ProtectedRoute><ChildrenCategory /></ProtectedRoute>} exact />
             <Route path="/tanimlamalar/kategori" element={<ProtectedRoute><Category /></ProtectedRoute>} exact />
             <Route path="/tanimlamalar/dovizcinsi" element={<ProtectedRoute><CurrencyType /></ProtectedRoute>} exact />
+            <Route path="/tanimlamalar/tasimatipi" element={<ProtectedRoute><TransportType /></ProtectedRoute>} exact />
             <Route path='*' element={<div>NOT FOUND</div>} />
           </Routes>
         </ListMenu>

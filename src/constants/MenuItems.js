@@ -1,5 +1,3 @@
-import { useLocation } from "react-router-dom";
-
 export const menuItems = [
   {
     title: "Firmalar",
@@ -118,6 +116,10 @@ export const menuItems = [
         route: "tasimatipi",
       },
       {
+        title: "Teslimat Tipi",
+        route: "teslimattipi",
+      },
+      {
         title: "Ürün Nitelik",
         route: "nitelik",
       },
@@ -149,7 +151,7 @@ export const menuItems = [
   },
 ];
 
-export const DemandMenu = () => {
+export const DemandMenu = (id) => {
   const menuItems = [
     {
       title: "Ana Sayfa",
@@ -157,7 +159,7 @@ export const DemandMenu = () => {
     },
     {
       title: "Görevler",
-      route: "gorevler",
+      route: `gorevler/${id}`,
       submenu: [
         {
           title: "F.Araştırma",

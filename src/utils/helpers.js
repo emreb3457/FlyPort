@@ -67,3 +67,9 @@ export const getToken = () => {
 export const removeToken = () => {
   return sessionStorage.removeItem("accessToken");
 };
+
+export const formatDate = (date) => {
+  const newDate = new Date(date);
+  const formatDate = newDate.toISOString().split("T")[0];
+  return formatDate;
+};
