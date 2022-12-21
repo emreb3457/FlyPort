@@ -199,7 +199,7 @@ export const getCompanyOfficialRemove = async (_, id) => {
 
 ////////////////////////////////////////////////////////////////////////Company Official
 export const getPriceResearchTable = async (_, id) => {
-  return DevExtremeCreateStore("/Teklif/BirlesmisTablo");
+  return DevExtremeCreateStore("/Teklif/BirlesmisTablo?teklifId=" + id);
 };
 
 export const getPriceResearchList = async (_, page = 0, rowCount = 10) => {
@@ -256,7 +256,7 @@ export const shippingRemove = async (_, id) => {
   return await instance.get("/Kargo/Sil?id=" + id).then((res) => res.data);
 };
 
-////////////////////////////////////////
+///////////////////////////////////////////////////////////////////////
 
 ////////////////////////////////////////////////////////////////////////Company Official
 
@@ -271,9 +271,7 @@ export const getLogisticList = async (_) => {
 };
 
 export const getLogisticsDetail = async (_, id) => {
-  return await instance
-    .get("/TeklifMaliyet/Bul/" + id)
-    .then((res) => res.data);
+  return await instance.get("/TeklifMaliyet/Bul/" + id).then((res) => res.data);
 };
 
 export const logisticsInsert = async (_, body) => {
@@ -295,3 +293,34 @@ export const logisticRemove = async (_, id) => {
 };
 
 ////////////////////////////////////////
+////////////////////////////////////////////////////////////////////////Gtip
+
+export const getGtipTable = async (_, id) => {
+  return DevExtremeCreateStore("/GTipTanim/BirlesmisTablo");
+};
+
+export const getGtipList = async (_, page = 0, rowCount = 10) => {
+  return await instance
+    .get("/GTipTanim/BirlesmisListele")
+    .then((res) => res.data);
+};
+
+export const getGtip = async (_, id) => {
+  return await instance.get("/GTipTanim/Bul/" + id).then((res) => res.data);
+};
+
+export const getGtipInsert = async (_, body) => {
+  return await instance.post("/GTipTanim/Ekle", body).then((res) => res.data);
+};
+
+export const gtipUpdate = async (_, body) => {
+  return await instance
+    .post("/GTipTanim/Guncelle", body)
+    .then((res) => res.data);
+};
+
+export const gtipRemove = async (_, id) => {
+  return await instance.get("/GTipTanim/Sil?id=" + id).then((res) => res.data);
+};
+
+///////////////////////////////////////////////////////////////////////

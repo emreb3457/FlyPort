@@ -16,12 +16,12 @@ import {
 const PriceResearchList = () => {
   const navigate = useNavigate();
   const location = useLocation();
-  const params = useParams();
+  const { id } = useParams();
   const [page, setPage] = useState(0);
   const [radioValue, setRadioValue] = React.useState({});
 
   const { data, mutate, error } = useSWR(
-    ["getPriceResearchList", page],
+    ["getPriceResearchList", id],
     getPriceResearchTable
   );
 
@@ -76,7 +76,7 @@ const PriceResearchList = () => {
     );
     status && mutate();
   };
-  
+
   return loading ? (
     <SkeletonComp />
   ) : (
@@ -85,7 +85,7 @@ const PriceResearchList = () => {
         funct1={{
           title: "Yeni Ekle",
           function: () => {
-            navigate(location.pathname + "/yeni", { state: params.id });
+            navigate(location.pathname + "/yeni", { state: id });
           },
         }}
         funct2={{

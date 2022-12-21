@@ -5,20 +5,17 @@ import useSWR from "swr";
 import SkeletonComp from "../../components/Skeleton/Skeleton";
 import React, { useState } from "react";
 import { sendRequest } from "../../utils/helpers";
-import { useLocation, useNavigate, useParams } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import { routes } from "../../constants/routes";
-import { getLogisticsTable, logisticRemove } from "../../api/api";
+import { getGtipTable, gtipRemove } from "../../api/api";
 
-const LogisticsTable = () => {
+const GtipList = () => {
   const navigate = useNavigate();
   const location = useLocation();
-  const { id } = useParams();
+  const [page, setPage] = useState(0);
   const [radioValue, setRadioValue] = React.useState({});
 
-  const { data, mutate, error } = useSWR(
-    ["getLogisticsTable", id],
-    getLogisticsTable
-  );
+  const { data, mutate, error } = useSWR(["getGtipList", page], getGtipTable);
 
   const loading = !error && !data;
   const Head = [
@@ -27,42 +24,60 @@ const LogisticsTable = () => {
       column: "id",
     },
     {
-      title: "Taşıma Tipi",
-      column: "tasimaTipi",
+      title: "Menşel Ülkesi",
+      column: "menseiUlkesi",
     },
     {
-      title: "Kalkış Limanı",
-      column: "yuklemeYeri",
+      title: "Çıkış Ülkesi",
+      column: "cikisUlkesi",
     },
     {
-      title: "Varış Limanı",
-      column: "teslimYeri",
+      title: "Varış Ülkesi",
+      column: "varisUlkesi",
     },
     {
-      title: "Taşımacı",
-      column: "teklifAlanKisi",
+      title: "GTİP No",
+      column: "gTipNo",
     },
     {
-      title: "Ürün Miktarı",
-      column: "tasimaMiktari",
+      title: "Açıklama",
+      column: "gTipNoAciklama",
     },
     {
-      title: "Taşıma Ücreti",
-      column: "toplamTutar",
+      title: "Total Vergi Oranı",
+      column: "ozellik2",
     },
     {
-      title: "Doviz Cinsi",
-      column: "dovizCinsi",
+      title: "KDV",
+      column: "kdvOrani",
     },
     {
-      title: "USD Tutarı",
-      column: "",
+      title: "Tarex",
+      column: "tarexIsteniyorMu",
+    },
+    {
+      title: "Tarım",
+      column: "tarimIsteniyorMu",
+    },
+    {
+      title: "İhtisas Gümrüğü",
+      column: "ihtisasGumruguVarMi",
+    },
+    {
+      title: "Güncelleme Tarihi",
+      column: "x",
+    },
+    {
+      title: "İşlem Yapan",
+      column: "x",
     },
   ];
 
-  const removeLogistics = async ({ radioValue, mutate }) => {
-    const { status } = await sendRequest(logisticRemove("_", radioValue.id));
-    status && mutate();
+  const removeGtip = async ({ radioValue, mutate }) => {
+    if (radioValue) {
+      const { status } = await sendRequest(gtipRemove("_", radioValue.id));
+      status && mutate();
+    }
   };
 
   return loading ? (
@@ -73,7 +88,7 @@ const LogisticsTable = () => {
         funct1={{
           title: "Yeni Ekle",
           function: () => {
-            navigate(location.pathname + "/yeni", { state: id });
+            navigate(location.pathname + "/yeni");
           },
         }}
         funct2={{
@@ -86,24 +101,24 @@ const LogisticsTable = () => {
         }}
         funct3={{
           function: () => {
-            removeLogistics({ radioValue, mutate });
+            removeGtip({ radioValue, mutate });
           },
         }}
       >
-        Lojistik
+        GTİP Listesi
       </BreadCrumb>
       <Box mt="20px" px={"38px"}>
         <ListTable
-          id="LogisticsTable"
+          id="GtipTable"
           head={Head}
           row={data}
           radioValue={radioValue}
           radioSetValue={setRadioValue}
-          link={true}
+          link={false}
           select={true}
         />
       </Box>
     </Box>
   );
 };
-export default LogisticsTable;
+export default GtipList;

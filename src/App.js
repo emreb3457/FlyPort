@@ -53,6 +53,8 @@ import LogisticsTable from './pages/Logistics/LogisticsTable';
 import LogisticsDetail from './pages/Logistics/LogisticsDetail';
 import NewLogistics from './pages/Logistics/NewLogistics';
 import TransportType from './pages/tanimlamalar/TransportType';
+import GtipList from './pages/Gtip/GtipList';
+import NewGtip from './pages/Gtip/NewGtip';
 
 const App = () => {
   return (
@@ -112,6 +114,10 @@ const App = () => {
 
             <Route path="/siparisler" element={<ProtectedRoute><Offers2 /></ProtectedRoute>} exact />
             <Route path="/siparisler/:id" element={<ProtectedRoute><OffersCard /></ProtectedRoute>} exact />
+
+            <Route path="/tanimlamalar/gtip" element={<ProtectedRoute><GtipList/></ProtectedRoute>} exact />
+            <Route path="/tanimlamalar/gtip/yeni" element={<ProtectedRoute><NewGtip/></ProtectedRoute>} exact />
+            <Route path="/tanimlamalar/gtip/:id" element={<ProtectedRoute><NewGtip/></ProtectedRoute>} exact />
 
             <Route path="/tanimlamalar" element={<ProtectedRoute><CountryList /></ProtectedRoute>} exact />
             <Route path="/tanimlamalar/ulkeler" element={<ProtectedRoute><CountryList /></ProtectedRoute>} exact />

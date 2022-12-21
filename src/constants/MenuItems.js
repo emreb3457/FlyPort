@@ -147,6 +147,10 @@ export const menuItems = [
         title: "Döviz Cinsi",
         route: "dovizcinsi",
       },
+      {
+        title: "GTİP Listesi",
+        route: "gtip",
+      },
     ],
   },
 ];
@@ -172,10 +176,6 @@ export const DemandMenu = (id) => {
         {
           title: "Gümrükleme",
           route: "gumrukleme",
-        },
-        {
-          title: "Birim Tipi",
-          route: "birimtipi",
         },
       ],
     },
