@@ -69,6 +69,7 @@ const NewProduct = () => {
   const onImageChange = (e) => {
     setFieldValue("UrunResimleri", [...e.target.files]);
   };
+  
   const { errors, handleChange, handleSubmit, values, touched, setFieldValue } =
     useFormik({
       initialValues: {
@@ -96,7 +97,7 @@ const NewProduct = () => {
     );
     setImageURLs(newImageUrls);
   }, [values.UrunResimleri]);
-
+  
   const newProductSubmit = async ({ values }) => {
     setSubmitLoading(true);
     const formData = new FormData();
@@ -112,7 +113,8 @@ const NewProduct = () => {
         values.TeknikOzellikDegerleri[index]
       );
     }
-    for (let index = 0; index < values.TeknikOzellikDegerleri.length; index++) {
+
+    for (let index = 0; index < values.UrunResimleri.length; index++) {
       formData.append("UrunResimleri", values.UrunResimleri[index]);
     }
 

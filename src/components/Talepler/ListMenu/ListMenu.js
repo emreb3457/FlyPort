@@ -74,7 +74,7 @@ const ListMenu = ({ children }) => {
           setTab7={setTab7}
         />
 
-        <Box w="100%">{children}</Box>
+        <Box w={"calc(100vw - 240px)"}>{children}</Box>
       </Box>
     </Box>
   );

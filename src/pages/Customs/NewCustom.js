@@ -1,56 +1,47 @@
-import { Box } from "@chakra-ui/react";
+import { Box, Text, Textarea } from "@chakra-ui/react";
 import { useFormik } from "formik";
-import BreadCrumb from "../../../components/BreadCrumb/BreadCrumb";
+import BreadCrumb from "../../components/BreadCrumb/BreadCrumb";
 import {
   TextInput,
   SelectInput,
   DefaultSelect,
-} from "../../../components/Inputs/CustomInputs";
-import { sendRequest, stringToBoolean } from "../../../utils/helpers";
+} from "../../components/Inputs/CustomInputs";
+import { sendRequest, stringToBoolean } from "../../utils/helpers";
 import useSWR from "swr";
-import { getCountryTable } from "../../../api/DefinitionsApi";
-import { useEffect, useMemo, useState } from "react";
-import { useLocation, useNavigate, useParams } from "react-router-dom";
-import { routes } from "../../../constants/routes";
-import { customInsert, customUpdate } from "../../../api/api";
-import { getCustomDetail } from "../../../api/api";
-import { newCustom } from "../../../utils/validation";
+import { getCountryTable, getCityTable } from "../../api/DefinitionsApi";
+import { useState } from "react";
+import { useNavigate, useParams } from "react-router-dom";
+import { routes } from "../../constants/routes";
+import { customInsert } from "../../api/api";
+import { newCustom } from "../../utils/validation";
 
-const CustomTax = (props) => {
-  const { item, setFunctions } = props;
+const NewCustom = () => {
   const navigate = useNavigate();
-  const { state } = useLocation();
   const [submitLoading, setSubmitLoading] = useState(false);
   const [page, setPage] = useState(0);
   const [limit, setLimit] = useState(999);
-  const { id, detayId } = useParams();
-  const [isEdit, setIsEdit] = useState(true);
-
-  const { data, error } = useSWR(
-    ["getLogisticsTable", detayId],
-    getCustomDetail
-  );
-
-  const initialData = useMemo(() => {
-    if (state) {
-      return {
-        ...state,
-      };
-    } else {
-      return { ...data };
-    }
-  }, [data]);
-
-  useEffect(() => {
-    setFunctions({
-      create: !isEdit && { title: "Kaydet", function: handleSubmit },
-      update: { title: "Düzenle", function: () => setIsEdit(false) },
-    });
-  }, [isEdit]);
-
+  const { id } = useParams();
   const { errors, handleChange, handleSubmit, values, touched, setFieldValue } =
     useFormik({
-      initialValues: initialData,
+      initialValues: {
+        teklifId: id,
+        menseiUlkeId: "",
+        cikisUlkeId: "",
+        varisUlkeId: "",
+        gTipNo: "",
+        gTipNoAciklama: "",
+        gozetimTuru: "",
+        kgGozetimOrani: "",
+        gumrukVergisiOrani: "",
+        igvOrani: "",
+        dampingTuru: "",
+        dampingOrani: "",
+        otvOrani: "",
+        kdvOrani: "",
+        tarexIsteniyorMu: "",
+        tarimIsteniyorMu: "",
+        ihtisasGumruguVarMi: "",
+      },
       onSubmit: (values, { resetForm }) => {
         newCustomSubmit({ values });
       },
@@ -62,12 +53,18 @@ const CustomTax = (props) => {
     getCountryTable
   );
 
+  const { data: City } = useSWR(
+    ["getCityTable", values.UlkeId, page, limit],
+    getCityTable
+  );
+
   const newCustomSubmit = async ({ values }) => {
     setSubmitLoading(true);
     const { status } = await sendRequest(
-      customUpdate("", {
+      customInsert("", {
         ...values,
-        id: detayId,
+        tarexIsteniyorMu: stringToBoolean(values?.tarexIsteniyorMu),
+        tarimIsteniyorMu: stringToBoolean(values?.tarimIsteniyorMu),
       })
     );
     if (status) {
@@ -78,6 +75,17 @@ const CustomTax = (props) => {
   };
   return (
     <Box>
+      <BreadCrumb
+        loading={submitLoading}
+        funct1={{
+          title: "Kaydet",
+          function: () => {
+            document.getElementById("addCustom").click();
+          },
+        }}
+      >
+        Yeni Gümrükleme
+      </BreadCrumb>
       <Box px="50px" mt="40px">
         <form onSubmit={handleSubmit}>
           <Box display={["block", "block", "block", "flex"]} mt="20px">
@@ -88,7 +96,6 @@ const CustomTax = (props) => {
                 data={Country}
                 visableValue="adOrjinal"
                 onChange={setFieldValue}
-                disabled={isEdit}
                 error={touched.menseiUlkeId && errors.menseiUlkeId}
               >
                 Menşei Ülkesi
@@ -99,7 +106,6 @@ const CustomTax = (props) => {
                 data={Country}
                 visableValue="adOrjinal"
                 onChange={setFieldValue}
-                disabled={isEdit}
                 error={touched.cikisUlkeId && errors.cikisUlkeId}
               >
                 Çıkış Ülkesi
@@ -110,7 +116,6 @@ const CustomTax = (props) => {
                 data={Country}
                 visableValue="adOrjinal"
                 onChange={setFieldValue}
-                disabled={isEdit}
                 error={touched.varisUlkeId && errors.varisUlkeId}
               >
                 Varış Ülkesi
@@ -119,7 +124,6 @@ const CustomTax = (props) => {
                 name={"gTipNo"}
                 value={values.gTipNo}
                 onChange={handleChange}
-                disabled={isEdit}
                 error={touched.gTipNo && errors.gTipNo}
               >
                 GTİP NO
@@ -128,7 +132,6 @@ const CustomTax = (props) => {
                 name={"gTipNoAciklama"}
                 value={values.gTipNoAciklama}
                 onChange={handleChange}
-                disabled={isEdit}
                 error={touched.gTipNoAciklama && errors.gTipNoAciklama}
               >
                 GTİP No Açıklama
@@ -141,7 +144,6 @@ const CustomTax = (props) => {
                   name={"gozetimTuru"}
                   value={values.gozetimTuru}
                   onChange={handleChange}
-                  disabled={isEdit}
                   error={touched.gozetimTuru && errors.gozetimTuru}
                 >
                   Gözetim Türü
@@ -151,7 +153,6 @@ const CustomTax = (props) => {
                   name={"kgGozetimOrani"}
                   value={values.kgGozetimOrani}
                   onChange={handleChange}
-                  disabled={isEdit}
                   error={touched.kgGozetimOrani && errors.kgGozetimOrani}
                 >
                   KG Gözetim Oranı
@@ -162,7 +163,6 @@ const CustomTax = (props) => {
                 name={"gumrukVergisiOrani"}
                 value={values.gumrukVergisiOrani}
                 onChange={handleChange}
-                disabled={isEdit}
                 type="number"
                 error={touched.gumrukVergisiOrani && errors.gumrukVergisiOrani}
               >
@@ -173,7 +173,6 @@ const CustomTax = (props) => {
                 name={"igvOrani"}
                 value={values.igvOrani}
                 onChange={handleChange}
-                disabled={isEdit}
                 type="number"
                 error={touched.igvOrani && errors.igvOrani}
               >
@@ -185,7 +184,6 @@ const CustomTax = (props) => {
                   name={"dampingTuru"}
                   value={values.dampingTuru}
                   onChange={handleChange}
-                  disabled={isEdit}
                   error={touched.dampingTuru && errors.dampingTuru}
                 >
                   Damping Türü
@@ -196,7 +194,6 @@ const CustomTax = (props) => {
                   value={values.dampingOrani}
                   onChange={handleChange}
                   type="number"
-                  disabled={isEdit}
                   error={touched.dampingOrani && errors.dampingOrani}
                 >
                   Damping Oranı
@@ -207,7 +204,6 @@ const CustomTax = (props) => {
                 name={"otvOrani"}
                 value={values.otvOrani}
                 onChange={handleChange}
-                disabled={isEdit}
                 type="number"
                 error={touched.otvOrani && errors.otvOrani}
               >
@@ -218,7 +214,6 @@ const CustomTax = (props) => {
                 name={"kdvOrani"}
                 value={values.kdvOrani}
                 onChange={handleChange}
-                disabled={isEdit}
                 type="number"
                 error={touched.kdvOrani && errors.kdvOrani}
               >
@@ -230,7 +225,6 @@ const CustomTax = (props) => {
                 name={"tarexIsteniyorMu"}
                 value={values.tarexIsteniyorMu}
                 onChange={handleChange}
-                disabled={isEdit}
                 data={[
                   { ad: "Evet", id: "true" },
                   { ad: "Hayır", id: "false" },
@@ -244,7 +238,6 @@ const CustomTax = (props) => {
                 name={"tarimIsteniyorMu"}
                 value={values.tarimIsteniyorMu}
                 onChange={handleChange}
-                disabled={isEdit}
                 data={[
                   { ad: "Evet", id: "true" },
                   { ad: "Hayır", id: "false" },
@@ -258,7 +251,6 @@ const CustomTax = (props) => {
                 name={"ihtisasGumruguVarMi"}
                 value={values.ihtisasGumruguVarMi}
                 onChange={handleChange}
-                disabled={isEdit}
                 error={
                   touched.ihtisasGumruguVarMi && errors.ihtisasGumruguVarMi
                 }
@@ -278,4 +270,4 @@ const CustomTax = (props) => {
   );
 };
 
-export default CustomTax;
+export default NewCustom;

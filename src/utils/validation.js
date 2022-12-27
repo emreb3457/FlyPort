@@ -192,3 +192,23 @@ export const newLogistics = yup.object().shape({
   dovizCinsiId: yup.number().required("Zorunlu alan."),
   gecerlilikTarihi: yup.string().required("Zorunlu alan."),
 });
+
+export const newCustom = yup.object().shape({
+  menseiUlkeId: yup.number().required("Zorunlu alan."),
+  cikisUlkeId: yup.number().required("Zorunlu alan."),
+  varisUlkeId: yup.number().required("Zorunlu alan."),
+  gTipNo: yup.string().required("Zorunlu alan."),
+  gTipNoAciklama: yup.string().required("Zorunlu alan."),
+  gozetimTuru: yup.string().required("Zorunlu alan."),
+  kgGozetimOrani: yup.number().required("Zorunlu alan."),
+  gumrukVergisiOrani: yup.number().required("Zorunlu alan."),
+  igvOrani: yup.number().required("Zorunlu alan."),
+  dampingTuru: yup.string().required("Zorunlu alan."),
+  dampingOrani: yup.number().required("Zorunlu alan."),
+  otvOrani: yup.number().required("Zorunlu alan."),
+  kdvOrani: yup.number().required("Zorunlu alan."),
+  tarexIsteniyorMu: yup.string().required("Zorunlu alan."),
+  tarimIsteniyorMu: yup.string().required("Zorunlu alan."),
+  ihtisasGumruguVarMi: yup.string().required("Zorunlu alan."),
+  teklifId: yup.number().required("Zorunlu alan."),
+});

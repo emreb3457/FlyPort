@@ -54,6 +54,7 @@ const ImageComp = ({ images, onImageChange, disabled, ...props }) => {
       <input
         id="file-input"
         type="file"
+        multiple
         onChange={onImageChange}
         style={{ display: "none" }}
       />

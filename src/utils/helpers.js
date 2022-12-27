@@ -73,3 +73,8 @@ export const formatDate = (date) => {
   const formatDate = newDate.toISOString().split("T")[0];
   return formatDate;
 };
+
+export const stringToBoolean = (string) => {
+  const isTrueSet = string === "true";
+  return isTrueSet;
+};

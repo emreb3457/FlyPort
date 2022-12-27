@@ -15,13 +15,14 @@ import {
   getTransportTable,
 } from "../../api/DefinitionsApi";
 import { useState } from "react";
-import { useLocation, useNavigate } from "react-router-dom";
+import { useLocation, useNavigate, useParams } from "react-router-dom";
 import { routes } from "../../constants/routes";
 import { logisticsInsert } from "../../api/api";
 
 const NewLogistics = () => {
   const navigate = useNavigate();
   const location = useLocation();
+  const { id } = useParams();
   const [submitLoading, setSubmitLoading] = useState(false);
   const [page, setPage] = useState(0);
   const [limit, setLimit] = useState(999);
@@ -190,7 +191,7 @@ const NewLogistics = () => {
                 onChange={setFieldValue}
                 error={touched.dovizCinsiId && errors.dovizCinsiId}
               >
-                Döviz Miktarı
+                Döviz Cinsi
               </SelectInput>
               <DateInput
                 name="gecerlilikTarihi"

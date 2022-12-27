@@ -55,6 +55,9 @@ import NewLogistics from './pages/Logistics/NewLogistics';
 import TransportType from './pages/tanimlamalar/TransportType';
 import GtipList from './pages/Gtip/GtipList';
 import NewGtip from './pages/Gtip/NewGtip';
+import NewCustom from './pages/Customs/NewCustom';
+import Customs from './pages/Customs/Customs';
+import CustomDetail from './pages/Customs/CustomDetail';
 
 const App = () => {
   return (
@@ -72,7 +75,7 @@ const App = () => {
             <Route path="/talepler/alternatifler/:id" element={<ProtectedRoute><AlternativeDetail/></ProtectedRoute>} exact />
             <Route path="/talepler/alternatifler/guncelle" element={<ProtectedRoute><UpdateAlternative/></ProtectedRoute>} exact />
 
-            <Route path="/gorevler/:id" element={<ProtectedRoute><PriceResearch/></ProtectedRoute>} exact />
+            <Route path="/gorevler/:id" element={<ProtectedRoute><>Doldurulacak</></ProtectedRoute>} exact />
             <Route path="/gorevler/:id/fiyatarastirma" element={<ProtectedRoute><PriceResearch/></ProtectedRoute>} exact />
             <Route path="/gorevler/:id/fiyatarastirma/:detayId" element={<ProtectedRoute><PriceResearchDetail/></ProtectedRoute>} exact />
             <Route path="/gorevler/:id/fiyatarastirma/yeni" element={<ProtectedRoute><NewPriceResearch/></ProtectedRoute>} exact />
@@ -81,10 +84,13 @@ const App = () => {
             <Route path="/gorevler/:id/lojistik/:detayId" element={<ProtectedRoute><LogisticsDetail/></ProtectedRoute>} exact />
             <Route path="/gorevler/:id/lojistik/yeni" element={<ProtectedRoute><NewLogistics/></ProtectedRoute>} exact />
 
+            <Route path="/gorevler/:id/gumrukleme" element={<ProtectedRoute><Customs/></ProtectedRoute>} exact />
+            <Route path="/gorevler/:id/gumrukleme/yeni" element={<ProtectedRoute><NewCustom/></ProtectedRoute>} exact />
+            <Route path="/gorevler/:id/gumrukleme/:detayId" element={<ProtectedRoute><CustomDetail/></ProtectedRoute>} exact />
+
             <Route path="/firmalar" element={<ProtectedRoute><Company/></ProtectedRoute>} exact />
             <Route path="/firmalar/yeni" element={<ProtectedRoute><NewCompany/></ProtectedRoute>} exact />
             <Route path="/firmalar/:id" element={<ProtectedRoute><CompanyDetail/></ProtectedRoute>} exact />
-
             
             <Route path="/urunler" element={<ProtectedRoute><ProductList/></ProtectedRoute>} exact />
             <Route path="/urunler/yeni" element={<ProtectedRoute><NewProduct/></ProtectedRoute>} exact />

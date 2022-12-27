@@ -193,7 +193,7 @@ const LogisticsDetail = () => {
                 onChange={setFieldValue}
                 error={touched.dovizCinsiId && errors.dovizCinsiId}
               >
-                Döviz Miktarı
+                Döviz Cinsi
               </SelectInput>
               <DateInput
                 name="gecerlilikTarihi"

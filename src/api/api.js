@@ -324,3 +324,37 @@ export const gtipRemove = async (_, id) => {
 };
 
 ///////////////////////////////////////////////////////////////////////
+
+export const getCustomTable = async (_, id) => {
+  return DevExtremeCreateStore("/TeklifGumruk/BirlesmisTablo?teklifId=" + id);
+};
+
+export const getCustomList = async (_) => {
+  return await instance
+    .get("/TeklifGumruk/SayfaliListele")
+    .then((res) => res.data);
+};
+
+export const getCustomDetail = async (_, id) => {
+  return await instance.get("/TeklifGumruk/Bul/" + id).then((res) => res.data);
+};
+
+export const customInsert = async (_, body) => {
+  return await instance
+    .post("/TeklifGumruk/Ekle", body)
+    .then((res) => res.data);
+};
+
+export const customUpdate = async (_, body) => {
+  return await instance
+    .post("/TeklifGumruk/Guncelle", body)
+    .then((res) => res.data);
+};
+
+export const customRemove = async (_, id) => {
+  return await instance
+    .get("/TeklifGumruk/Sil?id=" + id)
+    .then((res) => res.data);
+};
+
+////////////////////////////////////////
