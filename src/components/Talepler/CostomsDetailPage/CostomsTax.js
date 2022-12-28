@@ -35,6 +35,7 @@ const CustomTax = (props) => {
     if (state) {
       return {
         ...state,
+        teklifId: id,
       };
     } else {
       return { ...data };
@@ -61,7 +62,7 @@ const CustomTax = (props) => {
     ["getCountryTable", page, limit],
     getCountryTable
   );
-
+ 
   const newCustomSubmit = async ({ values }) => {
     setSubmitLoading(true);
     const { status } = await sendRequest(

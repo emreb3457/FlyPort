@@ -56,7 +56,7 @@ const LogisticsTable = () => {
     },
     {
       title: "USD Tutarı",
-      column: "",
+      column: "usdTutari",
     },
   ];
 

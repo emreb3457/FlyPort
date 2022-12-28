@@ -35,21 +35,22 @@ const Tabs = [
 ];
 
 const CustomDetail = () => {
-  const { detailId, id } = useParams();
+  const { detayId, id } = useParams();
   const navigate = useNavigate();
   const [activeTab, setActiveTab] = useState(Tabs[0]);
   const [selectFunction, setSelectFunction] = useState({});
 
-  // useEffect(() => {
-  //   !detailId && navigate(-1);
-  // }, []);
-
   const { data: customDetail, error } = useSWR(
-    ["getCustomDetail", id],
+    ["getCustomDetail", detayId],
     getCustomDetail
   );
-
+  
   useEffect(() => {}, [selectFunction]);
+
+  useEffect(() => {
+    if (!detayId || error) navigate(-1);
+  }, []);
+
   const loading = !customDetail && !error;
   return loading ? (
     <SkeletonComp />

@@ -42,9 +42,7 @@ export const getDemand = async (_, id) => {
     .then((res) => res.data);
 };
 export const getDemandInsert = async (_, body) => {
-  return await instance
-    .post("/Talep/SayfaKaydet", body)
-    .then((res) => res.data);
+  return await instance.post("/Talep/UrunKaydet", body).then((res) => res.data);
 };
 
 export const getDemandRemove = async (_, id) => {
@@ -261,7 +259,9 @@ export const shippingRemove = async (_, id) => {
 ////////////////////////////////////////////////////////////////////////Company Official
 
 export const getLogisticsTable = async (_, id) => {
-  return DevExtremeCreateStore("/TeklifMaliyet/BirlesmisTablo?teklifId=" + id);
+  return DevExtremeCreateStore(
+    "/TeklifMaliyet/BirlesmisTablo?teklifurunid=" + id
+  );
 };
 
 export const getLogisticList = async (_) => {
@@ -326,7 +326,9 @@ export const gtipRemove = async (_, id) => {
 ///////////////////////////////////////////////////////////////////////
 
 export const getCustomTable = async (_, id) => {
-  return DevExtremeCreateStore("/TeklifGumruk/BirlesmisTablo?teklifId=" + id);
+  return DevExtremeCreateStore(
+    "/TeklifGumruk/BirlesmisTablo?teklifurunid=" + id
+  );
 };
 
 export const getCustomList = async (_) => {
@@ -354,6 +356,44 @@ export const customUpdate = async (_, body) => {
 export const customRemove = async (_, id) => {
   return await instance
     .get("/TeklifGumruk/Sil?id=" + id)
+    .then((res) => res.data);
+};
+
+////////////////////////////////////////
+
+///////////////////////////////////////////////////////////////////////
+
+export const getCustomCifTable = async (_, id) => {
+  return DevExtremeCreateStore(
+    "/TeklifCifMaliyet/BirlesmisTablo?teklifurunid=" + id
+  );
+};
+
+export const getCustomCifList = async (_) => {
+  return await instance
+    .get("/TeklifCifMaliyet/SayfaliListele")
+    .then((res) => res.data);
+};
+
+export const getCustomCifDetail = async (_, id) => {
+  return await instance.get("/TeklifCifMaliyet/Bul/" + id).then((res) => res.data);
+};
+
+export const customCifInsert = async (_, body) => {
+  return await instance
+    .post("/TeklifCifMaliyet/Ekle", body)
+    .then((res) => res.data);
+};
+
+export const customCifUpdate = async (_, body) => {
+  return await instance
+    .post("/TeklifCifMaliyet/Guncelle", body)
+    .then((res) => res.data);
+};
+
+export const customCifRemove = async (_, id) => {
+  return await instance
+    .get("/TeklifCifMaliyet/Sil?id=" + id)
     .then((res) => res.data);
 };
 

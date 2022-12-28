@@ -1,43 +1,347 @@
+import { Box, Text } from "@chakra-ui/react";
+import { useFormik } from "formik";
+import BreadCrumb from "../../../components/BreadCrumb/BreadCrumb";
+import {
+  TextInput,
+  SelectInput,
+  DefaultSelect,
+} from "../../../components/Inputs/CustomInputs";
+import { sendRequest, stringToBoolean } from "../../../utils/helpers";
+import useSWR from "swr";
+import { getCountryTable } from "../../../api/DefinitionsApi";
+import { useEffect, useMemo, useState } from "react";
+import { useLocation, useNavigate, useParams } from "react-router-dom";
+import { routes } from "../../../constants/routes";
+import { customInsert, customUpdate } from "../../../api/api";
+import { getCustomDetail } from "../../../api/api";
+import { newCustom } from "../../../utils/validation";
 
-import { Box, Text } from "@chakra-ui/react"
-import { SelectInput, TextInput } from "../../Inputs/CustomInputs"
+const Cif = (props) => {
+  const { item, setFunctions } = props;
+  const navigate = useNavigate();
+  const { state } = useLocation();
+  const [submitLoading, setSubmitLoading] = useState(false);
+  const [page, setPage] = useState("");
+  const [limit, setLimit] = useState(999);
+  const { id, detayId } = useParams();
+  const [isEdit, setIsEdit] = useState(true);
 
-const Cif = () => {
-    return (
-        <Box mt="20px">
-            <Box display={"flex"}>
-                <Box width={{ lg: "25%", "2xl": "20%" }}>
-                    <Text fontSize={"22px"} >Sevkiyat Bilgileri</Text>
-                    <TextInput disabled={true} >Çıkış Ülkesi</TextInput>
-                    <TextInput disabled={true} >Varış Ülkesi</TextInput>
-                    <TextInput disabled={true} >Teslim Şekli</TextInput>
-                    <TextInput disabled={true} >Taşıma Tipi</TextInput>
-                    <Box display={"flex"}>
-                        <TextInput pr="10px" disabled={true} >Ürün Miktarı</TextInput>
-                        <TextInput pl="10px" disabled={true} >Ölçü Birimi</TextInput>
-                    </Box>
-                    <TextInput disabled={true} >Toplam Ağırlık</TextInput>
-                </Box>
-                <Box width={{ lg: "25%", "2xl": "20%" }} ml={{ lg: "80px" }}>
-                    <Text fontSize={"22px"} >Diğer Detaylar</Text>
-                    <TextInput disabled={true} >GTİP NO</TextInput>
-                    <TextInput disabled={true} >Ürün Adı</TextInput>
-                    <TextInput disabled={true} >1. Birim Fiyatı</TextInput>
-                    <TextInput disabled={true} >Tamlam Mal Bedeli</TextInput>
-                    <TextInput disabled={true} >Lojistik Maliyeti</TextInput>
-                    <TextInput disabled={true} >Toplam CIF Maliyet</TextInput>
-                </Box>
-                <Box width={{ lg: "25%", "2xl": "20%" }} ml={{ lg: "80px" }}>
-                    <Text fontSize={"22px"} >Gümrük Vergileri</Text>
-                    <TextInput disabled={true} >Gözetim Tutarı</TextInput>
-                    <TextInput disabled={true} >Gümrük Vergisi Tutarı</TextInput>
-                    <TextInput disabled={true} >IGV Tutarı</TextInput>
-                    <TextInput disabled={true} >ÖTV Tutarı</TextInput>
-                    <TextInput disabled={true} >Damping Tutarı</TextInput>
-                    <TextInput disabled={true} >KDV Tutarı</TextInput>
-                </Box>
+  const { data, error } = useSWR(
+    ["getLogisticsTable", detayId],
+    getCustomDetail
+  );
+
+  const initialData = useMemo(() => {
+    if (state) {
+      return {
+        ...state,
+        teklifId: id,
+      };
+    } else {
+      return { ...data };
+    }
+  }, [data]);
+
+  useEffect(() => {
+    setFunctions({
+      create: !isEdit && { title: "Kaydet", function: handleSubmit },
+      update: { title: "Düzenle", function: () => setIsEdit(false) },
+    });
+  }, [isEdit]);
+
+  const { errors, handleChange, handleSubmit, values, touched, setFieldValue } =
+    useFormik({
+      initialValues: {
+        teklifUrunId: detayId,
+        menseiUlkeId: "",
+        teslimSekliId: "",
+        tasimaTipiId: "",
+        urunMiktari: "",
+        olcuBirimiId: "",
+        toplamAgirlik: "",
+        gTipNo: "",
+        urunAdi: "",
+        birimFiyat1: "",
+        toplamMalBedeli: "",
+        logisticMaliyeti: "",
+        sigortaBedeli: "",
+        toplamCifMaliyet: "",
+        gozetimTutari: "",
+        gumrukVergisiTutari: "",
+        igvTutari: "",
+        otvTutari: "",
+        dampingTutari: "",
+        kdvTutari: "",
+      },
+      onSubmit: (values, { resetForm }) => {
+        newCustomSubmit({ values });
+      },
+      validationSchema: newCustom,
+    });
+
+  const { data: Country, mutate } = useSWR(
+    ["getCountryTable", page, limit],
+    getCountryTable
+  );
+
+  const newCustomSubmit = async ({ values }) => {
+    setSubmitLoading(true);
+    const { status } = await sendRequest(
+      customUpdate("", {
+        ...values,
+        id: detayId,
+      })
+    );
+    if (status) {
+      setSubmitLoading(false);
+      navigate(-1);
+    }
+    setSubmitLoading(false);
+  };
+  return (
+    <Box>
+      <Box px="50px" mt="40px">
+        <form onSubmit={handleSubmit}>
+          <Box display={["block", "block", "block", "flex"]} mt="20px">
+            <Box width={{ lg: "35%", "2xl": "30%" }}>
+              <Text fontSize={"22px"}>Sevkiyat Bilgileri</Text>
+              <SelectInput
+                name={"cikisUlkeId"}
+                value={values.cikisUlkeId}
+                data={Country}
+                visableValue="adOrjinal"
+                onChange={setFieldValue}
+                disabled={isEdit}
+                error={touched.cikisUlkeId && errors.cikisUlkeId}
+              >
+                Çıkış Ülkesi
+              </SelectInput>
+              <SelectInput
+                name={"cikisUlkeId"}
+                value={values.cikisUlkeId}
+                data={Country}
+                visableValue="adOrjinal"
+                onChange={setFieldValue}
+                disabled={isEdit}
+                error={touched.cikisUlkeId && errors.cikisUlkeId}
+              >
+                Varış Ülkesi
+              </SelectInput>
+              <SelectInput
+                name={"teslimSekliId"}
+                value={values.teslimSekliId}
+                data={Country}
+                visableValue="adOrjinal"
+                onChange={setFieldValue}
+                disabled={isEdit}
+                error={touched.teslimSekliId && errors.teslimSekliId}
+              >
+                Teslim Ülkesi
+              </SelectInput>
+              <SelectInput
+                name={"tasimaTipiId"}
+                value={values.tasimaTipiId}
+                data={Country}
+                visableValue="adOrjinal"
+                onChange={setFieldValue}
+                disabled={isEdit}
+                error={touched.tasimaTipiId && errors.tasimaTipiId}
+              >
+                Taşıma Tipi
+              </SelectInput>
+              <Box display={"flex"} alignItems="end">
+                <TextInput
+                  pr="10px"
+                  name={"urunMiktari"}
+                  value={values.urunMiktari}
+                  onChange={handleChange}
+                  disabled={isEdit}
+                  type="number"
+                  error={touched.urunMiktari && errors.urunMiktari}
+                >
+                  Ürün Miktarı
+                </TextInput>
+                <TextInput
+                  pr="10px"
+                  name={"olcuBirimiId"}
+                  value={values.olcuBirimiId}
+                  onChange={handleChange}
+                  type="number"
+                  disabled={isEdit}
+                  error={touched.olcuBirimiId && errors.olcuBirimiId}
+                >
+                  Ölçü Birimi
+                </TextInput>
+              </Box>
+              <TextInput
+                pr="10px"
+                name={"toplamAgirlik"}
+                value={values.toplamAgirlik}
+                onChange={handleChange}
+                disabled={isEdit}
+                error={touched.toplamAgirlik && errors.toplamAgirlik}
+              >
+                Toplam Ağırlık
+              </TextInput>
             </Box>
-        </Box>
-    )
-}
-export default Cif
+            <Box width={{ lg: "35%", "2xl": "30%" }} ml="17px">
+              <Text fontSize={"22px"}>Diğer Detaylar</Text>
+              <TextInput
+                pr="10px"
+                name={"gTipNo"}
+                value={values.gTipNo}
+                onChange={handleChange}
+                disabled={isEdit}
+                error={touched.gTipNo && errors.gTipNo}
+              >
+                GTİP NO
+              </TextInput>
+              <TextInput
+                pr="10px"
+                name={"urunAdi"}
+                value={values.urunAdi}
+                onChange={handleChange}
+                disabled={isEdit}
+                error={touched.urunAdi && errors.urunAdi}
+              >
+                Ürün Adı
+              </TextInput>
+              <TextInput
+                pr="10px"
+                name={"birimFiyat1"}
+                value={values.birimFiyat1}
+                onChange={handleChange}
+                disabled={isEdit}
+                type="number"
+                error={touched.birimFiyat1 && errors.birimFiyat1}
+              >
+                1 Birim Fiyatı
+              </TextInput>
+              <TextInput
+                pr="10px"
+                name={"toplamMalBedeli"}
+                value={values.toplamMalBedeli}
+                onChange={handleChange}
+                disabled={isEdit}
+                type="number"
+                error={touched.toplamMalBedeli && errors.toplamMalBedeli}
+              >
+                Toplam Mal Bedeli
+              </TextInput>
+              <TextInput
+                pr="10px"
+                name={"logisticMaliyeti"}
+                value={values.logisticMaliyeti}
+                onChange={handleChange}
+                disabled={isEdit}
+                error={touched.logisticMaliyeti && errors.logisticMaliyeti}
+              >
+                Lojistik Maliyeti
+              </TextInput>
+              <TextInput
+                pr="10px"
+                name={"sigortaBedeli"}
+                value={values.sigortaBedeli}
+                onChange={handleChange}
+                type="number"
+                disabled={isEdit}
+                error={touched.sigortaBedeli && errors.sigortaBedeli}
+              >
+                Sigorta Bedeli
+              </TextInput>
+              <TextInput
+                pr="10px"
+                name={"toplamCifMaliyet"}
+                value={values.toplamCifMaliyet}
+                onChange={handleChange}
+                disabled={isEdit}
+                type="number"
+                error={touched.toplamCifMaliyet && errors.toplamCifMaliyet}
+              >
+                Toplam CIF Maliyet
+              </TextInput>
+            </Box>
+            <Box width={{ lg: "35%", "2xl": "30%" }} ml="17px">
+              <Text fontSize={"22px"}>Gümrük Vergileri</Text>
+              <TextInput
+                pr="10px"
+                name={"gozetimTutari"}
+                value={values.gozetimTutari}
+                onChange={handleChange}
+                disabled={isEdit}
+                type="number"
+                error={touched.gozetimTutari && errors.gozetimTutari}
+              >
+                Gözetim Tutarı
+              </TextInput>
+              <TextInput
+                pr="10px"
+                name={"gumrukVergisiTutari"}
+                value={values.gumrukVergisiTutari}
+                onChange={handleChange}
+                disabled={isEdit}
+                type="number"
+                error={
+                  touched.gumrukVergisiTutari && errors.gumrukVergisiTutari
+                }
+              >
+                Gümrük Vergisi Tutarı
+              </TextInput>
+              <TextInput
+                pr="10px"
+                name={"igvTutari"}
+                value={values.igvTutari}
+                onChange={handleChange}
+                disabled={isEdit}
+                type="number"
+                error={touched.igvTutari && errors.igvTutari}
+              >
+                İGV Tutarı
+              </TextInput>
+              <TextInput
+                pr="10px"
+                name={"otvTutari"}
+                value={values.otvTutari}
+                onChange={handleChange}
+                disabled={isEdit}
+                type="number"
+                error={touched.otvTutari && errors.otvTutari}
+              >
+                ÖTV Tutarı
+              </TextInput>
+              <TextInput
+                pr="10px"
+                name={"dampingTutari"}
+                value={values.dampingTutari}
+                onChange={handleChange}
+                disabled={isEdit}
+                type="number"
+                error={touched.dampingTutari && errors.dampingTutari}
+              >
+                Damping Tutarı
+              </TextInput>
+              <TextInput
+                pr="10px"
+                name={"kdvTutari"}
+                value={values.kdvTutari}
+                onChange={handleChange}
+                disabled={isEdit}
+                type="number"
+                error={touched.kdvTutari && errors.kdvTutari}
+              >
+                KDV Tutarı
+              </TextInput>
+            </Box>
+          </Box>
+          <button
+            id="addCustom"
+            type="submit"
+            style={{ visibility: "hidden" }}
+          ></button>
+        </form>
+      </Box>
+    </Box>
+  );
+};
+
+export default Cif;

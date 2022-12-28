@@ -62,7 +62,7 @@ const PriceResearchList = () => {
     },
     {
       title: "Güncel USD",
-      column: "sehir",
+      column: "guncelUSD",
     },
     {
       title: "Geçerlilik Tarihi",

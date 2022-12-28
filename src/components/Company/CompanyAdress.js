@@ -62,10 +62,11 @@ const CompanyAdress = ({ setFunctions, item }) => {
   const [radioValue, setRadioValue] = React.useState({});
   const [submitType, setSubmitType] = React.useState("");
 
-  const { data, mutate, error } = useSWR(
-    ["getCompanyAdress", item?.id],
-    getCompanyAdressTable
-  );
+  const {
+    data: Adress,
+    mutate,
+    error,
+  } = useSWR(["getCompanyAdressTable", item?.id], getCompanyAdressTable);
 
   const { data: AdresTipi } = useSWR(
     ["getAdressTypeTable"],
@@ -106,10 +107,6 @@ const CompanyAdress = ({ setFunctions, item }) => {
     validationSchema: newCompanyAdressValidate,
   });
 
-  const { data: Adress } = useSWR(
-    ["getCompanyAdressTable", item?.id],
-    getCompanyAdressTable
-  );
   const { data: Ulke } = useSWR(["getCountryTable"], getCountryTable);
 
   const { data: Sehir } = useSWR(["getCityTable", values.ulkeId], getCityTable);
@@ -145,7 +142,7 @@ const CompanyAdress = ({ setFunctions, item }) => {
     });
   });
   useEffect(() => {}, [values]);
-  const loading = !error && !data;
+  const loading = !error && !Adress;
   const Head = [
     {
       title: "ID",

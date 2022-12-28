@@ -1,7 +1,11 @@
 import { Box, Select, Text, Textarea } from "@chakra-ui/react";
 import { useFormik } from "formik";
 import BreadCrumb from "../../components/BreadCrumb/BreadCrumb";
-import { TextInput, SelectInput } from "../../components/Inputs/CustomInputs";
+import {
+  TextInput,
+  SelectInput,
+  DefaultSelect,
+} from "../../components/Inputs/CustomInputs";
 import {
   arrayParse,
   arrayStringify,
@@ -176,10 +180,10 @@ const AlternativeNewDemand = () => {
           <ImageComp images={imageURLS} onImageChange={onImageChange} />
 
           <Box width={{ lg: "35%", "2xl": "30%" }} marginLeft="30px">
-            <SelectInput
+            <DefaultSelect
               name={"Islenilen"}
               value={values.Islenilen}
-              onChange={setFieldValue}
+              onChange={handleChange}
               data={[
                 { ad: "Ürün Tedarigi", id: 1 },
                 { ad: "Taşıma", id: 2 },
@@ -189,7 +193,7 @@ const AlternativeNewDemand = () => {
               error={touched.Islenilen && errors.Islenilen}
             >
               İstenen
-            </SelectInput>
+            </DefaultSelect>
             <SelectInput
               name={"NerdenId"}
               value={values.NerdenId}

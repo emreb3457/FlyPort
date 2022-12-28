@@ -26,16 +26,16 @@ const CustomList = () => {
     },
     {
       title: "Menşei Ülkesi",
-      column: "menseiUlkeId",
+      column: "menseiUlke",
     },
     {
       title: "Çıkış Ülkesi",
-      column: "cikisUlkeId",
+      column: "cikisUlke",
     },
 
     {
       title: "Varış Ülkesi",
-      column: "varisUlkeId",
+      column: "varisUlke",
     },
     {
       title: "GTİP NO",
