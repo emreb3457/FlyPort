@@ -210,5 +210,20 @@ export const newCustom = yup.object().shape({
   tarexIsteniyorMu: yup.string().required("Zorunlu alan."),
   tarimIsteniyorMu: yup.string().required("Zorunlu alan."),
   ihtisasGumruguVarMi: yup.string().required("Zorunlu alan."),
-  teklifId: yup.number().required("Zorunlu alan."),
+  teklifUrunId: yup.number().required("Zorunlu alan."),
+});
+
+export const otherCosts = yup.object().shape({
+  teklifUrunId: yup.number().required("Zorunlu alan."),
+  islemYapan: yup.string().required("Zorunlu alan."),
+  tedarikciFirmaId: yup.number().required("Zorunlu alan."),
+  ozelKod: yup.string().required("Zorunlu alan."),
+  giderTipi: yup.string().required("Zorunlu alan."),
+  giderTuru: yup.string().required("Zorunlu alan."),
+  birimFiyat: yup.number().required("Zorunlu alan."),
+  dovizCinsiId: yup.number().required("Zorunlu alan."),
+  kdvOrani: yup.number().required("Zorunlu alan."),
+  kdvDahilTutari: yup.number().required("Zorunlu alan."),
+  toplamMaliyetUSD: yup.number().required("Zorunlu alan."),
+  gecerlilikTarihi: yup.string().required("Zorunlu alan."),
 });

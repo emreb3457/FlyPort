@@ -8,11 +8,22 @@ import {
 } from "../../../components/Inputs/CustomInputs";
 import { sendRequest, stringToBoolean } from "../../../utils/helpers";
 import useSWR from "swr";
-import { getCountryTable } from "../../../api/DefinitionsApi";
+import {
+  getCountryTable,
+  getDelivery,
+  getDeliveryTable,
+  getTransportTable,
+} from "../../../api/DefinitionsApi";
 import { useEffect, useMemo, useState } from "react";
 import { useLocation, useNavigate, useParams } from "react-router-dom";
 import { routes } from "../../../constants/routes";
-import { customInsert, customUpdate } from "../../../api/api";
+import {
+  customCifUpdate,
+  customInsert,
+  customUpdate,
+  getCustomCifDetail,
+  getCustomCifTable,
+} from "../../../api/api";
 import { getCustomDetail } from "../../../api/api";
 import { newCustom } from "../../../utils/validation";
 
@@ -27,21 +38,19 @@ const Cif = (props) => {
   const [isEdit, setIsEdit] = useState(true);
 
   const { data, error } = useSWR(
-    ["getLogisticsTable", detayId],
-    getCustomDetail
+    ["getCustomCifDetail", detayId],
+    getCustomCifDetail
   );
-
   const initialData = useMemo(() => {
-    if (state) {
+    if (data) {
       return {
-        ...state,
-        teklifId: id,
+        ...data,
+        teklifUrunId: Number(id),
       };
-    } else {
-      return { ...data };
     }
+    return {};
   }, [data]);
-
+  console.log(item);
   useEffect(() => {
     setFunctions({
       create: !isEdit && { title: "Kaydet", function: handleSubmit },
@@ -51,51 +60,29 @@ const Cif = (props) => {
 
   const { errors, handleChange, handleSubmit, values, touched, setFieldValue } =
     useFormik({
-      initialValues: {
-        teklifUrunId: detayId,
-        menseiUlkeId: "",
-        teslimSekliId: "",
-        tasimaTipiId: "",
-        urunMiktari: "",
-        olcuBirimiId: "",
-        toplamAgirlik: "",
-        gTipNo: "",
-        urunAdi: "",
-        birimFiyat1: "",
-        toplamMalBedeli: "",
-        logisticMaliyeti: "",
-        sigortaBedeli: "",
-        toplamCifMaliyet: "",
-        gozetimTutari: "",
-        gumrukVergisiTutari: "",
-        igvTutari: "",
-        otvTutari: "",
-        dampingTutari: "",
-        kdvTutari: "",
-      },
+      initialValues: initialData,
+      enableReinitialize: true,
       onSubmit: (values, { resetForm }) => {
         newCustomSubmit({ values });
       },
-      validationSchema: newCustom,
     });
 
   const { data: Country, mutate } = useSWR(
-    ["getCountryTable", page, limit],
+    ["getCountryTable"],
     getCountryTable
   );
+
+  const { data: Delivery } = useSWR(["getDeliveryTable"], getDeliveryTable);
+  const { data: Transport } = useSWR(["getTransportTable"], getTransportTable);
 
   const newCustomSubmit = async ({ values }) => {
     setSubmitLoading(true);
     const { status } = await sendRequest(
-      customUpdate("", {
+      customCifUpdate("", {
         ...values,
-        id: detayId,
+        id: data && Number(data.id),
       })
     );
-    if (status) {
-      setSubmitLoading(false);
-      navigate(-1);
-    }
     setSubmitLoading(false);
   };
   return (
@@ -117,32 +104,32 @@ const Cif = (props) => {
                 Çıkış Ülkesi
               </SelectInput>
               <SelectInput
-                name={"cikisUlkeId"}
+                name={"varisUlkeId"}
                 value={values.cikisUlkeId}
                 data={Country}
                 visableValue="adOrjinal"
                 onChange={setFieldValue}
                 disabled={isEdit}
-                error={touched.cikisUlkeId && errors.cikisUlkeId}
+                error={touched.varisUlkeId && errors.varisUlkeId}
               >
                 Varış Ülkesi
               </SelectInput>
               <SelectInput
                 name={"teslimSekliId"}
                 value={values.teslimSekliId}
-                data={Country}
-                visableValue="adOrjinal"
+                data={Delivery}
+                visableValue="ad"
                 onChange={setFieldValue}
                 disabled={isEdit}
                 error={touched.teslimSekliId && errors.teslimSekliId}
               >
-                Teslim Ülkesi
+                Teslim Şekli
               </SelectInput>
               <SelectInput
                 name={"tasimaTipiId"}
                 value={values.tasimaTipiId}
-                data={Country}
-                visableValue="adOrjinal"
+                data={Transport}
+                visableValue="ad"
                 onChange={setFieldValue}
                 disabled={isEdit}
                 error={touched.tasimaTipiId && errors.tasimaTipiId}
@@ -166,8 +153,8 @@ const Cif = (props) => {
                   name={"olcuBirimiId"}
                   value={values.olcuBirimiId}
                   onChange={handleChange}
-                  type="number"
                   disabled={isEdit}
+                  type={"number"}
                   error={touched.olcuBirimiId && errors.olcuBirimiId}
                 >
                   Ölçü Birimi

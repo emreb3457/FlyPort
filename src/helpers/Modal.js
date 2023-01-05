@@ -9,7 +9,7 @@ import {
   ModalBody,
 } from "@chakra-ui/react";
 import React, { useMemo, useRef } from "react";
-const BasicModal = ({ click, title, component }) => {
+const BasicModal = ({ click, title, component, size }) => {
   const { isOpen, onClose, onOpen } = useDisclosure();
   const btnref = useRef();
 
@@ -25,7 +25,7 @@ const BasicModal = ({ click, title, component }) => {
         ref={btnref}
         onClick={() => onOpen()}
       ></Button>
-      <Modal isOpen={isOpen} onClose={onClose}>
+      <Modal isOpen={isOpen} onClose={onClose} size={size}>
         <ModalOverlay />
         <ModalContent>
           <ModalHeader>{title}</ModalHeader>

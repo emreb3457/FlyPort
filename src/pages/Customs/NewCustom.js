@@ -24,7 +24,7 @@ const NewCustom = () => {
   const { errors, handleChange, handleSubmit, values, touched, setFieldValue } =
     useFormik({
       initialValues: {
-        teklifId: id,
+        teklifUrunId: id,
         menseiUlkeId: "",
         cikisUlkeId: "",
         varisUlkeId: "",

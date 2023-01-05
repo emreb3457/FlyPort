@@ -181,11 +181,11 @@ export const DemandMenu = (id) => {
     },
     {
       title: "Maliyetler",
-      route: "maliyetler",
+      route: `maliyetler/${id}`,
     },
     {
       title: "Teklif",
-      route: "teklif",
+      route: `teklif/${id}`,
     },
   ];
 

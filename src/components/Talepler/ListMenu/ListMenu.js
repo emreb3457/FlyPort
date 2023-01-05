@@ -7,6 +7,8 @@ const ListMenu = ({ children }) => {
   const MenuNames = {
     Home: "home",
     Demand: "demand",
+    Cost: "cost",
+    Offer: "offer",
   };
 
   const [tab, setTab] = useState();
@@ -19,13 +21,20 @@ const ListMenu = ({ children }) => {
   const [selectMenu, setMenuItems] = useState(MenuNames.Home);
   const location = useLocation();
   useMemo(() => {
-    location.pathname.split("/").includes("gorevler")
-      ? setMenuItems(MenuNames.Demand)
-      : setMenuItems("");
+    location.pathname.split("/").includes("gorevler") &&
+      setMenuItems(MenuNames.Demand);
+    location.pathname.split("/").includes("maliyetler") &&
+      setMenuItems(MenuNames.Cost);
+    location.pathname.split("/").includes("teklif") &&
+      setMenuItems(MenuNames.Offer);
   }, [location.pathname]);
 
   const visableMenuItems = useMemo(() => {
     switch (selectMenu) {
+      case MenuNames.Offer:
+        return DemandMenu(location?.state || location.pathname.split("/")[2]);
+      case MenuNames.Cost:
+        return DemandMenu(location?.state || location.pathname.split("/")[2]);
       case MenuNames.Demand:
         return DemandMenu(location?.state || location.pathname.split("/")[2]);
 

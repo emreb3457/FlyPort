@@ -365,7 +365,7 @@ export const customRemove = async (_, id) => {
 
 export const getCustomCifTable = async (_, id) => {
   return DevExtremeCreateStore(
-    "/TeklifCifMaliyet/BirlesmisTablo?teklifurunid=" + id
+    "/TeklifCifMaliyet/BirlesmisTablo?teklifUrunId=" + id
   );
 };
 
@@ -376,7 +376,9 @@ export const getCustomCifList = async (_) => {
 };
 
 export const getCustomCifDetail = async (_, id) => {
-  return await instance.get("/TeklifCifMaliyet/Bul/" + id).then((res) => res.data);
+  return await instance
+    .get("/TeklifCifMaliyet/BulByGumrukId/" + id)
+    .then((res) => res.data);
 };
 
 export const customCifInsert = async (_, body) => {
@@ -394,6 +396,46 @@ export const customCifUpdate = async (_, body) => {
 export const customCifRemove = async (_, id) => {
   return await instance
     .get("/TeklifCifMaliyet/Sil?id=" + id)
+    .then((res) => res.data);
+};
+
+////////////////////////////////////////
+
+///////////////////////////////////////////////////////////////////////
+
+export const otherCostsTable = async (_, id) => {
+  return DevExtremeCreateStore(
+    "/TeklifDigerMaliyetler/BirlesmisTablo?teklifUrunId=" + id
+  );
+};
+
+export const otherCostsList = async (_) => {
+  return await instance
+    .get("/TeklifDigerMaliyetler/SayfaliListele")
+    .then((res) => res.data);
+};
+
+export const otherCostsDetail = async (_, id) => {
+  return await instance
+    .get("/TeklifDigerMaliyetler/Bul/" + id)
+    .then((res) => res.data);
+};
+
+export const otherCostsInsert = async (_, body) => {
+  return await instance
+    .post("/TeklifDigerMaliyetler/Ekle", body)
+    .then((res) => res.data);
+};
+
+export const otherCostsUpdate = async (_, body) => {
+  return await instance
+    .post("/TeklifDigerMaliyetler/Guncelle", body)
+    .then((res) => res.data);
+};
+
+export const otherCostsRemove = async (_, id) => {
+  return await instance
+    .get("/TeklifDigerMaliyetler/Sil?id=" + id)
     .then((res) => res.data);
 };
 

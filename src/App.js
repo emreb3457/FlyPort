@@ -58,6 +58,7 @@ import NewGtip from './pages/Gtip/NewGtip';
 import NewCustom from './pages/Customs/NewCustom';
 import Customs from './pages/Customs/Customs';
 import CustomDetail from './pages/Customs/CustomDetail';
+import OtherCosts from './pages/OtherCosts/OtherCosts';
 
 const App = () => {
   return (
@@ -88,6 +89,8 @@ const App = () => {
             <Route path="/gorevler/:id/gumrukleme/yeni" element={<ProtectedRoute><NewCustom/></ProtectedRoute>} exact />
             <Route path="/gorevler/:id/gumrukleme/:detayId" element={<ProtectedRoute><CustomDetail/></ProtectedRoute>} exact />
 
+            <Route path="/maliyetler/:id" element={<ProtectedRoute><OtherCosts /></ProtectedRoute>} exact />
+
             <Route path="/firmalar" element={<ProtectedRoute><Company/></ProtectedRoute>} exact />
             <Route path="/firmalar/yeni" element={<ProtectedRoute><NewCompany/></ProtectedRoute>} exact />
             <Route path="/firmalar/:id" element={<ProtectedRoute><CompanyDetail/></ProtectedRoute>} exact />
@@ -96,6 +99,8 @@ const App = () => {
             <Route path="/urunler/yeni" element={<ProtectedRoute><NewProduct/></ProtectedRoute>} exact />
             <Route path="/urunler/guncelle" element={<ProtectedRoute><UpdateProduct/></ProtectedRoute>} exact />
             <Route path="/urunler/:id" element={<ProtectedRoute><ProductDetail/></ProtectedRoute>} exact />
+
+          
 
             <Route path="/:id/:id/:id/urunlistesi" element={<ProtectedRoute><ProductList /></ProtectedRoute>} exact />
             <Route path="/:id/:id/:id/urunlistesi/:id" element={<ProtectedRoute><ProductDetail /></ProtectedRoute>} exact />
