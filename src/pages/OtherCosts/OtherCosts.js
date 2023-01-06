@@ -311,7 +311,7 @@ const OtherCostsList = () => {
           },
         }}
       >
-        Şehirler
+        Diğer Maliyet
       </BreadCrumb>
       <Box mt="20px" px={"38px"}>
         <ListTable
@@ -326,7 +326,7 @@ const OtherCostsList = () => {
       <BasicModal
         size={"6xl"}
         click={isClick}
-        title={submitType === "create" ? "Yeni Şehir" : "Güncelle"}
+        title={submitType === "create" ? "Yeni Maliyet" : "Güncelle"}
         formik={{ handleChange, handleSubmit, values }}
         component={NewOtherCostsComp({
           handleChange,
