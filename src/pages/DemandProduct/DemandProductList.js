@@ -83,6 +83,7 @@ const DemandList = () => {
   ) : (
     <Box>
       <BreadCrumb
+        selectValue={radioValue}
         funct1={{
           title: "Yeni Ekle",
           function: () => {
@@ -104,7 +105,8 @@ const DemandList = () => {
         Talepler
       </BreadCrumb>
       <Box mt="20px" px={"38px"}>
-        <ListTable id="DemandList"
+        <ListTable
+          id="DemandList"
           head={Head}
           row={data}
           radioValue={radioValue}

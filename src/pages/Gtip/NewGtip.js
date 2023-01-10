@@ -82,7 +82,7 @@ const NewGtip = () => {
     }
     setSubmitLoading(false);
   };
-  
+
   return (
     <Box>
       <BreadCrumb

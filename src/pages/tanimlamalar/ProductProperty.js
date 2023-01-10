@@ -27,7 +27,7 @@ const ProductProperty = () => {
     ["getProductProperty", page],
     getProductPropertyTable
   );
-  
+
   const { errors, handleChange, handleSubmit, values, touched, setValues } =
     useFormik({
       initialValues: {
@@ -121,6 +121,7 @@ const ProductProperty = () => {
   ) : (
     <Box>
       <BreadCrumb
+        selectValue={radioValue}
         funct1={{
           title: "Yeni Ekle",
           function: () => {

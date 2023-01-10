@@ -121,7 +121,7 @@ const NewDemand = () => {
     );
     setImageURLs(newImageUrls);
   }, [values.UrunResimleri]);
-  
+
   const newDemondSubmit = async ({ values }) => {
     setSubmitLoading(true);
     const formData = new FormData();

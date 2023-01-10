@@ -78,6 +78,7 @@ const CompanyList = () => {
   ) : (
     <Box>
       <BreadCrumb
+        selectValue={radioValue}
         funct1={{
           title: "Yeni Ekle",
           function: () => {

@@ -44,7 +44,7 @@ const CustomDetail = () => {
     ["getCustomDetail", detayId],
     getCustomDetail
   );
-  
+
   useEffect(() => {}, [selectFunction]);
 
   useEffect(() => {

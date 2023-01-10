@@ -1,4 +1,5 @@
 import { Box, Text, Button } from "@chakra-ui/react";
+import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import AlertModal from "../../helpers/AlertModal";
 import colors from "../../theme/colors";
@@ -10,9 +11,14 @@ const BreadCrumb = ({
   funct2,
   funct3,
   loading,
+  selectValue,
   ...props
 }) => {
   const navigate = useNavigate();
+  const [visible, setVisible] = useState(false);
+  useEffect(() => {
+    Object.keys(selectValue).length > 0 && setVisible(true);
+  }, [selectValue]);
   return (
     <Box
       display="flex"
@@ -52,12 +58,12 @@ const BreadCrumb = ({
             {funct1?.title}
           </StyledButton>
         )}
-        {funct2 && (
+        {visible && funct2 && (
           <StyledButton loading={loading} funct={funct2?.function}>
             {funct2?.title}
           </StyledButton>
         )}
-        {funct3 && <AlertModal removeFunction={funct3.function} />}
+        {visible && funct3 && <AlertModal removeFunction={funct3.function} />}
       </Box>
     </Box>
   );

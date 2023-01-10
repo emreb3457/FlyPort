@@ -57,7 +57,6 @@ const ProductList = () => {
       title: "GTip No",
       column: "gtipNo",
     },
-   
   ];
 
   const removeProduct = async ({ radioValue, mutate }) => {
@@ -74,6 +73,7 @@ const ProductList = () => {
   ) : (
     <Box>
       <BreadCrumb
+        selectValue={radioValue}
         funct1={{
           title: "Yeni Ekle",
           function: () => {

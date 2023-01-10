@@ -84,7 +84,7 @@ const NewDemand = () => {
     }
     setSubmitLoading(false);
   };
-  
+
   return (
     <Box>
       <BreadCrumb

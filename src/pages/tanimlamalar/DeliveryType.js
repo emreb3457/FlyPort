@@ -122,6 +122,7 @@ const DeliveryType = () => {
   ) : (
     <Box>
       <BreadCrumb
+        selectValue={radioValue}
         funct1={{
           title: "Yeni Ekle",
           function: () => {
@@ -148,7 +149,8 @@ const DeliveryType = () => {
         Teslimat Tipi
       </BreadCrumb>
       <Box mt="20px" px={"38px"}>
-        <ListTable id="DeliveryType"
+        <ListTable
+          id="DeliveryType"
           head={Head}
           row={data}
           radioValue={radioValue}

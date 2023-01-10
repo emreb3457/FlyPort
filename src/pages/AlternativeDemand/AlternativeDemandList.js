@@ -71,6 +71,7 @@ const AlternativeDemandList = () => {
   ) : (
     <Box>
       <BreadCrumb
+        selectValue={radioValue}
         funct1={{
           title: "Detay",
           function: () => {
