@@ -77,7 +77,7 @@ const ListMenuItem =
         
         return (
             <Fragment>
-                <Box bg={colors.darkblue} {...props}>
+                <Box h={"100vh"} bg={colors.darkblue} {...props}>
                     <ul style={{ marginTop: "50px" }}>
                         {items.map((menu, index) => {
                             return (

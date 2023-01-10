@@ -17,7 +17,12 @@ const BreadCrumb = ({
   const navigate = useNavigate();
   const [visible, setVisible] = useState(false);
   useEffect(() => {
-    Object.keys(selectValue).length > 0 && setVisible(true);
+    if (
+      (selectValue && Object.keys(selectValue)?.length > 0) ||
+      typeof selectValue !== "object"
+    ) {
+      setVisible(true);
+    }
   }, [selectValue]);
   return (
     <Box
