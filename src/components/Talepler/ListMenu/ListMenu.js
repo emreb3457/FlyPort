@@ -21,12 +21,15 @@ const ListMenu = ({ children }) => {
   const [selectMenu, setMenuItems] = useState(MenuNames.Home);
   const location = useLocation();
   useMemo(() => {
-    location.pathname.split("/").includes("gorevler") &&
+    if (
+      location.pathname.split("/").includes("gorevler") ||
+      location.pathname.split("/").includes("maliyetler") ||
+      location.pathname.split("/").includes("teklif")
+    ) {
       setMenuItems(MenuNames.Demand);
-    location.pathname.split("/").includes("maliyetler") &&
-      setMenuItems(MenuNames.Cost);
-    location.pathname.split("/").includes("teklif") &&
-      setMenuItems(MenuNames.Offer);
+    } else {
+      setMenuItems(null);
+    }
   }, [location.pathname]);
 
   const visableMenuItems = useMemo(() => {

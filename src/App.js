@@ -101,7 +101,7 @@ const App = () => {
             <Route path="/urunler/:id" element={<ProtectedRoute><ProductDetail/></ProtectedRoute>} exact />
 
           
-
+{/* 
             <Route path="/:id/:id/:id/urunlistesi" element={<ProtectedRoute><ProductList /></ProtectedRoute>} exact />
             <Route path="/:id/:id/:id/urunlistesi/:id" element={<ProtectedRoute><ProductDetail /></ProtectedRoute>} exact />
 
@@ -124,7 +124,7 @@ const App = () => {
             <Route path="/:id/:id/:id/urunlistesi/:id/teklifler/:id" element={<ProtectedRoute><OffersDetail /></ProtectedRoute>} exact />
 
             <Route path="/siparisler" element={<ProtectedRoute><Offers2 /></ProtectedRoute>} exact />
-            <Route path="/siparisler/:id" element={<ProtectedRoute><OffersCard /></ProtectedRoute>} exact />
+            <Route path="/siparisler/:id" element={<ProtectedRoute><OffersCard /></ProtectedRoute>} exact /> */}
 
             <Route path="/tanimlamalar/gtip" element={<ProtectedRoute><GtipList/></ProtectedRoute>} exact />
             <Route path="/tanimlamalar/gtip/yeni" element={<ProtectedRoute><NewGtip/></ProtectedRoute>} exact />
