@@ -32,11 +32,11 @@ const AlternativeDetail = () => {
     },
     {
       title: "Keywords",
-      comp: <>d</>,
+      comp: MatchingProduct,
     },
     {
       title: "İstenen Belgeler",
-      comp: <>e</>,
+      comp: MatchingProduct,
     },
   ];
   const [activeTab, setActiveTab] = useState(Tabs[0]);
