@@ -52,7 +52,7 @@ const ListMenu = ({ children }) => {
         {tab5?.title && tab5.title + " >>"}
         {tab6?.title && tab6.title + ">>"}
       </Box>
-      <Box display={"flex"}>
+      <Box height={"100vh"} display={"flex"}>
         <ListMenuItem
           items={visableMenuItems}
           display={location.pathname === "/" ? "none" : "inline-block"}
@@ -66,7 +66,7 @@ const ListMenu = ({ children }) => {
           pr="20px"
           w="100%"
           minW="200px"
-          h="120vh"
+          minH="100vh"
           tab={tab}
           tab2={tab2}
           tab3={tab3}

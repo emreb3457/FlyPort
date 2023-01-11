@@ -111,6 +111,7 @@ const CompanySummary = (props) => {
                 disabled={inputDisabled}
                 name={"Telefon"}
                 value={data?.telefon}
+                type="number"
               >
                 Telefon
               </TextInput>

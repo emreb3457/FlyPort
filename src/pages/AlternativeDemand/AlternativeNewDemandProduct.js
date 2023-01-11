@@ -228,6 +228,7 @@ const AlternativeNewDemand = () => {
               name={"Miktar"}
               value={values.Miktar}
               onChange={handleChange}
+              type="number"
               error={touched.Miktar && errors.Miktar}
             >
               İstenen Miktar
@@ -328,6 +329,7 @@ const AlternativeNewDemand = () => {
               name={"Telefon"}
               value={values.Telefon}
               onChange={handleChange}
+              type="number"
               error={touched.Telefon && errors.Telefon}
             >
               Telefon
