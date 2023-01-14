@@ -178,7 +178,7 @@ export const newPriceResearch = yup.object().shape({
 });
 
 export const newLogistics = yup.object().shape({
-  teklifId: yup.number().required("Zorunlu alan."),
+  teklifUrunId: yup.number().required("Zorunlu alan."),
   tasiyiciFirma: yup.string().required("Zorunlu alan."),
   yetkiliKisi: yup.string().required("Zorunlu alan."),
   teklifAlanKisi: yup.string().required("Zorunlu alan."),

@@ -73,11 +73,15 @@ const NewDemand = () => {
 
   const newDemondSubmit = async ({ values }) => {
     setSubmitLoading(true);
-    const { status } = await sendRequest(
-      getDemandInsert("", {
-        ...values,
-      })
-    );
+    const formData = new FormData();
+    formData.append("musteriId", values.musteriId);
+    formData.append("yetkiliId", values.yetkiliId);
+    formData.append("talepTuru", values.talepTuru);
+    formData.append("istenilenUlkeId", values.istenilenUlkeId);
+    formData.append("varisUlkesiId", values.varisUlkesiId);
+    formData.append("talepTarihi", values.talepTarihi);
+
+    const { status } = await sendRequest(getDemandInsert("", formData));
     if (status) {
       setSubmitLoading(false);
       navigate(routes.talepler);

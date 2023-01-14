@@ -30,7 +30,7 @@ const NewLogistics = () => {
   const { errors, handleChange, handleSubmit, values, touched, setFieldValue } =
     useFormik({
       initialValues: {
-        teklifId: location.state,
+        teklifUrunId: location.state,
         tasiyiciFirma: "",
         yetkiliKisi: "",
         teklifAlanKisi: "",
