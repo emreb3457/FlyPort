@@ -7,6 +7,7 @@ import BreadCrumb from "../../components/BreadCrumb/BreadCrumb";
 import SkeletonComp from "../../components/Skeleton/Skeleton";
 import ImageComp from "../../components/Talepler/ImageComp/ImageComp";
 import DesiredProduct from "../../components/Talepler/ProductDetailPage/DesiredProduct/DesiredProduct";
+import Keywords from "../../components/Talepler/ProductDetailPage/Keywords/Keywords";
 import MatchingProduct from "../../components/Talepler/ProductDetailPage/MatchingProduct/MatchingProduct";
 import { baseApi } from "../../config/config";
 import { routes } from "../../constants/routes";
@@ -32,7 +33,7 @@ const AlternativeDetail = () => {
     },
     {
       title: "Keywords",
-      comp: MatchingProduct,
+      comp: Keywords,
     },
     {
       title: "İstenen Belgeler",

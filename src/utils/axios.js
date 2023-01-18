@@ -17,14 +17,6 @@ instance.interceptors.request.use(async (options) => {
   return options;
 });
 
-instance.interceptors.response.use(
-  (response) => response,
-  (error) => {
-    if (error.response.status === 401) {
-      removeToken();
-      window.location.reload();
-    }
-  }
-);
+instance.interceptors.response.use((response) => response);
 
 export default instance;

@@ -7,6 +7,7 @@ import BreadCrumb from "../../components/BreadCrumb/BreadCrumb";
 import SkeletonComp from "../../components/Skeleton/Skeleton";
 import ImageComp from "../../components/Talepler/ImageComp/ImageComp";
 import DesiredProduct from "../../components/Talepler/ProductDetailPage/DesiredProduct/DesiredProduct";
+import Keywords from "../../components/Talepler/ProductDetailPage/Keywords/Keywords";
 import TechnicialSpecifications from "../../components/Talepler/ProductDetailPage/TechnicialSpecifications/TechnicialSpecifications";
 import { baseApi } from "../../config/config";
 import { routes } from "../../constants/routes";
@@ -28,7 +29,7 @@ const ProductDetail = () => {
     },
     {
       title: "Keywords",
-      comp: <>d</>,
+      comp: Keywords,
     },
     {
       title: "İstenen Belgeler",

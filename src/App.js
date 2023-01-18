@@ -9,20 +9,6 @@ import ProductList from './pages/Products/ProductList';
 import NewProduct from './pages/Products/NewProduct';
 import ListMenu from './components/Talepler/ListMenu/ListMenu';
 import ProductDetail from './pages/Products/ProductDetail';
-import PriceSurveys from './pages/PriceSurveys';
-import PriceSurveysDetail from './pages/PriceSurveysDetail';
-import Logistics from './pages/Logistics';
-import LogisticsAdd from './pages/LogisticsAdd';
-import CustomsList from './pages/CustomsList';
-import CostomsDetail from './pages/CostomsDetail';
-import CostomsAdd from './pages/CostomsAdd';
-import CostList from './pages/CustomsList';
-import CostAdd from './pages/CostAdd';
-import CostDetail from './pages/CostDetail';
-import Offers from './pages/Offers';
-import OffersDetail from './pages/OffersDetail';
-import Offers2 from './pages/Offers2';
-import OffersCard from './pages/OffersCard';
 import DemandList from './pages/Demand/DemandList';
 import CountryList from './pages/tanimlamalar/Country';
 import UnitType from './pages/tanimlamalar/UnitType';
@@ -59,6 +45,8 @@ import NewCustom from './pages/Customs/NewCustom';
 import Customs from './pages/Customs/Customs';
 import CustomDetail from './pages/Customs/CustomDetail';
 import OtherCosts from './pages/OtherCosts/OtherCosts';
+import OffertList from './pages/Offers/OffertList';
+import NewOffer from './pages/Offers/NewOffer';
 
 const App = () => {
   return (
@@ -90,6 +78,9 @@ const App = () => {
             <Route path="/gorevler/:id/gumrukleme/:detayId" element={<ProtectedRoute><CustomDetail/></ProtectedRoute>} exact />
 
             <Route path="/maliyetler/:id" element={<ProtectedRoute><OtherCosts /></ProtectedRoute>} exact />
+
+            <Route path="/teklif/:id" element={<ProtectedRoute><OffertList /></ProtectedRoute>} exact />
+            <Route path="/teklif/:id/yeni" element={<ProtectedRoute><NewOffer /></ProtectedRoute>} exact />
 
             <Route path="/firmalar" element={<ProtectedRoute><Company/></ProtectedRoute>} exact />
             <Route path="/firmalar/yeni" element={<ProtectedRoute><NewCompany/></ProtectedRoute>} exact />

@@ -2,6 +2,34 @@ import query from "devextreme/data/query";
 import instance from "../utils/axios";
 import { DevExtremeCreateStore } from "../utils/helpers";
 
+export const keywordTable = async (_, page = 0) => {
+  return DevExtremeCreateStore("/UrunAnahtarKelime/BirlesmisTablo");
+};
+
+export const keywordList = async (_, page = 0) => {
+  return await instance
+    .get("/UrunAnahtarKelime/BirlesmisListele")
+    .then((res) => res.data);
+};
+
+export const keywordDetail = async (_, id) => {
+  return await instance
+    .get("/UrunAnahtarKelime/SayfaBilgileriniBul/" + id)
+    .then((res) => res.data);
+};
+export const keywordInsert = async (_, body) => {
+  return await instance
+    .post("/UrunAnahtarKelime/Ekle", body)
+    .then((res) => res.data);
+};
+
+export const keyword = async (_, id) => {
+  return await instance
+    .get("/UrunAnahtarKelime/Sil?id=" + id)
+    .then((res) => res.data);
+};
+
+////////////////////////
 export const getProductTable = async (_, page = 0) => {
   return DevExtremeCreateStore("/Urun/BirlesmisTablo");
 };
@@ -440,3 +468,36 @@ export const otherCostsRemove = async (_, id) => {
 };
 
 ////////////////////////////////////////
+///////////////////////////////////////////////////////////////////////
+
+export const offerTable = async (_) => {
+  return DevExtremeCreateStore("/TeklifMaster/BuTalepIcin");
+};
+
+export const offerList = async (_) => {
+  return await instance
+    .get("/TeklifMaster/SayfaliListele")
+    .then((res) => res.data);
+};
+
+export const offerDetail = async (_, id) => {
+  return await instance.get("/TeklifMaster/Bul/" + id).then((res) => res.data);
+};
+
+export const offerInsert = async (_, body) => {
+  return await instance
+    .post("/TeklifMaster/Ekle", body)
+    .then((res) => res.data);
+};
+
+export const offerUpdate = async (_, body) => {
+  return await instance
+    .post("/TeklifMaster/Guncelle", body)
+    .then((res) => res.data);
+};
+
+export const offerRemove = async (_, id) => {
+  return await instance
+    .get("/TeklifMaster/Sil?id=" + id)
+    .then((res) => res.data);
+};
