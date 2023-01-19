@@ -20,18 +20,18 @@ const Tabs = [
     title: "CIF Maliyetler",
     comp: Cif,
   },
-  {
-    title: "Diğer Maliyetler",
-    comp: "CustomAdress",
-  },
-  {
-    title: "Maliyet Analizi",
-    comp: "CustomOfficial",
-  },
-  {
-    title: "Teklif",
-    comp: "<CostAnalysis />",
-  },
+  // {
+  //   title: "Diğer Maliyetler",
+  //   comp: "CustomAdress",
+  // },
+  // {
+  //   title: "Maliyet Analizi",
+  //   comp: "CustomOfficial",
+  // },
+  // {
+  //   title: "Teklif",
+  //   comp: "<CostAnalysis />",
+  // },
 ];
 
 const CustomDetail = () => {

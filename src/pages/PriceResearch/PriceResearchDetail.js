@@ -27,10 +27,10 @@ const Tabs = [
   //   title: "Ürün Sertifikaları",
   //   comp: <></>,
   // },
-  {
-    title: "Firma Bilgileri",
-    comp: "<CostAnalysis />",
-  },
+  // {
+  //   title: "Firma Bilgileri",
+  //   comp: "<CostAnalysis />",
+  // },
 ];
 
 const PriceResearchDetail = () => {

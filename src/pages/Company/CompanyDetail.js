@@ -28,22 +28,22 @@ const Tabs = [
     title: "Yetkili Kişiler",
     comp: CompanyOfficial,
   },
-  {
-    title: "Sektörel Bilgileri",
-    comp: "<CostAnalysis />",
-  },
-  {
-    title: "Alinan Teklifler",
-    comp: "<OffersDetail />",
-  },
-  {
-    title: "Verilen Teklifler",
-    comp: "ffersDetail />",
-  },
-  {
-    title: "Ürünleri",
-    comp: "<OffersDetail />",
-  },
+  // {
+  //   title: "Sektörel Bilgileri",
+  //   comp: "<CostAnalysis />",
+  // },
+  // {
+  //   title: "Alinan Teklifler",
+  //   comp: "<OffersDetail />",
+  // },
+  // {
+  //   title: "Verilen Teklifler",
+  //   comp: "ffersDetail />",
+  // },
+  // {
+  //   title: "Ürünleri",
+  //   comp: "<OffersDetail />",
+  // },
 ];
 
 const CompanyDetail = () => {

@@ -18,10 +18,10 @@ const Offers = () => {
             title: "Diğer Talep İçin Verilen Teklifler",
             comp: <OtherOffers />
         },
-        {
-            title: "Tümü",
-            comp: ""
-        },
+        // {
+        //     title: "Tümü",
+        //     comp: ""
+        // },
     ]
     const [activeTab, setActiveTab] = useState(Tabs[0]);
     return (
