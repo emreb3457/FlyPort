@@ -31,10 +31,10 @@ const ProductDetail = () => {
       title: "Keywords",
       comp: Keywords,
     },
-    {
-      title: "İstenen Belgeler",
-      comp: <>e</>,
-    },
+    // {
+    //   title: "İstenen Belgeler",
+    //   comp: <>e</>,
+    // },
   ];
   const [activeTab, setActiveTab] = useState(Tabs[0]);
   const [images, setImages] = useState([]);

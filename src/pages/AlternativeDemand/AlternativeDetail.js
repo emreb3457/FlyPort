@@ -31,14 +31,14 @@ const AlternativeDetail = () => {
       title: "Eşleşen Ürün",
       comp: MatchingProduct,
     },
-    {
-      title: "Keywords",
-      comp: Keywords,
-    },
-    {
-      title: "İstenen Belgeler",
-      comp: MatchingProduct,
-    },
+    // {
+    //   title: "Keywords",
+    //   comp: Keywords,
+    // },
+    // {
+    //   title: "İstenen Belgeler",
+    //   comp: MatchingProduct,
+    // },
   ];
   const [activeTab, setActiveTab] = useState(Tabs[0]);
   const [images, setImages] = useState([]);

@@ -6,9 +6,9 @@ export const keywordTable = async (_, page = 0) => {
   return DevExtremeCreateStore("/UrunAnahtarKelime/BirlesmisTablo");
 };
 
-export const keywordList = async (_, page = 0) => {
+export const keywordList = async (_, id) => {
   return await instance
-    .get("/UrunAnahtarKelime/BirlesmisListele")
+    .get("/UrunAnahtarKelime/BirlesmisListele?UrunId=" + id)
     .then((res) => res.data);
 };
 
@@ -470,8 +470,8 @@ export const otherCostsRemove = async (_, id) => {
 ////////////////////////////////////////
 ///////////////////////////////////////////////////////////////////////
 
-export const offerTable = async (_) => {
-  return DevExtremeCreateStore("/TeklifMaster/BuTalepIcin");
+export const offerTable = async (_, id) => {
+  return DevExtremeCreateStore("/TeklifMaster/BuTalepIcin?teklifUrunId=" + id);
 };
 
 export const offerList = async (_) => {

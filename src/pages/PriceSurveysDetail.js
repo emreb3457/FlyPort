@@ -20,14 +20,14 @@ const PriceSurveysDetail = () => {
             title: "Kargo Özellikleri",
             comp: <ShippingPropert />
         },
-        {
-            title: "Ürün Sertifikaları",
-            comp: <>e</>
-        },
-        {
-            title: "Firma Bilgileri",
-            comp: <>e</>
-        },
+        // {
+        //     title: "Ürün Sertifikaları",
+        //     comp: <>e</>
+        // },
+        // {
+        //     title: "Firma Bilgileri",
+        //     comp: <>e</>
+        // },
     ]
     const [activeTab, setActiveTab] = useState(Tabs[0]);
     return (

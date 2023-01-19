@@ -15,18 +15,18 @@ const Tabs = [
     title: "Ürün Fiyatı",
     comp: ProductPrice,
   },
-  {
-    title: "Teknik Özellikleri",
-    comp: <></>,
-  },
+  // {
+  //   title: "Teknik Özellikleri",
+  //   comp: <></>,
+  // },
   {
     title: "Kargo Özellikleri",
     comp: ShippingProperty,
   },
-  {
-    title: "Ürün Sertifikaları",
-    comp: <></>,
-  },
+  // {
+  //   title: "Ürün Sertifikaları",
+  //   comp: <></>,
+  // },
   {
     title: "Firma Bilgileri",
     comp: "<CostAnalysis />",
@@ -37,7 +37,7 @@ const PriceResearchDetail = () => {
   const { detayId } = useParams();
   const [activeTab, setActiveTab] = useState(Tabs[0]);
   const [selectFunction, setSelectFunction] = useState({});
-  
+
   const { data: priceResarchDetail, error } = useSWR(
     ["getPriceResearch", detayId],
     getPriceResearch

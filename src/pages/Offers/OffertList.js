@@ -16,7 +16,7 @@ const OfferList = () => {
   const [page, setPage] = useState(0);
   const [radioValue, setRadioValue] = React.useState({});
 
-  const { data, mutate, error } = useSWR(["getOfferList", page], offerTable);
+  const { data, mutate, error } = useSWR(["getOfferList", id], offerTable);
 
   const loading = !error && !data;
   const Head = [
@@ -30,47 +30,47 @@ const OfferList = () => {
     },
     {
       title: "GTİP",
-      column: "urunKisaAd",
+      column: "gtip",
     },
     {
       title: "Miktar",
-      column: "urunMiktari",
+      column: "miktar",
     },
     {
       title: "Birim",
-      column: "olcuBirimiId",
+      column: "birim.ad",
     },
     {
       title: "Birim Maliyeti",
-      column: "ozellik1",
+      column: "birimMaliyet",
     },
     {
       title: "T. Maliyet",
-      column: "ozellik2",
+      column: "tMaliyet",
     },
     {
       title: "Kar Oranı",
-      column: "ozellik3",
+      column: "karOrani",
     },
     {
       title: "Birim Teklifi",
-      column: "gtipNo",
+      column: "birimTelifi",
     },
     {
       title: "Teklif Toplamı",
-      column: "gtipNo",
+      column: "teklifToplami",
     },
     {
       title: "Geçerlilik Tarihi",
-      column: "gtipNo",
+      column: "teklifGecerlilikSuresi",
     },
     {
       title: "Teklif Tarihi",
-      column: "gtipNo",
+      column: "teklifTarihi",
     },
     {
       title: "Durum",
-      column: "gtipNo",
+      column: "durum",
     },
   ];
 
