@@ -6,9 +6,10 @@ import { getProduct } from "../../api/api";
 import BreadCrumb from "../../components/BreadCrumb/BreadCrumb";
 import SkeletonComp from "../../components/Skeleton/Skeleton";
 import ImageComp from "../../components/Talepler/ImageComp/ImageComp";
-import DesiredProduct from "../../components/Talepler/ProductDetailPage/DesiredProduct/DesiredProduct";
-import Keywords from "../../components/Talepler/ProductDetailPage/Keywords/Keywords";
-import TechnicialSpecifications from "../../components/Talepler/ProductDetailPage/TechnicialSpecifications/TechnicialSpecifications";
+import DesiredProduct from "../../components/Talepler/ProductDetailPage/DesiredProduct";
+import Keywords from "../../components/Talepler/ProductDetailPage/Keywords";
+import ProductCertificates from "../../components/Talepler/ProductDetailPage/ProductCertificates";
+import TechnicialSpecifications from "../../components/Talepler/ProductDetailPage/TechnicialSpecifications";
 import { baseApi } from "../../config/config";
 import { routes } from "../../constants/routes";
 import colors from "../../theme/colors";
@@ -17,6 +18,7 @@ import { StyledButton } from "../ProductList";
 const ProductDetail = () => {
   const navigate = useNavigate();
   const { id } = useParams();
+
   const { data, error } = useSWR(["getProduct", id ?? null], getProduct);
   const Tabs = [
     {
@@ -28,13 +30,13 @@ const ProductDetail = () => {
       comp: TechnicialSpecifications,
     },
     {
+      title: "Ürün Sertifikaları",
+      comp: ProductCertificates,
+    },
+    {
       title: "Keywords",
       comp: Keywords,
     },
-    // {
-    //   title: "İstenen Belgeler",
-    //   comp: <>e</>,
-    // },
   ];
   const [activeTab, setActiveTab] = useState(Tabs[0]);
   const [images, setImages] = useState([]);

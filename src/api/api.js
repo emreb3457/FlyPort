@@ -501,3 +501,35 @@ export const offerRemove = async (_, id) => {
     .get("/TeklifMaster/Sil?id=" + id)
     .then((res) => res.data);
 };
+
+///////////////////////////////////////////////////////////////////////
+
+export const productCertificatesTable = async (_, id) => {
+  return DevExtremeCreateStore("/Sertifika/SayfaliTablo");
+};
+
+export const productCertificatesList = async (_) => {
+  return await instance
+    .get("/Sertifika/SayfaliListele")
+    .then((res) => res.data);
+};
+
+export const productCertificatesDetail = async (_, id) => {
+  return await instance.get("/Sertifika/Bul/" + id).then((res) => res.data);
+};
+
+export const productCertificatesInsert = async (_, body) => {
+  return await instance
+    .post("/Sertifika/SertifikaKaydet", body)
+    .then((res) => res.data);
+};
+
+export const productCertificatesUpdate = async (_, body) => {
+  return await instance
+    .post("/Sertifika/Guncelle", body)
+    .then((res) => res.data);
+};
+
+export const productCertificatesRemove = async (_, id) => {
+  return await instance.get("/Sertifika/Sil?id=" + id).then((res) => res.data);
+};

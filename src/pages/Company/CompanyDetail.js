@@ -52,45 +52,6 @@ const CompanyDetail = () => {
   const [selectFunction, setSelectFunction] = useState({});
 
   const { data: companyDetail, error } = useSWR(["getCompany", id], getCompany);
-  // const NewCountryComp = ({ handleChange, values, handleSubmit }) => {
-  //   return (
-  //     <form onSubmit={handleSubmit} style={{ padding: "10px 0" }}>
-  //       <TextInput
-  //         name={"adOrjinal"}
-  //         value={values.adOrjinal}
-  //         onChange={handleChange}
-  //         error={touched?.adOrjinal && errors.adOrjinal}
-  //       >
-  //         Orjinal Ad
-  //       </TextInput>
-  //       <TextInput
-  //         name={"adTurkce"}
-  //         value={values.adTurkce}
-  //         onChange={handleChange}
-  //         error={touched?.adTurkce && errors.adTurkce}
-  //       >
-  //         Türkçe Ad
-  //       </TextInput>
-  //       <TextInput
-  //         name={"adIngilizce"}
-  //         value={values.adIngilizce}
-  //         onChange={handleChange}
-  //         error={touched?.adIngilizce && errors.adIngilizce}
-  //       >
-  //         Ingilizce Ad
-  //       </TextInput>
-  //       <TextInput
-  //         name={"aciklama"}
-  //         value={values.aciklama}
-  //         onChange={handleChange}
-  //         error={touched?.aciklama && errors.aciklama}
-  //       >
-  //         Acıklama
-  //       </TextInput>
-  //       <Button type="submit">Ekle</Button>
-  //     </form>
-  //   );
-  // };
 
   useEffect(() => {}, [selectFunction]);
   const loading = !companyDetail && !error;

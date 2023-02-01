@@ -11,7 +11,7 @@ import DataGrid, {
   ColumnFixing,
   StateStoring,
 } from "devextreme-react/data-grid";
-import { useNavigate } from "react-router-dom";
+import { Button } from "devextreme-react";
 
 const ListTable = ({ id, row, head, radioSetValue, selected }) => {
   const tableKey = `${id}_table`;
@@ -64,7 +64,6 @@ const ListTable = ({ id, row, head, radioSetValue, selected }) => {
             <Column key={index} caption={data.title} dataField={data.column} />
           );
         })}
-
         <Pager allowedPageSizes={[5, 10, 20]} showPageSizeSelector={true} />
         <Paging defaultPageSize={10} />
       </DataGrid>
