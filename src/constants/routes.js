@@ -21,4 +21,5 @@ export const routes = {
   yeniLojistik: "/gorevler/lojistik/yeni",
   lojistikDetay: "/gorevler/lojistik/",
   lojistik: "/gorevler/lojistik/",
+  urunSertifika:"/urun-sertifika"
 };

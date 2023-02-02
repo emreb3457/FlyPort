@@ -11,7 +11,6 @@ import DataGrid, {
   ColumnFixing,
   StateStoring,
 } from "devextreme-react/data-grid";
-import { Button } from "devextreme-react";
 
 const ListTable = ({ id, row, head, radioSetValue, selected }) => {
   const tableKey = `${id}_table`;

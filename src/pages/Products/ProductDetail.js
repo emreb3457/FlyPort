@@ -1,6 +1,6 @@
 import { Box, Text, Button } from "@chakra-ui/react";
 import { useEffect, useState } from "react";
-import { useNavigate, useParams } from "react-router-dom";
+import { useLocation, useNavigate, useParams } from "react-router-dom";
 import useSWR from "swr";
 import { getProduct } from "../../api/api";
 import BreadCrumb from "../../components/BreadCrumb/BreadCrumb";
@@ -8,17 +8,19 @@ import SkeletonComp from "../../components/Skeleton/Skeleton";
 import ImageComp from "../../components/Talepler/ImageComp/ImageComp";
 import DesiredProduct from "../../components/Talepler/ProductDetailPage/DesiredProduct";
 import Keywords from "../../components/Talepler/ProductDetailPage/Keywords";
-import ProductCertificates from "../../components/Talepler/ProductDetailPage/ProductCertificates";
+import ProductCertificates from "./ProductCertificates";
 import TechnicialSpecifications from "../../components/Talepler/ProductDetailPage/TechnicialSpecifications";
 import { baseApi } from "../../config/config";
 import { routes } from "../../constants/routes";
 import colors from "../../theme/colors";
 import { StyledButton } from "../ProductList";
+import { useSideBarData } from "../../context/SideBarContext";
 
 const ProductDetail = () => {
+  const { updateSideBar, selectedSideBar } = useSideBarData();
+
   const navigate = useNavigate();
   const { id } = useParams();
-
   const { data, error } = useSWR(["getProduct", id ?? null], getProduct);
   const Tabs = [
     {
@@ -32,6 +34,7 @@ const ProductDetail = () => {
     {
       title: "Ürün Sertifikaları",
       comp: ProductCertificates,
+      link: true,
     },
     {
       title: "Keywords",
@@ -40,6 +43,12 @@ const ProductDetail = () => {
   ];
   const [activeTab, setActiveTab] = useState(Tabs[0]);
   const [images, setImages] = useState([]);
+
+  useEffect(() => {
+    updateSideBar({ selectedSideBar: "araba" });
+  }, []);
+
+  console.log(selectedSideBar);
   useEffect(() => {
     data?.resimler?.forEach((image) =>
       setImages((prev) => [...prev, baseApi + image.dosyaYolu])
@@ -68,7 +77,11 @@ const ProductDetail = () => {
             {Tabs?.map((tab, index) => (
               <StyledButton
                 key={index}
-                onClick={() => setActiveTab(tab)}
+                onClick={() =>
+                  tab.link
+                    ? navigate(routes.urunSertifika + "/" + id)
+                    : setActiveTab(tab)
+                }
                 fontSize="22px"
                 color={
                   tab.title === activeTab.title

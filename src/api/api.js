@@ -505,7 +505,7 @@ export const offerRemove = async (_, id) => {
 ///////////////////////////////////////////////////////////////////////
 
 export const productCertificatesTable = async (_, id) => {
-  return DevExtremeCreateStore("/Sertifika/SayfaliTablo");
+  return DevExtremeCreateStore("/Sertifika/SertifikaGetir?urunId=" + id);
 };
 
 export const productCertificatesList = async (_) => {

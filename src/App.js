@@ -47,13 +47,16 @@ import CustomDetail from './pages/Customs/CustomDetail';
 import OtherCosts from './pages/OtherCosts/OtherCosts';
 import OffertList from './pages/Offers/OffertList';
 import NewOffer from './pages/Offers/NewOffer';
+import ProductCertificates from './pages/Products/ProductCertificates';
+import { SideBarContextProvider } from './context/SideBarContext';
 
 const App = () => {
   return (
-    <Fragment>
+    <SideBarContextProvider>
       <BrowserRouter>
         <ListMenu>
           <Routes>
+           
             <Route path="/" element={<Home />} exact />
             <Route path="/talepler" element={<ProtectedRoute><DemandList/></ProtectedRoute>} exact />
             <Route path="/talepler/yeni" element={<ProtectedRoute><NewDemand/></ProtectedRoute>} exact />
@@ -91,6 +94,7 @@ const App = () => {
             <Route path="/urunler/guncelle" element={<ProtectedRoute><UpdateProduct/></ProtectedRoute>} exact />
             <Route path="/urunler/:id" element={<ProtectedRoute><ProductDetail/></ProtectedRoute>} exact />
 
+            <Route path="/urun-sertifika/:id" element={<ProtectedRoute><ProductCertificates/></ProtectedRoute>} exact />
           
 {/* 
             <Route path="/:id/:id/:id/urunlistesi" element={<ProtectedRoute><ProductList /></ProtectedRoute>} exact />
@@ -136,10 +140,11 @@ const App = () => {
             <Route path="/tanimlamalar/dovizcinsi" element={<ProtectedRoute><CurrencyType /></ProtectedRoute>} exact />
             <Route path="/tanimlamalar/tasimatipi" element={<ProtectedRoute><TransportType /></ProtectedRoute>} exact />
             <Route path='*' element={<div>NOT FOUND</div>} />
+           
           </Routes>
         </ListMenu>
       </BrowserRouter>
-    </Fragment>
+      </SideBarContextProvider>
   );
 }
 
