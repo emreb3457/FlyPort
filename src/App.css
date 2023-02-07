@@ -2,7 +2,9 @@ html * {
   font-family: 'Roboto','DXIcons', bold !important;
 }
 
-
+body{
+  overflow: hidden;
+}
 .chakra-button {
   border-radius: 0 ;
 }

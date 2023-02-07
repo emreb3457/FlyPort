@@ -58,7 +58,7 @@ const Home = () => {
 
   useEffect(() => {
     if (sessionStorage.getItem("accessToken")) {
-      return redirect("/talepler");
+      return redirect("/urunler");
     }
   }, []);
 

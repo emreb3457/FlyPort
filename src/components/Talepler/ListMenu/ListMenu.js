@@ -1,9 +1,11 @@
 import { Box } from "@chakra-ui/react";
 import { useMemo, useState } from "react";
 import { useLocation } from "react-router-dom";
-import { DemandMenu, menuItems } from "../../../constants/MenuItems";
+import { useSideBarData } from "../../../context/SideBarContext";
 import ListMenuItem from "./ListMenuItem";
+
 const ListMenu = ({ children }) => {
+  const { updateSideBar, selectedSideBar } = useSideBarData();
   const MenuNames = {
     Home: "home",
     Demand: "demand",
@@ -21,18 +23,10 @@ const ListMenu = ({ children }) => {
   const [selectMenu, setMenuItems] = useState(MenuNames.Home);
   const location = useLocation();
   useMemo(() => {
-    if (
-      location.pathname.split("/").includes("gorevler") ||
-      location.pathname.split("/").includes("maliyetler") ||
-      location.pathname.split("/").includes("teklif")
-    ) {
-      setMenuItems(MenuNames.Demand);
-    } else {
-      setMenuItems(null);
-    }
-  }, [location.pathname]);
+    setMenuItems(selectedSideBar);
+  }, [selectedSideBar]);
 
-  const visableMenuItems = useMemo(() => {
+  /* const visableMenuItems = useMemo(() => {
     switch (selectMenu) {
       case MenuNames.Offer:
         return DemandMenu(location?.state || location.pathname.split("/")[2]);
@@ -45,6 +39,7 @@ const ListMenu = ({ children }) => {
         return menuItems;
     }
   }, [selectMenu]);
+ */
   return (
     <Box>
       <Box textAlign={"center"} fontSize="33px" p="17px" bg={"blue"}>
@@ -57,7 +52,7 @@ const ListMenu = ({ children }) => {
       </Box>
       <Box height={"100vh"} display={"flex"}>
         <ListMenuItem
-          items={visableMenuItems}
+          items={selectMenu}
           display={location.pathname === "/" ? "none" : "inline-block"}
           maxWidth={{
             base: "200px",
@@ -86,7 +81,7 @@ const ListMenu = ({ children }) => {
           setTab7={setTab7}
         />
 
-        <Box w={"calc(100vw - 240px)"}>{children}</Box>
+        <Box w={"calc(100vw - 240px)"} overflow="auto">{children}</Box>
       </Box>
     </Box>
   );

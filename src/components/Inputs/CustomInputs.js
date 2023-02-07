@@ -16,7 +16,7 @@ export const TextInput = ({
   ...props
 }) => {
   return (
-    <Box py="10px" fontSize={"18px"} w="100%" {...props}>
+    <Box py="10px" fontSize={"18px"} w="100%" minW="150px" {...props}>
       <Text mr="5px" color={"#232F3D"}>
         {children ? children : " "}
       </Text>
@@ -60,7 +60,7 @@ export const SelectInput = ({
       pageSize: 10,
     });
     return (
-      <Box py="10px" fontSize={"18px"} w="100%" {...props}>
+      <Box py="10px" fontSize={"18px"} w="100%" minW="150px" {...props}>
         <Text mr="5px" color={"#232F3D"}>
           {children ? children : " "}
         </Text>

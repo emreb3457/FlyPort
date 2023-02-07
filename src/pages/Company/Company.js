@@ -3,7 +3,7 @@ import BreadCrumb from "../../components/BreadCrumb/BreadCrumb";
 import ListTable from "../../components/ListTable";
 import useSWR from "swr";
 import SkeletonComp from "../../components/Skeleton/Skeleton";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { sendRequest } from "../../utils/helpers";
 import { useNavigate } from "react-router-dom";
 import { routes } from "../../constants/routes";
@@ -12,8 +12,15 @@ import {
   getCompanyRemove,
   getCompanyTable,
 } from "../../api/api";
+import { useSideBarData } from "../../context/SideBarContext";
+import { menuItems } from "../../constants/MenuItems";
 
 const CompanyList = () => {
+  const { updateSideBar, selectedSideBar } = useSideBarData();
+  useEffect(() => {
+    updateSideBar({ selectedSideBar: menuItems });
+  }, []);
+
   const navigate = useNavigate();
   const [page, setPage] = useState(0);
   const [radioValue, setRadioValue] = React.useState({});

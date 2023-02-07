@@ -49,6 +49,7 @@ import OffertList from './pages/Offers/OffertList';
 import NewOffer from './pages/Offers/NewOffer';
 import ProductCertificates from './pages/Products/ProductCertificates';
 import { SideBarContextProvider } from './context/SideBarContext';
+import ProductPrice from './pages/Products/ProducerCost/ProductPriceNew';
 
 const App = () => {
   return (
@@ -95,6 +96,10 @@ const App = () => {
             <Route path="/urunler/:id" element={<ProtectedRoute><ProductDetail/></ProtectedRoute>} exact />
 
             <Route path="/urun-sertifika/:id" element={<ProtectedRoute><ProductCertificates/></ProtectedRoute>} exact />
+            <Route path="/urun-maliyet/:id/uretici-fiyat/yeni" element={<ProtectedRoute><ProductPrice/></ProtectedRoute>} exact />
+
+
+
           
 {/* 
             <Route path="/:id/:id/:id/urunlistesi" element={<ProtectedRoute><ProductList /></ProtectedRoute>} exact />

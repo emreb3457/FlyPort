@@ -15,6 +15,7 @@ import { routes } from "../../constants/routes";
 import colors from "../../theme/colors";
 import { StyledButton } from "../ProductList";
 import { useSideBarData } from "../../context/SideBarContext";
+import { ProductMenu } from "../../constants/MenuItems";
 
 const ProductDetail = () => {
   const { updateSideBar, selectedSideBar } = useSideBarData();
@@ -45,10 +46,9 @@ const ProductDetail = () => {
   const [images, setImages] = useState([]);
 
   useEffect(() => {
-    updateSideBar({ selectedSideBar: "araba" });
+    updateSideBar({ selectedSideBar: ProductMenu(id) });
   }, []);
 
-  console.log(selectedSideBar);
   useEffect(() => {
     data?.resimler?.forEach((image) =>
       setImages((prev) => [...prev, baseApi + image.dosyaYolu])

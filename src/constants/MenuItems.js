@@ -3,10 +3,10 @@ export const menuItems = [
     title: "Firmalar",
     route: "firmalar",
   },
-  {
-    title: "Talepler",
-    route: "talepler",
-  },
+  // {
+  //   title: "Talepler",
+  //   route: "talepler",
+  // },
   // {
   //   title: "Teklifler",
   //   route: "teklifler",
@@ -114,6 +114,39 @@ export const DemandMenu = (id) => {
     {
       title: "Teklif",
       route: `teklif/${id}`,
+    },
+  ];
+
+  return menuItems;
+};
+
+export const ProductMenu = (id) => {
+  const menuItems = [
+    {
+      title: "Ana Sayfa",
+      route: "",
+    },
+    {
+      title: "Maliyetleri",
+      route: `urun-maliyet/${id}`,
+      submenu: [
+        {
+          title: "Üretici Fiyatları",
+          route: "uretici-fiyat",
+        },
+        {
+          title: "Lojistik",
+          route: "lojistik-maliyet",
+        },
+        {
+          title: "Gümrükleme",
+          route: "gumruk-maliyet",
+        },
+        {
+          title: "Maliyet Analizi",
+          route: "maliyet-analizi",
+        },
+      ],
     },
   ];
 

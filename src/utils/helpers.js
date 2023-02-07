@@ -78,3 +78,14 @@ export const stringToBoolean = (string) => {
   const isTrueSet = string === "true";
   return isTrueSet;
 };
+
+export const updateArrayState = (setState, index, e) => {
+  setState((prev) => [
+    ...prev.slice(0, index),
+    {
+      ...prev[index],
+      [e.target.name]: e.target.value,
+    },
+    ...prev.slice(index + 1),
+  ]);
+};

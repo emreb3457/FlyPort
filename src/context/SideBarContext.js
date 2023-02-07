@@ -1,4 +1,5 @@
 import React, { createContext, useContext, useReducer, useState } from "react";
+import { menuItems } from "../constants/MenuItems";
 
 const UPDATE = "UPDATE";
 
@@ -15,7 +16,7 @@ const Reducer = (state, action) => {
 };
 
 const initialState = {
-  selectedSideBar: "home",
+  selectedSideBar: menuItems,
 };
 
 export const SideBarContext = createContext({});
