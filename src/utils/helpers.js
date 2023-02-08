@@ -84,7 +84,7 @@ export const updateArrayState = (setState, index, e) => {
     ...prev.slice(0, index),
     {
       ...prev[index],
-      [e.target.name]: e.target.value,
+      [e?.target?.name || e.name]: e?.target?.value || e.value,
     },
     ...prev.slice(index + 1),
   ]);

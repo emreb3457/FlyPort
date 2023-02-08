@@ -23,7 +23,7 @@ const loginSubmit = async ({
   );
   if (status) {
     sessionStorage.setItem("accessToken", response.token);
-    redirect("/talepler");
+    redirect("/urunler");
   }
   setLoading(false);
 };

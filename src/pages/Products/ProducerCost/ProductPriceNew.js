@@ -6,12 +6,7 @@ import {
   DateInput,
   DefaultSelect,
 } from "../../../components/Inputs/CustomInputs";
-import {
-  formatDate,
-  sendRequest,
-  updateArrayState,
-} from "../../../utils/helpers";
-import { newPriceResearch } from "../../../utils/validation";
+import { sendRequest, updateArrayState } from "../../../utils/helpers";
 import useSWR from "swr";
 import {
   getCountryTable,
@@ -21,24 +16,42 @@ import {
   getCurrencyTypeTable,
 } from "../../../api/DefinitionsApi";
 import { useState, useEffect } from "react";
-import { routes } from "../../../constants/routes";
-import { getCompanyTable, getPriceResearchUpdate } from "../../../api/api";
-import { useNavigate, useParams } from "react-router-dom";
+import {
+  getCompanyTable,
+  productCustomsInsert,
+  productPriceInsert,
+} from "../../../api/api";
+import { useParams } from "react-router-dom";
 import BreadCrumb from "../../../components/BreadCrumb/BreadCrumb";
+import { useSideBarData } from "../../../context/SideBarContext";
+import { ProductMenu } from "../../../constants/MenuItems";
 
-const updateProductPrice = async ({ values, mutate, id }) => {
+const createProductPrice = async ({ values, detayId }) => {
   const { status } = await sendRequest(
-    getPriceResearchUpdate("_", {
-      id,
+    productPriceInsert("_", {
+      detayId,
       ...values,
+    })
+  );
+
+  const { status: statusCustoms } = await sendRequest(
+    productCustomsInsert("_", {
+      urunId: Number(values.urunId),
+      menseiUlkeId: values.urunUlkeId,
+      cikisUlkeId: values.urunUlkeId,
+      varisUlkeId: values.urunTeslimUlkeId,
     })
   );
 };
 
-const ProductPrice = (props) => {
-  const { item, setFunctions } = props;
-  const { detayId } = useParams();
-  const [isEdit, setIsEdit] = useState(true);
+const ProductPriceNew = () => {
+  const { detayId, id } = useParams();
+  const { updateSideBar } = useSideBarData();
+
+  useEffect(() => {
+    updateSideBar({ selectedSideBar: ProductMenu(id) });
+  }, []);
+
   const [urunFiyatları, setUrunFiyatlari] = useState([
     {
       urunMiktar: 0,
@@ -55,7 +68,7 @@ const ProductPrice = (props) => {
   const { errors, handleChange, handleSubmit, values, touched, setFieldValue } =
     useFormik({
       initialValues: {
-        urunId: 0,
+        urunId: id,
         urunUlkeId: 0,
         urunSehirId: 0,
         urunTeslimUlkeId: 0,
@@ -68,10 +81,9 @@ const ProductPrice = (props) => {
         urunTeklifGecerlilikTarihi: "",
         urunFiyat: [],
       },
-      onSubmit: (values, { resetForm }) => {
-        updateProductPrice({ values, detayId });
+      onSubmit: (values) => {
+        createProductPrice({ values, detayId });
       },
-      validationSchema: newPriceResearch,
     });
   const { data: Country, mutate } = useSWR(
     ["getCountryTable"],
@@ -79,7 +91,7 @@ const ProductPrice = (props) => {
   );
 
   const { data: City } = useSWR(
-    ["getCityTable", values.ureticininBulunduguUlkeId],
+    ["getCityTable", values.urunUlkeId],
     getCityTable
   );
 
@@ -99,7 +111,9 @@ const ProductPrice = (props) => {
       <BreadCrumb
         funct1={{
           title: "Kaydet",
-          function: () => {},
+          function: () => {
+            document.getElementById("addCompany").click();
+          },
         }}
       >
         Üretici Fiyatı
@@ -272,8 +286,8 @@ const ProductPrice = (props) => {
                   value={urunFiyatları[index].dovizCinsiId}
                   data={CurrencyType}
                   visableValue="ad"
-                  onChange={(e) => {
-                    updateArrayState(setUrunFiyatlari, index, e);
+                  onChange={(name, value) => {
+                    updateArrayState(setUrunFiyatlari, index, { name, value });
                   }}
                   error={touched.dovizCinsiId && errors.dovizCinsiId}
                 >
@@ -372,8 +386,7 @@ const ProductPrice = (props) => {
           </Button>
         </Box>
       </Box>
-      {console.log(urunFiyatları)}
     </Box>
   );
 };
-export default ProductPrice;
+export default ProductPriceNew;

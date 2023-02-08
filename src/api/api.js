@@ -533,3 +533,67 @@ export const productCertificatesUpdate = async (_, body) => {
 export const productCertificatesRemove = async (_, id) => {
   return await instance.get("/Sertifika/Sil?id=" + id).then((res) => res.data);
 };
+
+///////////////////////////////////////////////////////////////////////
+
+export const productPriceTable = async (_, id) => {
+  return DevExtremeCreateStore(
+    "/UrunFiyat/SayfaBilgileriniBulKargoAndMenseiId?menseiUlkeId=" + id
+  );
+};
+
+export const productPriceList = async (_) => {
+  return await instance
+    .get("/UrunFiyat/SayfaliListele")
+    .then((res) => res.data);
+};
+
+export const productPriceDetail = async (_, id) => {
+  return await instance.get("/UrunFiyat/Bul/" + id).then((res) => res.data);
+};
+
+export const productPriceInsert = async (_, body) => {
+  return await instance
+    .post("/UrunFiyat/SayfaKaydet", body)
+    .then((res) => res.data);
+};
+
+export const productPriceUpdate = async (_, body) => {
+  return await instance
+    .post("/UrunFiyat/Guncelle", body)
+    .then((res) => res.data);
+};
+
+export const productPriceRemove = async (_, id) => {
+  return await instance.get("/UrunFiyat/Sil?id=" + id).then((res) => res.data);
+};
+
+////////////////////////////////////////////////////////////////////////Gtip
+
+export const productCustomsTable = async (_, id) => {
+  return DevExtremeCreateStore("/UrunGumruk/BirlesmisTablo?urunId=" + id);
+};
+
+export const productCustomsList = async (_) => {
+  return await instance
+    .get("/UrunGumruk/BirlesmisListele")
+    .then((res) => res.data);
+};
+
+export const productCustoms = async (_, id) => {
+  return await instance.get("/UrunGumruk/Bul/" + id).then((res) => res.data);
+};
+
+export const productCustomsInsert = async (_, body) => {
+  return await instance.post("/UrunGumruk/Ekle", body).then((res) => res.data);
+};
+
+export const productCustomsUpdate = async (_, body) => {
+  return await instance
+    .post("/UrunGumruk/Guncelle", body)
+    .then((res) => res.data);
+};
+
+export const productCustomsRemove = async (_, id) => {
+  return await instance.get("/UrunGumruk/Sil?id=" + id).then((res) => res.data);
+};
