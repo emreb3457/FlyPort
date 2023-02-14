@@ -53,17 +53,17 @@ const ProductPriceNew = () => {
   const { errors, handleChange, handleSubmit, values, touched, setFieldValue } =
     useFormik({
       initialValues: {
-        urunId: id,
-        urunUlkeId: 0,
-        urunSehirId: 0,
-        urunTeslimUlkeId: 0,
-        kargoId: 0,
-        urunMiktar: "",
-        urunHazirMiktar: "",
-        urunHazirMiktarBirimi: "",
-        aciklama: "",
+        urunId: Number(id),
+        firmaUnvanId: 0,
+        urunMenseiUlkeId: 0,
+        ureticiSehirId: 0,
+        teslimYeriUlkeId: 0,
+        teslimSekliId: 0,
+        urunHazirMiktar: 0,
+        urunHazirMiktarBirimiId: 0,
         urunTeklifTarihi: "",
         urunTeklifGecerlilikTarihi: "",
+        aciklama: "",
         urunFiyat: [],
       },
       onSubmit: (values) => {
@@ -76,7 +76,7 @@ const ProductPriceNew = () => {
   );
 
   const { data: City } = useSWR(
-    ["getCityTable", values.urunUlkeId],
+    ["getCityTable", values.urunMenseiUlkeId],
     getCityTable
   );
 
@@ -94,16 +94,18 @@ const ProductPriceNew = () => {
   const createProductPrice = async ({ values, detayId }) => {
     const { status } = await sendRequest(
       productPriceInsert("_", {
-        detayId,
         ...values,
+        detayId,
+        urunFiyat: urunFiyatları,
+        urunMenseiUlkeId: values.urunMenseiUlkeId,
       })
     );
 
     const { status: statusCustoms } = await sendRequest(
       productCustomsInsert("_", {
         urunId: Number(values.urunId),
-        menseiUlkeId: values.urunUlkeId,
-        cikisUlkeId: values.urunUlkeId,
+        menseiUlkeId: values.urunMenseiUlkeId,
+        cikisUlkeId: values.urunMenseiUlkeId,
         varisUlkeId: values.urunTeslimUlkeId,
       })
     );
@@ -135,52 +137,52 @@ const ProductPriceNew = () => {
             <Box display={["block", "block", "block", "flex"]} mt="20px">
               <Box width={{ lg: "35%", "2xl": "30%" }}>
                 <SelectInput
-                  name={"ureticiFirmaId"}
-                  value={values.ureticiFirmaId}
+                  name={"firmaUnvanId"}
+                  value={values.firmaUnvanId}
                   data={Company}
-                  visableValue="firmaUnvani"
+                  visableValue="kisaAdi"
                   onChange={setFieldValue}
-                  error={touched.ureticiFirmaId && errors.ureticiFirmaId}
+                  error={touched.firmaUnvanId && errors.firmaUnvanId}
                 >
                   Üretici Firma Ünvanı
                 </SelectInput>
                 <SelectInput
-                  name={"urunUlkeId"}
-                  value={values.urunUlkeId}
+                  name={"urunMenseiUlkeId"}
+                  value={values.urunMenseiUlkeId}
                   data={Country}
                   visableValue="adOrjinal"
                   onChange={setFieldValue}
-                  error={touched.urunUlkeId && errors.urunUlkeId}
+                  error={touched.urunMenseiUlkeId && errors.urunMenseiUlkeId}
                 >
                   Üreticinin Bulunduğu Ülke
                 </SelectInput>
                 <SelectInput
-                  name={"urunSehirId"}
-                  value={values.urunSehirId}
+                  name={"ureticiSehirId"}
+                  value={values.ureticiSehirId}
                   data={City}
                   visableValue="adOrjinal"
                   onChange={setFieldValue}
-                  error={touched.urunSehirId && errors.urunSehirId}
+                  error={touched.ureticiSehirId && errors.ureticiSehirId}
                 >
                   Üreticinin Bulunduğu Şehir
                 </SelectInput>
                 <SelectInput
-                  name={"urunTeslimUlkeId"}
-                  value={values.urunTeslimUlkeId}
+                  name={"teslimYeriUlkeId"}
+                  value={values.teslimYeriUlkeId}
                   data={Country}
                   visableValue="adOrjinal"
                   onChange={setFieldValue}
-                  error={touched.urunTeslimUlkeId && errors.urunTeslimUlkeId}
+                  error={touched.teslimYeriUlkeId && errors.teslimYeriUlkeId}
                 >
                   Teslim Yeri
                 </SelectInput>
                 <SelectInput
-                  name={"kargoId"}
-                  value={values.kargoId}
+                  name={"teslimSekliId"}
+                  value={values.teslimSekliId}
                   data={Delivery}
                   visableValue="ad"
                   onChange={setFieldValue}
-                  error={touched.kargoId && errors.kargoId}
+                  error={touched.teslimSekliId && errors.teslimSekliId}
                 >
                   Teslim Şekli
                 </SelectInput>
