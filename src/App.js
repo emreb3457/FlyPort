@@ -53,6 +53,7 @@ import ProductPrice from './pages/Products/ProducerCost/ProductPriceNew';
 import ProductCustomsDuties from './pages/Products/ProducerCost/ProductCustomsDuties';
 import ProductPriceList from './pages/Products/ProducerCost/ProductPriceList';
 import NewProductCargo from './pages/Products/ProducerCost/NewProductCargo';
+import ProductCargoList from './pages/Products/ProducerCost/ProductCargoList';
 
 const App = () => {
   return (
@@ -105,7 +106,8 @@ const App = () => {
             <Route path="/urun-maliyet/:id/uretici-fiyat/:detayId" element={<ProtectedRoute><ProductPrice/></ProtectedRoute>} exact />
 
             <Route path="/urun-maliyet/:id/kargo/yeni" element={<ProtectedRoute><NewProductCargo/></ProtectedRoute>} exact />
-            <Route path="/urun-maliyet/:id/kargo" element={<ProtectedRoute><ProductPrice/></ProtectedRoute>} exact />
+            <Route path="/urun-maliyet/:id/kargo/:detayId" element={<ProtectedRoute><NewProductCargo/></ProtectedRoute>} exact />
+            <Route path="/urun-maliyet/:id/kargo" element={<ProtectedRoute><ProductCargoList/></ProtectedRoute>} exact />
 
 
 

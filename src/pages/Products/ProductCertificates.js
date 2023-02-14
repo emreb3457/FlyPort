@@ -21,14 +21,13 @@ import {
   TextInput,
 } from "../../components/Inputs/CustomInputs";
 import DrawerModal from "../../helpers/DraverModal";
-import { useSideBarData } from "../../context/SideBarContext";
 import { baseApi } from "../../config/config";
 
 const ProductCertificates = () => {
   const { clickFunct, isClick } = useModalStatus();
   const { clickFunct: drawerClick, isClick: isDrawerClick } = useDrawerStatus();
   const { id } = useParams();
-  console.log(id);
+
   const [radioValue, setRadioValue] = React.useState({});
   const [submitType, setSubmitType] = React.useState("");
 

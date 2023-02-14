@@ -127,6 +127,10 @@ export const ProductMenu = (id) => {
       route: "",
     },
     {
+      title: "Ürün Bilgileri",
+      route: `urunler/${id}`,
+    },
+    {
       title: "Maliyetleri",
       route: `urun-maliyet/${id}`,
       submenu: [

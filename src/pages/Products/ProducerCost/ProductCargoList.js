@@ -4,14 +4,15 @@ import React, { useEffect, useState } from "react";
 import { useLocation, useNavigate, useParams } from "react-router-dom";
 import { ProductMenu } from "../../../constants/MenuItems";
 import { useSideBarData } from "../../../context/SideBarContext";
-import { productCustomsTable } from "../../../api/api";
-import { sendRequest } from "../../../utils/helpers";
+import { productCargoByProductId, productCargoRemove } from "../../../api/api";
 import SkeletonComp from "../../../components/Skeleton/Skeleton";
 import BreadCrumb from "../../../components/BreadCrumb/BreadCrumb";
-import { routes } from "../../../constants/routes";
 import ListTable from "../../../components/ListTable";
+import { sendRequest } from "../../../utils/helpers";
+import TabMenu from "../../../components/TabMenu";
+import { UreticiFiyatiTabs } from "../../../constants/Tabs";
 
-const ProductCustomsDutie = () => {
+const ProductCargoList = () => {
   const { id } = useParams();
   const location = useLocation();
   const { updateSideBar, selectedSideBar } = useSideBarData();
@@ -20,12 +21,11 @@ const ProductCustomsDutie = () => {
   }, []);
 
   const navigate = useNavigate();
-  const [page, setPage] = useState(0);
   const [radioValue, setRadioValue] = React.useState({});
 
-  const { data, mutate, error } = useSWR(
-    ["productCustomsTable", id],
-    productCustomsTable
+  const { data, error, mutate } = useSWR(
+    ["productCargoByProductId", id, location.state?.detayId],
+    productCargoByProductId
   );
 
   const loading = !error && !data;
@@ -56,6 +56,13 @@ const ProductCustomsDutie = () => {
     },
   ];
 
+  const removeCargo = async ({ radioValue, mutate }) => {
+    const { status } = await sendRequest(
+      productCargoRemove("_", radioValue.id)
+    );
+    status && mutate();
+  };
+
   return loading ? (
     <SkeletonComp />
   ) : (
@@ -65,34 +72,44 @@ const ProductCustomsDutie = () => {
         funct1={{
           title: "Yeni Ekle",
           function: () => {
-            navigate(location.pathname + "/uretici-fiyat/yeni", {
-              state: { id: id },
+            navigate(location.pathname + "/yeni", {
+              state: id,
+              detayId: location.state.detayId,
             });
           },
         }}
         funct2={{
-          title: "Üretici Fiyatları",
+          title: "Detay",
           function: () => {
-            navigate(location.pathname + "/uretici-fiyat", {
-              state: { ulkeId: radioValue.menseiUlkeId },
-            });
+            navigate("detay", { state: { detayId: radioValue.id } });
+          },
+        }}
+        funct3={{
+          function: () => {
+            removeCargo({ radioValue, mutate });
           },
         }}
       >
-        Bölgelere Göre Maliyetler
+        Kargo Özellikleri
       </BreadCrumb>
       <Box mt="20px" px={"38px"}>
-        <ListTable
-          id="ProductList"
-          head={Head}
-          row={data}
-          radioValue={radioValue}
-          radioSetValue={setRadioValue}
-          link={false}
-          select={true}
-        />
+        <TabMenu
+          tabs={UreticiFiyatiTabs(id)}
+          activeTab={1}
+          onClick={(tab) => navigate(tab.route)}
+        >
+          <ListTable
+            id="ProductList"
+            head={Head}
+            row={data}
+            radioValue={radioValue}
+            radioSetValue={setRadioValue}
+            link={false}
+            select={true}
+          />
+        </TabMenu>
       </Box>
     </Box>
   );
 };
-export default React.memo(ProductCustomsDutie);
+export default ProductCargoList;

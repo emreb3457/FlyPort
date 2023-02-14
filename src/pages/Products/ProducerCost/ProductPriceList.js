@@ -20,11 +20,10 @@ const ProductPriceList = () => {
   }, []);
 
   const navigate = useNavigate();
-  const [page, setPage] = useState(0);
   const [radioValue, setRadioValue] = React.useState({});
 
   const { data, error } = useSWR(
-    ["productCustomsTable", 1],
+    ["productCustomsTable", id, location.state?.ulkeId],
     productPriceTable
   );
 

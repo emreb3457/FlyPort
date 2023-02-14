@@ -536,9 +536,12 @@ export const productCertificatesRemove = async (_, id) => {
 
 ///////////////////////////////////////////////////////////////////////
 
-export const productPriceTable = async (_, id) => {
+export const productPriceTable = async (_, id, ulkeId) => {
   return DevExtremeCreateStore(
-    "/UrunFiyat/SayfaBilgileriniBulKargoAndMenseiId?menseiUlkeId=" + id
+    "/UrunFiyat/SayfaBilgileriniBulUrunAndMenseiId?urunId=" +
+      id +
+      "&menseiUlkeId=" +
+      ulkeId
   );
 };
 
@@ -597,3 +600,35 @@ export const productCustomsUpdate = async (_, body) => {
 export const productCustomsRemove = async (_, id) => {
   return await instance.get("/UrunGumruk/Sil?id=" + id).then((res) => res.data);
 };
+
+////////////////////////////////////////////////////////////////////////Company Official
+
+export const productCargoTable = async (_, id) => {
+  return DevExtremeCreateStore("/Kargo/SayfaliTablo/" + id);
+};
+
+export const productCargoList = async (_, page = 0, rowCount = 10) => {
+  return await instance.get("/Kargo/SayfaliListele").then((res) => res.data);
+};
+
+export const productCargo = async (_, id) => {
+  return await instance
+    .get("/Kargo/BulByTeklifId/" + id)
+    .then((res) => res.data);
+};
+
+export const productCargoByProductId = async (_, id, detayId) => {
+  return await instance
+    .get("/Kargo/BulByUrunFiyatId/1?urunId= " + id + "&urunFiyatId=" + detayId)
+    .then((res) => res.data);
+};
+
+export const productCargoInsert = async (_, body) => {
+  return await instance.post("/Kargo/Ekle", body).then((res) => res.data);
+};
+
+export const productCargoRemove = async (_, id) => {
+  return await instance.get("/Kargo/Sil?id=" + id).then((res) => res.data);
+};
+
+///////////////////////////////////////////////////////////////////////

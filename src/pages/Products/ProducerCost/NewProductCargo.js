@@ -21,7 +21,7 @@ import {
   productCustomsInsert,
   productPriceInsert,
 } from "../../../api/api";
-import { useParams } from "react-router-dom";
+import { useLocation, useParams } from "react-router-dom";
 import BreadCrumb from "../../../components/BreadCrumb/BreadCrumb";
 import { useSideBarData } from "../../../context/SideBarContext";
 import { ProductMenu } from "../../../constants/MenuItems";
@@ -46,66 +46,62 @@ const createProductPrice = async ({ values, detayId }) => {
 };
 
 const NewProductCargo = () => {
-  const { detayId, id } = useParams();
+  const { id } = useParams();
   const { updateSideBar } = useSideBarData();
+  const location = useLocation();
 
   useEffect(() => {
     updateSideBar({ selectedSideBar: ProductMenu(id) });
   }, []);
 
-  const [urunFiyatları, setUrunFiyatlari] = useState([
+  const [kargoOzellikleri, setKargoOzellikleri] = useState([
     {
-      urunMiktar: 0,
-      birimFiyati: 0,
-      dovizCinsiId: 0,
-      hazirlikMiktarSuresi: "",
-      ambalajKutuFiyatDahil: "",
-      ambalajKutuFiyat: 0,
-      ambalajKutuDovizCinsiId: 0,
-      toplamMaliyet: 0,
+      id: 0,
+      eklenmeTarihi: "",
+      ekleyenId: 0,
+      duzenleyenId: 0,
+      duzenlenmeTarihi: "",
+      urunKargoId: 0,
+      urunKargo: "",
+      tasimaSekli: "",
+      uzunluk: 0,
+      uzunlukBirim: "",
+      genislik: 0,
+      genislikBirim: "",
+      yukseklik: 0,
+      yukseklikBirim: "",
+      birimAgirlik: 0,
+      birimAgirlikBirim: "",
+      urunMiktari: 0,
+      urunMiktariBirim: "",
+      toplamM3: 0,
+      toplamAgirlik: 0,
+      urunDemonte: 0,
+      urunKutulu: 0,
+      tasimaTipId: 0,
+      parcaAciklama: "",
     },
   ]);
 
   const { errors, handleChange, handleSubmit, values, touched, setFieldValue } =
     useFormik({
       initialValues: {
-        urunId: id,
-        demontemi: "hayır",
-        urunSehirId: 0,
-        urunTeslimUlkeId: 0,
-        kargoId: 0,
-        urunMiktar: "",
-        urunHazirMiktar: "",
-        urunHazirMiktarBirimi: "",
+        id: 0,
         aciklama: "",
-        urunTeklifTarihi: "",
-        urunTeklifGecerlilikTarihi: "",
-        urunFiyat: [],
+        urunId: id,
+        urunDemonte: "",
+        kargoOzellikleri: [],
+        urunFiyatId: location.state.detayId,
       },
       onSubmit: (values) => {
-        createProductPrice({ values, detayId });
+        createProductPrice({ values, detayId: location.state.detayId });
       },
     });
-  const { data: Country, mutate } = useSWR(
-    ["getCountryTable"],
-    getCountryTable
-  );
-
-  const { data: City } = useSWR(
-    ["getCityTable", values.urunUlkeId],
-    getCityTable
-  );
-
-  const { data: Delivery } = useSWR(["getDeliveryTable"], getDeliveryTable);
-
-  const { data: UnitType } = useSWR(["getUnitTypeTable"], getUnitTypeTable);
 
   const { data: CurrencyType } = useSWR(
     ["getCurrencyTypeTable"],
     getCurrencyTypeTable
   );
-
-  const { data: Company } = useSWR(["getCompanyTable"], getCompanyTable);
 
   return (
     <Box>
@@ -254,14 +250,14 @@ const NewProductCargo = () => {
             {values.demontemi === "evet" && (
               <Box my="50px" overflow={"auto"}>
                 <Box w={"100%"} height="2px" bg="#707070" />
-                {urunFiyatları.map((item, index) => (
+                {kargoOzellikleri.map((item, index) => (
                   <Box>
                     <Flex gap={"10px"}>
                       <TextInput
                         name={"urunMiktar"}
-                        value={urunFiyatları[index].urunMiktar}
+                        value={kargoOzellikleri[index].urunMiktar}
                         onChange={(e) => {
-                          updateArrayState(setUrunFiyatlari, index, e);
+                          updateArrayState(setKargoOzellikleri, index, e);
                         }}
                         error={touched.urunMiktar && errors.urunMiktar}
                       >
@@ -269,9 +265,9 @@ const NewProductCargo = () => {
                       </TextInput>
                       <TextInput
                         name={"birimFiyati"}
-                        value={urunFiyatları[index].birimFiyati}
+                        value={kargoOzellikleri[index].birimFiyati}
                         onChange={(e) => {
-                          updateArrayState(setUrunFiyatlari, index, e);
+                          updateArrayState(setKargoOzellikleri, index, e);
                         }}
                         error={touched.birimFiyati && errors.birimFiyati}
                       >
@@ -279,11 +275,11 @@ const NewProductCargo = () => {
                       </TextInput>
                       <SelectInput
                         name={"dovizCinsiId"}
-                        value={urunFiyatları[index].dovizCinsiId}
+                        value={kargoOzellikleri[index].dovizCinsiId}
                         data={CurrencyType}
                         visableValue="ad"
                         onChange={(name, value) => {
-                          updateArrayState(setUrunFiyatlari, index, {
+                          updateArrayState(setKargoOzellikleri, index, {
                             name,
                             value,
                           });
@@ -294,9 +290,9 @@ const NewProductCargo = () => {
                       </SelectInput>
                       <TextInput
                         name={"hazirlikMiktarSuresi"}
-                        value={urunFiyatları[index].hazirlikMiktarSuresi}
+                        value={kargoOzellikleri[index].hazirlikMiktarSuresi}
                         onChange={(e) => {
-                          updateArrayState(setUrunFiyatlari, index, e);
+                          updateArrayState(setKargoOzellikleri, index, e);
                         }}
                         error={
                           touched.hazirlikMiktarSuresi &&
@@ -308,9 +304,9 @@ const NewProductCargo = () => {
                       </TextInput>
                       <DefaultSelect
                         name={"ambalajKutuFiyatDahil"}
-                        value={urunFiyatları[index].ambalajKutuFiyatDahil}
+                        value={kargoOzellikleri[index].ambalajKutuFiyatDahil}
                         onChange={(e) => {
-                          updateArrayState(setUrunFiyatlari, index, e);
+                          updateArrayState(setKargoOzellikleri, index, e);
                         }}
                         minW="250px"
                         data={[
@@ -327,9 +323,9 @@ const NewProductCargo = () => {
                       </DefaultSelect>
                       <TextInput
                         name={"ambalajKutuFiyat"}
-                        value={urunFiyatları[index].ambalajKutuFiyat}
+                        value={kargoOzellikleri[index].ambalajKutuFiyat}
                         onChange={(e) => {
-                          updateArrayState(setUrunFiyatlari, index, e);
+                          updateArrayState(setKargoOzellikleri, index, e);
                         }}
                         error={
                           touched.ambalajKutuFiyat && errors.ambalajKutuFiyat
@@ -340,11 +336,11 @@ const NewProductCargo = () => {
                       </TextInput>
                       <SelectInput
                         name={"ambalajKutuDovizCinsiId"}
-                        value={urunFiyatları[index].ambalajKutuDovizCinsiId}
+                        value={kargoOzellikleri[index].ambalajKutuDovizCinsiId}
                         data={CurrencyType}
                         visableValue="ad"
                         onChange={(e) => {
-                          updateArrayState(setUrunFiyatlari, index, e);
+                          updateArrayState(setKargoOzellikleri, index, e);
                         }}
                         error={
                           touched.ambalajKutuDovizCinsiId &&
@@ -355,9 +351,9 @@ const NewProductCargo = () => {
                       </SelectInput>
                       <TextInput
                         name={"toplamMaliyet"}
-                        value={urunFiyatları[index].toplamMaliyet}
+                        value={kargoOzellikleri[index].toplamMaliyet}
                         onChange={(e) => {
-                          updateArrayState(setUrunFiyatlari, index, e);
+                          updateArrayState(setKargoOzellikleri, index, e);
                         }}
                         error={touched.toplamMaliyet && errors.toplamMaliyet}
                         minW="300px"
@@ -370,7 +366,7 @@ const NewProductCargo = () => {
                 <Button
                   mb="50px"
                   onClick={() =>
-                    setUrunFiyatlari((prev) => [
+                    setKargoOzellikleri((prev) => [
                       ...prev,
                       {
                         urunMiktar: 0,
