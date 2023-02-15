@@ -4,7 +4,7 @@ import React, { useEffect, useState } from "react";
 import { useLocation, useNavigate, useParams } from "react-router-dom";
 import { ProductMenu } from "../../../constants/MenuItems";
 import { useSideBarData } from "../../../context/SideBarContext";
-import { productCustomsTable, productPriceTable } from "../../../api/api";
+import { productPriceRemove, productPriceTable } from "../../../api/api";
 import { sendRequest } from "../../../utils/helpers";
 import SkeletonComp from "../../../components/Skeleton/Skeleton";
 import BreadCrumb from "../../../components/BreadCrumb/BreadCrumb";
@@ -22,7 +22,7 @@ const ProductPriceList = () => {
   const navigate = useNavigate();
   const [radioValue, setRadioValue] = React.useState({});
 
-  const { data, error } = useSWR(
+  const { data, error, mutate } = useSWR(
     ["productCustomsTable", id, location.state?.ulkeId],
     productPriceTable
   );
@@ -34,26 +34,25 @@ const ProductPriceList = () => {
       column: "id",
     },
     {
-      title: "Menşei Ülkesi",
-      column: "menseiUlke",
+      title: "Üretici",
+      column: "firmaUnvan",
     },
     {
-      title: "Çıkış Ülkesi",
-      column: "cikisUlke",
+      title: "Ülkesi",
+      column: "urunMenseiUlke",
     },
     {
-      title: "Varış Ülkesi",
-      column: "varisUlke",
-    },
-    {
-      title: "Gtip No",
-      column: "gTipNo",
-    },
-    {
-      title: "Total Vergi Oranı",
-      column: "kdvOrani",
+      title: "Teklif A. Tarihi",
+      column: "urunTeklifTarihi",
     },
   ];
+
+  const removePrice = async ({ radioValue, mutate }) => {
+    const { status } = await sendRequest(
+      productPriceRemove("_", radioValue.id)
+    );
+    status && mutate();
+  };
 
   return loading ? (
     <SkeletonComp />
@@ -68,13 +67,18 @@ const ProductPriceList = () => {
           },
         }}
         funct2={{
-          title: "Üretici Fiyatları",
+          title: "Detay",
           function: () => {
-            navigate(location.pathname + "/uretici-fiyat/yeni", { state: id });
+            navigate("" + radioValue.id, { state: { detay: radioValue } });
+          },
+        }}
+        funct3={{
+          function: () => {
+            removePrice({ radioValue, mutate });
           },
         }}
       >
-        Bölgelere Göre Maliyetler
+        Üretici Fiyatları
       </BreadCrumb>
       <Box mt="20px" px={"38px"}>
         <ListTable

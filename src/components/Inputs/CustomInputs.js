@@ -13,6 +13,7 @@ export const TextInput = ({
   onChange,
   error,
   type,
+  defaultValue,
   ...props
 }) => {
   return (
@@ -23,6 +24,7 @@ export const TextInput = ({
       <Input
         h="54px"
         name={name}
+        defaultValue={defaultValue}
         value={value}
         onChange={onChange}
         borderColor={"#D6D6D6"}

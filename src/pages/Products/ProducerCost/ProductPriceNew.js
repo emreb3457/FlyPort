@@ -20,8 +20,9 @@ import {
   getCompanyTable,
   productCustomsInsert,
   productPriceInsert,
+  productPriceDetail,
 } from "../../../api/api";
-import { useNavigate, useParams } from "react-router-dom";
+import { useLocation, useNavigate, useParams } from "react-router-dom";
 import BreadCrumb from "../../../components/BreadCrumb/BreadCrumb";
 import { useSideBarData } from "../../../context/SideBarContext";
 import { ProductMenu } from "../../../constants/MenuItems";
@@ -32,39 +33,34 @@ const ProductPriceNew = () => {
   const { detayId, id } = useParams();
   const { updateSideBar } = useSideBarData();
   const navigate = useNavigate();
+  const location = useLocation();
 
   useEffect(() => {
     updateSideBar({ selectedSideBar: ProductMenu(id) });
   }, []);
 
-  const [urunFiyatları, setUrunFiyatlari] = useState([
-    {
-      urunMiktar: 0,
-      birimFiyati: 0,
-      dovizCinsiId: 0,
-      hazirlikMiktarSuresi: "",
-      ambalajKutuFiyatDahil: "",
-      ambalajKutuFiyat: 0,
-      ambalajKutuDovizCinsiId: 0,
-      toplamMaliyet: 0,
-    },
-  ]);
-
+  const [urunFiyatları, setUrunFiyatlari] = useState(
+    location.state.detay
+      ? location.state.detay.urunFiyat
+      : [
+          {
+            urunMiktar: 0,
+            birimFiyati: 0,
+            dovizCinsiId: 0,
+            hazirlikMiktarSuresi: "",
+            ambalajKutuFiyatDahil: "",
+            ambalajKutuFiyat: 0,
+            ambalajKutuDovizCinsiId: 0,
+            toplamMaliyet: 0,
+          },
+        ]
+  );
+ 
   const { errors, handleChange, handleSubmit, values, touched, setFieldValue } =
     useFormik({
       initialValues: {
         urunId: Number(id),
-        firmaUnvanId: 0,
-        urunMenseiUlkeId: 0,
-        ureticiSehirId: 0,
-        teslimYeriUlkeId: 0,
-        teslimSekliId: 0,
-        urunHazirMiktar: 0,
-        urunHazirMiktarBirimiId: 0,
-        urunTeklifTarihi: "",
-        urunTeklifGecerlilikTarihi: "",
-        aciklama: "",
-        urunFiyat: [],
+        ...location.state.detay,
       },
       onSubmit: (values) => {
         createProductPrice({ values, detayId });
@@ -80,6 +76,11 @@ const ProductPriceNew = () => {
     getCityTable
   );
 
+  const { data: Detail } = useSWR(
+    ["productPriceDetail", detayId],
+    productPriceDetail
+  );
+
   const { data: Delivery } = useSWR(["getDeliveryTable"], getDeliveryTable);
 
   const { data: UnitType } = useSWR(["getUnitTypeTable"], getUnitTypeTable);
@@ -88,15 +89,17 @@ const ProductPriceNew = () => {
     ["getCurrencyTypeTable"],
     getCurrencyTypeTable
   );
-
   const { data: Company } = useSWR(["getCompanyTable"], getCompanyTable);
 
   const createProductPrice = async ({ values, detayId }) => {
+    values.urunFiyat = urunFiyatları;
+    if (detayId) {
+      values.id = detayId;
+    }
     const { status } = await sendRequest(
       productPriceInsert("_", {
         ...values,
         detayId,
-        urunFiyat: urunFiyatları,
         urunMenseiUlkeId: values.urunMenseiUlkeId,
       })
     );
@@ -106,7 +109,7 @@ const ProductPriceNew = () => {
         urunId: Number(values.urunId),
         menseiUlkeId: values.urunMenseiUlkeId,
         cikisUlkeId: values.urunMenseiUlkeId,
-        varisUlkeId: values.urunTeslimUlkeId,
+        varisUlkeId: values.teslimYeriUlkeId,
       })
     );
     if (status && statusCustoms) {
@@ -131,7 +134,7 @@ const ProductPriceNew = () => {
           tabs={UreticiFiyatiTabs(id)}
           activeTab={0}
           onClick={(tab) => navigate(tab.route, { state: { detayId } })}
-          visible
+          isVisible={detayId}
         >
           <form onSubmit={handleSubmit}>
             <Box display={["block", "block", "block", "flex"]} mt="20px">
@@ -359,8 +362,11 @@ const ProductPriceNew = () => {
                     value={urunFiyatları[index].ambalajKutuDovizCinsiId}
                     data={CurrencyType}
                     visableValue="ad"
-                    onChange={(e) => {
-                      updateArrayState(setUrunFiyatlari, index, e);
+                    onChange={(name, value) => {
+                      updateArrayState(setUrunFiyatlari, index, {
+                        name,
+                        value,
+                      });
                     }}
                     error={
                       touched.ambalajKutuDovizCinsiId &&

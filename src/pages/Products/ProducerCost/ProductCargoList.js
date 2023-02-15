@@ -1,11 +1,10 @@
 import { Box } from "@chakra-ui/react";
 import useSWR from "swr";
-import React, { useEffect, useState } from "react";
+import React, { useEffect } from "react";
 import { useLocation, useNavigate, useParams } from "react-router-dom";
 import { ProductMenu } from "../../../constants/MenuItems";
 import { useSideBarData } from "../../../context/SideBarContext";
 import { productCargoByProductId, productCargoRemove } from "../../../api/api";
-import SkeletonComp from "../../../components/Skeleton/Skeleton";
 import BreadCrumb from "../../../components/BreadCrumb/BreadCrumb";
 import ListTable from "../../../components/ListTable";
 import { sendRequest } from "../../../utils/helpers";
@@ -28,7 +27,6 @@ const ProductCargoList = () => {
     productCargoByProductId
   );
 
-  const loading = !error && !data;
   const Head = [
     {
       title: "ID",
@@ -63,9 +61,7 @@ const ProductCargoList = () => {
     status && mutate();
   };
 
-  return loading ? (
-    <SkeletonComp />
-  ) : (
+  return (
     <Box>
       <BreadCrumb
         selectValue={radioValue}

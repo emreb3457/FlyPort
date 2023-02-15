@@ -4,7 +4,7 @@ import React, { useEffect, useState } from "react";
 import { useLocation, useNavigate, useParams } from "react-router-dom";
 import { ProductMenu } from "../../../constants/MenuItems";
 import { useSideBarData } from "../../../context/SideBarContext";
-import { productCustomsTable } from "../../../api/api";
+import { productCustomsTable, productCustomsRemove } from "../../../api/api";
 import { sendRequest } from "../../../utils/helpers";
 import SkeletonComp from "../../../components/Skeleton/Skeleton";
 import BreadCrumb from "../../../components/BreadCrumb/BreadCrumb";
@@ -56,6 +56,13 @@ const ProductCustomsDutie = () => {
     },
   ];
 
+  const removeDuties = async ({ radioValue, mutate }) => {
+    const { status } = await sendRequest(
+      productCustomsRemove("_", radioValue.id)
+    );
+    status && mutate();
+  };
+
   return loading ? (
     <SkeletonComp />
   ) : (
@@ -76,6 +83,11 @@ const ProductCustomsDutie = () => {
             navigate(location.pathname + "/uretici-fiyat", {
               state: { ulkeId: radioValue.menseiUlkeId },
             });
+          },
+        }}
+        funct3={{
+          function: () => {
+            removeDuties({ radioValue, mutate });
           },
         }}
       >

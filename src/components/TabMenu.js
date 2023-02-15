@@ -2,10 +2,13 @@ import { Box } from "@chakra-ui/react";
 import colors from "../theme/colors";
 import { StyledButton } from "./BreadCrumb/BreadCrumb";
 
-const TabMenu = ({ tabs, onClick, children, activeTab, visible }) => {
+const TabMenu = ({ tabs, onClick, children, activeTab, isVisible }) => {
   return (
     <Box display={"flex"} flexDirection="column" pl={{ sm: "71px" }}>
-      <Box borderBottom={"1px solid black"} display={visible && "none"}>
+      <Box
+        borderBottom={"1px solid black"}
+        display={isVisible ? "block" : "none"}
+      >
         {tabs?.map((tab, index) => (
           <StyledButton
             key={index}
