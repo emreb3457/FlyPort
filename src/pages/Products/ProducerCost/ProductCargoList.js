@@ -69,8 +69,7 @@ const ProductCargoList = () => {
           title: "Yeni Ekle",
           function: () => {
             navigate(location.pathname + "/yeni", {
-              state: id,
-              detayId: location.state.detayId,
+              state: { id: id, detayId: location.state?.detayId },
             });
           },
         }}
