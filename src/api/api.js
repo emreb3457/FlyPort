@@ -624,7 +624,9 @@ export const productCargoByProductId = async (_, id, detayId) => {
 };
 
 export const productCargoInsert = async (_, body) => {
-  return await instance.post("/Kargo/Ekle", body).then((res) => res.data);
+  return await instance
+    .post("/Kargo/UrunKargoEKle", body)
+    .then((res) => res.data);
 };
 
 export const productCargoRemove = async (_, id) => {

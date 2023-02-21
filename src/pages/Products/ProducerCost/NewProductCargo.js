@@ -3,24 +3,17 @@ import { useFormik } from "formik";
 import {
   TextInput,
   SelectInput,
-  DateInput,
   DefaultSelect,
 } from "../../../components/Inputs/CustomInputs";
-import { sendRequest, updateArrayState } from "../../../utils/helpers";
+import {
+  sendRequest,
+  stringToBoolean,
+  updateArrayState,
+} from "../../../utils/helpers";
 import useSWR from "swr";
-import {
-  getCountryTable,
-  getCityTable,
-  getDeliveryTable,
-  getUnitTypeTable,
-  getCurrencyTypeTable,
-} from "../../../api/DefinitionsApi";
+import {} from "../../../api/DefinitionsApi";
 import { useState, useEffect } from "react";
-import {
-  getCompanyTable,
-  productCustomsInsert,
-  productPriceInsert,
-} from "../../../api/api";
+import { productCargoInsert } from "../../../api/api";
 import { useLocation, useParams } from "react-router-dom";
 import BreadCrumb from "../../../components/BreadCrumb/BreadCrumb";
 import { useSideBarData } from "../../../context/SideBarContext";
@@ -29,18 +22,10 @@ import { uzunlukBirim } from "../../../constants/other";
 
 const createProductPrice = async ({ values, detayId }) => {
   const { status } = await sendRequest(
-    productPriceInsert("_", {
+    productCargoInsert("_", {
       detayId,
       ...values,
-    })
-  );
-
-  const { status: statusCustoms } = await sendRequest(
-    productCustomsInsert("_", {
-      urunId: Number(values.urunId),
-      menseiUlkeId: values.urunUlkeId,
-      cikisUlkeId: values.urunUlkeId,
-      varisUlkeId: values.urunTeslimUlkeId,
+      urunDemonte: stringToBoolean(values?.urunDemonte),
     })
   );
 };
@@ -56,13 +41,6 @@ const NewProductCargo = () => {
 
   const [kargoOzellikleri, setKargoOzellikleri] = useState([
     {
-      id: 0,
-      eklenmeTarihi: "",
-      ekleyenId: 0,
-      duzenleyenId: 0,
-      duzenlenmeTarihi: "",
-      urunKargoId: 0,
-      urunKargo: "",
       tasimaSekli: "",
       uzunluk: 0,
       uzunlukBirim: "",
@@ -86,9 +64,7 @@ const NewProductCargo = () => {
   const { errors, handleChange, handleSubmit, values, touched, setFieldValue } =
     useFormik({
       initialValues: {
-        id: 0,
-        aciklama: "",
-        urunId: id,
+        urunId: Number(id),
         urunDemonte: "",
         kargoOzellikleri: [],
         urunFiyatId: location.state.detayId,
@@ -97,11 +73,6 @@ const NewProductCargo = () => {
         createProductPrice({ values, detayId: location.state.detayId });
       },
     });
-
-  const { data: CurrencyType } = useSWR(
-    ["getCurrencyTypeTable"],
-    getCurrencyTypeTable
-  );
 
   return (
     <Box>
@@ -125,8 +96,8 @@ const NewProductCargo = () => {
                 onChange={handleChange}
                 minW="250px"
                 data={[
-                  { ad: "Evet", id: "evet" },
-                  { ad: "Hayır", id: "hayır" },
+                  { ad: "Evet", id: "true" },
+                  { ad: "Hayır", id: "false" },
                 ]}
                 visableValue={"ad"}
                 error={touched.demontemi && errors.demontemi}
@@ -134,7 +105,7 @@ const NewProductCargo = () => {
                 Ürün Demonte mi?
               </DefaultSelect>
 
-              {values.demontemi === "hayır" && (
+              {!stringToBoolean(values.demontemi) && (
                 <Box>
                   <DefaultSelect
                     name={""}
@@ -247,142 +218,147 @@ const NewProductCargo = () => {
                 </Box>
               )}
             </Box>
-            {values.demontemi === "evet" && (
+            {stringToBoolean(values.demontemi) && (
               <Box my="50px" overflow={"auto"}>
                 <Box w={"100%"} height="2px" bg="#707070" />
                 {kargoOzellikleri.map((item, index) => (
                   <Box>
-                    <Flex gap={"10px"}>
+                    <Flex gap={"10px"} alignItems="center">
                       <TextInput
-                        name={"urunMiktar"}
-                        value={kargoOzellikleri[index].urunMiktar}
+                        maxW="180px"
+                        name={"tasimaSekli"}
+                        value={kargoOzellikleri[index].tasimaSekli}
                         onChange={(e) => {
                           updateArrayState(setKargoOzellikleri, index, e);
                         }}
-                        error={touched.urunMiktar && errors.urunMiktar}
+                        error={touched.tasimaSekli && errors.tasimaSekli}
                       >
-                        Ürün Miktarı
+                        Ürün Ne İle Taşınıyor?
                       </TextInput>
+                      <Box display={"flex"} alignItems="end">
+                        <TextInput
+                          pr="10px"
+                          name={"uzunluk"}
+                          value={kargoOzellikleri[index].uzunluk}
+                          onChange={(e) => {
+                            updateArrayState(setKargoOzellikleri, index, e);
+                          }}
+                          error={touched.uzunluk && errors.uzunluk}
+                        >
+                          Uzunluğu
+                        </TextInput>
+                        <DefaultSelect
+                          maxW="80px"
+                          name={"uzunlukBirim"}
+                          value={kargoOzellikleri[index].uzunlukBirim}
+                          onChange={(e) => {
+                            updateArrayState(setKargoOzellikleri, index, e);
+                          }}
+                          data={uzunlukBirim}
+                          visableValue={"value"}
+                          error={touched.uzunlukBirim && errors.uzunlukBirim}
+                        >
+                          Birim
+                        </DefaultSelect>
+                      </Box>
+                      <Box display={"flex"} alignItems="end">
+                        <TextInput
+                          pr="10px"
+                          name={"genislik"}
+                          value={kargoOzellikleri[index].genislik}
+                          onChange={(e) => {
+                            updateArrayState(setKargoOzellikleri, index, e);
+                          }}
+                          error={touched.genislik && errors.genislik}
+                        >
+                          Genişliği
+                        </TextInput>
+                        <DefaultSelect
+                          maxW="80px"
+                          name={"genislikBirim"}
+                          value={kargoOzellikleri[index].genislikBirim}
+                          onChange={(e) => {
+                            updateArrayState(setKargoOzellikleri, index, e);
+                          }}
+                          data={uzunlukBirim}
+                          visableValue={"value"}
+                          error={touched.genislikBirim && errors.genislikBirim}
+                        >
+                          Birim
+                        </DefaultSelect>
+                      </Box>
+                      <Box display={"flex"} alignItems="end">
+                        <TextInput
+                          pr="10px"
+                          name={"yukseklik"}
+                          value={kargoOzellikleri[index].yukseklik}
+                          onChange={(e) => {
+                            updateArrayState(setKargoOzellikleri, index, e);
+                          }}
+                          error={touched.yukseklik && errors.yukseklik}
+                        >
+                          Yüksekliği
+                        </TextInput>
+                        <DefaultSelect
+                          maxW="80px"
+                          name={"yukseklikBirim"}
+                          value={kargoOzellikleri[index].yukseklikBirim}
+                          onChange={(e) => {
+                            updateArrayState(setKargoOzellikleri, index, e);
+                          }}
+                          data={uzunlukBirim}
+                          visableValue={"value"}
+                          error={
+                            touched.yukseklikBirim && errors.yukseklikBirim
+                          }
+                        >
+                          Birim
+                        </DefaultSelect>
+                      </Box>
+                      <Box display={"flex"} alignItems="end">
+                        <TextInput
+                          pr="10px"
+                          name={"birimAgirlik"}
+                          value={kargoOzellikleri[index].birimAgirlik}
+                          onChange={(e) => {
+                            updateArrayState(setKargoOzellikleri, index, e);
+                          }}
+                          error={touched.birimAgirlik && errors.birimAgirlik}
+                        >
+                          Birim Ağırlığı
+                        </TextInput>
+                        <DefaultSelect
+                          maxW="80px"
+                          name={"birimAgirlikBirim"}
+                          value={kargoOzellikleri[index].birimAgirlikBirim}
+                          onChange={(e) => {
+                            updateArrayState(setKargoOzellikleri, index, e);
+                          }}
+                          data={uzunlukBirim}
+                          visableValue={"value"}
+                          error={
+                            touched.birimAgirlikBirim &&
+                            errors.birimAgirlikBirim
+                          }
+                        >
+                          Birim
+                        </DefaultSelect>
+                      </Box>
                       <TextInput
-                        name={"birimFiyati"}
-                        value={kargoOzellikleri[index].birimFiyati}
+                        maxW="150px"
+                        name={"parcaAciklama"}
+                        value={kargoOzellikleri[index].parcaAciklama}
                         onChange={(e) => {
                           updateArrayState(setKargoOzellikleri, index, e);
                         }}
-                        error={touched.birimFiyati && errors.birimFiyati}
+                        error={touched.parcaAciklama && errors.parcaAciklama}
                       >
-                        Birim Fiyatı
-                      </TextInput>
-                      <SelectInput
-                        name={"dovizCinsiId"}
-                        value={kargoOzellikleri[index].dovizCinsiId}
-                        data={CurrencyType}
-                        visableValue="ad"
-                        onChange={(name, value) => {
-                          updateArrayState(setKargoOzellikleri, index, {
-                            name,
-                            value,
-                          });
-                        }}
-                        error={touched.dovizCinsiId && errors.dovizCinsiId}
-                      >
-                        Döviz Cinsi
-                      </SelectInput>
-                      <TextInput
-                        name={"hazirlikMiktarSuresi"}
-                        value={kargoOzellikleri[index].hazirlikMiktarSuresi}
-                        onChange={(e) => {
-                          updateArrayState(setKargoOzellikleri, index, e);
-                        }}
-                        error={
-                          touched.hazirlikMiktarSuresi &&
-                          errors.hazirlikMiktarSuresi
-                        }
-                        minW="300px"
-                      >
-                        İsteniken Miktar İcin Hazırlık Süresi
-                      </TextInput>
-                      <DefaultSelect
-                        name={"ambalajKutuFiyatDahil"}
-                        value={kargoOzellikleri[index].ambalajKutuFiyatDahil}
-                        onChange={(e) => {
-                          updateArrayState(setKargoOzellikleri, index, e);
-                        }}
-                        minW="250px"
-                        data={[
-                          { ad: "Evet", id: "evet" },
-                          { ad: "Hayır", id: "hayır" },
-                        ]}
-                        visableValue={"ad"}
-                        error={
-                          touched.ambalajKutuFiyatDahil &&
-                          errors.ambalajKutuFiyatDahil
-                        }
-                      >
-                        Ambalaj / Kutu Fiyatı Dahil mi?
-                      </DefaultSelect>
-                      <TextInput
-                        name={"ambalajKutuFiyat"}
-                        value={kargoOzellikleri[index].ambalajKutuFiyat}
-                        onChange={(e) => {
-                          updateArrayState(setKargoOzellikleri, index, e);
-                        }}
-                        error={
-                          touched.ambalajKutuFiyat && errors.ambalajKutuFiyat
-                        }
-                        minW="200px"
-                      >
-                        Ambalaj / Kutu Fiyatı?
-                      </TextInput>
-                      <SelectInput
-                        name={"ambalajKutuDovizCinsiId"}
-                        value={kargoOzellikleri[index].ambalajKutuDovizCinsiId}
-                        data={CurrencyType}
-                        visableValue="ad"
-                        onChange={(e) => {
-                          updateArrayState(setKargoOzellikleri, index, e);
-                        }}
-                        error={
-                          touched.ambalajKutuDovizCinsiId &&
-                          errors.ambalajKutuDovizCinsiId
-                        }
-                      >
-                        Döviz Cinsi
-                      </SelectInput>
-                      <TextInput
-                        name={"toplamMaliyet"}
-                        value={kargoOzellikleri[index].toplamMaliyet}
-                        onChange={(e) => {
-                          updateArrayState(setKargoOzellikleri, index, e);
-                        }}
-                        error={touched.toplamMaliyet && errors.toplamMaliyet}
-                        minW="300px"
-                      >
-                        Toplam Maliyet
+                        Parça Açıklama
                       </TextInput>
                     </Flex>
                   </Box>
                 ))}
-                <Button
-                  mb="50px"
-                  onClick={() =>
-                    setKargoOzellikleri((prev) => [
-                      ...prev,
-                      {
-                        urunMiktar: 0,
-                        birimFiyati: 0,
-                        dovizCinsiId: 0,
-                        hazirlikMiktarSuresi: "",
-                        ambalajKutuFiyatDahil: "",
-                        ambalajKutuFiyat: 0,
-                        ambalajKutuDovizCinsiId: 0,
-                        toplamMaliyet: 0,
-                      },
-                    ])
-                  }
-                >
-                  Yeni Ekle
-                </Button>
+                <Button mb="50px">Yeni Ekle</Button>
               </Box>
             )}
           </Box>
