@@ -152,6 +152,10 @@ export const ProductMenu = (id) => {
         },
       ],
     },
+    {
+      title: "Verilen Teklifler",
+      route: `teklifler/${id}`,
+    },
   ];
 
   return menuItems;

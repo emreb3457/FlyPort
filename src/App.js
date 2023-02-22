@@ -38,6 +38,9 @@ import PriceResearchDetail from './pages/PriceResearch/PriceResearchDetail';
 import LogisticsTable from './pages/Logistics/LogisticsTable';
 import LogisticsDetail from './pages/Logistics/LogisticsDetail';
 import NewLogistics from './pages/Logistics/NewLogistics';
+import NewLogisticsProduct from './pages/Products/Logistics/NewLogistics';
+import NewLogisticsProductDetail from './pages/Products/Logistics/LogisticsDetail';
+import NewLogisticsProductTable from './pages/Products/Logistics/LogisticsTable';
 import TransportType from './pages/tanimlamalar/TransportType';
 import GtipList from './pages/Gtip/GtipList';
 import NewGtip from './pages/Gtip/NewGtip';
@@ -47,6 +50,8 @@ import CustomDetail from './pages/Customs/CustomDetail';
 import OtherCosts from './pages/OtherCosts/OtherCosts';
 import OffertList from './pages/Offers/OffertList';
 import NewOffer from './pages/Offers/NewOffer';
+import ProductOffertList from './pages/Products/Offers/OffertList';
+import ProductNewOffer from './pages/Products/Offers/NewOffer';
 import ProductCertificates from './pages/Products/ProductCertificates';
 import { SideBarContextProvider } from './context/SideBarContext';
 import ProductPrice from './pages/Products/ProducerCost/ProductPriceNew';
@@ -109,7 +114,13 @@ const App = () => {
             <Route path="/urun-maliyet/:id/kargo/:detayId" element={<ProtectedRoute><NewProductCargo/></ProtectedRoute>} exact />
             <Route path="/urun-maliyet/:id/kargo" element={<ProtectedRoute><ProductCargoList/></ProtectedRoute>} exact />
 
-
+            <Route path="/urun-maliyet/:id/lojistik-maliyet/yeni" element={<ProtectedRoute><NewLogisticsProduct/></ProtectedRoute>} exact />
+            <Route path="/urun-maliyet/:id/lojistik-maliyet/:detayId" element={<ProtectedRoute><NewLogisticsProductDetail/></ProtectedRoute>} exact />
+            <Route path="/urun-maliyet/:id/lojistik-maliyet" element={<ProtectedRoute><NewLogisticsProductTable/></ProtectedRoute>} exact />
+            
+            <Route path="/teklifler/:id/yeni" element={<ProtectedRoute><ProductNewOffer/></ProtectedRoute>} exact />
+            <Route path="/teklifler/:id/:detayId" element={<ProtectedRoute><ProductNewOffer/></ProtectedRoute>} exact />
+            <Route path="/teklifler/:id" element={<ProtectedRoute><ProductOffertList/></ProtectedRoute>} exact />
 
             <Route path="/tanimlamalar/gtip" element={<ProtectedRoute><GtipList/></ProtectedRoute>} exact />
             <Route path="/tanimlamalar/gtip/yeni" element={<ProtectedRoute><NewGtip/></ProtectedRoute>} exact />

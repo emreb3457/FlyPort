@@ -320,6 +320,37 @@ export const logisticRemove = async (_, id) => {
     .then((res) => res.data);
 };
 
+////////////////////////////////////////////////////////////////////////Company Official
+
+export const productLogisticsTable = async (_, id) => {
+  return DevExtremeCreateStore("/UrunMaliyet/BirlesmisTablo?urunid=" + id);
+};
+
+export const productLogisticList = async (_) => {
+  return await instance
+    .get("/UrunMaliyet/SayfaliListele")
+    .then((res) => res.data);
+};
+
+export const productLogisticsDetail = async (_, id) => {
+  return await instance.get("/UrunMaliyet/Bul/" + id).then((res) => res.data);
+};
+
+export const productLogisticsInsert = async (_, body) => {
+  return await instance.post("/UrunMaliyet/Ekle", body).then((res) => res.data);
+};
+
+export const productLogisticsUpdate = async (_, body) => {
+  return await instance
+    .post("/UrunMaliyet/Guncelle", body)
+    .then((res) => res.data);
+};
+
+export const productLogisticRemove = async (_, id) => {
+  return await instance
+    .get("/UrunMaliyet/Sil?id=" + id)
+    .then((res) => res.data);
+};
 ////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////Gtip
 
@@ -502,6 +533,35 @@ export const offerRemove = async (_, id) => {
     .then((res) => res.data);
 };
 
+///////////////////////////////////////////////////////////////////////
+
+export const productOfferTable = async (_, id) => {
+  return DevExtremeCreateStore("/UrunMaster/BuTalepIcin?urunid=" + id);
+};
+
+export const productOfferList = async (_) => {
+  return await instance
+    .get("/UrunMaster/SayfaliListele")
+    .then((res) => res.data);
+};
+
+export const productOfferDetail = async (_, id) => {
+  return await instance.get("/UrunMaster/Bul/" + id).then((res) => res.data);
+};
+
+export const productOfferInsert = async (_, body) => {
+  return await instance.post("/UrunMaster/Ekle", body).then((res) => res.data);
+};
+
+export const productOfferUpdate = async (_, body) => {
+  return await instance
+    .post("/UrunMaster/Guncelle", body)
+    .then((res) => res.data);
+};
+
+export const productOfferRemove = async (_, id) => {
+  return await instance.get("/UrunMaster/Sil?id=" + id).then((res) => res.data);
+};
 ///////////////////////////////////////////////////////////////////////
 
 export const productCertificatesTable = async (_, id) => {
