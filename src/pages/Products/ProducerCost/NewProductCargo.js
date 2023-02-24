@@ -54,7 +54,7 @@ const NewProductCargo = () => {
         urunId: Number(id),
         urunDemonte: "",
         kargoOzellikleri: [],
-        urunFiyatId: location.state.detayId,
+        urunFiyatId: Number(location.state.detayId),
       },
       onSubmit: (values) => {
         createProductPrice({ values, detayId: location.state.detayId });

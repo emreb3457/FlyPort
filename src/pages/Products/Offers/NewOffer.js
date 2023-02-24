@@ -19,6 +19,7 @@ import {
   getDeliveryTable,
   getCountryTable,
   getTransportTable,
+  getCurrencyTypeTable,
 } from "../../../api/DefinitionsApi";
 import { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
@@ -36,7 +37,6 @@ const NewOffer = () => {
       initialValues: {
         urunId: id,
         teklifNo: "",
-        urunId: "",
         urunMiktari: "",
         olcuBirimiId: "",
         hizmetTuru: "",
@@ -49,6 +49,16 @@ const NewOffer = () => {
         teklifGecerlilikSuresi: "",
         teklifTuru: "",
         teklifDurumu: "",
+        toplamMaliyet: "",
+        toplamMaliyetDovizCinsiId: 0,
+        birimMaliyet: 0,
+        birimMaliyetDovizCinsiId: 0,
+        satisKarOrani: 0,
+        toplamKarTutari: 0,
+        toplamSatisTutari: 0,
+        toplamSatisTutariDovizCinsiId: 0,
+        birimSatisTutari: 0,
+        birimSatisTutariDovizCinsiId: 0,
       },
       onSubmit: (values, { resetForm }) => {
         newOfferSubmit({ values });
@@ -79,6 +89,12 @@ const NewOffer = () => {
     }
     setSubmitLoading(false);
   };
+
+  const { data: CurrencyType } = useSWR(
+    ["getCurrencyTypeTable"],
+    getCurrencyTypeTable
+  );
+
   return (
     <Box>
       <BreadCrumb
@@ -238,92 +254,112 @@ const NewOffer = () => {
               <Box>
                 <Box display={"flex"} gap="20px">
                   <TextInput
-                    name={"UrunAdi"}
-                    value={values.UrunAdi}
+                    name={"toplamMaliyet"}
+                    value={values.toplamMaliyet}
                     onChange={handleChange}
-                    error={touched.UrunAdi && errors.UrunAdi}
+                    error={touched.toplamMaliyet && errors.toplamMaliyet}
                   >
                     Toplam Maliyet
                   </TextInput>
-                  <TextInput
-                    name={"UrunAdi"}
-                    value={values.UrunAdi}
-                    onChange={handleChange}
-                    error={touched.UrunAdi && errors.UrunAdi}
+                  <SelectInput
+                    name={"toplamMaliyetDovizCinsiId"}
+                    value={values.toplamMaliyetDovizCinsiId}
+                    onChange={setFieldValue}
+                    data={CurrencyType}
+                    visableValue={"ad"}
+                    error={
+                      touched.toplamMaliyetDovizCinsiId &&
+                      errors.toplamMaliyetDovizCinsiId
+                    }
                   >
                     Doviz Cinsi
-                  </TextInput>
+                  </SelectInput>
                 </Box>
                 <Box display={"flex"} gap="20px">
                   <TextInput
-                    name={"UrunAdi"}
-                    value={values.UrunAdi}
+                    name={"birimMaliyet"}
+                    value={values.birimMaliyet}
                     onChange={handleChange}
-                    error={touched.UrunAdi && errors.UrunAdi}
+                    error={touched.birimMaliyet && errors.birimMaliyet}
                   >
                     Birim Maliyet
                   </TextInput>
-                  <TextInput
-                    name={"UrunAdi"}
-                    value={values.UrunAdi}
-                    onChange={handleChange}
-                    error={touched.UrunAdi && errors.UrunAdi}
+                  <SelectInput
+                    name={"birimMaliyetDovizCinsiId"}
+                    value={values.birimMaliyetDovizCinsiId}
+                    onChange={setFieldValue}
+                    data={CurrencyType}
+                    visableValue={"ad"}
+                    error={
+                      touched.birimMaliyetDovizCinsiId &&
+                      errors.birimMaliyetDovizCinsiId
+                    }
                   >
                     Doviz Cinsi
-                  </TextInput>
+                  </SelectInput>
                 </Box>
               </Box>
               <TextInput
-                name={"UrunAdi"}
-                value={values.UrunAdi}
+                name={"satisKarOrani"}
+                value={values.satisKarOrani}
                 onChange={handleChange}
-                error={touched.UrunAdi && errors.UrunAdi}
+                error={touched.satisKarOrani && errors.satisKarOrani}
               >
                 Satış Kar Oranı
               </TextInput>
               <TextInput
-                name={"UrunAdi"}
-                value={values.UrunAdi}
+                name={"toplamKarTutari"}
+                value={values.toplamKarTutari}
                 onChange={handleChange}
-                error={touched.UrunAdi && errors.UrunAdi}
+                error={touched.toplamKarTutari && errors.toplamKarTutari}
               >
-                Toplam Kar Oranı
+                Toplam Kar Tutarı
               </TextInput>
               <Box display={"flex"} gap="20px">
                 <TextInput
-                  name={"UrunAdi"}
-                  value={values.UrunAdi}
+                  name={"toplamSatisTutari"}
+                  value={values.toplamSatisTutari}
                   onChange={handleChange}
-                  error={touched.UrunAdi && errors.UrunAdi}
+                  error={touched.toplamSatisTutari && errors.toplamSatisTutari}
                 >
                   Toplam Satış Tutarı
                 </TextInput>
-                <TextInput
-                  name={"UrunAdi"}
-                  value={values.UrunAdi}
-                  onChange={handleChange}
-                  error={touched.UrunAdi && errors.UrunAdi}
+                <SelectInput
+                  name={"toplamSatisTutariDovizCinsiId"}
+                  value={values.toplamSatisTutariDovizCinsiId}
+                  onChange={setFieldValue}
+                  data={CurrencyType}
+                  visableValue={"ad"}
+                  error={
+                    touched.toplamSatisTutariDovizCinsiId &&
+                    errors.toplamSatisTutariDovizCinsiId
+                  }
                 >
-                  Döviz Cinsi
-                </TextInput>
+                  Doviz Cinsi
+                </SelectInput>
               </Box>
               <Box display={"flex"} gap="20px">
                 <TextInput
-                  name={"UrunAdi"}
-                  value={values.UrunAdi}
+                  name={"birimSatisTutari"}
+                  value={values.birimSatisTutari}
                   onChange={handleChange}
-                  error={touched.UrunAdi && errors.UrunAdi}
+                  error={touched.birimSatisTutari && errors.birimSatisTutari}
                 >
                   Birim Satış Tutarı
                 </TextInput>
-                <TextInput
-                  name={"UrunAdi"}
-                  value={values.UrunAdi}
-                  onChange={handleChange}
-                  error={touched.UrunAdi && errors.UrunAdi}
+                <SelectInput
+                  name={"birimSatisTutariDovizCinsiId"}
+                  value={values.birimSatisTutariDovizCinsiId}
+                  onChange={setFieldValue}
+                  data={CurrencyType}
+                  visableValue={"ad"}
+                  error={
+                    touched.birimSatisTutariDovizCinsiId &&
+                    errors.birimSatisTutariDovizCinsiId
+                  }
                 >
-                  Döviz Cinsi
-                </TextInput>
+                  Doviz Cinsi
+                </SelectInput>
               </Box>
             </Box>
           </Box>

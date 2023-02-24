@@ -679,7 +679,7 @@ export const productCargo = async (_, id) => {
 
 export const productCargoByProductId = async (_, id, detayId) => {
   return await instance
-    .get("/Kargo/BulByUrunFiyatId/1?urunId= " + id + "&urunFiyatId=" + detayId)
+    .get(`/Kargo/BulByUrunFiyatId/${id}?urunFiyatId= ` + detayId)
     .then((res) => res.data);
 };
 

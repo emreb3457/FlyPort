@@ -23,7 +23,7 @@ const ProductPriceList = () => {
   const [radioValue, setRadioValue] = React.useState({});
 
   const { data, error, mutate } = useSWR(
-    ["productCustomsTable", id, location.state?.ulkeId],
+    ["productCustomsTable", id || 1, location.state?.ulkeId || 1],
     productPriceTable
   );
 
