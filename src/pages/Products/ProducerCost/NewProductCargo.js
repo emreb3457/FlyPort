@@ -33,7 +33,7 @@ const NewProductCargo = () => {
 
   const [loading, setLoading] = useState();
   const [kargoOzellikleri, setKargoOzellikleri] = useState(
-    location.state?.detay
+    location.state.detay
       ? location.state?.detay?.kargoOzellikleri
       : [
           {
@@ -53,7 +53,7 @@ const NewProductCargo = () => {
           },
         ]
   );
-  console.log(location.state?.detay);
+
   const { errors, handleChange, handleSubmit, values, touched, setFieldValue } =
     useFormik({
       initialValues: {
@@ -68,12 +68,19 @@ const NewProductCargo = () => {
     });
 
   const createProductPrice = async ({ values, detayId }) => {
-    values.kargoOzellikleri = kargoOzellikleri;
+    const newCargo = kargoOzellikleri.map((item) => {
+      return {
+        urunKutulu: Number(item.urunKutulu),
+        ...item,
+      };
+    });
+    values.kargoOzellikleri = newCargo;
     setLoading(true);
     if (location.state?.detay) {
       const { status } = await sendRequest(
         productCargoInsert("_", {
           ...values,
+          id: location.state?.detay?.id,
           urunDemonte: stringToBoolean(values?.urunDemonte),
         })
       );
@@ -85,7 +92,6 @@ const NewProductCargo = () => {
       const { status } = await sendRequest(
         productCargoInsert("_", {
           ...values,
-          id: location.state?.detay.id,
           urunDemonte: stringToBoolean(values?.urunDemonte),
         })
       );
@@ -142,9 +148,10 @@ const NewProductCargo = () => {
                       }}
                       minW="250px"
                       data={[
-                        { ad: "Evet", id: 1 },
-                        { ad: "Hayır", id: 0 },
+                        { ad: "Evet", id: "1" },
+                        { ad: "Hayır", id: "0" },
                       ]}
+                      isNumber
                       visableValue={"ad"}
                       error={touched.urunKutulu && errors.urunKutulu}
                     >
