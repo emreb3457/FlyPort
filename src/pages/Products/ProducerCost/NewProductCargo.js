@@ -18,6 +18,8 @@ import BreadCrumb from "../../../components/BreadCrumb/BreadCrumb";
 import { useSideBarData } from "../../../context/SideBarContext";
 import { ProductMenu } from "../../../constants/MenuItems";
 import { agirlikBirim, uzunlukBirim } from "../../../constants/other";
+import useSWR from "swr";
+import { getUnitTypeTable } from "../../../api/DefinitionsApi";
 
 const NewProductCargo = () => {
   const { id } = useParams();
@@ -34,15 +36,15 @@ const NewProductCargo = () => {
     {
       tasimaSekli: "",
       uzunluk: 0,
-      uzunlukBirim: "",
+      uzunlukBirimId: "",
       genislik: 0,
       genislikBirim: "",
       yukseklik: 0,
-      yukseklikBirim: "",
+      yukseklikBirimId: "",
       birimAgirlik: 0,
-      birimAgirlikBirim: "",
+      birimAgirlikBirimId: "",
       urunMiktari: 0,
-      urunMiktariBirim: "",
+      urunMiktariBirimId: "",
       urunKutulu: 0,
       parcaAciklama: "",
     },
@@ -75,6 +77,9 @@ const NewProductCargo = () => {
       navigate(-1);
     }
   };
+
+  const { data: UnitType } = useSWR(["getUnitTypeTable"], getUnitTypeTable);
+
   return (
     <Box>
       <BreadCrumb
@@ -118,12 +123,9 @@ const NewProductCargo = () => {
                         updateArrayState(setKargoOzellikleri, 0, e);
                       }}
                       minW="250px"
-                      data={[
-                        { ad: "Evet", id: 1 },
-                        { ad: "Hayır", id: 0 },
-                      ]}
+                      data={[{ ad: "Evet" }, { ad: "Hayır" }]}
                       visableValue={"ad"}
-                      error={touched.demontemi && errors.demontemi}
+                      error={touched.urunKutulu && errors.urunKutulu}
                     >
                       Ürün Kutulu mu?
                     </DefaultSelect>
@@ -149,18 +151,19 @@ const NewProductCargo = () => {
                       >
                         Uzunluğu
                       </TextInput>
-                      <DefaultSelect
-                        name={"uzunlukBirim"}
-                        value={kargoOzellikleri[0].uzunlukBirim}
+                      <SelectInput
+                        name={"uzunlukBirimId"}
+                        value={kargoOzellikleri[0].uzunlukBirimId}
                         onChange={(e) => {
                           updateArrayState(setKargoOzellikleri, 0, e);
                         }}
-                        data={uzunlukBirim}
-                        visableValue={"value"}
-                        error={touched.uzunlukBirim && errors.uzunlukBirim}
+                        customState
+                        data={UnitType}
+                        visableValue={"ad"}
+                        error={touched.uzunlukBirimId && errors.uzunlukBirimId}
                       >
                         Birim
-                      </DefaultSelect>
+                      </SelectInput>
                     </Box>
                     <Box display={"flex"} alignItems="end">
                       <TextInput
@@ -174,18 +177,21 @@ const NewProductCargo = () => {
                       >
                         Genişliği
                       </TextInput>
-                      <DefaultSelect
-                        name={"genislikBirim"}
-                        value={kargoOzellikleri[0].genislikBirim}
+                      <SelectInput
+                        name={"genislikBirimId"}
+                        value={kargoOzellikleri[0].genislikBirimId}
                         onChange={(e) => {
                           updateArrayState(setKargoOzellikleri, 0, e);
                         }}
-                        data={uzunlukBirim}
-                        visableValue={"value"}
-                        error={touched.genislikBirim && errors.genislikBirim}
+                        customState
+                        data={UnitType}
+                        visableValue={"ad"}
+                        error={
+                          touched.genislikBirimId && errors.genislikBirimId
+                        }
                       >
                         Birim
-                      </DefaultSelect>
+                      </SelectInput>
                     </Box>
                     <Box display={"flex"} alignItems="end">
                       <TextInput
@@ -199,18 +205,21 @@ const NewProductCargo = () => {
                       >
                         Yüksekliği
                       </TextInput>
-                      <DefaultSelect
-                        name={"yukseklikBirim"}
-                        value={kargoOzellikleri[0].yukseklikBirim}
+                      <SelectInput
+                        name={"yukseklikBirimId"}
+                        value={kargoOzellikleri[0].yukseklikBirimId}
                         onChange={(e) => {
                           updateArrayState(setKargoOzellikleri, 0, e);
                         }}
-                        data={uzunlukBirim}
-                        visableValue={"value"}
-                        error={touched.yukseklikBirim && errors.yukseklikBirim}
+                        customState
+                        data={UnitType}
+                        visableValue={"ad"}
+                        error={
+                          touched.yukseklikBirimId && errors.yukseklikBirimId
+                        }
                       >
                         Birim
-                      </DefaultSelect>
+                      </SelectInput>
                     </Box>
                     <Box display={"flex"} alignItems="end">
                       <TextInput
@@ -224,20 +233,22 @@ const NewProductCargo = () => {
                       >
                         Birim Ağırlığı
                       </TextInput>
-                      <DefaultSelect
-                        name={"birimAgirlikBirim"}
-                        value={kargoOzellikleri[0].birimAgirlikBirim}
+                      <SelectInput
+                        name={"birimAgirlikBirimId"}
+                        value={kargoOzellikleri[0].birimAgirlikBirimId}
                         onChange={(e) => {
                           updateArrayState(setKargoOzellikleri, 0, e);
                         }}
-                        data={agirlikBirim}
-                        visableValue={"value"}
+                        data={UnitType}
+                        customState
+                        visableValue={"ad"}
                         error={
-                          touched.birimAgirlikBirim && errors.birimAgirlikBirim
+                          touched.birimAgirlikBirimId &&
+                          errors.birimAgirlikBirimId
                         }
                       >
                         Birim
-                      </DefaultSelect>
+                      </SelectInput>
                     </Box>
                     <Box display={"flex"} alignItems="end">
                       <TextInput
@@ -251,19 +262,23 @@ const NewProductCargo = () => {
                       >
                         Ürün Miktarı
                       </TextInput>
-                      <TextInput
+                      <SelectInput
                         pr="10px"
-                        name={"urunMiktariBirim"}
-                        value={kargoOzellikleri[0].urunMiktariBirim}
+                        name={"urunMiktariBirimId"}
+                        value={kargoOzellikleri[0].urunMiktariBirimId}
+                        data={UnitType}
+                        visableValue={"ad"}
+                        customState
                         onChange={(e) => {
                           updateArrayState(setKargoOzellikleri, 0, e);
                         }}
                         error={
-                          touched.urunMiktariBirim && errors.urunMiktariBirim
+                          touched.urunMiktariBirimId &&
+                          errors.urunMiktariBirimId
                         }
                       >
                         Birim
-                      </TextInput>
+                      </SelectInput>
                     </Box>
                   </Box>
                 )}
@@ -275,11 +290,10 @@ const NewProductCargo = () => {
                     <Box>
                       <Flex gap={"10px"} alignItems="center">
                         <TextInput
-                          maxW="180px"
                           name={"tasimaSekli"}
-                          value={kargoOzellikleri[index].tasimaSekli}
+                          value={kargoOzellikleri[0].tasimaSekli}
                           onChange={(e) => {
-                            updateArrayState(setKargoOzellikleri, index, e);
+                            updateArrayState(setKargoOzellikleri, 0, e);
                           }}
                           error={touched.tasimaSekli && errors.tasimaSekli}
                         >
@@ -289,151 +303,147 @@ const NewProductCargo = () => {
                           <TextInput
                             pr="10px"
                             name={"uzunluk"}
-                            value={kargoOzellikleri[index].uzunluk}
+                            value={kargoOzellikleri[0].uzunluk}
                             onChange={(e) => {
-                              updateArrayState(setKargoOzellikleri, index, e);
+                              updateArrayState(setKargoOzellikleri, 0, e);
                             }}
                             error={touched.uzunluk && errors.uzunluk}
                           >
                             Uzunluğu
                           </TextInput>
-                          <DefaultSelect
-                            maxW="80px"
-                            name={"uzunlukBirim"}
-                            value={kargoOzellikleri[index].uzunlukBirim}
+                          <SelectInput
+                            name={"uzunlukBirimId"}
+                            value={kargoOzellikleri[0].uzunlukBirimId}
                             onChange={(e) => {
-                              updateArrayState(setKargoOzellikleri, index, e);
+                              console.log(e);
+                              updateArrayState(setKargoOzellikleri, 0, e);
                             }}
-                            data={uzunlukBirim}
-                            visableValue={"value"}
-                            error={touched.uzunlukBirim && errors.uzunlukBirim}
+                            data={UnitType}
+                            visableValue={"ad"}
+                            customState
+                            error={
+                              touched.uzunlukBirimId && errors.uzunlukBirimId
+                            }
                           >
                             Birim
-                          </DefaultSelect>
+                          </SelectInput>
                         </Box>
                         <Box display={"flex"} alignItems="end">
                           <TextInput
                             pr="10px"
                             name={"genislik"}
-                            value={kargoOzellikleri[index].genislik}
+                            value={kargoOzellikleri[0].genislik}
                             onChange={(e) => {
-                              updateArrayState(setKargoOzellikleri, index, e);
+                              updateArrayState(setKargoOzellikleri, 0, e);
                             }}
                             error={touched.genislik && errors.genislik}
                           >
                             Genişliği
                           </TextInput>
-                          <DefaultSelect
-                            maxW="80px"
-                            name={"genislikBirim"}
-                            value={kargoOzellikleri[index].genislikBirim}
+                          <SelectInput
+                            name={"genislikBirimId"}
+                            value={kargoOzellikleri[0].genislikBirimId}
                             onChange={(e) => {
-                              updateArrayState(setKargoOzellikleri, index, e);
+                              updateArrayState(setKargoOzellikleri, 0, e);
                             }}
-                            data={uzunlukBirim}
-                            visableValue={"value"}
+                            data={UnitType}
+                            customState
+                            visableValue={"ad"}
                             error={
-                              touched.genislikBirim && errors.genislikBirim
+                              touched.genislikBirimId && errors.genislikBirimId
                             }
                           >
                             Birim
-                          </DefaultSelect>
+                          </SelectInput>
                         </Box>
                         <Box display={"flex"} alignItems="end">
                           <TextInput
                             pr="10px"
                             name={"yukseklik"}
-                            value={kargoOzellikleri[index].yukseklik}
+                            value={kargoOzellikleri[0].yukseklik}
                             onChange={(e) => {
-                              updateArrayState(setKargoOzellikleri, index, e);
+                              updateArrayState(setKargoOzellikleri, 0, e);
                             }}
                             error={touched.yukseklik && errors.yukseklik}
                           >
                             Yüksekliği
                           </TextInput>
-                          <DefaultSelect
-                            maxW="80px"
-                            name={"yukseklikBirim"}
-                            value={kargoOzellikleri[index].yukseklikBirim}
+                          <SelectInput
+                            name={"yukseklikBirimId"}
+                            value={kargoOzellikleri[0].yukseklikBirimId}
                             onChange={(e) => {
-                              updateArrayState(setKargoOzellikleri, index, e);
+                              updateArrayState(setKargoOzellikleri, 0, e);
                             }}
-                            data={uzunlukBirim}
-                            visableValue={"value"}
+                            data={UnitType}
+                            visableValue={"ad"}
+                            customState
                             error={
-                              touched.yukseklikBirim && errors.yukseklikBirim
+                              touched.yukseklikBirimId &&
+                              errors.yukseklikBirimId
                             }
                           >
                             Birim
-                          </DefaultSelect>
+                          </SelectInput>
                         </Box>
                         <Box display={"flex"} alignItems="end">
                           <TextInput
                             pr="10px"
                             name={"birimAgirlik"}
-                            value={kargoOzellikleri[index].birimAgirlik}
+                            value={kargoOzellikleri[0].birimAgirlik}
                             onChange={(e) => {
-                              updateArrayState(setKargoOzellikleri, index, e);
+                              updateArrayState(setKargoOzellikleri, 0, e);
                             }}
                             error={touched.birimAgirlik && errors.birimAgirlik}
                           >
                             Birim Ağırlığı
                           </TextInput>
-                          <DefaultSelect
-                            maxW="80px"
-                            name={"birimAgirlikBirim"}
-                            value={kargoOzellikleri[index].birimAgirlikBirim}
+                          <SelectInput
+                            name={"birimAgirlikBirimId"}
+                            value={kargoOzellikleri[0].birimAgirlikBirimId}
                             onChange={(e) => {
-                              updateArrayState(setKargoOzellikleri, index, e);
+                              updateArrayState(setKargoOzellikleri, 0, e);
                             }}
-                            data={agirlikBirim}
-                            visableValue={"value"}
+                            customState
+                            data={UnitType}
+                            visableValue={"ad"}
                             error={
-                              touched.birimAgirlikBirim &&
-                              errors.birimAgirlikBirim
+                              touched.birimAgirlikBirimId &&
+                              errors.birimAgirlikBirimId
                             }
                           >
                             Birim
-                          </DefaultSelect>
+                          </SelectInput>
                         </Box>
                         <Box display={"flex"} alignItems="end">
                           <TextInput
                             pr="10px"
                             name={"urunMiktari"}
-                            value={kargoOzellikleri[index].urunMiktari}
+                            value={kargoOzellikleri[0].urunMiktari}
                             onChange={(e) => {
-                              updateArrayState(setKargoOzellikleri, index, e);
+                              updateArrayState(setKargoOzellikleri, 0, e);
                             }}
                             error={touched.urunMiktari && errors.urunMiktari}
                           >
                             Ürün Miktarı
                           </TextInput>
-                          <TextInput
+                          <SelectInput
                             pr="10px"
-                            name={"urunMiktariBirim"}
-                            value={kargoOzellikleri[index].urunMiktariBirim}
+                            name={"urunMiktariBirimId"}
+                            value={kargoOzellikleri[0].urunMiktariBirimId}
+                            data={UnitType}
+                            visableValue={"ad"}
                             onChange={(e) => {
-                              updateArrayState(setKargoOzellikleri, index, e);
+                              updateArrayState(setKargoOzellikleri, 0, e);
                             }}
+                            customState
                             error={
-                              touched.urunMiktariBirim &&
-                              errors.urunMiktariBirim
+                              touched.urunMiktariBirimId &&
+                              errors.urunMiktariBirimId
                             }
                           >
                             Birim
-                          </TextInput>
+                          </SelectInput>
                         </Box>
-                        <TextInput
-                          maxW="150px"
-                          name={"parcaAciklama"}
-                          value={kargoOzellikleri[index].parcaAciklama}
-                          onChange={(e) => {
-                            updateArrayState(setKargoOzellikleri, index, e);
-                          }}
-                          error={touched.parcaAciklama && errors.parcaAciklama}
-                        >
-                          Parça Açıklama
-                        </TextInput>
                       </Flex>
                     </Box>
                   ))}

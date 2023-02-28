@@ -53,6 +53,7 @@ export const SelectInput = ({
   data,
   visableValue,
   error,
+  customState,
   ...props
 }) => {
   return useMemo(() => {
@@ -77,9 +78,13 @@ export const SelectInput = ({
           searchTimeout={200}
           minSearchLength={0}
           showDataBeforeSearch={false}
-          onValueChanged={(e) =>
-            onChange(name, e.value?.id || e.value?.nitelikId)
-          }
+          onValueChanged={(e) => {
+            if (customState) {
+              onChange({ name: name, value: e.value?.id });
+            } else {
+              onChange(name, e.value?.id || e.value?.nitelikId);
+            }
+          }}
           height="54px"
           disabled={disabled}
           style={disabled ? { backgroundColor: "#D6D6D6" } : {}}

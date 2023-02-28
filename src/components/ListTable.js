@@ -58,9 +58,15 @@ const ListTable = ({ id, row, head, radioSetValue, selected }) => {
               width={100}
               caption={data.title}
               dataField={data.column}
+              cellRender={data.render}
             />
           ) : (
-            <Column key={index} caption={data.title} dataField={data.column} />
+            <Column
+              key={index}
+              caption={data.title}
+              dataField={data.column}
+              cellRender={data.render}
+            />
           );
         })}
         <Pager allowedPageSizes={[5, 10, 20]} showPageSizeSelector={true} />

@@ -142,14 +142,14 @@ export const ProductMenu = (id) => {
           title: "Lojistik",
           route: "lojistik-maliyet",
         },
-        {
-          title: "Gümrükleme",
-          route: "gumruk-maliyet",
-        },
-        {
-          title: "Maliyet Analizi",
-          route: "maliyet-analizi",
-        },
+        // {
+        //   title: "Gümrükleme",
+        //   route: "gumruk-maliyet",
+        // },
+        // {
+        //   title: "Maliyet Analizi",
+        //   route: "maliyet-analizi",
+        // },
       ],
     },
     {

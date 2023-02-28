@@ -42,15 +42,33 @@ const ProductCargoList = () => {
     },
     {
       title: "Uzunluğu",
-      column: "kargoOzellikleri[0].uzunluk",
+      render: (rowData) => (
+        <p>
+          {rowData.data?.kargoOzellikleri?.[0]?.uzunluk +
+            " " +
+            rowData.data?.kargoOzellikleri?.[0]?.uzunlukBirim}
+        </p>
+      ),
     },
     {
       title: "Genişliği",
-      column: "kargoOzellikleri[0].genislik",
+      render: (rowData) => (
+        <p>
+          {rowData.data?.kargoOzellikleri?.[0]?.genislik +
+            " " +
+            rowData.data?.kargoOzellikleri?.[0]?.genislikBirim}
+        </p>
+      ),
     },
     {
       title: "Yüksekliği",
-      column: "kargoOzellikleri[0].yukseklik",
+      render: (rowData) => (
+        <p>
+          {rowData.data?.kargoOzellikleri?.[0]?.yukseklik +
+            " " +
+            rowData.data?.kargoOzellikleri?.[0]?.yukseklikBirim}
+        </p>
+      ),
     },
     {
       title: "Koli Ağırlığı",
@@ -58,7 +76,13 @@ const ProductCargoList = () => {
     },
     {
       title: "Koli İçi Adet",
-      column: "kargoOzellikleri[0].urunMiktari",
+      render: (rowData) => (
+        <p>
+          {rowData.data?.kargoOzellikleri?.[0]?.urunMiktari +
+            " " +
+            rowData.data?.kargoOzellikleri?.[0]?.urunMiktariBirim}
+        </p>
+      ),
     },
     {
       title: "Koli Hacmi",
