@@ -116,7 +116,9 @@ const ProductCargoList = () => {
         funct2={{
           title: "Detay",
           function: () => {
-            navigate("detay", { state: { detayId: radioValue.id } });
+            navigate("detay", {
+              state: { detayId: radioValue.id, detay: radioValue },
+            });
           },
         }}
         funct3={{

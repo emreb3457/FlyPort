@@ -32,30 +32,34 @@ const NewProductCargo = () => {
   }, []);
 
   const [loading, setLoading] = useState();
-  const [kargoOzellikleri, setKargoOzellikleri] = useState([
-    {
-      tasimaSekli: "",
-      uzunluk: 0,
-      uzunlukBirimId: "",
-      genislik: 0,
-      genislikBirim: "",
-      yukseklik: 0,
-      yukseklikBirimId: "",
-      birimAgirlik: 0,
-      birimAgirlikBirimId: "",
-      urunMiktari: 0,
-      urunMiktariBirimId: "",
-      urunKutulu: 0,
-      parcaAciklama: "",
-    },
-  ]);
-
+  const [kargoOzellikleri, setKargoOzellikleri] = useState(
+    location.state?.detay
+      ? location.state?.detay?.kargoOzellikleri
+      : [
+          {
+            tasimaSekli: "",
+            uzunluk: 0,
+            uzunlukBirimId: "",
+            genislik: 0,
+            genislikBirim: "",
+            yukseklik: 0,
+            yukseklikBirimId: "",
+            birimAgirlik: 0,
+            birimAgirlikBirimId: "",
+            urunMiktari: 0,
+            urunMiktariBirimId: "",
+            urunKutulu: 0,
+            parcaAciklama: "",
+          },
+        ]
+  );
+  console.log(location.state?.detay);
   const { errors, handleChange, handleSubmit, values, touched, setFieldValue } =
     useFormik({
       initialValues: {
         urunId: Number(id),
-        urunDemonte: "",
-        kargoOzellikleri: [],
+        urunDemonte: location.state?.detay?.urunDemonte || "",
+        kargoOzellikleri: location.state?.detay?.kargoOzellikleri || [],
         urunFiyatId: Number(location.state.detayId),
       },
       onSubmit: (values) => {
@@ -66,15 +70,29 @@ const NewProductCargo = () => {
   const createProductPrice = async ({ values, detayId }) => {
     values.kargoOzellikleri = kargoOzellikleri;
     setLoading(true);
-    const { status } = await sendRequest(
-      productCargoInsert("_", {
-        ...values,
-        urunDemonte: stringToBoolean(values?.urunDemonte),
-      })
-    );
-    if (status) {
-      setLoading(false);
-      navigate(-1);
+    if (location.state?.detay) {
+      const { status } = await sendRequest(
+        productCargoInsert("_", {
+          ...values,
+          urunDemonte: stringToBoolean(values?.urunDemonte),
+        })
+      );
+      if (status) {
+        setLoading(false);
+        navigate(-1);
+      }
+    } else {
+      const { status } = await sendRequest(
+        productCargoInsert("_", {
+          ...values,
+          id: location.state?.detay.id,
+          urunDemonte: stringToBoolean(values?.urunDemonte),
+        })
+      );
+      if (status) {
+        setLoading(false);
+        navigate(-1);
+      }
     }
   };
 
@@ -123,7 +141,10 @@ const NewProductCargo = () => {
                         updateArrayState(setKargoOzellikleri, 0, e);
                       }}
                       minW="250px"
-                      data={[{ ad: "Evet" }, { ad: "Hayır" }]}
+                      data={[
+                        { ad: "Evet", id: 1 },
+                        { ad: "Hayır", id: 0 },
+                      ]}
                       visableValue={"ad"}
                       error={touched.urunKutulu && errors.urunKutulu}
                     >
