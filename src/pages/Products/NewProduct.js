@@ -72,7 +72,6 @@ const NewProduct = () => {
       initialValues: {
         UrunAdi: "",
         KisaAdi: "",
-        GTip: "",
         GenelKategoriId: "",
         AltKategoriId: "",
         FlyKategoriId: "",
@@ -100,7 +99,6 @@ const NewProduct = () => {
     const formData = new FormData();
     formData.append("UrunAdi", values.UrunAdi);
     formData.append("KisaAdi", values.KisaAdi);
-    formData.append("GTip", values.GTip);
     formData.append("GenelKategoriId", values.GenelKategoriId);
     formData.append("AltKategoriId", values.AltKategoriId);
     formData.append("FlyKategoriId", values.FlyKategoriId);
@@ -157,14 +155,6 @@ const NewProduct = () => {
               error={touched.KisaAdi && errors.KisaAdi}
             >
               Kısa Adı
-            </TextInput>
-            <TextInput
-              name={"GTip"}
-              value={values.GTip}
-              onChange={handleChange}
-              error={touched.GTip && errors.GTip}
-            >
-              Gtip
             </TextInput>
             <SelectInput
               name={"GenelKategoriId"}
