@@ -23,7 +23,7 @@ const ProductCargoList = () => {
   const [radioValue, setRadioValue] = React.useState({});
 
   const { data, error, mutate } = useSWR(
-    ["productCargoByProductId", id, location.state?.detayId],
+    ["productCargoByProductId", location.state?.detayId],
     productCargoByProductId
   );
 
@@ -33,24 +33,40 @@ const ProductCargoList = () => {
       column: "id",
     },
     {
-      title: "Menşei Ülkesi",
-      column: "menseiUlke",
+      title: "Not",
+      column: "urunDemonte",
     },
     {
-      title: "Çıkış Ülkesi",
-      column: "cikisUlke",
+      title: "Kap Tipi",
+      column: "kargoOzellikleri[0].tasimaSekli",
     },
     {
-      title: "Varış Ülkesi",
-      column: "varisUlke",
+      title: "Uzunluğu",
+      column: "kargoOzellikleri[0].uzunluk",
     },
     {
-      title: "Gtip No",
-      column: "gTipNo",
+      title: "Genişliği",
+      column: "kargoOzellikleri[0].genislik",
     },
     {
-      title: "Total Vergi Oranı",
-      column: "kdvOrani",
+      title: "Yüksekliği",
+      column: "kargoOzellikleri[0].yukseklik",
+    },
+    {
+      title: "Koli Ağırlığı",
+      column: "",
+    },
+    {
+      title: "Koli İçi Adet",
+      column: "kargoOzellikleri[0].urunMiktari",
+    },
+    {
+      title: "Koli Hacmi",
+      column: "",
+    },
+    {
+      title: "Ürün Açıklaması",
+      column: "kargoOzellikleri[0].parcaAciklama",
     },
   ];
 
