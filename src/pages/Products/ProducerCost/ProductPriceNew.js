@@ -125,13 +125,15 @@ const ProductPriceNew = () => {
   };
 
   useEffect(() => {
-    setFieldValue("urunHazirMiktarBirimiId", null);
-    setTimeout(() => {
-      setFieldValue(
-        "urunHazirMiktarBirimiId",
-        values.ucretlendirmeyeEsasMiktarBirimiId
-      );
-    }, 10);
+    if (values.ucretlendirmeyeEsasMiktarBirimiId) {
+      setFieldValue("urunHazirMiktarBirimiId", 0);
+      setTimeout(() => {
+        setFieldValue(
+          "urunHazirMiktarBirimiId",
+          values.ucretlendirmeyeEsasMiktarBirimiId
+        );
+      }, 10);
+    }
   }, [values.ucretlendirmeyeEsasMiktarBirimiId]);
 
   return (
@@ -230,7 +232,7 @@ const ProductPriceNew = () => {
                   >
                     Hazır Olan Miktar
                   </TextInput>
-                  {values.urunHazirMiktarBirimiId && (
+                  {values.urunHazirMiktarBirimiId !== 0 && (
                     <SelectInput
                       name={"urunHazirMiktarBirimiId"}
                       value={values.ucretlendirmeyeEsasMiktarBirimiId}
