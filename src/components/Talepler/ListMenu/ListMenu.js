@@ -26,23 +26,9 @@ const ListMenu = ({ children }) => {
     setMenuItems(selectedSideBar);
   }, [selectedSideBar]);
 
-  /* const visableMenuItems = useMemo(() => {
-    switch (selectMenu) {
-      case MenuNames.Offer:
-        return DemandMenu(location?.state || location.pathname.split("/")[2]);
-      case MenuNames.Cost:
-        return DemandMenu(location?.state || location.pathname.split("/")[2]);
-      case MenuNames.Demand:
-        return DemandMenu(location?.state || location.pathname.split("/")[2]);
-
-      default:
-        return menuItems;
-    }
-  }, [selectMenu]);
- */
   return (
     <Box>
-      <Box textAlign={"center"} fontSize="33px" p="17px" bg={"blue"}>
+      <Box textAlign={"center"} fontSize="33px" p="6px" bg={"blue"}>
         {tab?.title && tab.title + " >>"}
         {tab2?.title && tab2.title + " >>"}
         {tab3?.title && tab3.title + " >>"}
@@ -55,11 +41,10 @@ const ListMenu = ({ children }) => {
           items={selectMenu}
           display={location.pathname === "/" ? "none" : "inline-block"}
           maxWidth={{
-            base: "200px",
-            sm: "200px",
-            md: "250px",
-            lg: "250px",
-            "2xl": "320px",
+            base: "180px",
+            md: "230px",
+            lg: "230px",
+            "2xl": "260px",
           }}
           pr="20px"
           w="100%"
@@ -81,7 +66,9 @@ const ListMenu = ({ children }) => {
           setTab7={setTab7}
         />
 
-        <Box w={"calc(100vw - 240px)"} overflow="auto">{children}</Box>
+        <Box w={"calc(100vw - 240px)"} overflow="auto">
+          {children}
+        </Box>
       </Box>
     </Box>
   );

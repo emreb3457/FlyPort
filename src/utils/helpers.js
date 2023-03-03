@@ -89,3 +89,16 @@ export const updateArrayState = (setState, index, e) => {
     ...prev.slice(index + 1),
   ]);
 };
+
+export const sumPriceArray = (array) => {
+  return array.map((item) => {
+    const urunMiktar = item?.urunMiktar || 0;
+    const birimFiyati = item?.birimFiyati || 0;
+    const ambalajKutuFiyat = item?.ambalajKutuFiyat || 0;
+    return {
+      ...item,
+      toplamMaliyet:
+        Number(urunMiktar) * Number(birimFiyati) + Number(ambalajKutuFiyat),
+    };
+  });
+};

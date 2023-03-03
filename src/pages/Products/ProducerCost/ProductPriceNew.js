@@ -6,7 +6,11 @@ import {
   DateInput,
   DefaultSelect,
 } from "../../../components/Inputs/CustomInputs";
-import { sendRequest, updateArrayState } from "../../../utils/helpers";
+import {
+  sendRequest,
+  sumPriceArray,
+  updateArrayState,
+} from "../../../utils/helpers";
 import useSWR from "swr";
 import {
   getCountryTable,
@@ -44,18 +48,21 @@ const ProductPriceNew = () => {
       ? location.state.detay.urunFiyat
       : [
           {
-            urunMiktar: 0,
-            birimFiyati: 0,
-            dovizCinsiId: 0,
+            urunMiktar: "",
+            birimFiyati: "",
+            dovizCinsiId: " ",
             hazirlikMiktarSuresi: "",
             ambalajKutuFiyatDahil: "",
-            ambalajKutuFiyat: 0,
-            ambalajKutuDovizCinsiId: 0,
-            toplamMaliyet: 0,
+            ambalajKutuFiyat: "",
+            ambalajKutuDovizCinsiId: "",
+            toplamMaliyet: "",
           },
         ]
   );
- 
+
+  useEffect(() => {
+    console.log(sumPriceArray(urunFiyatları));
+  }, [urunFiyatları]);
   const { errors, handleChange, handleSubmit, values, touched, setFieldValue } =
     useFormik({
       initialValues: {
@@ -116,6 +123,16 @@ const ProductPriceNew = () => {
       navigate(-1);
     }
   };
+
+  useEffect(() => {
+    setFieldValue("urunHazirMiktarBirimiId", null);
+    setTimeout(() => {
+      setFieldValue(
+        "urunHazirMiktarBirimiId",
+        values.ucretlendirmeyeEsasMiktarBirimiId
+      );
+    }, 10);
+  }, [values.ucretlendirmeyeEsasMiktarBirimiId]);
 
   return (
     <Box>
@@ -213,19 +230,21 @@ const ProductPriceNew = () => {
                   >
                     Hazır Olan Miktar
                   </TextInput>
-                  <SelectInput
-                    name={"urunHazirMiktarBirimiId"}
-                    value={values.miktarBirimiId}
-                    data={UnitType}
-                    visableValue="ad"
-                    onChange={setFieldValue}
-                    error={
-                      touched.urunHazirMiktarBirimiId &&
-                      errors.urunHazirMiktarBirimiId
-                    }
-                  >
-                    Miktar Birimi
-                  </SelectInput>
+                  {values.urunHazirMiktarBirimiId && (
+                    <SelectInput
+                      name={"urunHazirMiktarBirimiId"}
+                      value={values.ucretlendirmeyeEsasMiktarBirimiId}
+                      data={UnitType}
+                      visableValue="ad"
+                      onChange={setFieldValue}
+                      error={
+                        touched.urunHazirMiktarBirimiId &&
+                        errors.urunHazirMiktarBirimiId
+                      }
+                    >
+                      Miktar Birimi
+                    </SelectInput>
+                  )}
                 </Box>
                 <DateInput
                   name={"urunTeklifTarihi"}
@@ -275,120 +294,140 @@ const ProductPriceNew = () => {
               Ürün Fiyatı
             </Text>
             <Box w={"100%"} height="2px" bg="#707070" />
-            {urunFiyatları.map((item, index) => (
-              <Box>
-                <Flex gap={"10px"}>
-                  <TextInput
-                    name={"urunMiktar"}
-                    value={urunFiyatları[index].urunMiktar}
-                    onChange={(e) => {
-                      updateArrayState(setUrunFiyatlari, index, e);
-                    }}
-                    error={touched.urunMiktar && errors.urunMiktar}
-                  >
-                    Ürün Miktarı
-                  </TextInput>
-                  <TextInput
-                    name={"birimFiyati"}
-                    value={urunFiyatları[index].birimFiyati}
-                    onChange={(e) => {
-                      updateArrayState(setUrunFiyatlari, index, e);
-                    }}
-                    error={touched.birimFiyati && errors.birimFiyati}
-                  >
-                    Birim Fiyatı
-                  </TextInput>
-                  <SelectInput
-                    name={"dovizCinsiId"}
-                    value={urunFiyatları[index].dovizCinsiId}
-                    data={CurrencyType}
-                    visableValue="ad"
-                    onChange={(name, value) => {
-                      updateArrayState(setUrunFiyatlari, index, {
-                        name,
-                        value,
-                      });
-                    }}
-                    error={touched.dovizCinsiId && errors.dovizCinsiId}
-                  >
-                    Döviz Cinsi
-                  </SelectInput>
-                  <TextInput
-                    name={"hazirlikMiktarSuresi"}
-                    value={urunFiyatları[index].hazirlikMiktarSuresi}
-                    onChange={(e) => {
-                      updateArrayState(setUrunFiyatlari, index, e);
-                    }}
-                    error={
-                      touched.hazirlikMiktarSuresi &&
-                      errors.hazirlikMiktarSuresi
-                    }
-                    minW="300px"
-                  >
-                    İsteniken Miktar İcin Hazırlık Süresi
-                  </TextInput>
-                  <DefaultSelect
-                    name={"ambalajKutuFiyatDahil"}
-                    value={urunFiyatları[index].ambalajKutuFiyatDahil}
-                    onChange={(e) => {
-                      updateArrayState(setUrunFiyatlari, index, e);
-                    }}
-                    minW="250px"
-                    data={[
-                      { ad: "Evet", id: "evet" },
-                      { ad: "Hayır", id: "hayır" },
-                    ]}
-                    visableValue={"ad"}
-                    error={
-                      touched.ambalajKutuFiyatDahil &&
-                      errors.ambalajKutuFiyatDahil
-                    }
-                  >
-                    Ambalaj / Kutu Fiyatı Dahil mi?
-                  </DefaultSelect>
-                  <TextInput
-                    name={"ambalajKutuFiyat"}
-                    value={urunFiyatları[index].ambalajKutuFiyat}
-                    onChange={(e) => {
-                      updateArrayState(setUrunFiyatlari, index, e);
-                    }}
-                    error={touched.ambalajKutuFiyat && errors.ambalajKutuFiyat}
-                    minW="200px"
-                  >
-                    Ambalaj / Kutu Fiyatı?
-                  </TextInput>
-                  <SelectInput
-                    name={"ambalajKutuDovizCinsiId"}
-                    value={urunFiyatları[index].ambalajKutuDovizCinsiId}
-                    data={CurrencyType}
-                    visableValue="ad"
-                    onChange={(name, value) => {
-                      updateArrayState(setUrunFiyatlari, index, {
-                        name,
-                        value,
-                      });
-                    }}
-                    error={
-                      touched.ambalajKutuDovizCinsiId &&
-                      errors.ambalajKutuDovizCinsiId
-                    }
-                  >
-                    Döviz Cinsi
-                  </SelectInput>
-                  <TextInput
-                    name={"toplamMaliyet"}
-                    value={urunFiyatları[index].toplamMaliyet}
-                    onChange={(e) => {
-                      updateArrayState(setUrunFiyatlari, index, e);
-                    }}
-                    error={touched.toplamMaliyet && errors.toplamMaliyet}
-                    minW="300px"
-                  >
-                    Toplam Maliyet
-                  </TextInput>
-                </Flex>
-              </Box>
-            ))}
+            {urunFiyatları.map((item, index) => {
+              const urunMiktar = item?.urunMiktar || 0;
+              const birimFiyati = item?.birimFiyati || 0;
+              const ambalajKutuFiyat = item?.ambalajKutuFiyat || 0;
+              const toplamFiyat =
+                Number(urunMiktar) * Number(birimFiyati) +
+                Number(ambalajKutuFiyat);
+
+              return (
+                <Box>
+                  <Flex gap={"10px"}>
+                    <TextInput
+                      name={"urunMiktar"}
+                      value={urunFiyatları[index].urunMiktar}
+                      onChange={(e) => {
+                        updateArrayState(setUrunFiyatlari, index, e);
+                      }}
+                      error={touched.urunMiktar && errors.urunMiktar}
+                    >
+                      Ürün Miktarı
+                    </TextInput>
+                    <TextInput
+                      name={"birimFiyati"}
+                      value={urunFiyatları[index].birimFiyati}
+                      onChange={(e) => {
+                        updateArrayState(setUrunFiyatlari, index, e);
+                      }}
+                      error={touched.birimFiyati && errors.birimFiyati}
+                    >
+                      Birim Fiyatı
+                    </TextInput>
+                    <SelectInput
+                      name={"dovizCinsiId"}
+                      value={urunFiyatları[index].dovizCinsiId}
+                      data={CurrencyType}
+                      visableValue="ad"
+                      onChange={(name, value) => {
+                        updateArrayState(setUrunFiyatlari, index, {
+                          name,
+                          value,
+                        });
+                      }}
+                      error={touched.dovizCinsiId && errors.dovizCinsiId}
+                    >
+                      Döviz Cinsi
+                    </SelectInput>
+                    <TextInput
+                      name={"hazirlikMiktarSuresi"}
+                      value={urunFiyatları[index].hazirlikMiktarSuresi}
+                      onChange={(e) => {
+                        updateArrayState(setUrunFiyatlari, index, e);
+                      }}
+                      error={
+                        touched.hazirlikMiktarSuresi &&
+                        errors.hazirlikMiktarSuresi
+                      }
+                      minW="300px"
+                    >
+                      İsteniken Miktar İcin Hazırlık Süresi
+                    </TextInput>
+                    <DefaultSelect
+                      name={"ambalajKutuFiyatDahil"}
+                      value={urunFiyatları[index].ambalajKutuFiyatDahil}
+                      onChange={(e) => {
+                        updateArrayState(setUrunFiyatlari, index, e);
+                      }}
+                      minW="250px"
+                      data={[
+                        { ad: "Evet", id: "evet" },
+                        { ad: "Hayır", id: "hayır" },
+                      ]}
+                      visableValue={"ad"}
+                      error={
+                        touched.ambalajKutuFiyatDahil &&
+                        errors.ambalajKutuFiyatDahil
+                      }
+                    >
+                      Ambalaj / Kutu Fiyatı Dahil mi?
+                    </DefaultSelect>
+                    <TextInput
+                      name={"ambalajKutuFiyat"}
+                      value={urunFiyatları[index].ambalajKutuFiyat}
+                      onChange={(e) => {
+                        updateArrayState(setUrunFiyatlari, index, e);
+                      }}
+                      error={
+                        touched.ambalajKutuFiyat && errors.ambalajKutuFiyat
+                      }
+                      minW="200px"
+                      disabled={
+                        urunFiyatları[index].ambalajKutuFiyatDahil === "evet" ||
+                        !urunFiyatları[index].ambalajKutuFiyatDahil
+                      }
+                    >
+                      Ambalaj / Kutu Fiyatı?
+                    </TextInput>
+                    <SelectInput
+                      name={"ambalajKutuDovizCinsiId"}
+                      value={urunFiyatları[index].ambalajKutuDovizCinsiId}
+                      data={CurrencyType}
+                      visableValue="ad"
+                      onChange={(name, value) => {
+                        updateArrayState(setUrunFiyatlari, index, {
+                          name,
+                          value,
+                        });
+                      }}
+                      error={
+                        touched.ambalajKutuDovizCinsiId &&
+                        errors.ambalajKutuDovizCinsiId
+                      }
+                      disabled={
+                        urunFiyatları[index].ambalajKutuFiyatDahil === "evet" ||
+                        !urunFiyatları[index].ambalajKutuFiyatDahil
+                      }
+                    >
+                      Döviz Cinsi
+                    </SelectInput>
+                    <TextInput
+                      name={"toplamMaliyet"}
+                      value={toplamFiyat}
+                      onChange={(e) => {
+                        updateArrayState(setUrunFiyatlari, index, e);
+                      }}
+                      error={touched.toplamMaliyet && errors.toplamMaliyet}
+                      minW="300px"
+                      disabled
+                    >
+                      Toplam Maliyet
+                    </TextInput>
+                  </Flex>
+                </Box>
+              );
+            })}
             <Button
               onClick={() =>
                 setUrunFiyatlari((prev) => [
