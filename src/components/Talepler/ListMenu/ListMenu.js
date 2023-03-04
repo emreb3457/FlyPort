@@ -41,10 +41,10 @@ const ListMenu = ({ children }) => {
           items={selectMenu}
           display={location.pathname === "/" ? "none" : "inline-block"}
           maxWidth={{
-            base: "180px",
-            md: "230px",
-            lg: "230px",
-            "2xl": "260px",
+            base: "140px",
+            md: "190px",
+            lg: "190px",
+            "2xl": "210px",
           }}
           pr="20px"
           w="100%"
@@ -66,7 +66,7 @@ const ListMenu = ({ children }) => {
           setTab7={setTab7}
         />
 
-        <Box w={"calc(100vw - 240px)"} overflow="auto">
+        <Box w={"calc(100vw - 200px)"} overflow="auto">
           {children}
         </Box>
       </Box>

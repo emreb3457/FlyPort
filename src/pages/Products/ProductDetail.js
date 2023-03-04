@@ -33,6 +33,10 @@ const ProductDetail = () => {
       comp: TechnicialSpecifications,
     },
     {
+      title: "Kargo Özellikleri",
+      comp: TechnicialSpecifications,
+    },
+    {
       title: "Ürün Sertifikaları",
       comp: ProductCertificates,
       link: true,

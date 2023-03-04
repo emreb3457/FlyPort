@@ -111,6 +111,11 @@ const LogisticsTable = () => {
           radioSetValue={setRadioValue}
           link={true}
           select={true}
+          detailFunction={(e) =>
+            navigate(location.pathname + "/" + e.data.id, {
+              state: e.data,
+            })
+          }
         />
       </Box>
     </Box>

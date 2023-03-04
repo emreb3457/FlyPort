@@ -1,4 +1,4 @@
-import { Box } from "@chakra-ui/react";
+import { Box, Flex, Text } from "@chakra-ui/react";
 import useSWR from "swr";
 import React, { useEffect, useState } from "react";
 import { useLocation, useNavigate, useParams } from "react-router-dom";
@@ -43,7 +43,82 @@ const ProductPriceList = () => {
     },
     {
       title: "Teklif A. Tarihi",
-      column: "urunTeklifTarihi",
+      render: (rowData) => <Flex>{rowData?.data?.urunTeklifTarihi}</Flex>,
+    },
+    {
+      title: "Miktar",
+      render: (rowData) => (
+        <td>
+          {rowData.data?.urunFiyat?.map((item) => {
+            return (
+              <Text padding={2}>
+                {item.urunMiktar}
+                <hr />
+              </Text>
+            );
+          })}
+        </td>
+      ),
+    },
+    {
+      title: "Birim Fiyatı",
+      render: (rowData) => (
+        <td>
+          {rowData.data?.urunFiyat?.map((item) => {
+            return (
+              <Text padding={2}>
+                {item.birimFiyati}
+                <hr />
+              </Text>
+            );
+          })}
+        </td>
+      ),
+    },
+    {
+      title: "Para Birimi",
+      render: (rowData) => (
+        <td>
+          {rowData.data?.urunFiyat?.map((item) => {
+            return (
+              <Text padding={2}>
+                {item.dovizCinsi}
+                <hr />
+              </Text>
+            );
+          })}
+        </td>
+      ),
+    },
+    {
+      title: "Güncel USD",
+      render: (rowData) => (
+        <td>
+          {rowData.data?.urunFiyat?.map((item) => {
+            return (
+              <Text padding={2}>
+                {0}
+                <hr />
+              </Text>
+            );
+          })}
+        </td>
+      ),
+    },
+    {
+      title: "Ambalaj Dahil mi?",
+      render: (rowData) => (
+        <td>
+          {rowData.data?.urunFiyat?.map((item) => {
+            return (
+              <Text padding={2}>
+                {item.ambalajKutuFiyatDahil}
+                <hr />
+              </Text>
+            );
+          })}
+        </td>
+      ),
     },
   ];
 
@@ -89,6 +164,9 @@ const ProductPriceList = () => {
           radioSetValue={setRadioValue}
           link={false}
           select={true}
+          detailFunction={(e) =>
+            navigate("" + radioValue.id, { state: { detay: e.data } })
+          }
         />
       </Box>
     </Box>

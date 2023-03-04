@@ -102,6 +102,11 @@ const ProductCustomsDutie = () => {
           radioSetValue={setRadioValue}
           link={false}
           select={true}
+          detailFunction={(e) =>
+            navigate(location.pathname + "/uretici-fiyat", {
+              state: { ulkeId: e.data.menseiUlkeId },
+            })
+          }
         />
       </Box>
     </Box>

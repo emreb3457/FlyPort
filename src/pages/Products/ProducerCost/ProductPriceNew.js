@@ -25,6 +25,7 @@ import {
   productCustomsInsert,
   productPriceInsert,
   productPriceDetail,
+  getProduct,
 } from "../../../api/api";
 import { useLocation, useNavigate, useParams } from "react-router-dom";
 import BreadCrumb from "../../../components/BreadCrumb/BreadCrumb";
@@ -32,16 +33,30 @@ import { useSideBarData } from "../../../context/SideBarContext";
 import { ProductMenu } from "../../../constants/MenuItems";
 import TabMenu from "../../../components/TabMenu";
 import { UreticiFiyatiTabs } from "../../../constants/Tabs";
+import ProductDetail from "../ProductDetail";
+import ImageComp from "../../../components/Talepler/ImageComp/ImageComp";
+import { baseApi } from "../../../config/config";
+import colors from "../../../theme/colors";
 
 const ProductPriceNew = () => {
   const { detayId, id } = useParams();
   const { updateSideBar } = useSideBarData();
   const navigate = useNavigate();
   const location = useLocation();
+  const [isHovering, setIsHovering] = useState(false);
+  const [images, setImages] = useState([]);
 
   useEffect(() => {
     updateSideBar({ selectedSideBar: ProductMenu(id) });
   }, []);
+
+  const handleMouseOver = () => {
+    setIsHovering(true);
+  };
+
+  const handleMouseOut = () => {
+    setIsHovering(false);
+  };
 
   const [urunFiyatları, setUrunFiyatlari] = useState(
     location.state.detay
@@ -50,7 +65,7 @@ const ProductPriceNew = () => {
           {
             urunMiktar: "",
             birimFiyati: "",
-            dovizCinsiId: " ",
+            dovizCinsiId: 5,
             hazirlikMiktarSuresi: "",
             ambalajKutuFiyatDahil: "",
             ambalajKutuFiyat: "",
@@ -60,9 +75,7 @@ const ProductPriceNew = () => {
         ]
   );
 
-  useEffect(() => {
-    console.log(sumPriceArray(urunFiyatları));
-  }, [urunFiyatları]);
+  useEffect(() => {}, [urunFiyatları]);
   const { errors, handleChange, handleSubmit, values, touched, setFieldValue } =
     useFormik({
       initialValues: {
@@ -83,10 +96,7 @@ const ProductPriceNew = () => {
     getCityTable
   );
 
-  const { data: Detail } = useSWR(
-    ["productPriceDetail", detayId],
-    productPriceDetail
-  );
+  const { data: ProductDetail } = useSWR(["ProductDetail", id], getProduct);
 
   const { data: Delivery } = useSWR(["getDeliveryTable"], getDeliveryTable);
 
@@ -99,29 +109,32 @@ const ProductPriceNew = () => {
   const { data: Company } = useSWR(["getCompanyTable"], getCompanyTable);
 
   const createProductPrice = async ({ values, detayId }) => {
-    values.urunFiyat = urunFiyatları;
+    values.urunFiyat = sumPriceArray(urunFiyatları);
     if (detayId) {
-      values.id = detayId;
+      values.id = Number(detayId);
     }
-    const { status } = await sendRequest(
-      productPriceInsert("_", {
-        ...values,
-        detayId,
-        urunMenseiUlkeId: values.urunMenseiUlkeId,
-      })
-    );
-
-    const { status: statusCustoms } = await sendRequest(
-      productCustomsInsert("_", {
-        urunId: Number(values.urunId),
-        menseiUlkeId: values.urunMenseiUlkeId,
-        cikisUlkeId: values.urunMenseiUlkeId,
-        varisUlkeId: values.teslimYeriUlkeId,
-      })
-    );
-    if (status && statusCustoms) {
-      navigate(-1);
-    }
+    try {
+      const { status } = await sendRequest(
+        productPriceInsert("_", {
+          ...values,
+          detayId,
+          urunMenseiUlkeId: values.urunMenseiUlkeId,
+        })
+      );
+      if (status) {
+        const { status: statusCustoms } = await sendRequest(
+          productCustomsInsert("_", {
+            urunId: Number(values.urunId),
+            menseiUlkeId: values.urunMenseiUlkeId,
+            cikisUlkeId: values.urunMenseiUlkeId,
+            varisUlkeId: values.teslimYeriUlkeId,
+          })
+        );
+        if (statusCustoms) {
+          navigate(-1);
+        }
+      }
+    } catch (error) {}
   };
 
   useEffect(() => {
@@ -135,6 +148,12 @@ const ProductPriceNew = () => {
       }, 10);
     }
   }, [values.ucretlendirmeyeEsasMiktarBirimiId]);
+
+  useEffect(() => {
+    ProductDetail?.resimler?.forEach((image) =>
+      setImages((prev) => [...prev, baseApi + image.dosyaYolu])
+    );
+  }, [ProductDetail]);
 
   return (
     <Box>
@@ -155,6 +174,29 @@ const ProductPriceNew = () => {
           onClick={(tab) => navigate(tab.route, { state: { detayId } })}
           isVisible={detayId}
         >
+          <Box>
+            <Text
+              onMouseOver={handleMouseOver}
+              onMouseOut={handleMouseOut}
+              mt="20px"
+              fontWeight={"medium"}
+              fontSize="20px"
+            >
+              {ProductDetail.urunAdi}
+            </Text>
+            {isHovering && (
+              <Box
+                position={"absolute"}
+                backgroundColor={"white"}
+                boxShadow={"base"}
+                zIndex={2}
+                padding="10px"
+                borderRadius={"5px"}
+              >
+                <ImageComp images={images} />
+              </Box>
+            )}
+          </Box>
           <form onSubmit={handleSubmit}>
             <Box display={["block", "block", "block", "flex"]} mt="20px">
               <Box width={{ lg: "35%", "2xl": "30%" }}>
@@ -229,6 +271,7 @@ const ProductPriceNew = () => {
                     value={values.urunHazirMiktar}
                     onChange={handleChange}
                     error={touched.urunHazirMiktar && errors.urunHazirMiktar}
+                    type={"number"}
                   >
                     Hazır Olan Miktar
                   </TextInput>
@@ -243,6 +286,7 @@ const ProductPriceNew = () => {
                         touched.urunHazirMiktarBirimiId &&
                         errors.urunHazirMiktarBirimiId
                       }
+                      disabled
                     >
                       Miktar Birimi
                     </SelectInput>
@@ -299,7 +343,11 @@ const ProductPriceNew = () => {
             {urunFiyatları.map((item, index) => {
               const urunMiktar = item?.urunMiktar || 0;
               const birimFiyati = item?.birimFiyati || 0;
-              const ambalajKutuFiyat = item?.ambalajKutuFiyat || 0;
+              const ambalajKutuFiyat =
+                item?.ambalajKutuFiyatDahil === "evet"
+                  ? 0
+                  : item?.ambalajKutuFiyat || 0;
+
               const toplamFiyat =
                 Number(urunMiktar) * Number(birimFiyati) +
                 Number(ambalajKutuFiyat);
@@ -314,6 +362,7 @@ const ProductPriceNew = () => {
                         updateArrayState(setUrunFiyatlari, index, e);
                       }}
                       error={touched.urunMiktar && errors.urunMiktar}
+                      type={"number"}
                     >
                       Ürün Miktarı
                     </TextInput>
@@ -324,6 +373,7 @@ const ProductPriceNew = () => {
                         updateArrayState(setUrunFiyatlari, index, e);
                       }}
                       error={touched.birimFiyati && errors.birimFiyati}
+                      type={"number"}
                     >
                       Birim Fiyatı
                     </TextInput>
@@ -377,7 +427,7 @@ const ProductPriceNew = () => {
                     </DefaultSelect>
                     <TextInput
                       name={"ambalajKutuFiyat"}
-                      value={urunFiyatları[index].ambalajKutuFiyat}
+                      value={ambalajKutuFiyat}
                       onChange={(e) => {
                         updateArrayState(setUrunFiyatlari, index, e);
                       }}
@@ -389,6 +439,7 @@ const ProductPriceNew = () => {
                         urunFiyatları[index].ambalajKutuFiyatDahil === "evet" ||
                         !urunFiyatları[index].ambalajKutuFiyatDahil
                       }
+                      type={"number"}
                     >
                       Ambalaj / Kutu Fiyatı?
                     </TextInput>
@@ -423,6 +474,7 @@ const ProductPriceNew = () => {
                       error={touched.toplamMaliyet && errors.toplamMaliyet}
                       minW="300px"
                       disabled
+                      type={"number"}
                     >
                       Toplam Maliyet
                     </TextInput>
@@ -437,7 +489,7 @@ const ProductPriceNew = () => {
                   {
                     urunMiktar: 0,
                     birimFiyati: 0,
-                    dovizCinsiId: 0,
+                    dovizCinsiId: 5,
                     hazirlikMiktarSuresi: "",
                     ambalajKutuFiyatDahil: "",
                     ambalajKutuFiyat: 0,

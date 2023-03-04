@@ -122,6 +122,7 @@ const OfferList = () => {
           radioSetValue={setRadioValue}
           link={false}
           select={true}
+          detailFunction={(e) => navigate(routes.urundetay + e.data.id)}
         />
       </Box>
     </Box>

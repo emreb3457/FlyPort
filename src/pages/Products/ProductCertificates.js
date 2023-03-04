@@ -203,6 +203,13 @@ const ProductCertificates = () => {
           radioSetValue={setRadioValue}
           link={true}
           select={true}
+          detailFunction={(e) => {
+            setSubmitType("update");
+            setValues({
+              ...e.data,
+            });
+            drawerClick();
+          }}
         />
       </Box>
       <BasicModal

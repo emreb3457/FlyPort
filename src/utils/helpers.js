@@ -75,7 +75,9 @@ export const formatDate = (date) => {
 };
 
 export const stringToBoolean = (string) => {
+  console.log(string);
   const isTrueSet = string === "true";
+  console.log(isTrueSet);
   return isTrueSet;
 };
 
@@ -97,6 +99,11 @@ export const sumPriceArray = (array) => {
     const ambalajKutuFiyat = item?.ambalajKutuFiyat || 0;
     return {
       ...item,
+      ambalajKutuDovizCinsiId: item?.ambalajKutuDovizCinsiId || 0,
+      ambalajKutuFiyat:
+        item?.ambalajKutuFiyatDahil === "evet"
+          ? 0
+          : item?.ambalajKutuFiyat || 0,
       toplamMaliyet:
         Number(urunMiktar) * Number(birimFiyati) + Number(ambalajKutuFiyat),
     };

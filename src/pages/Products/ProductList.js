@@ -87,12 +87,6 @@ const ProductList = () => {
             navigate(routes.yeniurun);
           },
         }}
-        funct2={{
-          title: "Detay",
-          function: () => {
-            navigate(routes.urundetay + radioValue.id);
-          },
-        }}
         funct3={{
           function: () => {
             removeProduct({ radioValue, mutate });
@@ -110,6 +104,7 @@ const ProductList = () => {
           radioSetValue={setRadioValue}
           link={false}
           select={true}
+          detailFunction={(e) => navigate(routes.urundetay + e.data.id)}
         />
       </Box>
     </Box>

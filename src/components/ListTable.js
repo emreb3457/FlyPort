@@ -12,7 +12,14 @@ import DataGrid, {
   StateStoring,
 } from "devextreme-react/data-grid";
 
-const ListTable = ({ id, row, head, radioSetValue, selected }) => {
+const ListTable = ({
+  id,
+  row,
+  head,
+  radioSetValue,
+  selected,
+  detailFunction,
+}) => {
   const tableKey = `${id}_table`;
 
   const customLoad = () => {
@@ -35,6 +42,7 @@ const ListTable = ({ id, row, head, radioSetValue, selected }) => {
         remoteOperations={true}
         columnAutoWidth={true}
         onSelectionChanged={(x) => radioSetValue(x.selectedRowsData[0])}
+        onRowDblClick={detailFunction}
       >
         <ColumnChooser enabled={true} />
         <StateStoring
@@ -59,6 +67,7 @@ const ListTable = ({ id, row, head, radioSetValue, selected }) => {
               caption={data.title}
               dataField={data.column}
               cellRender={data.render}
+              align="center"
             />
           ) : (
             <Column

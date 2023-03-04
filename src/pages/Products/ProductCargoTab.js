@@ -23,7 +23,7 @@ const ProductCargoList = () => {
   const [radioValue, setRadioValue] = React.useState({});
 
   const { data, error, mutate } = useSWR(
-    ["productCargoByProductId", location.state?.detayId],
+    ["productCargoByProductId"],
     productCargoByProductId
   );
 
@@ -33,12 +33,22 @@ const ProductCargoList = () => {
       column: "id",
     },
     {
-      title: "Not",
+      title: "Üretici",
       column: "urunDemonte",
     },
     {
       title: "Kap Tipi",
       column: "kargoOzellikleri[0].tasimaSekli",
+    },
+    {
+      title: "Kap İçi Ürün Miktarı",
+      render: (rowData) => (
+        <p>
+          {rowData.data?.kargoOzellikleri?.[0]?.urunMiktari +
+            " " +
+            rowData.data?.kargoOzellikleri?.[0]?.urunMiktariBirim}
+        </p>
+      ),
     },
     {
       title: "Uzunluğu",
@@ -81,60 +91,13 @@ const ProductCargoList = () => {
       ),
     },
     {
-      title: "Koli İçi Adet",
-      render: (rowData) => (
-        <p>
-          {rowData.data?.kargoOzellikleri?.[0]?.urunMiktari +
-            " " +
-            rowData.data?.kargoOzellikleri?.[0]?.urunMiktariBirim}
-        </p>
-      ),
-    },
-    {
-      title: "Koli Hacmi",
-      column: "",
-    },
-    {
-      title: "Ürün Açıklaması",
+      title: " Açıklama",
       column: "kargoOzellikleri[0].parcaAciklama",
     },
   ];
 
-  const removeCargo = async ({ radioValue, mutate }) => {
-    const { status } = await sendRequest(
-      productCargoRemove("_", radioValue.id)
-    );
-    status && mutate();
-  };
-
   return (
     <Box>
-      <BreadCrumb
-        selectValue={radioValue}
-        funct1={{
-          title: "Yeni Ekle",
-          function: () => {
-            navigate(location.pathname + "/yeni", {
-              state: { id: id, detayId: location.state?.detayId },
-            });
-          },
-        }}
-        funct2={{
-          title: "Detay",
-          function: () => {
-            navigate("detay", {
-              state: { detayId: radioValue.id, detay: radioValue },
-            });
-          },
-        }}
-        funct3={{
-          function: () => {
-            removeCargo({ radioValue, mutate });
-          },
-        }}
-      >
-        Kargo Özellikleri
-      </BreadCrumb>
       <Box mt="20px" px={"38px"}>
         <TabMenu
           tabs={UreticiFiyatiTabs(id)}

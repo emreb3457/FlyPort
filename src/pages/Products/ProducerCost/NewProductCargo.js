@@ -38,17 +38,16 @@ const NewProductCargo = () => {
       : [
           {
             tasimaSekli: "",
-            uzunluk: 0,
+            uzunluk: "",
             uzunlukBirimId: "",
-            genislik: 0,
-            genislikBirim: "",
-            yukseklik: 0,
+            genislik: "",
+            yukseklik: "",
             yukseklikBirimId: "",
-            birimAgirlik: 0,
+            birimAgirlik: "",
             birimAgirlikBirimId: "",
-            urunMiktari: 0,
+            urunMiktari: "",
             urunMiktariBirimId: "",
-            urunKutulu: 0,
+            urunKutulu: "",
             parcaAciklama: "",
           },
         ]
@@ -68,12 +67,14 @@ const NewProductCargo = () => {
     });
 
   const createProductPrice = async ({ values, detayId }) => {
+    console.log(kargoOzellikleri);
     const newCargo = kargoOzellikleri.map((item) => {
       return {
-        urunKutulu: Number(item.urunKutulu),
         ...item,
+        urunKutulu: stringToBoolean(item?.urunKutulu),
       };
     });
+
     values.kargoOzellikleri = newCargo;
     setLoading(true);
     if (location.state?.detay) {
@@ -100,6 +101,7 @@ const NewProductCargo = () => {
         navigate(-1);
       }
     }
+    setLoading(false);
   };
 
   const { data: UnitType } = useSWR(["getUnitTypeTable"], getUnitTypeTable);
@@ -148,8 +150,8 @@ const NewProductCargo = () => {
                       }}
                       minW="250px"
                       data={[
-                        { ad: "Evet", id: "1" },
-                        { ad: "Hayır", id: "0" },
+                        { ad: "Evet", id: "true" },
+                        { ad: "Hayır", id: "false" },
                       ]}
                       isNumber
                       visableValue={"ad"}
@@ -343,7 +345,6 @@ const NewProductCargo = () => {
                             name={"uzunlukBirimId"}
                             value={kargoOzellikleri[0].uzunlukBirimId}
                             onChange={(e) => {
-                              console.log(e);
                               updateArrayState(setKargoOzellikleri, 0, e);
                             }}
                             data={UnitType}
