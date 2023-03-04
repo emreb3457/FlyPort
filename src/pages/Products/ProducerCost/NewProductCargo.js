@@ -321,9 +321,9 @@ const NewProductCargo = () => {
                       <Flex gap={"10px"} alignItems="center">
                         <TextInput
                           name={"tasimaSekli"}
-                          value={kargoOzellikleri[0].tasimaSekli}
+                          value={kargoOzellikleri[index].tasimaSekli}
                           onChange={(e) => {
-                            updateArrayState(setKargoOzellikleri, 0, e);
+                            updateArrayState(setKargoOzellikleri, index, e);
                           }}
                           error={touched.tasimaSekli && errors.tasimaSekli}
                         >
@@ -333,9 +333,9 @@ const NewProductCargo = () => {
                           <TextInput
                             pr="10px"
                             name={"uzunluk"}
-                            value={kargoOzellikleri[0].uzunluk}
+                            value={kargoOzellikleri[index].uzunluk}
                             onChange={(e) => {
-                              updateArrayState(setKargoOzellikleri, 0, e);
+                              updateArrayState(setKargoOzellikleri, index, e);
                             }}
                             error={touched.uzunluk && errors.uzunluk}
                           >
@@ -343,9 +343,9 @@ const NewProductCargo = () => {
                           </TextInput>
                           <SelectInput
                             name={"uzunlukBirimId"}
-                            value={kargoOzellikleri[0].uzunlukBirimId}
+                            value={kargoOzellikleri[index].uzunlukBirimId}
                             onChange={(e) => {
-                              updateArrayState(setKargoOzellikleri, 0, e);
+                              updateArrayState(setKargoOzellikleri, index, e);
                             }}
                             data={UnitType}
                             visableValue={"ad"}
@@ -361,9 +361,9 @@ const NewProductCargo = () => {
                           <TextInput
                             pr="10px"
                             name={"genislik"}
-                            value={kargoOzellikleri[0].genislik}
+                            value={kargoOzellikleri[index].genislik}
                             onChange={(e) => {
-                              updateArrayState(setKargoOzellikleri, 0, e);
+                              updateArrayState(setKargoOzellikleri, index, e);
                             }}
                             error={touched.genislik && errors.genislik}
                           >
@@ -371,9 +371,9 @@ const NewProductCargo = () => {
                           </TextInput>
                           <SelectInput
                             name={"genislikBirimId"}
-                            value={kargoOzellikleri[0].genislikBirimId}
+                            value={kargoOzellikleri[index].genislikBirimId}
                             onChange={(e) => {
-                              updateArrayState(setKargoOzellikleri, 0, e);
+                              updateArrayState(setKargoOzellikleri, index, e);
                             }}
                             data={UnitType}
                             customState
@@ -389,9 +389,9 @@ const NewProductCargo = () => {
                           <TextInput
                             pr="10px"
                             name={"yukseklik"}
-                            value={kargoOzellikleri[0].yukseklik}
+                            value={kargoOzellikleri[index].yukseklik}
                             onChange={(e) => {
-                              updateArrayState(setKargoOzellikleri, 0, e);
+                              updateArrayState(setKargoOzellikleri, index, e);
                             }}
                             error={touched.yukseklik && errors.yukseklik}
                           >
@@ -399,9 +399,9 @@ const NewProductCargo = () => {
                           </TextInput>
                           <SelectInput
                             name={"yukseklikBirimId"}
-                            value={kargoOzellikleri[0].yukseklikBirimId}
+                            value={kargoOzellikleri[index].yukseklikBirimId}
                             onChange={(e) => {
-                              updateArrayState(setKargoOzellikleri, 0, e);
+                              updateArrayState(setKargoOzellikleri, index, e);
                             }}
                             data={UnitType}
                             visableValue={"ad"}
@@ -418,9 +418,9 @@ const NewProductCargo = () => {
                           <TextInput
                             pr="10px"
                             name={"birimAgirlik"}
-                            value={kargoOzellikleri[0].birimAgirlik}
+                            value={kargoOzellikleri[index].birimAgirlik}
                             onChange={(e) => {
-                              updateArrayState(setKargoOzellikleri, 0, e);
+                              updateArrayState(setKargoOzellikleri, index, e);
                             }}
                             error={touched.birimAgirlik && errors.birimAgirlik}
                           >
@@ -428,9 +428,9 @@ const NewProductCargo = () => {
                           </TextInput>
                           <SelectInput
                             name={"birimAgirlikBirimId"}
-                            value={kargoOzellikleri[0].birimAgirlikBirimId}
+                            value={kargoOzellikleri[index].birimAgirlikBirimId}
                             onChange={(e) => {
-                              updateArrayState(setKargoOzellikleri, 0, e);
+                              updateArrayState(setKargoOzellikleri, index, e);
                             }}
                             customState
                             data={UnitType}
@@ -447,9 +447,9 @@ const NewProductCargo = () => {
                           <TextInput
                             pr="10px"
                             name={"urunMiktari"}
-                            value={kargoOzellikleri[0].urunMiktari}
+                            value={kargoOzellikleri[index].urunMiktari}
                             onChange={(e) => {
-                              updateArrayState(setKargoOzellikleri, 0, e);
+                              updateArrayState(setKargoOzellikleri, index, e);
                             }}
                             error={touched.urunMiktari && errors.urunMiktari}
                           >
@@ -458,11 +458,11 @@ const NewProductCargo = () => {
                           <SelectInput
                             pr="10px"
                             name={"urunMiktariBirimId"}
-                            value={kargoOzellikleri[0].urunMiktariBirimId}
+                            value={kargoOzellikleri[index].urunMiktariBirimId}
                             data={UnitType}
                             visableValue={"ad"}
                             onChange={(e) => {
-                              updateArrayState(setKargoOzellikleri, 0, e);
+                              updateArrayState(setKargoOzellikleri, index, e);
                             }}
                             customState
                             error={
@@ -483,21 +483,21 @@ const NewProductCargo = () => {
                         ...prev,
                         {
                           tasimaSekli: "",
-                          uzunluk: 0,
+                          uzunluk: "",
                           uzunlukBirim: "",
-                          genislik: 0,
+                          genislik: "",
                           genislikBirim: "",
-                          yukseklik: 0,
+                          yukseklik: "",
                           yukseklikBirim: "",
-                          birimAgirlik: 0,
+                          birimAgirlik: "",
                           birimAgirlikBirim: "",
-                          urunMiktari: 0,
+                          urunMiktari: "",
                           urunMiktariBirim: "",
-                          toplamM3: 0,
-                          toplamAgirlik: 0,
-                          urunDemonte: 0,
-                          urunKutulu: 0,
-                          tasimaTipId: 0,
+                          toplamM3: "",
+                          toplamAgirlik: "",
+                          urunDemonte: "",
+                          urunKutulu: "",
+                          tasimaTipId: "",
                           parcaAciklama: "",
                         },
                       ])
