@@ -1,30 +1,21 @@
-import { Box } from "@chakra-ui/react";
+import { Box, Text } from "@chakra-ui/react";
 import useSWR from "swr";
-import React, { useEffect } from "react";
-import { useLocation, useNavigate, useParams } from "react-router-dom";
-import { ProductMenu } from "../../../constants/MenuItems";
-import { useSideBarData } from "../../../context/SideBarContext";
-import { productCargoByProductId, productCargoRemove } from "../../../api/api";
-import BreadCrumb from "../../../components/BreadCrumb/BreadCrumb";
-import ListTable from "../../../components/ListTable";
-import { sendRequest } from "../../../utils/helpers";
-import TabMenu from "../../../components/TabMenu";
-import { UreticiFiyatiTabs } from "../../../constants/Tabs";
+import React from "react";
+import ListTable from "../../components/ListTable";
+import TabMenu from "../../components/TabMenu";
+import { UreticiFiyatiTabs } from "../../constants/Tabs";
+import { getShippingProductList } from "../../api/api";
+import { useNavigate, useParams } from "react-router-dom";
 
-const ProductCargoList = () => {
+const ProductCargoTab = () => {
   const { id } = useParams();
-  const location = useLocation();
-  const { updateSideBar, selectedSideBar } = useSideBarData();
-  useEffect(() => {
-    updateSideBar({ selectedSideBar: ProductMenu(id) });
-  }, []);
-
+  console.log(id);
   const navigate = useNavigate();
   const [radioValue, setRadioValue] = React.useState({});
 
   const { data, error, mutate } = useSWR(
-    ["productCargoByProductId"],
-    productCargoByProductId
+    ["getShippingProductList", id],
+    getShippingProductList
   );
 
   const Head = [
@@ -34,65 +25,97 @@ const ProductCargoList = () => {
     },
     {
       title: "Üretici",
-      column: "urunDemonte",
+      column: "ureticiFirmaAdi",
     },
     {
-      title: "Kap Tipi",
-      column: "kargoOzellikleri[0].tasimaSekli",
+      title: "Taşıma Kabı",
+      render: (rowData) => (
+        <td>
+          {rowData.data?.kargoOzellikleri?.map((item) => {
+            return (
+              <Text padding={2}>
+                {item?.tasimaKap}
+                <hr />
+              </Text>
+            );
+          })}
+        </td>
+      ),
     },
     {
       title: "Kap İçi Ürün Miktarı",
       render: (rowData) => (
-        <p>
-          {rowData.data?.kargoOzellikleri?.[0]?.urunMiktari +
-            " " +
-            rowData.data?.kargoOzellikleri?.[0]?.urunMiktariBirim}
-        </p>
+        <td>
+          {rowData.data?.kargoOzellikleri?.map((item) => {
+            return (
+              <Text padding={2}>
+                {item?.urunMiktari}
+                <hr />
+              </Text>
+            );
+          })}
+        </td>
       ),
     },
     {
-      title: "Uzunluğu",
+      title: "Uzunluk cm",
       render: (rowData) => (
-        <p>
-          {rowData.data?.kargoOzellikleri?.[0]?.uzunluk +
-            " " +
-            rowData.data?.kargoOzellikleri?.[0]?.uzunlukBirim}
-        </p>
+        <td>
+          {rowData.data?.kargoOzellikleri?.map((item) => {
+            return (
+              <Text padding={2}>
+                {item?.uzunluk + " " + item?.uzunlukBirim}
+                <hr />
+              </Text>
+            );
+          })}
+        </td>
       ),
     },
     {
-      title: "Genişliği",
+      title: "Genişlik cm",
       render: (rowData) => (
-        <p>
-          {rowData.data?.kargoOzellikleri?.[0]?.genislik +
-            " " +
-            rowData.data?.kargoOzellikleri?.[0]?.genislikBirim}
-        </p>
+        <td>
+          {rowData.data?.kargoOzellikleri?.map((item) => {
+            return (
+              <Text padding={2}>
+                {item?.genislik + " " + item?.genislikBirim}
+                <hr />
+              </Text>
+            );
+          })}
+        </td>
       ),
     },
     {
-      title: "Yüksekliği",
+      title: "Yükseklik cm",
       render: (rowData) => (
-        <p>
-          {rowData.data?.kargoOzellikleri?.[0]?.yukseklik +
-            " " +
-            rowData.data?.kargoOzellikleri?.[0]?.yukseklikBirim}
-        </p>
+        <td>
+          {rowData.data?.kargoOzellikleri?.map((item) => {
+            return (
+              <Text padding={2}>
+                {item?.yukseklik + " " + item?.yukseklikBirim}
+                <hr />
+              </Text>
+            );
+          })}
+        </td>
       ),
     },
     {
-      title: "Koli Ağırlığı",
+      title: "Ağırlık",
       render: (rowData) => (
-        <p>
-          {rowData.data?.kargoOzellikleri?.[0]?.birimAgirlik +
-            " " +
-            rowData.data?.kargoOzellikleri?.[0]?.birimAgirlikBirim}
-        </p>
+        <td>
+          {rowData.data?.urunFiyat?.map((item) => {
+            return (
+              <Text padding={2}>
+                {item?.birimAgirlik + " " + item?.birimAgirlikBirim}
+                <hr />
+              </Text>
+            );
+          })}
+        </td>
       ),
-    },
-    {
-      title: " Açıklama",
-      column: "kargoOzellikleri[0].parcaAciklama",
     },
   ];
 
@@ -118,4 +141,4 @@ const ProductCargoList = () => {
     </Box>
   );
 };
-export default ProductCargoList;
+export default ProductCargoTab;

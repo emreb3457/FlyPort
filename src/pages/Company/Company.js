@@ -13,14 +13,8 @@ import {
   getCompanyTable,
 } from "../../api/api";
 import { useSideBarData } from "../../context/SideBarContext";
-import { menuItems } from "../../constants/MenuItems";
 
 const CompanyList = () => {
-  const { updateSideBar, selectedSideBar } = useSideBarData();
-  useEffect(() => {
-    updateSideBar({ selectedSideBar: menuItems });
-  }, []);
-
   const navigate = useNavigate();
   const [page, setPage] = useState(0);
   const [radioValue, setRadioValue] = React.useState({});

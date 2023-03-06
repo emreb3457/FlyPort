@@ -5,6 +5,6 @@ export const UreticiFiyatiTabs = (id) => [
   },
   {
     title: "Kargo Özellikleri",
-    route: `/urun-maliyet/${id}/kargo`,
+    route: `/urun-detay/urun-maliyet/${id}/kargo`,
   },
 ];

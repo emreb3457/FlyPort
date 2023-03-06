@@ -24,31 +24,22 @@ import {
   getCompanyTable,
   productCustomsInsert,
   productPriceInsert,
-  productPriceDetail,
   getProduct,
 } from "../../../api/api";
 import { useLocation, useNavigate, useParams } from "react-router-dom";
 import BreadCrumb from "../../../components/BreadCrumb/BreadCrumb";
 import { useSideBarData } from "../../../context/SideBarContext";
-import { ProductMenu } from "../../../constants/MenuItems";
 import TabMenu from "../../../components/TabMenu";
 import { UreticiFiyatiTabs } from "../../../constants/Tabs";
-import ProductDetail from "../ProductDetail";
 import ImageComp from "../../../components/Talepler/ImageComp/ImageComp";
 import { baseApi } from "../../../config/config";
-import colors from "../../../theme/colors";
 
 const ProductPriceNew = () => {
   const { detayId, id } = useParams();
-  const { updateSideBar } = useSideBarData();
   const navigate = useNavigate();
   const location = useLocation();
   const [isHovering, setIsHovering] = useState(false);
   const [images, setImages] = useState([]);
-
-  useEffect(() => {
-    updateSideBar({ selectedSideBar: ProductMenu(id) });
-  }, []);
 
   const handleMouseOver = () => {
     setIsHovering(true);
@@ -182,7 +173,7 @@ const ProductPriceNew = () => {
               fontWeight={"medium"}
               fontSize="20px"
             >
-              {ProductDetail.urunAdi}
+              {ProductDetail?.urunAdi}
             </Text>
             {isHovering && (
               <Box

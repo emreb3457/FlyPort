@@ -2,7 +2,6 @@ import { Box } from "@chakra-ui/react";
 import useSWR from "swr";
 import React, { useEffect } from "react";
 import { useLocation, useNavigate, useParams } from "react-router-dom";
-import { ProductMenu } from "../../../constants/MenuItems";
 import { useSideBarData } from "../../../context/SideBarContext";
 import { productCargoByProductId, productCargoRemove } from "../../../api/api";
 import BreadCrumb from "../../../components/BreadCrumb/BreadCrumb";
@@ -15,9 +14,6 @@ const ProductCargoList = () => {
   const { id } = useParams();
   const location = useLocation();
   const { updateSideBar, selectedSideBar } = useSideBarData();
-  useEffect(() => {
-    updateSideBar({ selectedSideBar: ProductMenu(id) });
-  }, []);
 
   const navigate = useNavigate();
   const [radioValue, setRadioValue] = React.useState({});

@@ -1,6 +1,6 @@
 export const routes = {
   urunler: "/urunler",
-  urundetay: "/urunler/",
+  urundetay: "/urun-detay/detay/",
   talepler: "/talepler/",
   talepdetay: "/talepler/",
   yenitalep: "/talepler/yeni",
@@ -13,13 +13,13 @@ export const routes = {
   yeniAlternatif: "/talepler/alternatifler/yeni",
   alternatif: "/talepler/alternatifler",
   alternatifGuncelle: "/talepler/alternatifler/guncelle",
-  gorevler: "/gorevler/:id/fiyatarastirma",
-  maliyetler: "/maliyetler",
-  teklif: "/teklif",
-  yenifiyat: "/gorevler/fiyatarastirma/yeni",
-  fiyatdetay: "/gorevler/fiyatarastirma/",
-  yeniLojistik: "/gorevler/lojistik/yeni",
-  lojistikDetay: "/gorevler/lojistik/",
-  lojistik: "/gorevler/lojistik/",
-  urunSertifika:"/urun-sertifika"
+  gorevler: "/urun-detay/gorevler/:id/fiyatarastirma",
+  maliyetler: "/urun-detay/maliyetler/",
+  teklif: "/urun-detay/teklif/",
+  yenifiyat: "/urun-detay/gorevler/fiyatarastirma/yeni",
+  fiyatdetay: "/urun-detay/gorevler/fiyatarastirma/",
+  yeniLojistik: "/urun-detay/gorevler/lojistik/yeni",
+  lojistikDetay: "/urun-detay/gorevler/lojistik/",
+  lojistik: "/urun-detay/gorevler/lojistik/",
+  urunSertifika:"/urun-detay/sertifika/"
 };

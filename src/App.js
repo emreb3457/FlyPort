@@ -53,7 +53,7 @@ import NewOffer from './pages/Offers/NewOffer';
 import ProductOffertList from './pages/Products/Offers/OffertList';
 import ProductNewOffer from './pages/Products/Offers/NewOffer';
 import ProductCertificates from './pages/Products/ProductCertificates';
-import { SideBarContextProvider } from './context/SideBarContext';
+import { SideBarIdContextProvider } from './context/SideBarContext';
 import ProductPrice from './pages/Products/ProducerCost/ProductPriceNew';
 import ProductCustomsDuties from './pages/Products/ProducerCost/ProductCustomsDuties';
 import ProductPriceList from './pages/Products/ProducerCost/ProductPriceList';
@@ -62,7 +62,7 @@ import ProductCargoList from './pages/Products/ProducerCost/ProductCargoList';
 
 const App = () => {
   return (
-    <SideBarContextProvider>
+    <SideBarIdContextProvider>
       <BrowserRouter>
         <ListMenu>
           <Routes>
@@ -102,25 +102,25 @@ const App = () => {
             <Route path="/urunler" element={<ProtectedRoute><ProductList/></ProtectedRoute>} exact />
             <Route path="/urunler/yeni" element={<ProtectedRoute><NewProduct/></ProtectedRoute>} exact />
             <Route path="/urunler/guncelle" element={<ProtectedRoute><UpdateProduct/></ProtectedRoute>} exact />
-            <Route path="/urunler/:id" element={<ProtectedRoute><ProductDetail/></ProtectedRoute>} exact />
+            <Route path="/urun-detay/detay/:id" element={<ProtectedRoute><ProductDetail/></ProtectedRoute>} exact />
 
-            <Route path="/urun-sertifika/:id" element={<ProtectedRoute><ProductCertificates/></ProtectedRoute>} exact />
-            <Route path="/urun-maliyet/:id" element={<ProtectedRoute><ProductCustomsDuties/></ProtectedRoute>} exact />
-            <Route path="/urun-maliyet/:id/uretici-fiyat" element={<ProtectedRoute><ProductPriceList/></ProtectedRoute>} exact />
-            <Route path="/urun-maliyet/:id/uretici-fiyat/yeni" element={<ProtectedRoute><ProductPrice/></ProtectedRoute>} exact />
-            <Route path="/urun-maliyet/:id/uretici-fiyat/:detayId" element={<ProtectedRoute><ProductPrice/></ProtectedRoute>} exact />
+            <Route path="/urun-detay/sertifika/:id" element={<ProtectedRoute><ProductCertificates/></ProtectedRoute>} exact />
+            <Route path="/urun-detay/urun-maliyet/:id" element={<ProtectedRoute><ProductCustomsDuties/></ProtectedRoute>} exact />
+            <Route path="/urun-detay/urun-maliyet/:id/uretici-fiyat" element={<ProtectedRoute><ProductPriceList/></ProtectedRoute>} exact />
+            <Route path="/urun-detay/urun-maliyet/:id/uretici-fiyat/yeni" element={<ProtectedRoute><ProductPrice/></ProtectedRoute>} exact />
+            <Route path="/urun-detay/urun-maliyet/:id/uretici-fiyat/:detayId" element={<ProtectedRoute><ProductPrice/></ProtectedRoute>} exact />
 
-            <Route path="/urun-maliyet/:id/kargo/yeni" element={<ProtectedRoute><NewProductCargo/></ProtectedRoute>} exact />
-            <Route path="/urun-maliyet/:id/kargo/:detayId" element={<ProtectedRoute><NewProductCargo/></ProtectedRoute>} exact />
-            <Route path="/urun-maliyet/:id/kargo" element={<ProtectedRoute><ProductCargoList/></ProtectedRoute>} exact />
+            <Route path="/urun-detay/urun-maliyet/:id/kargo/yeni" element={<ProtectedRoute><NewProductCargo/></ProtectedRoute>} exact />
+            <Route path="/urun-detay/urun-maliyet/:id/kargo/:detayId" element={<ProtectedRoute><NewProductCargo/></ProtectedRoute>} exact />
+            <Route path="/urun-detay/urun-maliyet/:id/kargo" element={<ProtectedRoute><ProductCargoList/></ProtectedRoute>} exact />
 
-            <Route path="/urun-maliyet/:id/lojistik-maliyet/yeni" element={<ProtectedRoute><NewLogisticsProduct/></ProtectedRoute>} exact />
-            <Route path="/urun-maliyet/:id/lojistik-maliyet/:detayId" element={<ProtectedRoute><NewLogisticsProductDetail/></ProtectedRoute>} exact />
-            <Route path="/urun-maliyet/:id/lojistik-maliyet" element={<ProtectedRoute><NewLogisticsProductTable/></ProtectedRoute>} exact />
+            <Route path="/urun-detay/lojistik-maliyet/:id/yeni" element={<ProtectedRoute><NewLogisticsProduct/></ProtectedRoute>} exact />
+            <Route path="/urun-detay/lojistik-maliyet/:id/detay/:detayId" element={<ProtectedRoute><NewLogisticsProductDetail/></ProtectedRoute>} exact />
+            <Route path="/urun-detay/lojistik-maliyet/:id" element={<ProtectedRoute><NewLogisticsProductTable/></ProtectedRoute>} exact />
             
-            <Route path="/teklifler/:id/yeni" element={<ProtectedRoute><ProductNewOffer/></ProtectedRoute>} exact />
-            <Route path="/teklifler/:id/:detayId" element={<ProtectedRoute><ProductNewOffer/></ProtectedRoute>} exact />
-            <Route path="/teklifler/:id" element={<ProtectedRoute><ProductOffertList/></ProtectedRoute>} exact />
+            <Route path="/urun-detay/teklifler/:id/yeni" element={<ProtectedRoute><ProductNewOffer/></ProtectedRoute>} exact />
+            <Route path="/urun-detay/teklifler/:id/:detayId" element={<ProtectedRoute><ProductNewOffer/></ProtectedRoute>} exact />
+            <Route path="/urun-detay/teklifler/:id" element={<ProtectedRoute><ProductOffertList/></ProtectedRoute>} exact />
 
             <Route path="/tanimlamalar/gtip" element={<ProtectedRoute><GtipList/></ProtectedRoute>} exact />
             <Route path="/tanimlamalar/gtip/yeni" element={<ProtectedRoute><NewGtip/></ProtectedRoute>} exact />
@@ -145,7 +145,7 @@ const App = () => {
           </Routes>
         </ListMenu>
       </BrowserRouter>
-      </SideBarContextProvider>
+      </SideBarIdContextProvider>
   );
 }
 

@@ -16,20 +16,13 @@ import { productCargoInsert } from "../../../api/api";
 import { useLocation, useNavigate, useParams } from "react-router-dom";
 import BreadCrumb from "../../../components/BreadCrumb/BreadCrumb";
 import { useSideBarData } from "../../../context/SideBarContext";
-import { ProductMenu } from "../../../constants/MenuItems";
-import { agirlikBirim, uzunlukBirim } from "../../../constants/other";
 import useSWR from "swr";
 import { getUnitTypeTable } from "../../../api/DefinitionsApi";
 
 const NewProductCargo = () => {
   const { id } = useParams();
   const navigate = useNavigate();
-  const { updateSideBar } = useSideBarData();
   const location = useLocation();
-
-  useEffect(() => {
-    updateSideBar({ selectedSideBar: ProductMenu(id) });
-  }, []);
 
   const [loading, setLoading] = useState();
   const [kargoOzellikleri, setKargoOzellikleri] = useState(

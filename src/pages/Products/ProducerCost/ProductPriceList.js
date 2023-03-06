@@ -2,22 +2,16 @@ import { Box, Flex, Text } from "@chakra-ui/react";
 import useSWR from "swr";
 import React, { useEffect, useState } from "react";
 import { useLocation, useNavigate, useParams } from "react-router-dom";
-import { ProductMenu } from "../../../constants/MenuItems";
 import { useSideBarData } from "../../../context/SideBarContext";
 import { productPriceRemove, productPriceTable } from "../../../api/api";
 import { sendRequest } from "../../../utils/helpers";
 import SkeletonComp from "../../../components/Skeleton/Skeleton";
 import BreadCrumb from "../../../components/BreadCrumb/BreadCrumb";
-import { routes } from "../../../constants/routes";
 import ListTable from "../../../components/ListTable";
 
 const ProductPriceList = () => {
   const { id } = useParams();
   const location = useLocation();
-  const { updateSideBar, selectedSideBar } = useSideBarData();
-  useEffect(() => {
-    updateSideBar({ selectedSideBar: ProductMenu(id) });
-  }, []);
 
   const navigate = useNavigate();
   const [radioValue, setRadioValue] = React.useState({});
@@ -165,7 +159,7 @@ const ProductPriceList = () => {
           link={false}
           select={true}
           detailFunction={(e) =>
-            navigate("" + radioValue.id, { state: { detay: e.data } })
+            navigate("" + e.data.id, { state: { detay: e.data } })
           }
         />
       </Box>

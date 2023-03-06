@@ -1,6 +1,6 @@
-import { Box, Text, Button } from "@chakra-ui/react";
+import { Box } from "@chakra-ui/react";
 import { useEffect, useState } from "react";
-import { useLocation, useNavigate, useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import useSWR from "swr";
 import { getProduct } from "../../api/api";
 import BreadCrumb from "../../components/BreadCrumb/BreadCrumb";
@@ -14,12 +14,9 @@ import { baseApi } from "../../config/config";
 import { routes } from "../../constants/routes";
 import colors from "../../theme/colors";
 import { StyledButton } from "../ProductList";
-import { useSideBarData } from "../../context/SideBarContext";
-import { ProductMenu } from "../../constants/MenuItems";
+import ProductCargoTab from "./ProductCargoTab";
 
 const ProductDetail = () => {
-  const { updateSideBar, selectedSideBar } = useSideBarData();
-
   const navigate = useNavigate();
   const { id } = useParams();
   const { data, error } = useSWR(["getProduct", id ?? null], getProduct);
@@ -34,7 +31,7 @@ const ProductDetail = () => {
     },
     {
       title: "Kargo Özellikleri",
-      comp: TechnicialSpecifications,
+      comp: ProductCargoTab,
     },
     {
       title: "Ürün Sertifikaları",
@@ -48,10 +45,6 @@ const ProductDetail = () => {
   ];
   const [activeTab, setActiveTab] = useState(Tabs[0]);
   const [images, setImages] = useState([]);
-
-  useEffect(() => {
-    updateSideBar({ selectedSideBar: ProductMenu(id) });
-  }, []);
 
   useEffect(() => {
     data?.resimler?.forEach((image) =>

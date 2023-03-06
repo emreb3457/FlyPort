@@ -9,17 +9,12 @@ import { useNavigate } from "react-router-dom";
 import { routes } from "../../constants/routes";
 import { getProductTable, getProductRemove } from "../../api/api";
 import { useSideBarData } from "../../context/SideBarContext";
-import { menuItems } from "../../constants/MenuItems";
 
 const ProductList = () => {
-  const { updateSideBar, selectedSideBar } = useSideBarData();
-  useEffect(() => {
-    updateSideBar({ selectedSideBar: menuItems });
-  }, []);
-
   const navigate = useNavigate();
   const [page, setPage] = useState(0);
   const [radioValue, setRadioValue] = React.useState({});
+  const { updateId } = useSideBarData();
 
   const { data, mutate, error } = useSWR(
     ["getProductList", page],
@@ -104,7 +99,10 @@ const ProductList = () => {
           radioSetValue={setRadioValue}
           link={false}
           select={true}
-          detailFunction={(e) => navigate(routes.urundetay + e.data.id)}
+          detailFunction={(e) => {
+            navigate(routes.urundetay + e.data.id);
+            updateId({ id: e.data.id });
+          }}
         />
       </Box>
     </Box>

@@ -268,6 +268,12 @@ export const getShippingList = async (_, page = 0, rowCount = 10) => {
   return await instance.get("/Kargo/SayfaliListele").then((res) => res.data);
 };
 
+export const getShippingProductList = async (_, id) => {
+  return await instance
+    .get("/UrunFiyat/KargoUreticiFiyatBul?urunId=" + id)
+    .then((res) => res.data);
+};
+
 export const getShipping = async (_, id) => {
   return await instance
     .get("/Kargo/BulByTeklifId/" + id)

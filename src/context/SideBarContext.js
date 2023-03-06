@@ -1,5 +1,4 @@
-import React, { createContext, useContext, useReducer, useState } from "react";
-import { menuItems } from "../constants/MenuItems";
+import React, { createContext, useContext, useReducer } from "react";
 
 const UPDATE = "UPDATE";
 
@@ -16,31 +15,31 @@ const Reducer = (state, action) => {
 };
 
 const initialState = {
-  selectedSideBar: menuItems,
+  id: "",
 };
 
-export const SideBarContext = createContext({});
+export const SideBarIdContext = createContext({});
 
-export function SideBarContextProvider(props) {
+export function SideBarIdContextProvider(props) {
   const [state, dispatch] = useReducer(Reducer, initialState);
-  const { selectedSideBar } = state;
+  const { id } = state;
 
-  const updateSideBar = (payload) =>
+  const updateId = (payload) =>
     dispatch({
       type: UPDATE,
       payload,
     });
 
   return (
-    <SideBarContext.Provider
+    <SideBarIdContext.Provider
       value={{
-        selectedSideBar,
-        updateSideBar,
+        id,
+        updateId,
       }}
     >
       {props.children}
-    </SideBarContext.Provider>
+    </SideBarIdContext.Provider>
   );
 }
 
-export const useSideBarData = () => useContext(SideBarContext);
+export const useSideBarData = () => useContext(SideBarIdContext);

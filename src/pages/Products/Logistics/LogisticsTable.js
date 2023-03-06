@@ -9,18 +9,12 @@ import { useLocation, useNavigate, useParams } from "react-router-dom";
 import { routes } from "../../../constants/routes";
 import { productLogisticsTable, productLogisticRemove } from "../../../api/api";
 import { useSideBarData } from "../../../context/SideBarContext";
-import { ProductMenu } from "../../../constants/MenuItems";
 
 const LogisticsTable = () => {
   const navigate = useNavigate();
   const location = useLocation();
   const { id } = useParams();
   const [radioValue, setRadioValue] = React.useState({});
-  const { updateSideBar } = useSideBarData();
-
-  useEffect(() => {
-    updateSideBar({ selectedSideBar: ProductMenu(id) });
-  }, []);
 
   const { data, mutate, error } = useSWR(
     ["getLogisticsTable", id],
@@ -112,7 +106,7 @@ const LogisticsTable = () => {
           link={true}
           select={true}
           detailFunction={(e) =>
-            navigate(location.pathname + "/" + e.data.id, {
+            navigate(location.pathname + "/detay/" + e.data.id, {
               state: e.data,
             })
           }
